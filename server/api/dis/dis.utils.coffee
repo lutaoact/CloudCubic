@@ -3,7 +3,7 @@ BaseUtils = require('../../common/BaseUtils').BaseUtils
 exports.DisUtils = BaseUtils.subclass
   classname: 'DisUtils'
 
-  vote: (DisModel, disId, userId) ->
+  $vote: (DisModel, disId, userId) ->
     DisModel.findByIdQ disId
     .then (dis) ->
       if dis.voteUpUsers.indexOf(userId) > -1

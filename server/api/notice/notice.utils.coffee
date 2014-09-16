@@ -1,7 +1,7 @@
 Notice = _u.getModel 'notice'
 
 class NoticeUtils
-  addNotice: (userId, fromWhom, type, discussionId) ->
+  @addNotice: (userId, fromWhom, type, discussionId) ->
     data =
       userId: userId
       fromWhom: fromWhom
@@ -12,7 +12,7 @@ class NoticeUtils
 
     Notice.createQ data
 
-  addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->
+  @addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->
     return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
 
 #module.exports = NoticeUtils

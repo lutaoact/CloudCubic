@@ -3,7 +3,7 @@ BaseUtils = require('../../common/BaseUtils').BaseUtils
 exports.LectureUtils = BaseUtils.subclass
   classname: 'LectureUtils'
 
-  getAuthedLectureById: (user, lectureId) ->
+  $getAuthedLectureById: (user, lectureId) ->
     CourseUtils = _u.getUtils 'course'
     Course      = _u.getModel 'course'
     Lecture     = _u.getModel 'lecture'

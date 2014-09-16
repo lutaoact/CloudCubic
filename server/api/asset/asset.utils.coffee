@@ -23,7 +23,7 @@ AWSAlgorithm         = config.aws.algorithm
 exports.AssetUtils = BaseUtils.subclass
   classname: 'AssetUtils'
 
-  getAssetFromQiniu : (key, res) ->
+  $getAssetFromQiniu : (key, res) ->
     baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
 
     # the query should not encode before signature
@@ -38,7 +38,7 @@ exports.AssetUtils = BaseUtils.subclass
     res.redirect downloadUrl
 
 
-  getAssetFromS3 : (key, res) ->
+  $getAssetFromS3 : (key, res) ->
 
     s3 = new AWS.S3()
     params =
@@ -58,7 +58,7 @@ exports.AssetUtils = BaseUtils.subclass
       res.redirect url
 
 
-  genQiniuUpParams : (fileName) ->
+  $genQiniuUpParams : (fileName) ->
     putPolicy = new qiniu.rs.PutPolicy qiniuBucketName
     token = putPolicy.token()
     randomStr = randomstring.generate 10
@@ -71,7 +71,7 @@ exports.AssetUtils = BaseUtils.subclass
       fileFormName : 'file'
     }
 
-  genS3UpParams : (fileName) ->
+  $genS3UpParams : (fileName) ->
 
     currentDate = moment().format 'YYYYMMDD'
     xAmzCredential = AWS.config.accessKeyId + '/' + currentDate +

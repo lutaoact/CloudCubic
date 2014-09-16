@@ -131,7 +131,7 @@ function getModel(key) {
 exports.getModel = getModel;
 
 function getUtils(key) {
-  return new (require('../api/' + key + '/' + key + '.utils')[_u.convertToCamelCase(key) + 'Utils']);
+  return require('../api/' + key + '/' + key + '.utils')[_u.convertToCamelCase(key) + 'Utils'];
 }
 exports.getUtils = getUtils;
 

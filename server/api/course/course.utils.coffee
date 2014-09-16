@@ -5,13 +5,13 @@ Classe = _u.getModel 'classe'
 exports.CourseUtils = BaseUtils.subclass
   classname: 'CourseUtils'
 
-  getAuthedCourseById: (user, courseId) ->
+  $getAuthedCourseById: (user, courseId) ->
     switch user.role
       when 'student' then return @checkStudent user._id, courseId
       when 'teacher' then return @checkTeacher user._id, courseId
       when 'admin' then return @checkAdmin courseId
 
-  checkTeacher: (teacherId, courseId) ->
+  $checkTeacher: (teacherId, courseId) ->
     Course.findOneQ
       _id: courseId
       owners: teacherId
@@ -26,7 +26,7 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  checkStudent: (studentId, courseId) ->
+  $checkStudent: (studentId, courseId) ->
 
     Classe.findOneQ
       students: studentId
@@ -45,7 +45,7 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  checkAdmin : (courseId) ->
+  $checkAdmin : (courseId) ->
     Course.findOneQ
       _id: courseId
     .then (course) ->
@@ -57,7 +57,7 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  getTeacherCourses : (teacherId) ->
+  $getTeacherCourses : (teacherId) ->
     Course.find
       owners : teacherId
     .populate 'classes', '_id name orgId yearGrade'
@@ -68,7 +68,7 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  getStudentCourses : (studentId) ->
+  $getStudentCourses : (studentId) ->
     Classe = _u.getModel 'classe'
     Classe.findOneQ
       students: studentId
@@ -85,7 +85,7 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  getStudentsNum: (user, courseId) ->
+  $getStudentsNum: (user, courseId) ->
     if user.role isnt 'teacher'
       return Q.reject
         status : 403

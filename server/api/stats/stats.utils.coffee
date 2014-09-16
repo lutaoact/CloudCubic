@@ -7,7 +7,7 @@ HomeworkAnswer = _u.getModel 'homework_answer'
 exports.StatsUtils = BaseUtils.subclass
   classname: 'StatsUtils'
 
-  makeKPStatsForUser: (user, courseId) ->
+  $makeKPStatsForUser: (user, courseId) ->
     tmpResult = {}
     @getStatsStudentsNum user, courseId
     .then (studentsNum) ->
@@ -29,7 +29,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.reject err
 
 
-  buildFinalKPStats: (studentsNum, statsArray) ->
+  $buildFinalKPStats: (studentsNum, statsArray) ->
     courseStats   = {}
     courseSummary = total:0, correctNum:0, percent: 0
     for lectureStat in statsArray
@@ -61,10 +61,10 @@ exports.StatsUtils = BaseUtils.subclass
     return finalKPStats
 
 
-  computePercent: (studentsNum, stat) ->
+  $computePercent: (studentsNum, stat) ->
     return stat.correctNum * 100 // (studentsNum * stat.total)
 
-  makeKPStatsForSpecifiedLecture: (lecture, user) ->
+  $makeKPStatsForSpecifiedLecture: (lecture, user) ->
     questionIds = _u.union lecture.quizzes, lecture.homeworks
     lectureId = lecture.id
 
@@ -111,7 +111,7 @@ exports.StatsUtils = BaseUtils.subclass
 
       return resolveResult
 
-  updateCorrectNumForStats: (stats, myQKAMap, quizAnswers, homeworkAnswers) ->
+  $updateCorrectNumForStats: (stats, myQKAMap, quizAnswers, homeworkAnswers) ->
     for quizAnswer in quizAnswers
       if quizAnswer.result.toString() is myQKAMap[quizAnswer.questionId].answer
         for kp in myQKAMap[quizAnswer.questionId].kps
@@ -124,7 +124,7 @@ exports.StatsUtils = BaseUtils.subclass
             stats[kp].correctNum++
 
 
-  transformKPsCountToMap: (myKPsCount) ->
+  $transformKPsCountToMap: (myKPsCount) ->
     return _.indexBy (for kpId, count of myKPsCount
       kpId: kpId
       total: count
@@ -134,14 +134,14 @@ exports.StatsUtils = BaseUtils.subclass
 
 
   #KPs: [keyPointId], QKAs [{questionId, keyPointIds, answer}]
-  getKPsCountFromQKAs: (myQKAs) ->
+  $getKPsCountFromQKAs: (myQKAs) ->
     allKPs = _.flatten(_.pluck myQKAs, 'kps')
     return _.countBy allKPs, (ele) ->
       return ele
 
 
   #QKA: questionId keyPointIds answer
-  buildQKAsByQuestions: (questions) ->
+  $buildQKAsByQuestions: (questions) ->
     return (for question in questions
       questionId: question.id
       kps: question.keyPoints
@@ -149,7 +149,7 @@ exports.StatsUtils = BaseUtils.subclass
     )
 
 
-  getAnswerStringFromQuestion: (question) ->
+  $getAnswerStringFromQuestion: (question) ->
     return _.reduce(question.content.body, (corrects, option, index) ->
       if option.correct is true
         corrects.push index
@@ -157,7 +157,7 @@ exports.StatsUtils = BaseUtils.subclass
     , []).toString()
 
 
-  makeRealTimeStats: (lectureId, questionId) ->
+  $makeRealTimeStats: (lectureId, questionId) ->
     QuizAnswer.findQ
       lectureId: lectureId
       questionId: questionId
@@ -170,7 +170,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.reject err
 
 
-  makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
+  $makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
     questionIds = lecture.quizzes
 
     resolveResult =
@@ -204,7 +204,7 @@ exports.StatsUtils = BaseUtils.subclass
       return resolveResult
 
 
-  makeQuizStatsPromiseForUser: (user, courseId) ->
+  $makeQuizStatsPromiseForUser: (user, courseId) ->
     tmpResult = {}
 
     @getStatsStudentsNum user, courseId
@@ -228,14 +228,14 @@ exports.StatsUtils = BaseUtils.subclass
       )
 
 
-  getStatsStudentsNum: (user, courseId) ->
+  $getStatsStudentsNum: (user, courseId) ->
     switch user.role
       when 'teacher' then return CourseUtils.getStudentsNum user, courseId
       when 'student' then return Q(1) #学生只统计他自己的数值
 
 
   # {questionId: answerString}
-  buildQAMap: (questionIds) ->
+  $buildQAMap: (questionIds) ->
     Question.findQ {_id: {$in: questionIds}}
     .then (questions) =>
       map = _.reduce(questions, (result, question) =>
@@ -247,7 +247,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.reject err
 
 
-  computeCorrectNumByQuizAnswers: (myQAMap, quizAnswers) ->
+  $computeCorrectNumByQuizAnswers: (myQAMap, quizAnswers) ->
     return _.reduce(quizAnswers, (sum, quizAnswer) ->
       if quizAnswer.result.toString() is myQAMap[quizAnswer.questionId]
         sum++
@@ -255,7 +255,7 @@ exports.StatsUtils = BaseUtils.subclass
     , 0)
 
 
-  computeCorrectNumByHKAnswers: (myQAMap, homeworkAnswers) ->
+  $computeCorrectNumByHKAnswers: (myQAMap, homeworkAnswers) ->
     return _.reduce(homeworkAnswers, (sum, hkAnswer) ->
       return sum + _.reduce(hkAnswer.result, (innerSum, one) ->
         if one.answer.toString() is myQAMap[one.questionId]
@@ -265,7 +265,7 @@ exports.StatsUtils = BaseUtils.subclass
     , 0)
 
 
-  computeFinalStats: (studentsNum, statsMap) ->
+  $computeFinalStats: (studentsNum, statsMap) ->
 #    logger.info "studentsNum: #{studentsNum}"
     for lectureId, result of statsMap
       result.percent =

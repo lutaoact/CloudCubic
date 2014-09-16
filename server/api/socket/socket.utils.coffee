@@ -4,7 +4,7 @@ jwt = require('jsonwebtoken')
 exports.SocketUtils = BaseUtils.subclass
   classname: 'SocketUtils'
 
-  verify: (token, cb) ->
+  $verify: (token, cb) ->
     deferred = do Q.defer
     jwt.verify token, config.secrets.session, null, (err, user) ->
       if err then deferred.reject err else deferred.resolve user
