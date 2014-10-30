@@ -1,4 +1,4 @@
-var AsyncClass = require('./AsyncClass').AsyncClass;
+var Class = require('./Class').Class;
 var mongoose;
 var models = {};
 var createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
@@ -109,4 +109,4 @@ _.each(methods, function(method) {
   };
 });
 
-exports.BaseModel = AsyncClass.subclass(body);
+exports.BaseModel = Class.subclass(body);
