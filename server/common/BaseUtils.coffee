@@ -1,4 +1,3 @@
-Class = require('./Class').Class
+class BaseUtils
 
-exports.BaseUtils = Class.subclass
-  classname: 'BaseUtils'
+exports.BaseUtils = BaseUtils
