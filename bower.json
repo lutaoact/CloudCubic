@@ -36,6 +36,7 @@
     "angular-elastic": "~2.4.0",
     "holderjs": "~2.4.0",
     "angular-sortable-view": "~0.0.10",
+    "angular-fullscreen": "~1.0.0",
     "angular-i18n": "~1.2.26",
     "Jcrop": "~0.9.12",
     "textAngular": "v1.3.0-pre5"

@@ -327,7 +327,6 @@
                   </li>
                 </ul>
               </span>
-              <!--<label class="info" tooltip="{{lecture.name}} 讲义">{{lecture.name}} 讲义</label>-->
               <span class="pull-right">
                 <uploader limit="50*1024*1024"
                           ng-disabled="fileUploadState=='uploading' || fileUploadState=='converting'"
@@ -378,9 +377,7 @@
               <div class="slide-thumb"
                    src-key="slide.thumb"
                    source-attr="background-image"></div>
-              <div class="index"
-                   tooltip="点住鼠标，上下拖动可以改变幻灯片的顺序"
-                   tooltip-append-to-body="true">{{$index+1}}</div>
+              <div class="index">{{$index+1}}</div>
               <button ng-click="removeSlide($index)"
                       tooltip="移除这张幻灯片"
                       tooltip-append-to-body="true"

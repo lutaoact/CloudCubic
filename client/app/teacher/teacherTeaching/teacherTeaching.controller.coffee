@@ -17,7 +17,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     angular.element('video').attr 'src', ''
 
   angular.extend $scope,
-
+    isFullScreen: false
     $state: $state
     currentPage: 0
     currentNum: 1
@@ -34,7 +34,10 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     switchFile: (file) ->
       $scope.selectedFile = file
 
-    togglePPT: ->
+    toggleFullScreen: ->
+      $scope.isFullScreen = !$scope.isFullScreen
+
+    toggleSlides: ->
       $scope.showVideo = false
       $scope.showAllSlide = !$scope.showAllSlide
 

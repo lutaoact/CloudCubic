@@ -22,6 +22,7 @@ angular.module 'budweiserApp', [
   'monospaced.elastic'
   'angular-sortable-view'
   'textAngular'
+  'FBAngular'
 ]
 
 .constant 'configs',

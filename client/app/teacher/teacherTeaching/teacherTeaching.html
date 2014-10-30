@@ -2,6 +2,7 @@
   <div class="file-group"
        ng-show="!showVideo"
        ppt-viewer
+       fullscreen="isFullScreen"
        current-index="currentIndex"
        slides="selectedFile.fileContent"></div>
   <div class="file-content-all" ng-show="showAllSlide">
@@ -114,8 +115,14 @@
     <button class="btn btn-primary tool-btn"
             tooltip="列出所有幻灯片"
             ng-class="{'active':showAllSlide}"
-            ng-click="togglePPT()">
+            ng-click="toggleSlides()">
       <i class="glyphicon glyphicon-th fa-2x"></i>
+    </button>
+    <span class="split-v"></span>
+    <button class="btn btn-primary tool-btn"
+            tooltip="全屏"
+            ng-click="toggleFullScreen()">
+      <i class="glyphicon glyphicon-fullscreen fa-2x"></i>
     </button>
     <span class="page-num">
       <input class="page-current"
