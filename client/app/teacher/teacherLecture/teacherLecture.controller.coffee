@@ -43,6 +43,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       media: 1
       question: 1
       done: 3 # 多少个已经完成的
+    viewState:
+      questionType: 'quizzes' # quizzes / homeworks / offlineWorks
 
     switchEdit: ->
       $scope.editingInfo =

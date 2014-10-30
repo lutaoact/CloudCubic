@@ -407,18 +407,63 @@
   <section class="question-section"
            id="lecture-question"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
-    <div edit-lecture-questions
-         lecture="lecture"
-         on-update="updateEditingProgress($lecture)"
-         key-points="keyPoints"
-         category-id="course.categoryId"></div>
-  </section>
 
-  <!-- offline works -->
-  <section class="students-offline-works-section"
-           ng-hide="$state.includes('teacher.lecture.questionLibrary')"
-           id="students-offline-works-section">
-    <student-offline-works lecture="lecture" classes="course.classes"></student-offline-works>
+    <div class="text-center">
+      <span class="btn-group lecture-nav-tabs">
+        <a ng-class="{'selected': viewState.questionType == 'quizzes'}"
+           btn-radio="'quizzes'"
+           ng-model="viewState.questionType"
+           class="btn btn-default"
+           du-smooth-scroll
+           offset="60"
+           href="#lecture-question">
+          <i class="fa fa-clock-o"></i>
+          随堂练习
+        </a>
+        <a ng-class="{'selected': viewState.questionType == 'homeworks'}"
+           btn-radio="'homeworks'"
+           ng-model="viewState.questionType"
+           class="btn btn-default"
+           du-smooth-scroll
+           offset="60"
+           href="#lecture-question">
+          <i class="fa fa-file-o"></i>
+          课后作业
+        </a>
+        <a ng-class="{'selected': viewState.questionType == 'offlineWorks'}"
+           btn-radio="'offlineWorks'"
+           ng-model="viewState.questionType"
+           class="btn btn-default"
+           du-smooth-scroll
+           offset="60"
+           href="#lecture-question">
+          <i class="fa fa-check-circle-o"></i>
+          作业批改
+        </a>
+      </span>
+    </div>
+
+    <edit-lecture-questions
+        ng-show="viewState.questionType=='quizzes'"
+        lecture="lecture"
+        question-type="quizzes"
+        on-update="updateEditingProgress($lecture)"
+        key-points="keyPoints"
+        category-id="course.categoryId"></edit-lecture-questions>
+
+    <edit-lecture-questions
+        ng-show="viewState.questionType=='homeworks'"
+        lecture="lecture"
+        question-type="homeworks"
+        on-update="updateEditingProgress($lecture)"
+        key-points="keyPoints"
+        category-id="course.categoryId"></edit-lecture-questions>
+
+    <mark-offline-works
+        ng-show="viewState.questionType=='offlineWorks'"
+        lecture="lecture"
+        classes="course.classes"></mark-offline-works>
+
   </section>
 
 </div>

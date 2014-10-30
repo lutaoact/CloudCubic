@@ -2,22 +2,21 @@
 
 angular.module('budweiserApp')
 
-.directive 'studentOfflineWorks', ->
+.directive 'markOfflineWorks', ->
   restrict: 'E'
   replace: true
-  controller: 'StudentOfflineWorksCtrl'
-  templateUrl: 'app/teacher/teacherLecture/studentOfflineWorks.html'
+  controller: 'MarkOfflineWorksCtrl'
+  templateUrl: 'app/teacher/teacherLecture/MarkOfflineWorks.html'
   scope:
     lecture: '='
     classes: '='
 
-.controller 'StudentOfflineWorksCtrl', (
+.controller 'MarkOfflineWorksCtrl', (
   $scope
   $state
   $modal
   $timeout
   Restangular
-  $q
 ) ->
 
   getAllOfflineWorks = ()->

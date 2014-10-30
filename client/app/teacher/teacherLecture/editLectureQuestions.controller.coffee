@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/teacher/teacherLecture/editLectureQuestions.html'
   scope:
     lecture: '='
+    questionType: '@'
     categoryId: '='
     keyPoints: '='
     onUpdate: '&'
@@ -22,26 +23,18 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  questionType = 'quizzes' # quizzes | homeworks
-
   angular.extend $scope,
     selectedAll: false
     deleting: false
-    quizzesActive: true
-
-    setQuestionType: (type) ->
-      questionType = type
-      $scope.quizzesActive = type == 'quizzes'
 
     getQuestions: ->
-      $scope.lecture?[questionType]
+      $scope.lecture?[$scope.questionType]
 
     addLibraryQuestion: ->
-      $state.go('teacher.lecture.questionLibrary', {
+      $state.go 'teacher.lecture.questionLibrary',
         courseId: $state.params.courseId
         lectureId: $state.params.lectureId
-        questionType: questionType
-      })
+        questionType: $scope.questionType
 
     addNewQuestion: ->
       $modal.open
@@ -94,7 +87,7 @@ angular.module('budweiserApp')
 
   saveQuestions = (questions) ->
     patch = {}
-    patch[questionType] = _.map questions, (q) -> q._id
+    patch[$scope.questionType] = _.map questions, (q) -> q._id
     if $scope.lecture.patch?
       $scope.lecture.patch(patch)
       .then (newLecture) ->
@@ -105,13 +98,12 @@ angular.module('budweiserApp')
 
   backToLecture = ->
     $scope.deleting = false
-    $state.go('teacher.lecture', {
+    $state.go 'teacher.lecture',
       courseId: $state.params.courseId
       lectureId: $state.params.lectureId
-    })
 
   $scope.$on 'add-library-question', (event, type, questions) ->
-    $scope.setQuestionType(type)
+    if type isnt $scope.questionType then return
     addQuestions questions
     finish = $scope.$on '$stateChangeSuccess', -> $timeout ->
       finish()
