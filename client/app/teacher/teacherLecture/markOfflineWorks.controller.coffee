@@ -6,7 +6,7 @@ angular.module('budweiserApp')
   restrict: 'E'
   replace: true
   controller: 'MarkOfflineWorksCtrl'
-  templateUrl: 'app/teacher/teacherLecture/MarkOfflineWorks.html'
+  templateUrl: 'app/teacher/teacherLecture/markOfflineWorks.html'
   scope:
     lecture: '='
     classes: '='
