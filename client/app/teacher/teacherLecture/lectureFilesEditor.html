@@ -31,6 +31,8 @@
           </span>
   </div>
   <div class="col-md-12 lecture-file"
+       id="lecture-file-content"
+       ng-style="{'height':getViewerHeight()}"
        ng-if="lecture.files.length > 0">
     <div class="lecture-file-content"
          ng-class="{'toggled':viewState.slideListToggled}">

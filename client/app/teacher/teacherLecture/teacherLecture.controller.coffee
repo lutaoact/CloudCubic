@@ -32,7 +32,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     mediaApi: null
     saving: false
     deleting: false
-    videoActive: true
     lecture: null
     editingInfo: null
     editingProgress: # 0=new, 1/2=half, 1=done
@@ -41,6 +40,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       question: 1
       done: 3 # 多少个已经完成的
     viewState:
+      videoActive: true
       questionType: 'quizzes' # quizzes / homeworks / offlineWorks
 
     switchEdit: ->
@@ -171,7 +171,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       type: 'video/mp4'
     ]
     $scope.lecture = lecture
-    $scope.videoActive = lecture.media? || lecture.files.length == 0
+    $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
 

@@ -16,6 +16,8 @@ angular.module 'budweiserApp'
   $modal
   notify
   $filter
+  $window
+  $timeout
   Restangular
 ) ->
 
@@ -82,13 +84,15 @@ angular.module 'budweiserApp'
       if replace
         angular.extend $scope.selectedFile, data
       else
-        $scope.selectedFile = data
         $scope.lecture.files.push data
+        $scope.switchFile(data)
       Restangular.one('lectures', $scope.lecture._id)
       .patch?(files: $scope.lecture.files)
       .then (lecture) -> $scope.onUpdate?($lecture:lecture)
     switchFile: (file) ->
       $scope.selectedFile = file
+    getViewerHeight: ->
+      $('#lecture-file-content').width() * $scope.selectedFile.fileHeight / $scope.selectedFile.fileWidth
 
   $scope.$watch 'lecture', (lecture) ->
     $scope.switchFile lecture?.files[0]

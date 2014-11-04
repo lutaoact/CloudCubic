@@ -171,6 +171,8 @@ angular.module 'budweiserApp'
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
           result =
+            fileWidth: content.width
+            fileHeight: content.height
             fileName: file.name
             fileContent: _.map content.rawPics, (pic) ->
               raw: strategy.prefix + pic

@@ -46,7 +46,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
           src: $sce.trustAsResourceUrl(lecture.media)
           type: 'video/mp4'
         ]
-      $scope.switchFile(lecture.files[0])
       # If student stay over 5 seconds. Send view lecture event.
       handleViewEvent = $timeout ->
         Restangular.all('activities').post
@@ -77,6 +76,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     switchFile: (file) ->
       $scope.selectedFile = file
+
+    getViewerHeight: ->
+      $('#lecture-file-content').width() * $scope.selectedFile.fileHeight / $scope.selectedFile.fileWidth
 
     seek: (timestamp)->
       $scope.viewState.isVideo = true

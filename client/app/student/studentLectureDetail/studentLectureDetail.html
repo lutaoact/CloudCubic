@@ -44,8 +44,13 @@
       该课程没有视频
     </div>
   </div>
-  <div class="container clearfix file-container" ng-show="!viewState.isVideo">
+  <div class="container clearfix file-container"
+       ng-style="{'height':getViewerHeight()}"
+       ng-if="!viewState.isVideo || selectedFile"
+       ng-init="switchFile(lecture.files[0])"
+       ng-show="!viewState.isVideo">
     <div ng-show="lecture.files.length > 0"
+         id="lecture-file-content"
          class="file-content">
       <span dropdown class="file-dropdown">
         <a type="button"

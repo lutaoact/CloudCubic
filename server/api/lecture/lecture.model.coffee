@@ -21,6 +21,8 @@ exports.Lecture = BaseModel.subclass
           thumb: String
           raw: String
         ]
+        fileWidth: Number
+        fileHeight: Number
       ]
       # todo: remove
       slides: [
