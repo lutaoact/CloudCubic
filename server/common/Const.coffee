@@ -6,6 +6,9 @@ Const =
     Comment: 3
     Lecture: 4
 
+  OrgType:
+    Colledge: 1
+
   MsgType:
     Login: 'login'
     Notice: 'notice'
