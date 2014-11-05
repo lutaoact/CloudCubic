@@ -71,7 +71,12 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  UserUtils.check req.query.username
+  (switch true
+    when req.query.username?
+      UserUtils.check req.query.username
+    when req.query.email?
+      UserUtils.check req.query.email
+  )
   .then () ->
     res.send 200
   .catch next
@@ -209,9 +214,9 @@ exports.bulkImport = (req, res, next) ->
     failure : []
 
   importedUsers = []
-  
+
   orgUniqueName = ''
-  
+
   Organization.findByIdQ orgId
   .then (org) ->
     orgUniqueName = org.uniqueName
@@ -257,9 +262,9 @@ exports.bulkImport = (req, res, next) ->
 
     if type is 'student'
       updateClasseStudents classeId, importedUsers
-  .then ->    
+  .then ->
     res.send importReport
-      
+
   .catch (err) ->
     logger.error 'import users error: ' + err
     fs.unlink destFile

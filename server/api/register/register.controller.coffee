@@ -12,6 +12,7 @@ exports.createUser = (req, res, next) ->
     username: body.username
     email   : body.email
     password: body.password
+    name    : body.name
 
   User.createQ user
   .then (result) ->
@@ -30,9 +31,9 @@ exports.createOrg = (req, res, next) ->
     UserUtils.check body.username
   .then () ->
     organization =
-      uniqueName: body.uniqueName
-      name      : body.name
-      type      : body.type ? Const.OrgType.Colledge
+      uniqueName: body.orgUniqueName
+      name      : body.orgName
+      type      : body.orgType ? Const.OrgType.Colledge
 
     Organization.createQ organization
   .then (org) ->
@@ -40,6 +41,7 @@ exports.createOrg = (req, res, next) ->
       username: body.username
       email   : body.email
       password: body.password
+      name    : body.name
       orgId   : org._id
 
     User.createQ admin

@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   webview
   $location
   Restangular
+  $timeout
 ) ->
 
   $scope.webview = webview
@@ -18,7 +19,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
     if form.$valid
       # Account created, redirect to home
-      Restangular.all('users').post
+      Restangular.all('register/user').post
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
@@ -40,7 +41,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
     if form.$valid
       # Account created, redirect to home
-      Restangular.all('users').post
+      Restangular.all('register/org').post
         name: $scope.organization.name + '的管理员'
         email: $scope.user.email
         password: $scope.user.password
@@ -57,3 +58,29 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+
+  angular.extend $scope,
+    promise = undefined
+    checkEmail: (email)->
+      $timeout.cancel(promise)
+      if email.$modelValue
+        promise = $timeout ->
+          Restangular.one('users','check').get(email: email.$modelValue)
+          .then (data)->
+            email.$setValidity 'remote', true
+          , (err)->
+            email.$setValidity 'remote', false
+        , 500
+
+    checkPasswordAgain: (password, passwordAgain)->
+      if passwordAgain.$modelValue
+        if passwordAgain.$modelValue is password.$modelValue
+          passwordAgain.$setValidity 'sameWith', true
+        else
+          passwordAgain.$setValidity 'sameWith', false
+      else
+        passwordAgain.$setValidity 'sameWith', true
+
+
+
+
