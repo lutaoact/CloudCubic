@@ -96,7 +96,9 @@ angular.module 'budweiserApp'
     'taRegisterTool'
     '$delegate'
     '$modal'
-    (taRegisterTool, taOptions, $modal)->
+    'fileUtils'
+    'notify'
+    (taRegisterTool, taOptions, $modal, fileUtils,notify)->
       safeColors = [
         '#EF9D97', '#F7ED3C','#BEE4F9','#C9E1A6','#CEB5D6','#D5D2D1'
         '#EA573E', '#F7C900','#749CD2','#94C85B','#A581B8','#615C5A'
@@ -169,6 +171,21 @@ angular.module 'budweiserApp'
         ['ul', 'ol','code', 'quote']
         ['insertLink', 'upload']
       ]
+
+      taOptions.defaultFileDropHandler = (file, insertAction)->
+        if file.type.substring(0, 5) is 'image'
+          fileUtils.uploadFile
+            files: [file]
+            success: (url)->
+              insertAction('insertImage', url, true)
+            progress: (speed, percentage)->
+              console.log speed, percentage
+            fail: (err)->
+              notify
+                message: err
+
+        false
+
       taOptions
     ]
 
