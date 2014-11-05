@@ -183,7 +183,9 @@ angular.module 'budweiserApp'
             fail: (err)->
               notify
                 message: err
-
+        else
+          notify
+            message: '文件格式不支持'
         false
 
       taOptions
