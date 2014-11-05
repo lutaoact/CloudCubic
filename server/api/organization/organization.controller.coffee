@@ -12,6 +12,7 @@
 
 Organization = _u.getModel "organization"
 User = _u.getModel "user"
+OrgUtils  = _u.getUtils 'organization'
 
 exports.index = (req, res, next) ->
   Organization.findQ {}
@@ -27,6 +28,14 @@ exports.me = (req, res, next) ->
   .then (organization) ->
     res.send organization
   , next
+
+exports.check = (req, res, next) ->
+  OrgUtils.check req.query.uniqueName
+  .then () ->
+    res.send 200
+  .catch next
+  .done()
+
 
 exports.show = (req, res, next) ->
   orgId = req.params.id

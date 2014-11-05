@@ -50,6 +50,10 @@ exports.User = BaseModel.subclass
 
     $super()
 
+
+  findBy: (username) ->
+    @findOneQ username: username
+
 ###
 Virtuals
 ###

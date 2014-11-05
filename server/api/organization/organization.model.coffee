@@ -23,3 +23,6 @@ exports.Organization = BaseModel.subclass
       description : String # url
 
     $super()
+
+  findBy: (uniqueName) ->
+    @findOneQ uniqueName: uniqueName

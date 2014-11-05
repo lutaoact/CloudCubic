@@ -7,3 +7,5 @@ module.exports =
   NotSameOrg: 10005
 
   GiveScore: 10006
+  UniqueNameInUsed: 10007
+  UsernameInUsed: 10007

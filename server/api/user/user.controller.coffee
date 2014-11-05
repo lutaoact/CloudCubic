@@ -16,6 +16,7 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 Organization = _u.getModel "organization"
+UserUtils = _u.getUtils 'user'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -67,6 +68,14 @@ exports.show = (req, res, next) ->
   .then (user) ->
     res.send user.profile
   , next
+
+
+exports.check = (req, res, next) ->
+  UserUtils.check req.query.username
+  .then () ->
+    res.send 200
+  .catch next
+  .done()
 
 ###
   Get a single user by email

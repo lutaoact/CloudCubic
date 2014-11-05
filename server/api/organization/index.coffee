@@ -7,6 +7,7 @@ router = express.Router()
 
 router.get "/", auth.hasRole("admin"), controller.index
 router.get "/me", auth.isAuthenticated(), controller.me
+router.get "/check", controller.check
 router.get "/:id", auth.hasRole("admin"), controller.show
 router.post "/", auth.hasRole("admin"), controller.create
 router.put "/:id", auth.hasRole("admin"), controller.update
