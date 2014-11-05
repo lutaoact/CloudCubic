@@ -1,66 +1,161 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Sign up</h1>
+      <h3>注册<br>
+        <small>请选择注册种类，个人用户可以加入课堂，参与讨论。机构用户可以创建课程。</small>
+      </h3>
     </div>
-    <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="register(form)" novalidate>
+    <accordion close-others="'true'" class="col-sm-12">
+      <accordion-group heading="个人用户">
+        <form class="form" name="form" ng-submit="register(form)" novalidate>
+          <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                              'has-error': form.name.$invalid && submitted }">
+            <label>昵称</label>
 
-        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
-                                            'has-error': form.name.$invalid && submitted }">
-          <label>Name</label>
+            <input type="text" name="name" class="form-control" ng-model="user.name"
+                   required/>
+            <p class="help-block" ng-show="form.name.$error.required && submitted">
+              请输入昵称
+            </p>
+          </div>
 
-          <input type="text" name="name" class="form-control" ng-model="user.name"
-                 required/>
-          <p class="help-block" ng-show="form.name.$error.required && submitted">
-            A name is required
-          </p>
-        </div>
+          <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                              'has-error': form.email.$invalid && submitted }">
+            <label>Email</label>
 
-        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
-                                            'has-error': form.email.$invalid && submitted }">
-          <label>Email</label>
+            <input type="email" name="email" class="form-control" ng-model="user.email"
+                   required
+                   mongoose-error/>
+            <p class="help-block" ng-show="form.email.$error.email && submitted">
+              邮箱格式不对
+            </p>
+            <p class="help-block" ng-show="form.email.$error.required && submitted">
+              请输入邮箱（您将通过邮箱激活账号或者重置密码）
+            </p>
+            <p class="help-block" ng-show="form.email.$error.mongoose">
+              该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forget">密码找回</a>
+            </p>
+          </div>
 
-          <input type="email" name="email" class="form-control" ng-model="user.email"
-                 required
-                 mongoose-error/>
-          <p class="help-block" ng-show="form.email.$error.email && submitted">
-            Doesn't look like a valid email.
-          </p>
-          <p class="help-block" ng-show="form.email.$error.required && submitted">
-            What's your email address?
-          </p>
-          <p class="help-block" ng-show="form.email.$error.mongoose">
-            {{ errors.email }}
-          </p>
-        </div>
+          <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                              'has-error': form.password.$invalid && submitted }">
+            <label>密码</label>
 
-        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
-                                            'has-error': form.password.$invalid && submitted }">
-          <label>Password</label>
+            <input type="password" name="password" class="form-control" ng-model="user.password"
+                   ng-minlength="6"
+                   required
+                   mongoose-error/>
+            <p class="help-block"
+               ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+              Password must be at least 6 characters.
+            </p>
+            <p class="help-block" ng-show="form.password.$error.mongoose">
+              {{ errors.password }}
+            </p>
+          </div>
 
-          <input type="password" name="password" class="form-control" ng-model="user.password"
-                 ng-minlength="3"
-                 required
-                 mongoose-error/>
-          <p class="help-block"
-             ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
-            Password must be at least 3 characters.
-          </p>
-          <p class="help-block" ng-show="form.password.$error.mongoose">
-            {{ errors.password }}
-          </p>
-        </div>
+          <div class="form-group" ng-class="{ 'has-success': user.$passwordAgain==user.password && submitted,
+                                              'has-error': user.$passwordAgain!=user.password && submitted }">
+            <label>再次输入密码</label>
 
-        <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit">
-            Sign up
-          </button>
-          <a class="btn btn-default btn-lg btn-register" href="/login">
-            Login
-          </a>
-        </div>
-      </form>
-    </div>
+            <input type="password" name="passwordAgain" class="form-control" ng-model="user.$passwordAgain"
+                   mongoose-error/>
+            <p class="help-block"
+               ng-show="user.$passwordAgain!=user.password && submitted">
+             两次输入密码不一致
+            </p>
+          </div>
+
+          <div>
+            <button class="btn btn-inverse btn-lg btn-login" type="submit">
+              提交
+            </button>
+          </div>
+        </form>
+      </accordion-group>
+      <accordion-group heading="机构用户">
+        <form class="form" name="form" ng-submit="registerOrg(form)" novalidate>
+          <div class="form-group" ng-class="{ 'has-success': form.orgName.$valid && submitted,
+                                              'has-error': form.orgName.$invalid && submitted }">
+            <label>机构名称</label>
+
+            <input type="text" name="orgName" class="form-control" ng-model="organization.name"
+                   required/>
+            <p class="help-block" ng-show="form.orgName.$error.required && submitted">
+              请输入机构名称
+            </p>
+            <p class="help-block" ng-show="form.orgName.$error.mongoose">
+              该机构名称已被注册
+            </p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-success': form.orgUniqueName.$valid && submitted,
+                                              'has-error': form.orgUniqueName.$invalid && submitted }">
+            <label>机构域名</label>
+
+            <input type="text" name="orgUniqueName" class="form-control" ng-model="organization.uniqueName"
+                   required/>
+            <p class="help-block" ng-show="form.orgUniqueName.$error.required && submitted">
+              请输入机构域名
+            </p>
+            <p class="help-block" ng-show="form.orgUniqueName.$error.mongoose">
+              该机构域名已被注册
+            </p>
+          </div>
+
+          <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                              'has-error': form.email.$invalid && submitted }">
+            <label>管理员Email</label>
+
+            <input type="email" name="email" class="form-control" ng-model="user.email"
+                   required
+                   mongoose-error/>
+            <p class="help-block" ng-show="form.email.$error.email && submitted">
+              邮箱格式不对
+            </p>
+            <p class="help-block" ng-show="form.email.$error.required && submitted">
+              请输入邮箱（您将通过邮箱激活账号或者重置密码）
+            </p>
+            <p class="help-block" ng-show="form.email.$error.mongoose">
+              该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forget">密码找回</a>
+            </p>
+          </div>
+
+          <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                              'has-error': form.password.$invalid && submitted }">
+            <label>管理员密码</label>
+
+            <input type="password" name="password" class="form-control" ng-model="user.password"
+                   ng-minlength="6"
+                   required
+                   mongoose-error/>
+            <p class="help-block"
+               ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+              Password must be at least 6 characters.
+            </p>
+            <p class="help-block" ng-show="form.password.$error.mongoose">
+              {{ errors.password }}
+            </p>
+          </div>
+
+          <div class="form-group" ng-class="{ 'has-success': user.$passwordAgain==user.password && submitted,
+                                              'has-error': user.$passwordAgain!=user.password && submitted }">
+            <label>再次输入密码</label>
+
+            <input type="password" name="passwordAgain" class="form-control" ng-model="user.$passwordAgain"
+                   mongoose-error/>
+            <p class="help-block"
+               ng-show="user.$passwordAgain!=user.password && submitted">
+             两次输入密码不一致
+            </p>
+          </div>
+
+          <div>
+            <button class="btn btn-inverse btn-lg btn-login" type="submit">
+              提交
+            </button>
+          </div>
+        </form>
+      </accordion-group>
+    </accordion>
   </div>
 </div>

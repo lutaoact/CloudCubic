@@ -21,6 +21,11 @@ angular.module('budweiserApp')
     templateUrl: 'app/account/signup/signup.html'
     controller: 'SignupCtrl'
 
+  .state 'forget',
+    url: '/forget'
+    templateUrl: 'app/account/signup/signup.html'
+    controller: 'SignupCtrl'
+
   .state 'settings',
     abstract: true
     url: '/settings'
