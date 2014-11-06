@@ -1,4 +1,4 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 qiniu = require 'qiniu'
 config = require '../../config/environment'
 randomstring = require 'randomstring'
@@ -23,7 +23,7 @@ acsBaseAddress = config.azure.acsBaseAddress
 
 Lecture = _u.getModel 'lecture'
 
-exports.AssetUtils = BaseUtils.subclass
+class AssetUtils extends BaseUtils
   classname: 'AssetUtils'
 
   getAssetFromQiniu : (key, assetType) ->
@@ -216,3 +216,5 @@ exports.AssetUtils = BaseUtils.subclass
         url: res.path
         key: res.assetId + "/origin"
       }
+
+exports.AssetUtils = AssetUtils

@@ -1,9 +1,9 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 
 SocketUtils = _u.getUtils 'socket'
 NoticeUtils = _u.getUtils 'notice'
 
-exports.DisUtils = BaseUtils.subclass
+class DisUtils extends BaseUtils
   classname: 'DisUtils'
 
   vote: (DisModel, disId, userId) ->
@@ -28,3 +28,5 @@ exports.DisUtils = BaseUtils.subclass
     .then (result) ->
       tmpResult.newDis = result[0]
       return tmpResult.newDis
+
+exports.DisUtils = DisUtils

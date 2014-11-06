@@ -1,8 +1,8 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 Course = _u.getModel 'course'
 Classe = _u.getModel 'classe'
 
-exports.CourseUtils = BaseUtils.subclass
+class CourseUtils extends BaseUtils
   classname: 'CourseUtils'
 
   getAuthedCourseById: (user, courseId) ->
@@ -89,3 +89,5 @@ exports.CourseUtils = BaseUtils.subclass
       Classe.findQ _id: $in: course.classes
     .then (classes) ->
       return (_u.union.apply _u, (_.pluck classes, 'students')).length
+
+exports.CourseUtils = CourseUtils

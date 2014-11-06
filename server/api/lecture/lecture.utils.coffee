@@ -1,6 +1,6 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 
-exports.LectureUtils = BaseUtils.subclass
+class LectureUtils extends BaseUtils
   classname: 'LectureUtils'
 
   getAuthedLectureById: (user, lectureId) ->
@@ -18,3 +18,5 @@ exports.LectureUtils = BaseUtils.subclass
       Lecture.findOne
         _id: lectureId
       .execQ()
+
+exports.LectureUtils = LectureUtils
