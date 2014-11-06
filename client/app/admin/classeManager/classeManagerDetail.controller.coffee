@@ -6,6 +6,7 @@ angular.module('budweiserApp')
   $scope
   $state
   notify
+  Restangular
 ) ->
 
   editableFields = [
@@ -31,15 +32,21 @@ angular.module('budweiserApp')
           classes: 'alert-danger'
 
     reloadStudents: ->
-      $scope.selectedClasse?.all('students').getList()
-      .then (students) ->
+      updateClasse = (students) ->
         $scope.selectedClasse.students = _.pluck students, '_id'
         $scope.selectedClasse.$students = students
+
+      if _.isEmpty($scope.selectedClasse._id)
+        Restangular.all('users').getList(role:'student',standalone:true)
+        .then updateClasse
+      else
+        $scope.selectedClasse?.all('students').getList()
+        .then updateClasse
 
     viewStudent: (student) ->
       $state.go('admin.classeManager.detail.student', classeId:$scope.selectedClasse._id, studentId:student._id)
 
-  $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId)
+  $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId) ? $scope.other
   $scope.editingInfo = _.pick $scope.selectedClasse, editableFields
   $scope.reloadStudents()
 

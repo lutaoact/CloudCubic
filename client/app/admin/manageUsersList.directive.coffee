@@ -58,14 +58,15 @@ angular.module('budweiserApp')
           userRole: -> $scope.userRole
           orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
       .result.then (newUser) ->
-        if $scope.classe?
-          newUsers = _.union $scope.classe.students, [newUser._id]
-          $scope.classe?.patch(students:newUsers).then addNewUserSuccess
+        if _.isEmpty($scope.classe?._id)
+          addNewUserSuccess(newUser)
         else
-          addNewUserSuccess()
+          newUsers = _.union $scope.classe.students, [newUser._id]
+          $scope.classe?.patch(students:newUsers).then ->
+            addNewUserSuccess(newUser)
 
     showDetail: (user) ->
-      $scope.onViewUser?($user:user)
+      $scope.onViewUser?($data:user)
 
     toggleSelect: (users, selected) ->
       angular.forEach users, (u) -> u.$selected = selected
@@ -80,19 +81,20 @@ angular.module('budweiserApp')
           message: ->
             """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
       .result.then ->
+        multiDelete = ->
+          Restangular.all('users')
+          .customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
+          .then ->
+            $scope.deleting = false
+            $scope.onDeleteUser?($data:users)
+
         $scope.toggledSelectAllUsers = false if $scope.toggledSelectAllUsers
         $scope.deleting = true
-        Restangular.all('users').customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
-        .then ->
-          done = ->
-            $scope.deleting = false
-            $scope.onDeleteUser?(users)
-
-          if $scope.classe?
-            newUsers = _.difference($scope.users, users)
-            $scope.classe.patch(students: _.pluck newUsers, '_id').then done
-          else
-            done()
+        if _.isEmpty($scope.classe?._id)
+          multiDelete()
+        else
+          newUsers = _.difference($scope.users, users)
+          $scope.classe.patch(students: _.pluck newUsers, '_id').then multiDelete
 
     copyUsers: (users, classe) ->
       console.debug 'copyUsers', classe, users

@@ -10,6 +10,7 @@
            ng-model="editingInfo.name"
            ng-blur="saveClasse(form)"
            placeholder="请输入班级名称"
+           ng-disabled="!selectedClasse._id"
            required>
   </form>
 
@@ -18,7 +19,7 @@
        manage-users-list
        on-create-user="reloadStudents()"
        on-delete-user="reloadStudents()"
-       on-view-user="viewStudent($user)"
+       on-view-user="viewStudent($data)"
        user-role="student"
        users="selectedClasse.$students"
        classes="classes"
