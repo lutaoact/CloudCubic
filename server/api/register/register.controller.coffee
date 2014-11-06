@@ -19,6 +19,7 @@ exports.createUser = (req, res, next) ->
     res.send
       username: result.username
       email: result.email
+      role: result.role
   .catch next
   .done()
 
@@ -43,11 +44,13 @@ exports.createOrg = (req, res, next) ->
       password: body.password
       name    : body.name
       orgId   : org._id
+      role    : 'admin'
 
     User.createQ admin
   .then (result) ->
     res.send
       username: result.username
       email   : result.email
+      role    : result.role
   .catch next
   .done()
