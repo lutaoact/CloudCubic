@@ -25,12 +25,13 @@ exports.CourseUtils = BaseUtils.subclass
           errMsg : 'No course found or no permission to read it'
 
   checkStudent: (user, courseId) ->
-    Classe.findOneQ
+    Classe.findQ
       students: user._id
-    .then (classe) ->
+    .then (classes) ->
+      classeIds = _.pluck classes, '_id'
       Course.findOneQ
         _id: courseId
-        classes: classe._id
+        classes: $in: classeIds
     .then (course) ->
       if course?
         return course
