@@ -7,7 +7,7 @@ Const =
     Lecture: 4
 
   OrgType:
-    Colledge: 1
+    Colledge: '大学'
 
   MsgType:
     Login: 'login'
