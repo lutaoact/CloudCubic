@@ -111,6 +111,8 @@
             <label>管理员Email</label>
 
             <input type="email" name="email" class="form-control" ng-model="user.email"
+                   ng-model-options="{ debounce: 250 }"
+                   ng-change="checkEmail(form.email)"
                    required
                    mongoose-error/>
             <p class="help-block" ng-show="form.email.$error.email && submitted">
@@ -119,7 +121,7 @@
             <p class="help-block" ng-show="form.email.$error.required && submitted">
               请输入邮箱（您将通过邮箱激活账号或者重置密码）
             </p>
-            <p class="help-block" ng-show="form.email.$error.mongoose">
+            <p class="help-block" ng-show="form.email.$error.remote">
               该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forget">密码找回</a>
             </p>
           </div>
@@ -141,14 +143,16 @@
             </p>
           </div>
 
-          <div class="form-group" ng-class="{ 'has-success': user.$passwordAgain==user.password && submitted,
-                                              'has-error': user.$passwordAgain!=user.password && submitted }">
+          <div class="form-group" ng-class="{ 'has-success': form.passwordAgain.$valid && submitted,
+                                              'has-error': form.passwordAgain.$invalid && submitted}">
             <label>再次输入密码</label>
 
-            <input type="password" name="passwordAgain" class="form-control" ng-model="user.$passwordAgain"
+            <input type="password" name="passwordAgain" class="form-control" ng-model="user.passwordAgain"
+                   same-with="user.password"
+                   ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
                    mongoose-error/>
             <p class="help-block"
-               ng-show="user.$passwordAgain!=user.password && submitted">
+               ng-show="form.passwordAgain.$error.sameWith">
              两次输入密码不一致
             </p>
           </div>
