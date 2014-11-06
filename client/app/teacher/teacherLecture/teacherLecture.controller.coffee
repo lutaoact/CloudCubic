@@ -25,7 +25,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    videoLimitation: if Auth.getCurrentUser().orgId.isPro then 2000 * 1024 * 1024 else 30 * 1024 * 1024
+    videoLimitation: if Auth.getCurrentUser().orgId.isPaid then 2000 * 1024 * 1024 else 30 * 1024 * 1024
     course: course
     keyPoints: KeyPoints
     mediaApi: null

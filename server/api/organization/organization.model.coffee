@@ -16,6 +16,10 @@ exports.Organization = BaseModel.subclass
       name:
         type: String
         required: true
+      isPro:
+        type: Boolean
+        required: true
+        default: false
       type:
         type: String
         required : true

@@ -13,7 +13,10 @@
       <uploader class="btn btn-danger btn-sm rounded"
                 limit="{{imageSizeLimitation}}"
                 on-complete="onLogoUpload($data)"
-                accept-type="image">
+                accept-type="image"
+                crop="true"
+                crop-ratio="1"
+                max-width="256">
         修改 Logo
       </uploader>
     </div>
@@ -55,6 +58,14 @@
             <span ng-bind-html="orgType | highlight: $select.search"></span>
           </ui-select-choices>
         </ui-select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">账户级别</label>
+      <div class="col-sm-7">
+        <label ng-if="organization.isPaid" class="form-control text-primary">高级账户</label>
+        <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
       </div>
     </div>
 
