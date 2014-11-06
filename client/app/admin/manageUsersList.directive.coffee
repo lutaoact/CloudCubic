@@ -10,6 +10,7 @@ angular.module('budweiserApp')
   scope:
     users: '='
     classe: '='
+    classes: '='
     userRole: '@'
     onCreateUser: '&'
     onDeleteUser: '&'
@@ -92,6 +93,12 @@ angular.module('budweiserApp')
             $scope.classe.patch(students: _.pluck newUsers, '_id').then done
           else
             done()
+
+    copyUsers: (users, classe) ->
+      console.debug 'copyUsers', classe, users
+
+    moveUsers: (users, classe) ->
+      console.debug 'moveUsers', classe, users
 
     importUsers: (files)->
       $scope.importing = true
