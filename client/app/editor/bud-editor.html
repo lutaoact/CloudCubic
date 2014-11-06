@@ -12,7 +12,7 @@
       <img ng-src="{{image.url}}" class="image-zoom" alt="">
       <i class="fa fa-times remove-image-icon" ng-click="removeImg(image)"></i>
     </div>
-    <uploader limit="5*1024*1024"
+    <uploader limit="{{imageSizeLimitation}}"
       class="new-img"
       on-complete="onImgUploaded($data)"
       accept-type="image">

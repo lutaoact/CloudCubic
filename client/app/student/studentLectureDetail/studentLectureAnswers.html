@@ -92,7 +92,7 @@
     <form class="clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
       <div class="form-group">
         <label class="base-color">上传作业</label>
-        <uploader limit="500*1024*1024"
+        <uploader limit="{{fileSizeLimitation}}"
                   multiple="true"
                   on-complete="onFilesUploaded($data,$meta)"
                   on-begin="onFilesUploadStart($files)"

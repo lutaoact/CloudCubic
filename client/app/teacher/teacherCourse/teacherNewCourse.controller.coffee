@@ -6,9 +6,11 @@ angular.module('budweiserApp').controller 'TeacherNewCourseCtrl', (
   categories
   Restangular
   $modalInstance
+  configs
 ) ->
 
   angular.extend $scope,
+    imageSizeLimitation: configs.imageSizeLimitation
 
     categories: categories
     course:

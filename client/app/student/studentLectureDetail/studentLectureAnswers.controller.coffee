@@ -14,9 +14,11 @@ angular.module('budweiserApp')
 .controller 'StudentLectureAnswersCtrl', (
   $scope
   Restangular
+  configs
 ) ->
 
   angular.extend $scope,
+    fileSizeLimitation: configs.fileSizeLimitation
     displayQuestions: []
     questionsType: 'quizzes'
     viewState:

@@ -20,6 +20,7 @@ angular.module('budweiserApp')
   $modal
   notify
   Restangular
+  configs
 ) ->
 
   # 能被编辑的字段
@@ -31,6 +32,7 @@ angular.module('budweiserApp')
   ]
 
   angular.extend $scope,
+    imageSizeLimitation: configs.imageSizeLimitation
     $state: $state
     errors: null
     editingInfo: null

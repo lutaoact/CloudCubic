@@ -11,7 +11,7 @@
            suffix="?imageView2/1/w/130/h/130">
       </div>
       <uploader class="btn btn-danger btn-sm rounded"
-                limit="2*1024*1024"
+                limit="{{imageSizeLimitation}}"
                 on-complete="onLogoUpload($data)"
                 accept-type="image">
         修改 Logo

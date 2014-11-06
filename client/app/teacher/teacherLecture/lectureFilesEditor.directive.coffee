@@ -19,9 +19,11 @@ angular.module 'budweiserApp'
   $window
   $timeout
   Restangular
+  configs
 ) ->
 
   angular.extend $scope,
+    fileSizeLimitation: configs.fileSizeLimitation
 
     selectedFile: null
     fileViewer:

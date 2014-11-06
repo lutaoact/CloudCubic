@@ -17,7 +17,7 @@
     </label>
           <span ng-show="fileUploadState==null">
             <br/>
-            <uploader limit="50*1024*1024"
+            <uploader limit="{{fileSizeLimitation}}"
                       on-complete="onFileUploaded($data)"
                       on-begin="onFileUploadStart()"
                       on-progress="onFileUploading($speed, $percentage, $event)"
@@ -61,7 +61,7 @@
                 </ul>
               </span>
               <span class="pull-right">
-                <uploader limit="50*1024*1024"
+                <uploader limit="{{fileSizeLimitation}}"
                           ng-disabled="fileUploadState=='uploading' || fileUploadState=='converting'"
                           on-complete="onFileUploaded($data)"
                           on-begin="onFileUploadStart()"
@@ -73,7 +73,7 @@
                   <i class="glyphicon glyphicon-plus"></i>
                   添加
                 </uploader>
-                <uploader limit="50*1024*1024"
+                <uploader limit="{{fileSizeLimitation}}"
                           ng-disabled="fileUploadState=='uploading' || fileUploadState=='converting'"
                           on-complete="onFileUploaded($data, replace=true)"
                           on-begin="onFileUploadStart()"

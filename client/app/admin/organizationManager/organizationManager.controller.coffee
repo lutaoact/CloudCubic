@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   $scope
   $upload
   Restangular
+  configs
 ) ->
 
   editableFields = [
@@ -17,7 +18,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
     ]
 
   angular.extend $scope,
-
+    imageSizeLimitation: configs.imageSizeLimitation
     organization: null
     editingInfo: null
     saving: false

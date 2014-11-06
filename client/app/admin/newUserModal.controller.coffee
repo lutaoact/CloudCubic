@@ -7,10 +7,11 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
   Restangular
   orgUniqueName
   $modalInstance
+  configs
 ) ->
 
   angular.extend $scope,
-
+    imageSizeLimitation: configs.imageSizeLimitation
     errors: null
     orgUniqueName: orgUniqueName
 
