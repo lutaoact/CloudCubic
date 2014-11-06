@@ -88,6 +88,4 @@ exports.CourseUtils = BaseUtils.subclass
     .then (course) ->
       Classe.findQ _id: $in: course.classes
     .then (classes) ->
-      return _.reduce(classes, (sum, classe) ->
-        return sum + classe.students.length
-      , 0)
+      return (_u.union.apply _u, (_.pluck classes, 'students')).length
