@@ -12,7 +12,7 @@ exports.StatsUtils = BaseUtils.subclass
 
   makeKPStatsForUser: (user, courseId) ->
     tmpResult = {}
-    @getStatsStudentsNum user, courseId
+    CourseUtils.getStudentsNum user, courseId
     .then (studentsNum) ->
       tmpResult.studentsNum = studentsNum
       CourseUtils.getAuthedCourseById user, courseId
@@ -260,7 +260,7 @@ exports.StatsUtils = BaseUtils.subclass
   makeQuizStatsPromiseForUser: (user, courseId) ->
     tmpResult = {}
 
-    @getStatsStudentsNum user, courseId
+    CourseUtils.getStudentsNum user, courseId
     .then (studentsNum) ->
       tmpResult.studentsNum = studentsNum
       CourseUtils.getAuthedCourseById user, courseId
@@ -279,12 +279,6 @@ exports.StatsUtils = BaseUtils.subclass
         tmpResult.studentsNum
         _.indexBy statsArray, 'lectureId'
       )
-
-
-  getStatsStudentsNum: (user, courseId) ->
-    switch user.role
-      when 'teacher', 'admin' then return CourseUtils.getStudentsNum user, courseId
-      when 'student' then return Q(1) #学生只统计他自己的数值
 
 
   # {questionId: answerString}

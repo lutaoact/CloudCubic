@@ -53,6 +53,9 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
       , (err) ->
         err = err.data
         $scope.errors = {}
+        notify
+          message: '创建失败'
+          classes: 'alert-danger'
 
         # Update validity of form fields that match the mongoose errors
         angular.forEach err.errors, (error, field) ->
@@ -60,17 +63,22 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           $scope.errors[field] = error.message
 
   angular.extend $scope,
-    promise = undefined
+    checkEmailPromise: undefined
+
     checkEmail: (email)->
-      $timeout.cancel(promise)
+      $timeout.cancel($scope.checkEmailPromise)
       if email.$modelValue
-        promise = $timeout ->
+        email.$remoteChecked = 'pending'
+        email.$setValidity 'remote', true
+        $scope.checkEmailPromise = $timeout ->
           Restangular.one('users','check').get(email: email.$modelValue)
           .then (data)->
             email.$setValidity 'remote', true
+            email.$remoteChecked = true
           , (err)->
             email.$setValidity 'remote', false
-        , 500
+            email.$remoteChecked = false
+        , 800
 
     checkPasswordAgain: (password, passwordAgain)->
       if passwordAgain.$modelValue
@@ -80,6 +88,24 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           passwordAgain.$setValidity 'sameWith', false
       else
         passwordAgain.$setValidity 'sameWith', true
+
+    checkOrgUniqueNamePromise: undefined
+
+    checkOrgUniqueName: (orgUniqueName)->
+      $timeout.cancel($scope.checkOrgUniqueNamePromise)
+      if orgUniqueName.$modelValue
+        orgUniqueName.$remoteChecked = 'pending'
+        orgUniqueName.$setValidity 'remote', true
+        $scope.checkOrgUniqueNamePromise = $timeout ->
+          Restangular.one('organizations','check').get(uniqueName: orgUniqueName.$modelValue)
+          .then (data)->
+            orgUniqueName.$setValidity 'remote', true
+            orgUniqueName.$remoteChecked = true
+          , (err)->
+            orgUniqueName.$setValidity 'remote', false
+            orgUniqueName.$remoteChecked = false
+        , 800
+
 
 
 

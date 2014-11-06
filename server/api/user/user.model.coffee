@@ -51,8 +51,18 @@ exports.User = BaseModel.subclass
     $super()
 
 
-  findBy: (username) ->
-    @findOneQ username: username
+  findBy: (userInfo) ->
+    conditions = {$or: []}
+    conditions.$or.push(username: userInfo.username) if userInfo.username?
+    conditions.$or.push(email   : userInfo.email)    if userInfo.email?
+
+    if _.isEmpty conditions.$or
+      return Q.reject
+        status: 400
+        errCode: ErrCode.IllegalFields
+        errMsg: 'username或email字段不可同时为空'
+
+    @findOneQ conditions
 
 ###
 Virtuals

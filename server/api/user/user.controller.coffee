@@ -93,12 +93,7 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  (switch true
-    when req.query.username?
-      UserUtils.check req.query.username
-    when req.query.email?
-      UserUtils.check req.query.email
-  )
+  UserUtils.check username: req.query.username, email: req.query.email
   .then () ->
     res.send 200
   .catch next
