@@ -17,6 +17,17 @@
     display: inline-block;
     width: ~'calc(100% - 330px)';
   }
+  .users-dropdown {
+    left: auto;
+    right: -75px;
+    max-height: 400px;
+    overflow: auto;
+    li > a {
+      max-width: 350px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
   hr {
     margin-top: 10px;
     margin-bottom: 10px;
