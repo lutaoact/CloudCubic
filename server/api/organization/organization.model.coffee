@@ -21,6 +21,9 @@ exports.Organization = BaseModel.subclass
         required : true
       logo: String
       description : String # url
+      paid : 
+        type : Boolean
+        default : false
 
     $super()
 
