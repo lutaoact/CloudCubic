@@ -1,4 +1,5 @@
 .signup{
+  @boxshadow: 1px 1px 8px 2px rgba(0,0,0,0.4)
   background: @gray-lighter;
   .header{
     margin-bottom: 40px;
@@ -15,6 +16,7 @@
         background-repeat: no-repeat;
         video{
           height: 100%;
+          .box-shadow(@boxshadow);
         }
       }
       margin-bottom: 30px;
@@ -23,7 +25,7 @@
   .register-form{
     background: #FFF;
     padding: 36px;
-    .box-shadow(0 0 2px rgba(0,0,0,0.3));
+    .box-shadow(@boxshadow);
     margin-bottom: 40px;
     .btn-register{
       width: 116px;
