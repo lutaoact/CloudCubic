@@ -31,6 +31,7 @@ exports.Lecture = BaseModel.subclass
       ]
       media: String
       encodedMedia: String
+      externalMedia: String
       keyPoints: [
         kp :
           type: Schema.Types.ObjectId

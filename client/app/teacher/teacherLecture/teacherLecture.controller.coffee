@@ -136,6 +136,15 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         ]
         $scope.updateEditingProgress(newLecture)
 
+    insertExternalVideo: ()->
+      url = $scope.viewState.externalVideo
+      result = switch true
+        when /youku.com\/(.*)id_(.*).html/.test url
+          '<iframe height=498 width=510 src="http://player.youku.com/embed/' + url.replace(/.*id_(.*).html.*/,'$1') + '" frameborder=0 allowfullscreen></iframe>'
+        else
+          url
+      console.log result
+
     onPlayerReady: (api) ->
       $scope.mediaApi = api
 
