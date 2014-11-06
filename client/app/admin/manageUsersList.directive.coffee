@@ -95,10 +95,26 @@ angular.module('budweiserApp')
             done()
 
     copyUsers: (users, classe) ->
-      console.debug 'copyUsers', classe, users
+      classe.students = _.union classe.students, _.pluck(users, '_id')
+      classe.patch(students: classe.students)
+      .catch (error) ->
+        notify
+          message: "添加失败 " + error.data
 
     moveUsers: (users, classe) ->
-      console.debug 'moveUsers', classe, users
+      userIds = _.pluck(users, '_id')
+      $scope.classe.students = _.difference $scope.classe.students, userIds
+      $scope.classe.patch(students: $scope.classe.students)
+      .then ()->
+        $scope.users = _.remove $scope.users, (user)->
+          user._id not in userIds
+
+        classe.students = _.union classe.students, userIds
+        classe.patch(students: classe.students)
+      .catch (error) ->
+        notify
+          message: "转移失败" + error.data
+
 
     importUsers: (files)->
       $scope.importing = true
