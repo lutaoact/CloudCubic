@@ -53,6 +53,9 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
       , (err) ->
         err = err.data
         $scope.errors = {}
+        notify
+          message: '创建失败'
+          classes: 'alert-danger'
 
         # Update validity of form fields that match the mongoose errors
         angular.forEach err.errors, (error, field) ->
