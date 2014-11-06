@@ -11,7 +11,7 @@
       <img src-key="course.thumbnail"
            holder-src="holder.js/700x400/:#9c9c99:#bbb"
            suffix="?imageView2/2/w/700/h/400"/>
-      <uploader limit="2*1024*1024"
+      <uploader limit="{{imageSizeLimitation}}"
                 class="course-img btn-danger"
                 on-complete="onThumbUploaded($data)"
                 accept-type="image"

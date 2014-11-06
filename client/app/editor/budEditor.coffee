@@ -10,8 +10,9 @@ angular.module('budweiserApp').directive 'budEditor', ()->
 
   link: (scope, element, attrs) ->
 
-  controller: ($scope,$timeout)->
+  controller: ($scope, $timeout, configs)->
     angular.extend $scope,
+      imageSizeLimitation: configs.imageSizeLimitation
       onImgUploaded: (key)->
         $scope.metadata.images ?= []
         $scope.metadata.images.push

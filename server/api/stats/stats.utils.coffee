@@ -1,4 +1,4 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 Question = _u.getModel 'question'
 CourseUtils = _u.getUtils 'course'
 QuestionUtils = _u.getUtils 'question'
@@ -7,7 +7,7 @@ UserAnswer = _u.getModel 'user_answer'
 HomeworkAnswer = _u.getModel 'homework_answer'
 User        = _u.getModel 'user'
 
-exports.StatsUtils = BaseUtils.subclass
+class StatsUtils extends BaseUtils
   classname: 'StatsUtils'
 
   makeKPStatsForUser: (user, courseId) ->
@@ -386,3 +386,5 @@ exports.StatsUtils = BaseUtils.subclass
       else
         Q(user)
     )
+
+exports.StatsUtils = StatsUtils

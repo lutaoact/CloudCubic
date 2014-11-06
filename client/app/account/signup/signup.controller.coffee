@@ -48,6 +48,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
         username: $scope.user.email
         orgName: $scope.organization.name
         orgUniqueName: $scope.organization.uniqueName
+        orgLocation: $scope.organization.location
       .then ->
         $location.path '/'
       , (err) ->
@@ -105,6 +106,14 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             orgUniqueName.$setValidity 'remote', false
             orgUniqueName.$remoteChecked = false
         , 800
+
+    cities: [
+        name: '北京市'
+        code: '100000'
+      ,
+        name: '上海市'
+        code: '200000'
+    ]
 
 
 

@@ -1,9 +1,9 @@
 <div ui-view class="fadeIn teacher-manager">
 
   <div manage-users-list
-       on-create-user="reloadTeachers()"
-       on-delete-user="reloadTeachers()"
-       on-view-user="viewTeacher($user)"
+       on-create-user="reloadTeachers($data)"
+       on-delete-user="reloadTeachers($data)"
+       on-view-user="viewTeacher($data)"
        user-role="teacher"
        users="teachers"></div>
 

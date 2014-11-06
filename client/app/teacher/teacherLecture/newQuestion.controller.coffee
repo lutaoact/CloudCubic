@@ -4,8 +4,10 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
   keyPoints
   categoryId
   $modalInstance
+  configs
 ) ->
   angular.extend $scope,
+    imageSizeLimitation: configs.imageSizeLimitation
     keyPoints: keyPoints
     selectedKeyPoints:[]
     categoryId: categoryId
@@ -47,6 +49,6 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
         result
       , ''
       $modalInstance.close(question)
-      
+
     onImageUploaded: (key) ->
       $scope.images.push key

@@ -22,7 +22,7 @@
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
     </div>
     <div class="image-uploader">
-      <uploader limit="2*1024*1024"
+      <uploader limit="{{imageSizeLimitation}}"
                 class="course-img btn-danger"
                 on-complete="onImageUploaded($data)"
                 accept-type="image">
@@ -30,7 +30,7 @@
         添加图片
       </uploader>
     </div>
-    
+
   </div>
   <div class="form-group">
     <label class="control-label">选项</label>

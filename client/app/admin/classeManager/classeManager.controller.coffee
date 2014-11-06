@@ -6,6 +6,7 @@ angular.module('budweiserApp')
   $state
   $scope
   Classes
+  Restangular
 ) ->
 
   viewFirstClasse = ->
@@ -14,6 +15,11 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     classes: Classes
+    other:
+      _id: ''
+      name: '未分班的学生'
+      students: Restangular.all('users').getList(role:'student', standalone:true).$object
+
     selectedClasse: null
 
     onCreateClasse: (classe) ->

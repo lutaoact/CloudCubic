@@ -11,9 +11,12 @@ angular.module('budweiserApp').config ($stateProvider) ->
     authenticate: true
     resolve:
       Classes: (Restangular) ->
-        Restangular.all('classes').getList().then (classes) ->
+        Restangular.all('classes').getList()
+        .then (classes) ->
           classes
-        , -> []
+        .catch (error) ->
+          console.debug 'get classes error', error
+          []
 
   .state 'admin.classeManager.detail',
     url: '/:classeId'

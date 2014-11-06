@@ -9,7 +9,7 @@ angular.module('budweiserApp')
   controller: 'UploadCtrl'
   templateUrl: 'app/directives/uploader/uploader.html'
   scope:
-    limit: '='
+    limit: '@'
     acceptType: '@'
     multiple: '@'
     onBegin: '&'

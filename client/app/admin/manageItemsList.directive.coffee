@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/admin/manageItemsList.html'
   scope:
     items: '='
+    other: '='
     children: '@'
     itemType: '@'
     activeItem: '='

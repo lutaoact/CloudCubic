@@ -44,7 +44,7 @@
              source-attr="background-image">
         </div>
         <uploader class="btn btn-danger btn-sm rounded"
-                  limit="2*1024*1024"
+                  limit="{{imageSizeLimitation}}"
                   on-complete="onAvatarUploaded($data)"
                   crop="true"
                   crop-ratio="1"

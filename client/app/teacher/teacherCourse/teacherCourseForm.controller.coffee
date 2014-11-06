@@ -16,10 +16,11 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   notify
   Navbar
   $modal
+  configs
 ) ->
 
   angular.extend $scope,
-
+    imageSizeLimitation: configs.imageSizeLimitation
     saving: false
     editingInfo: null
 

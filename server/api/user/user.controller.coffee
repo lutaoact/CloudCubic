@@ -31,6 +31,8 @@ exports.index = (req, res, next) ->
     orgId : req.user.orgId
   condition.role = req.query.role if req.query.role?
 
+  console.log req.query
+
   if req.query.role is 'student' and req.query.standalone is 'true'
     allStudents = []
     User.findQ condition, '-salt -hashedPassword'
@@ -70,13 +72,16 @@ exports.create = (req, res, next) ->
 
   User.createQ body
   .then (user) ->
-    token = jwt.sign
-      _id: user._id,
-      config.secrets.session,
-      expiresInMinutes: 60*5
-    res.json
-      _id: user._id
-      token: token
+    if req.user.role is 'admin'
+      res.json user
+    else
+      token = jwt.sign
+        _id: user._id,
+        config.secrets.session,
+        expiresInMinutes: 60*5
+      res.json
+        _id: user._id
+        token: token
   , next
 
 ###

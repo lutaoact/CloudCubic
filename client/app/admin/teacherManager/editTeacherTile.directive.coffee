@@ -14,3 +14,4 @@ angular.module('budweiserApp')
     onUpdateUser: '&'
     onDeleteUser: '&'
 
+
