@@ -29,7 +29,7 @@ exports.createOrg = (req, res, next) ->
 
   OrgUtils.check body.uniqueName
   .then () ->
-    UserUtils.check body.username
+    UserUtils.check username: body.username, email: body.email
   .then () ->
     organization =
       uniqueName: body.orgUniqueName
