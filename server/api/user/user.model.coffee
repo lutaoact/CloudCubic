@@ -52,11 +52,11 @@ exports.User = BaseModel.subclass
 
 
   findBy: (userInfo) ->
-    conditions = {}
-    conditions.username = userInfo.username if userInfo.username?
-    conditions.email    = userInfo.email    if userInfo.email?
+    conditions = {$or: []}
+    conditions.$or.push(username: userInfo.username) if userInfo.username?
+    conditions.$or.push(email   : userInfo.email)    if userInfo.email?
 
-    if _.isEmpty conditions
+    if _.isEmpty conditions.$or
       return Q.reject
         status: 400
         errCode: ErrCode.IllegalFields
