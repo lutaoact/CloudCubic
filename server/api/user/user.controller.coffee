@@ -31,10 +31,32 @@ exports.index = (req, res, next) ->
     orgId : req.user.orgId
   condition.role = req.query.role if req.query.role?
 
-  User.findQ condition, '-salt -hashedPassword'
-  .then (users) ->
-    res.send users
-  , next
+  if req.query.role is 'student' and req.query.standalone is 'true'
+    allStudents = []
+    User.findQ condition, '-salt -hashedPassword'
+    .then (users) ->
+      allStudents = _.map users, (user) -> user.profile
+      Classe.findQ
+        orgId : req.user.orgId
+    .then (classes) ->
+      classStudents = {}
+      _.forEach classes, (classe) ->
+        _.forEach classe.students, (studentId) ->
+          classStudents[studentId] = studentId
+        
+      results = _.filter allStudents, (as) ->
+        not classStudents[as._id]? 
+      
+      res.send results
+    .catch next
+    .done()
+      
+  else
+    User.findQ condition, '-salt -hashedPassword'
+    .then (users) ->
+      res.send users
+    .catch next
+    .done()
 
 ###
   Creates a new user
@@ -184,7 +206,9 @@ updateClasseStudents = (classeId, studentList) ->
     return Q.reject 'No classe found for give ID' if not classe?
 
     logger.info 'Found classe with id ' + classe.id
-    classe.students = _.union classe.students, studentList
+    # remove duplicate students from list
+    classe.students = _.uniq (_.union classe.students, studentList), (s) ->
+      s.toString()
     classe.markModified 'students'
     classe.saveQ()
 
@@ -217,6 +241,8 @@ exports.bulkImport = (req, res, next) ->
 
   orgUniqueName = ''
 
+  userList = []
+  
   Organization.findByIdQ orgId
   .then (org) ->
     orgUniqueName = org.uniqueName
@@ -235,6 +261,28 @@ exports.bulkImport = (req, res, next) ->
       logger.error 'Failed to parse user list file or empty file'
       Q.reject '请导入包含用户信息的表格'
 
+    console.log 'check user exists...'
+    # for existing students, don't need to import it
+    # just add it to importedUsers list
+    existingStudentPromises = _.map userList, (userItem) ->
+      email = userItem[1]
+      User.findQ
+        "email" : email
+          
+    Q.allSettled(existingStudentPromises)
+  .then (results) ->
+    
+    # filter out existing users from userList
+    _.forEach results, (result, index) ->
+      if (result.state is 'fulfilled') && (result.value.length > 0) && (type is 'student')
+        
+        foundUser = result.value[0]
+        importReport.success.push foundUser.name
+        importedUsers.push foundUser.id
+        
+        # remove this user from UserList
+        userList.splice index, 1
+        
     savePromises = _.map userList, (userItem) ->
       name = userItem[0]
       email = userItem[1]
