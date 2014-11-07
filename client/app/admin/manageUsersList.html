@@ -6,6 +6,7 @@
     </h5>
     <br/>
     <button class="btn btn-danger btn-sm rounded"
+            ng-if="classes.length > 0"
             ng-click="addNewUser()">
       添加
     </button>
@@ -57,17 +58,17 @@
           <button class="btn btn-danger btn-sm rounded dropdown-toggle"
                   ng-disabled="selectedUsers.length == 0 || viewState.moving">
            <span ng-if="!viewState.moving">
-             分配到.. <span class="caret"></span>
+             移动到.. <span class="caret"></span>
            </span>
            <span ng-if="viewState.moving">
              <i class="fa fa-spinner fa-spin"></i>
-             分配中
+             移动中
            </span>
           </button>
           <ul class="dropdown-menu users-dropdown"
               ng-click="viewState.moveDropDown = false"
               role="menu">
-            <li><a href>将这选中的{{selectedUsers.length}}个学生分配到...</a></li>
+            <li><a href>将这选中的{{selectedUsers.length}}个学生移动到...</a></li>
             <li class="divider"></li>
             <li ng-repeat="classe in classes | filter: {_id: '!' + (classe._id.length>0?classe._id:' ')}">
               <a href ng-click="moveUsers(selectedUsers, classe)">{{classe.name}}</a>
