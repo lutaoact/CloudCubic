@@ -140,12 +140,11 @@ exports.destroy = (req, res, next) ->
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
-  User.removeQ
-    orgId: req.user.orgId
-    _id: $in: ids
-  .then () ->
-    res.send 204
-  , next
+  UserUtils.multiDelete req.user, ids
+  .then (classes) ->
+    res.send classes
+  .catch next
+  .done()
 
 ###
   Change a users password

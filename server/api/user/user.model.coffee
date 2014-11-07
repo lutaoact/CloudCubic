@@ -64,6 +64,9 @@ exports.User = BaseModel.subclass
 
     @findOneQ conditions
 
+  getIdAndRold: (conditions) ->
+    @findQ conditions, "_id role"
+
 ###
 Virtuals
 ###

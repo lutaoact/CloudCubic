@@ -11,3 +11,4 @@ module.exports =
   UsernameOrEmailInUsed: 10008
 
   IllegalFields: 10009
+  DeleteAdmin: 10010
