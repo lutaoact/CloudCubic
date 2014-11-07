@@ -7,7 +7,7 @@ Classe = _u.getModel 'classe'
 exports.index = (req, res, next) ->
   user = req.user
   (switch user.role
-    when 'teacher'
+    when 'teacher', 'admin'
       Course.findQ owners: user._id
       .then (courses) ->
         Schedule.find course: $in: _.pluck courses, '_id'

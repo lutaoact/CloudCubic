@@ -8,7 +8,7 @@ exports.index = (req, res, next) ->
   user = req.user
 
   (switch user.role
-    when 'teacher'
+    when 'teacher', 'admin'
       OfflineWork.findQ
         lectureId : lectureId
     when 'student'

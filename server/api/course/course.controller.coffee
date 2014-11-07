@@ -33,7 +33,7 @@ exports.index = (req, res, next) ->
         CourseUtils.getStudentCourses userId
     when 'admin'
       logger.info 'admin'
-      teacherId = req.query.teacherId
+      teacherId = req.query.teacherId ? userId
       CourseUtils.getTeacherCourses teacherId
   ).then (courses) ->
     res.send courses

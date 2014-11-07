@@ -5,7 +5,10 @@
         <li ng-repeat="menu in menus">
           <a class="menu-item"
              ui-sref-active="active"
-             ui-sref="{{menu.stateName}}">{{menu.label}}</a>
+             ui-sref="{{menu.stateName}}">
+            <i ng-class="menu.className"/>
+            {{menu.label}}
+          </a>
         </li>
       </ul>
     </div>

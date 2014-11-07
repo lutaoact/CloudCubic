@@ -12,7 +12,7 @@ exports.show = (req, res, next) ->
     courseId: courseId
 
   (switch user.role
-    when 'teacher'
+    when 'teacher', 'admin'
       condition.classeId = req.query.classeId
       TeachProgress
     when 'student'

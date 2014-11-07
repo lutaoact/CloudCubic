@@ -53,6 +53,10 @@
             ng-class="{active: isActive(item.link)}">
           <a class="text-center" ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
         </li>
+        <li >
+          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">教师界面</a>
+          <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">管理界面</a>
+        </li>
         <li ng-show="isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"
