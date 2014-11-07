@@ -5,12 +5,21 @@
        suffix="-tile">
   </div>
   <div class="caption">
-    <h5>
+    <h5 class="course-name">
       {{course.name}}<br>
-      <small>
-        {{course.owners[0].name}}
-      </small>
     </h5>
+    <div class="clearfix">
+      <div class="avatar-xs pull-left"
+           source-attr="background-image"
+           src-key="course.owners[0].avatar"
+           suffix="?imageView2/1/w/64/h/64">
+      </div>
+      <h5 class="pull-left">
+        <small>
+          {{course.owners[0].name}}
+        </small>
+      </h5>
+    </div>
     <div class="course-info">
       {{course.info}}
     </div>
