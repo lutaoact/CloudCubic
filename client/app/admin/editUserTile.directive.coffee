@@ -12,7 +12,6 @@ angular.module('budweiserApp')
     canDelete: '@' # 能否删除这个用户 - 管理员需要
     canRemark: '@' # 能否修改用户的备注信息 - 管理员需要
     onUpdateUser: '&'
-    onDeleteUser: '&'
 
 .controller 'EditUserTileCtrl', (
   $state
@@ -39,7 +38,6 @@ angular.module('budweiserApp')
     viewState:
       saved: true
       saving: false
-      deleting: false
     roleTitle: ''
 
     onAvatarUploaded: (key) ->
@@ -68,26 +66,6 @@ angular.module('budweiserApp')
       .catch (error) ->
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
-
-    removeUser: (user) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> '删除' + $scope.roleTitle
-          message: ->
-            """确认要删除#{$scope.roleTitle}"#{user.name}"？"""
-      .result.then ->
-        $scope.viewState.deleting = true
-        Restangular.one('users', user._id)
-        .remove()
-        .then ->
-          $scope.viewState.deleting = false
-          notify
-            message: "该#{$scope.roleTitle}已被删除"
-            classes: 'alert-success'
-          $scope.onDeleteUser?()
 
   $scope.$watch 'user', (user) ->
     if !user? then return

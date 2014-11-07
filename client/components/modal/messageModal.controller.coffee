@@ -8,9 +8,32 @@ angular.module('budweiserApp').controller 'MessageModalCtrl', (
 ) ->
   angular.extend $scope,
     title: title
+    buttons: ['确认']
     message: message
+    confirmButtonFocus: []
     cancel: ->
       $modalInstance.dismiss()
-    confirm: ->
-      $modalInstance.close()
+    confirm: (confirmIndex) ->
+      $modalInstance.close(confirmIndex)
+
+angular.module('budweiserApp').controller 'AdvanceMessageModalCtrl', (
+  title
+  $scope
+  message
+  buttons
+  $controller
+  $modalInstance
+) ->
+
+  # extend controller MessageModalCtrl
+  angular.extend @, $controller('MessageModalCtrl',
+    $scope: $scope
+    title: title
+    message: message
+    $modalInstance: $modalInstance
+  )
+
+  # override the buttons property
+  angular.extend $scope,
+    buttons: buttons
 

@@ -9,7 +9,12 @@
     <small class="text-danger">{{message}}</small>
   </h3>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="confirm()" focus-me="confirmButtonFocus" ng-init="confirmButtonFocus = true">确认</button>
-    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+    <button type="button"
+            ng-repeat="btn in buttons"
+            class="btn btn-danger btn-sm rounded"
+            ng-click="confirm($index)"
+            focus-me="confirmButtonFocus[$index]"
+            ng-init="confirmButtonFocus[0] = true">{{btn}}</button>
+    <button type="button" class="btn btn-default btn-sm rounded" ng-click="cancel()">取消</button>
   </div>
 </div>

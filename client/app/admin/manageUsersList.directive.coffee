@@ -12,8 +12,8 @@ angular.module('budweiserApp')
     classe: '='
     classes: '='
     userRole: '@'
-    onCreateUser: '&'
-    onDeleteUser: '&'
+    onAddUser: '&'
+    onRemoveUser: '&'
     onViewUser: '&'
 
 .controller 'ManageUsersListCtrl', (
@@ -33,15 +33,18 @@ angular.module('budweiserApp')
     notify
       message: "新#{$scope.roleTitle}添加成功"
       classes: 'alert-success'
-    $scope.onCreateUser?($data:newUser)
+    $scope.onAddUser?($data:newUser)
 
   angular.extend $scope,
 
     toggleSelectAllUsers: false
     selectedUsers: []
 
-    importing: false
-    deleting: false
+    viewState:
+      moving: false
+      copying: false
+      deleting: false
+      importing: false
 
     roleTitle:
       switch $scope.userRole
@@ -72,64 +75,80 @@ angular.module('budweiserApp')
       angular.forEach users, (u) -> u.$selected = selected
       updateSelected()
 
-    deleteUsers: (users) ->
+    removeUsers: (users) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
+        controller: 'AdvanceMessageModalCtrl'
+        size: 'sm'
         resolve:
           title: -> "删除#{$scope.roleTitle}"
-          message: ->
-            """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
-      .result.then ->
-        multiDelete = ->
-          Restangular.all('users')
-          .customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
-          .then ->
-            $scope.deleting = false
-            $scope.onDeleteUser?($data:users)
-
+          message: -> """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
+          buttons: ->
+            if _.isEmpty($scope.classe?._id)
+              ['确认']
+            else
+              ['系统中删除', '该组中删除']
+      .result.then (index) ->
         $scope.toggledSelectAllUsers = false if $scope.toggledSelectAllUsers
-        $scope.deleting = true
-        if _.isEmpty($scope.classe?._id)
-          multiDelete()
+        $scope.viewState.deleting = true
+        (
+          if index == 0
+            # 从系统中删除
+            Restangular.all('users').customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
+          else
+            # 从该组中移除
+            newUsers = _.difference($scope.users, users)
+            $scope.classe.patch(students: _.pluck newUsers, '_id')
+        )
+        .finally ->
+          $scope.onRemoveUser?($data:users, $remove:index)
+          $scope.viewState.deleting = false
+
+
+    copyUsers: (users, targetClasse) ->
+      $scope.viewState.copying = true
+      # add users to target classe
+      userIds = _.pluck(users, '_id')
+      targetClasse.students = _.union targetClasse.students, userIds
+      targetClasse.patch(students: targetClasse.students)
+      .catch (error) ->
+        notify
+          message: "添加学生到 #{targetClasse.name} 出错了：#{error.data}"
+          classes: 'alert-danger'
+      .finally -> $scope.viewState.copying = false
+
+    moveUsers: (users, targetClasse) ->
+      $scope.viewState.moving = true
+      # add users to target classe
+      userIds = _.pluck(users, '_id')
+      targetClasse.students = _.union targetClasse.students, userIds
+      targetClasse.patch(students: targetClasse.students)
+      .then ->
+        if _.isEmpty($scope.classe._id)
+          $scope.onRemoveUser?($data:users)
         else
           newUsers = _.difference($scope.users, users)
-          $scope.classe.patch(students: _.pluck newUsers, '_id').then multiDelete
-
-    copyUsers: (users, classe) ->
-      classe.students = _.union classe.students, _.pluck(users, '_id')
-      classe.patch(students: classe.students)
+          $scope.classe.patch(students: _.pluck newUsers, '_id')
+          .then -> $scope.onRemoveUser?($data:users)
       .catch (error) ->
         notify
-          message: "添加失败 " + error.data
-
-    moveUsers: (users, classe) ->
-      userIds = _.pluck(users, '_id')
-      $scope.classe.students = _.difference $scope.classe.students, userIds
-      $scope.classe.patch(students: $scope.classe.students)
-      .then ()->
-        $scope.users = _.remove $scope.users, (user)->
-          user._id not in userIds
-
-        classe.students = _.union classe.students, userIds
-        classe.patch(students: classe.students)
-      .catch (error) ->
-        notify
-          message: "转移失败" + error.data
+          message: "分配学生到 #{targetClasse.name} 出错了：#{error.data}"
+          classes: 'alert-danger'
+      .finally -> $scope.viewState.moving = false
 
 
     importUsers: (files)->
-      $scope.importing = true
+      $scope.viewState.importing = true
 
       fail = (error) ->
-        $scope.importing = false
+        $scope.viewState.importing = false
         notify
           message: '批量导入失败 ' + error.data
           classes: 'alert-danger'
 
       success = (report) ->
         console.debug report
-        $scope.importing = false
+        $scope.viewState.importing = false
         addNewUserSuccess(report)
 
       fileUtils.uploadFile

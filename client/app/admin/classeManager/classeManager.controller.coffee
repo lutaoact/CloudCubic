@@ -18,7 +18,6 @@ angular.module('budweiserApp')
     other:
       _id: ''
       name: '未分班的学生'
-      students: Restangular.all('users').getList(role:'student', standalone:true).$object
 
     selectedClasse: null
 
@@ -35,3 +34,12 @@ angular.module('budweiserApp')
 
   $scope.$on '$stateChangeSuccess', (event, toState) ->
     viewFirstClasse() if toState.name == 'admin.classeManager'
+
+  reloadStandAloneStudents = ->
+    Restangular.all('users').getList(role:'student', standalone:true)
+    .then (students) ->
+      $scope.other.students = _.pluck students, '_id'
+      $scope.other.$students = students
+
+  reloadStandAloneStudents()
+  $scope.$on 'reloadStandAloneStudents', reloadStandAloneStudents

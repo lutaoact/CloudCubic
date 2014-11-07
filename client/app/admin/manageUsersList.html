@@ -14,10 +14,10 @@
              style="display:none;"
              onclick="this.value = null"
              ng-file-select="importUsers($files)"/>
-        <span ng-if="!importing">
+        <span ng-if="!viewState.importing">
           批量导入
         </span>
-        <span ng-if="importing">
+        <span ng-if="viewState.importing">
           <i class="fa fa-spinner fa-spin"></i>
           导入中
         </span>
@@ -40,10 +40,10 @@
                  style="display:none;"
                  onclick="this.value = null"
                  ng-file-select="importUsers($files)"/>
-          <span ng-if="!importing">
+          <span ng-if="!viewState.importing">
             批量导入
           </span>
-          <span ng-if="importing">
+          <span ng-if="viewState.importing">
             <i class="fa fa-spinner fa-spin"></i>
             导入中
           </span>
@@ -55,35 +55,35 @@
              is-open="viewState.moveDropDown"
              dropdown >
           <button class="btn btn-danger btn-sm rounded dropdown-toggle"
-                  ng-disabled="selectedUsers.length == 0 || progressing">
-           <span ng-if="!progressing">
-             转移到.. <span class="caret"></span>
+                  ng-disabled="selectedUsers.length == 0 || viewState.moving">
+           <span ng-if="!viewState.moving">
+             分配到.. <span class="caret"></span>
            </span>
-           <span ng-if="progressing">
+           <span ng-if="viewState.moving">
              <i class="fa fa-spinner fa-spin"></i>
-             转移中
+             分配中
            </span>
           </button>
           <ul class="dropdown-menu users-dropdown"
               ng-click="viewState.moveDropDown = false"
               role="menu">
-            <li><a href>将这选中的{{selectedUsers.length}}个学生转移到...</a></li>
+            <li><a href>将这选中的{{selectedUsers.length}}个学生分配到...</a></li>
             <li class="divider"></li>
-            <li ng-repeat="classe in classes | filter: {_id:'!'+classe._id}">
+            <li ng-repeat="classe in classes | filter: {_id: '!' + (classe._id.length>0?classe._id:' ')}">
               <a href ng-click="moveUsers(selectedUsers, classe)">{{classe.name}}</a>
             </li>
           </ul>
         </div>
         <div class="btn-group"
-             ng-if="classes.length > 0"
+             ng-if="classe._id.length > 0 && classes.length > 0"
              is-open="viewState.copyDropDown"
              dropdown >
           <button class="btn btn-danger btn-sm rounded dropdown-toggle"
-                  ng-disabled="selectedUsers.length == 0 || progressing">
-           <span ng-if="!progressing">
+                  ng-disabled="selectedUsers.length == 0 || viewState.copying">
+           <span ng-if="!viewState.copying">
              添加到.. <span class="caret"></span>
            </span>
-           <span ng-if="progressing">
+           <span ng-if="viewState.copying">
              <i class="fa fa-spinner fa-spin"></i>
              添加中
            </span>
@@ -99,12 +99,12 @@
           </ul>
         </div>
         <button class="btn btn-default btn-sm rounded"
-                ng-click="deleteUsers(selectedUsers)"
-                ng-disabled="selectedUsers.length == 0 || deleting">
-          <span ng-if="!deleting">
+                ng-click="removeUsers(selectedUsers)"
+                ng-disabled="selectedUsers.length == 0 || viewState.deleting">
+          <span ng-if="!viewState.deleting">
             删除
           </span>
-          <span ng-if="deleting">
+          <span ng-if="viewState.deleting">
             <i class="fa fa-spinner fa-spin"></i>
             删除中
           </span>
