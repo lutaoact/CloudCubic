@@ -25,7 +25,6 @@
         <span class="icon-bar"></span>
       </button>
       <a ui-sref="{{getCurrentUser().role}}.home"
-         ng-click="switchMenu(true)"
          class="navbar-brand">
         <i ng-hide="getCurrentUser().orgId"
            class="budon budon-logo"
@@ -51,9 +50,11 @@
         </li>
         <li ng-repeat="item in additionalMenu"
             ng-class="{active: isActive(item.link)}">
-          <a class="text-center" ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
+          <a class="text-center"
+             ui-sref="{{item.link}}"
+             ng-bind-html="item.title"></a>
         </li>
-        <li >
+        <li ng-if="getCurrentUser().role == 'admin'">
           <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">教师界面</a>
           <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">管理界面</a>
         </li>

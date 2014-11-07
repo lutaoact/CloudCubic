@@ -63,6 +63,7 @@ angular.module 'budweiserApp'
         $scope.messages.splice $scope.messages.indexOf(message), 1
 
   generateAdditionalMenu = ->
+    $scope.switchMenu(true)
     mkMenu = (title, link) ->
       title: title
       link: link
