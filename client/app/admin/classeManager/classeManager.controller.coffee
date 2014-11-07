@@ -43,3 +43,9 @@ angular.module('budweiserApp')
 
   reloadStandAloneStudents()
   $scope.$on 'reloadStandAloneStudents', reloadStandAloneStudents
+
+  updateClassesStudents = (event, updateClasses) ->
+    _.forEach updateClasses, (c) ->
+      currentClasse = _.find Classes, _id:c._id
+      currentClasse?.students = c.students
+  $scope.$on 'removeUsersFromSystem', updateClassesStudents

@@ -24,6 +24,7 @@ angular.module('budweiserApp')
   notify
   fileUtils
   Restangular
+  $rootScope
 ) ->
 
   updateSelected = ->
@@ -95,6 +96,8 @@ angular.module('budweiserApp')
           if index == 0
             # 从系统中删除
             Restangular.all('users').customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
+            .then (result) ->
+              $rootScope.$broadcast "removeUsersFromSystem", result
           else
             # 从该组中移除
             newUsers = _.difference($scope.users, users)
