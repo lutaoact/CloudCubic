@@ -83,6 +83,10 @@ var body = {
         return this.model.find.apply(this.model, [{}].concat(_.toArray(arguments)));
     },
 
+    findAllQ : function(cb) {
+        return this.model.findQ.apply(this.model, [{}].concat(_.toArray(arguments)));
+    },
+
     /*
      * @description Return result as hash
      * // return { 2 : { id: 1, id2: 2 } }
