@@ -40,12 +40,14 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     Restangular.one('lectures', $state.params.lectureId).get()
     .then (lecture)->
       $scope.lecture = lecture
-      $scope.viewState.isVideo = lecture.media or !lecture.files
+      $scope.viewState.isVideo = lecture.media or lecture.externalMedia or !lecture.files
       if lecture.media
         $scope.viewState.videos = [
           src: $sce.trustAsResourceUrl(lecture.media)
           type: 'video/mp4'
         ]
+      if lecture.externalMedia
+        lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
       # If student stay over 5 seconds. Send view lecture event.
       handleViewEvent = $timeout ->
         Restangular.all('activities').post

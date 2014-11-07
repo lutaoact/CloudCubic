@@ -104,9 +104,11 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
+        $scope.lecture.externalMedia = null
+        $scope.lecture.$externalMedia = null
         $scope.lecture.$mediaSource = [
         ]
-        $scope.lecture.patch?(media: $scope.lecture.media)
+        $scope.lecture.patch?(media: $scope.lecture.media, externalMedia: null)
         .then $scope.updateEditingProgress
 
     onError: (error) ->
@@ -120,7 +122,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onMediaConverting: ->
       console.debug 'media converting'
     onMediaUploaded: (data) ->
-      $scope.lecture.patch?(media: data)
+      $scope.lecture.$externalMedia = undefined
+      $scope.lecture.patch?(media: data, externalMedia: null)
       .then (newLecture)->
         # the backend
         $scope.lecture.media = data
@@ -129,21 +132,34 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
             src: $sce.trustAsResourceUrl($scope.lecture.media)
             type: 'video/mp4'
           }
-          {
-            src : 'http://trymedia.origin.mediaservices.chinacloudapi.cn/c8e1a25b-f379-4a79-8f3f-4c92d3b3de37/shit.ism/Manifest'
-            type: 'manifest'
-          }
         ]
         $scope.updateEditingProgress(newLecture)
 
     insertExternalVideo: ()->
       url = $scope.viewState.externalVideo
       result = switch true
-        when /youku.com\/(.*)id_(.*).html/.test url
+        when /v.youku.com\/(.*)id_(.*).html/.test url
+          # youku video http://v.youku.com/v_show/id_XODIwMDU0MDg0.html?f=23035007&ev=4&from=y1.3-idx-grid-1519-9909.86808-86807.7-1
           '<iframe height=498 width=510 src="http://player.youku.com/embed/' + url.replace(/.*id_(.*).html.*/,'$1') + '" frameborder=0 allowfullscreen></iframe>'
-        else
+        when /v.qq.com\/cover(.*)vid=(.*)/.test url
+          # qq video http://v.qq.com/cover/k/kd2yl4blio5xn17.html?vid=c0140yh6ew3
+          '<iframe frameborder=0 src="http://v.qq.com/iframe/player.html?vid=' + url.replace(/.*vid=(.*)/,'$1') + '&tiny=0&auto=0" allowfullscreen></iframe>'
+        when /^<iframe(.*)<\/iframe>*/.test url
+          # iframe. TODO: Not safe, not sure if the content in iframe is a video.
           url
-      console.log result
+        else
+          undefined
+      if result
+        $scope.lecture.externalMedia = result
+        $scope.lecture.$externalMedia = $sce.trustAsHtml(result)
+        $scope.lecture.patch?(externalMedia: result)
+        .then (newLecture)->
+          # the backend
+          $scope.updateEditingProgress(newLecture)
+      else
+        notify
+          message: '不支持该视频外链'
+          classes: 'alert-danger'
 
     onPlayerReady: (api) ->
       $scope.mediaApi = api
@@ -178,6 +194,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'
     ]
+    lecture.$externalMedia = $sce.trustAsHtml(lecture.externalMedia)
     $scope.lecture = lecture
     $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0

@@ -181,7 +181,7 @@
       </div>
       <div class="row" ng-show="viewState.videoActive">
         <div class="col-md-12 lecture-video lecture-video-empty"
-             ng-if="!lecture.media">
+             ng-if="!lecture.media&&!lecture.externalMedia">
           <label class="empty-video-desc">目前没有视频，请添加</label>
           <div>
             <uploader limit="{{videoLimitation}}"
@@ -195,18 +195,22 @@
               <i class="fa fa-file-video-o"></i>
               导入视频
             </uploader>
-            <form ng-submit="insertExternalVideo()" name="form" class="insert-link-form">
+            <h4><small>或者</small></h4>
+            <form ng-submit="insertExternalVideo()" name="form" class="insert-link-form col-sm-8 col-sm-offset-2">
               <div class="input-group input-group-sm">
                 <input type="text" name="externalVideo" class="form-control" required ng-model="viewState.externalVideo">
                 <span class="input-group-btn">
                   <button class="btn btn-danger" type="submit">添加外部视频</button>
                 </span>
               </div>
+              <p class="text-muted">
+                支持优酷或腾讯视频链接以及其他通用iframe嵌入代码。
+              </p>
             </form>
           </div>
         </div>
         <div class="col-md-12 lecture-video"
-             ng-if="lecture.media">
+             ng-if="lecture.media||lecture.externalMedia">
           <div class="col-md-6 video-body">
             <object ng-if="!supportHLS&&!lecture.externalMedia">
               <param name="movie" value="assets/images/StrobeMediaPlayback.2.0.swf"></param>
@@ -224,7 +228,7 @@
                 flashvars="src=http://trymedia.origin.mediaservices.chinacloudapi.cn/c8e1a25b-f379-4a79-8f3f-4c92d3b3de37/shit.ism/Manifest&autoPlay=true&plugin_AdaptiveStreamingPlugin=assets/images/MSAdaptiveStreamingPlugin-v1.0.10-osmf2.0.swf&AdaptiveStreamingPlugin_retryLive=true&AdaptiveStreamingPlugin_retryInterval=10">
               </embed>
             </object>
-            <div ng-if="lecture.externalMedia" ng-bind-html="lecture.externalMedia">
+            <div ng-if="lecture.externalMedia" class="external-media" compile-html="lecture.$externalMedia">
             </div>
             <videogular vg-player-ready="onPlayerReady" class="bud" ng-if="supportHLS&&!lecture.externalMedia">
               <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">

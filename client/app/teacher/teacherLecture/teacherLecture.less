@@ -249,19 +249,17 @@
       height: 360px;
       text-align: center;
       .empty-video-desc {
-        margin-top: 100px;
+        margin-top: 40px;
         font-size: 1.3em;
         text-align: center;
       }
       .lecture-video-btn {
-        margin-top: 70px;
+        margin-top: 30px;
+        margin-bottom: 20px;
         padding: 3px 8px 3px 8px;
       }
       .insert-link-form{
         margin-top: 20px;
-        width: 400px;
-        margin-right: auto;
-        margin-left: auto;
       }
     }
     .video-body {
@@ -271,6 +269,13 @@
         height: 292px;
         &:fullscreen {
           height: 100%;
+        }
+      }
+      .external-media{
+        height: 292px;
+        iframe{
+          height: 292px !important;
+          width: 100% !important;
         }
       }
     }

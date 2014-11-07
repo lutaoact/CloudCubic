@@ -20,7 +20,7 @@
     <videogular vg-player-ready="onPlayerReady"
                 vg-update-time="onUpdateTime"
                 class="bud"
-                ng-show="lecture.media">
+                ng-if="lecture.media">
       <vg-video vg-src="viewState.videos">
       </vg-video>
       <vg-poster-image></vg-poster-image>
@@ -40,7 +40,9 @@
         <vg-fullscreenButton></vg-fullscreenButton>
       </vg-controls>
     </videogular>
-    <div class="empty" ng-show="!lecture.media">
+    <div ng-if="lecture.externalMedia" class="external-media" compile-html="lecture.$externalMedia">
+    </div>
+    <div class="empty" ng-show="!lecture.media&&!lecture.externalMedia">
       该课程没有视频
     </div>
   </div>
