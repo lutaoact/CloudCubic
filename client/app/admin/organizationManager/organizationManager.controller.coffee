@@ -59,3 +59,32 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   , (isEqual) ->
     $scope.saved = isEqual
 
+  # broadcast
+  Restangular.all('broadcasts').getList()
+  .then (broadcasts)->
+    $scope.broadcasts = broadcasts
+
+  angular.extend $scope,
+    broadcasts: undefined
+
+    newBroadcast: {}
+
+    postBroadcast: (form)->
+
+      if form.$valid
+        # Account created, redirect to home
+        Restangular.all('broadcasts').post $scope.newBroadcast
+        .then (newBroadcast)->
+          $scope.newBroadcast = {}
+          $scope.broadcasts.splice 0, 0, newBroadcast
+
+    removeBroadcast: (broadcast)->
+      $scope.broadcasts.splice $scope.broadcasts.indexOf(broadcast), 1
+      broadcast.remove()
+      .then ->
+        notify
+          message: '删除成功'
+          classes: 'alert-success'
+
+
+

@@ -89,3 +89,37 @@
 
   </form>
 </div>
+
+<div class="admin-ui-view col-md-12 margin-top">
+  <div class="col-md-6">
+    <form name="form" ng-submit="postBroadcast(form)" novalidate>
+      <div class="form-group">
+        <textarea
+          name="content"
+          cols="30"
+          placeholder="请输入内容"
+          rows="10"
+          class="form-control"
+          ng-model="newBroadcast.content"
+          required
+          msd-elastic>
+        </textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-danger pull-right" type="submit" ng-disabled="form.content.$invalid">
+          发送
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="broadcast in broadcasts|orderBy: '-created'">
+        <div class="pull-right"><i class="btn btn-xs fa fa-times text-muted" ng-click="removeBroadcast(broadcast)"></i></div>
+        <div compile-html="broadcast.content">
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+

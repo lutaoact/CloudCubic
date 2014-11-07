@@ -12,9 +12,14 @@
         <h4 class="course-title" tooltip="{{course.name}}" tooltip-placement="bottom">
           {{course.name}}
         </h4>
-        <h5>
-          {{course.owners[0].name||'某老师'}}
-        </h5>
+        <div class="clearfix">
+          <div class="avatar-md pull-left"
+               source-attr="background-image"
+               src-key="course.owners[0].avatar"
+               suffix="?imageView2/1/w/64/h/64">
+          </div>
+          <h5 class="pull-left">{{course.owners[0].name||'某老师'}}</h5>
+        </div>
         <div class="course-summary">
           {{course.info}}
         </div>
