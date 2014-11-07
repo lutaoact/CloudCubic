@@ -79,6 +79,7 @@ exports.show = (req, res, next) ->
           calStats me, courseId, num
     when 'admin'
       tmpResult = {}
+      queryUserId ?= me.id
       User.findByIdQ queryUserId
       .then (queryUser) ->
         if me.orgId.toString() isnt queryUser.orgId.toString()
