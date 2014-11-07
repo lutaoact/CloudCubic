@@ -50,7 +50,7 @@ class UserUtils extends BaseUtils
     .then (classes) ->
       tmpResult.classes = classes
       promises = _.map classes, (classe) ->
-        classe.students.pull ids
+        classe.students.pull.apply classe.students, ids
         return do classe.saveQ
       Q.all promises
     .then () ->
@@ -63,7 +63,7 @@ class UserUtils extends BaseUtils
     .then (courses) ->
       tmpResult.courses = courses
       promises = _.map courses, (course) ->
-        course.owners.pull ids
+        course.owners.pull.apply course.owners, ids
         return do course.saveQ
       Q.all promises
     .then () ->
