@@ -200,7 +200,7 @@ exports.update = (req, res, next) ->
 
 
 updateClasseStudents = (classeId, studentList) ->
-  Classe.findByIdQ classeId
+  Classe.findByIdQ(classeId)
   .then (classe) ->
     return Q.reject 'No classe found for give ID' if not classe?
 
@@ -223,7 +223,7 @@ exports.bulkImport = (req, res, next) ->
   console.log 'start importing...', resourceKey
 
   # do some sanity check
-  if !type? or !orgId? or (type is 'student' and !classeId?)
+  if !type? or !orgId?
     return res.send 400, '参数不正确'
 
   destFile = config.local.tempDir + path.sep + 'user_list.xlsx'
@@ -307,7 +307,7 @@ exports.bulkImport = (req, res, next) ->
         console.error 'Failed to import user', result.reason
         importReport.failure.push result.reason
 
-    if type is 'student'
+    if type is 'student' && !_.isEmpty(classeId)
       updateClasseStudents classeId, importedUsers
   .then ->
     res.send importReport
