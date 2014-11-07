@@ -46,6 +46,7 @@ module.exports = (app) ->
   app.use '/api/demo', require './api/demo'
   app.use '/auth', require './auth'
   app.use '/api/register', require './api/register'
+  app.use '/api/super', require './api/super'
   app.use '/api/broadcasts', require './api/broadcast'
   app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
   app.use '/api/user_lecture_notes', require './api/user_lecture_note'
