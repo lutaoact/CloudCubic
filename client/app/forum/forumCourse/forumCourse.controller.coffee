@@ -8,7 +8,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl', (
   Courses
   CurrentUser
   Restangular
-  AllKeypoints
 ) ->
 
   if !$state.params.courseId then return

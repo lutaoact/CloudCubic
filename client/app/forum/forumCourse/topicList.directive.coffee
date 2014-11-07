@@ -26,7 +26,9 @@ angular.module('budweiserApp')
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
-        Restangular.all('key_points').getList(categoryId: course.categoryId)
+        # course.categoryId 可能被 populate
+        categoryId = course.categoryId?._id ? course.categoryId
+        Restangular.all('key_points').getList(categoryId: categoryId)
         .then (keypoints)->
           $scope.keypoints = keypoints
 
