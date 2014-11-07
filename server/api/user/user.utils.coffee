@@ -1,6 +1,8 @@
+BaseUtils = require '../../common/BaseUtils'
+
 User = _u.getModel 'user'
 
-class UserUtils
+class UserUtils extends BaseUtils
   check: (userInfo) ->
     User.findBy userInfo
     .then (user) ->
