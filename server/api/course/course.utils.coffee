@@ -59,7 +59,7 @@ class CourseUtils extends BaseUtils
     Course.find
       owners : teacherId
     .populate 'classes', '_id name orgId yearGrade'
-    .populate 'owners', '_id name'
+    .populate 'owners', '_id name avatar'
     .execQ()
     .then (courses) ->
       return courses
@@ -73,7 +73,7 @@ class CourseUtils extends BaseUtils
     .then (classe) ->
       Course.find
         classes : classe._id
-      .populate 'owners', '_id name'
+      .populate 'owners', '_id name avatar'
       .execQ()
     .then (courses) ->
       return courses
