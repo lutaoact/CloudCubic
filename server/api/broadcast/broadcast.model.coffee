@@ -13,6 +13,9 @@ exports.Broadcast = BaseModel.subclass
         type: ObjectId
         ref: 'user'
         required: true
+      title:
+        type: String
+        required: true
       content:
         type: String
         required: true

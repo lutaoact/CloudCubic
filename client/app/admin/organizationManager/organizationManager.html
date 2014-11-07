@@ -1,125 +1,171 @@
-<div class="admin-ui-view col-md-12">
-  <form id="org-form"
-        class="form-horizontal col-md-10 col-md-offset-1"
-        role="form"
-        name="form">
+<tabset class="col-md-12 tabset-non-border">
+  <tab heading="机构基本信息">
+    <div class="row admin-ui-view">
+      <form id="org-form"
+            class="form-horizontal col-md-10 col-md-offset-1"
+            role="form"
+            name="form">
 
-    <div class="form-group text-center">
-      <div class="org-logo"
-           src-key="organization.logo"
-           source-attr="background-image"
-           suffix="?imageView2/1/w/130/h/130">
-      </div>
-      <uploader class="btn btn-danger btn-sm rounded"
-                limit="{{imageSizeLimitation}}"
-                on-complete="onLogoUpload($data)"
-                accept-type="image"
-                crop="true"
-                crop-ratio="1"
-                max-width="256">
-        修改 Logo
-      </uploader>
-    </div>
-
-    <hr/>
-
-    <div class="form-group">
-      <label for="organization-name"
-             class="col-sm-3 control-label">机构全称</label>
-      <div class="col-sm-7">
-        <input class="form-control"
-               id="organization-name"
-               name="name"
-               ng-model="editingInfo.name"
-               placeholder="机构全称"
-               required>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="organization-name"
-             class="col-sm-3 control-label">机构简介</label>
-      <div class="col-sm-7">
-        <textarea class="form-control"
-                  id="organization-desc"
-                  name="desc"
-                  rows="2"
-                  ng-model="editingInfo.description"
-                  placeholder="机构简介"></textarea>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label">机构类型</label>
-      <div class="col-sm-7">
-        <ui-select ng-model="editingInfo.type">
-          <ui-select-match placeholder="请选择">{{editingInfo.type}}</ui-select-match>
-          <ui-select-choices repeat="orgType in orgTypes | filter:$select.search">
-            <span ng-bind-html="orgType | highlight: $select.search"></span>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label">账户级别</label>
-      <div class="col-sm-7">
-        <label ng-if="organization.isPaid" class="form-control text-primary">高级账户</label>
-        <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
-      </div>
-    </div>
-
-    <hr/>
-
-    <div class="form-group text-center">
-      <button type="submit"
-              class="btn btn-danger rounded save-btn"
-              ng-disabled="saved || saving"
-              ng-click="saveOrg(form)">
-        <span ng-if="!saving">
-          <span ng-if="!saved">保存</span>
-          <span ng-if="saved">已保存</span>
-        </span>
-        <span ng-if="saving">
-          <i class="fa fa-spinner fa-spin"></i>
-          保存中
-        </span>
-      </button>
-    </div>
-
-  </form>
-</div>
-
-<div class="admin-ui-view col-md-12 margin-top">
-  <div class="col-md-6">
-    <form name="form" ng-submit="postBroadcast(form)" novalidate>
-      <div class="form-group">
-        <textarea
-          name="content"
-          cols="30"
-          placeholder="请输入内容"
-          rows="10"
-          class="form-control"
-          ng-model="newBroadcast.content"
-          required
-          msd-elastic>
-        </textarea>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-danger pull-right" type="submit" ng-disabled="form.content.$invalid">
-          发送
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="col-md-6">
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="broadcast in broadcasts|orderBy: '-created'">
-        <div class="pull-right"><i class="btn btn-xs fa fa-times text-muted" ng-click="removeBroadcast(broadcast)"></i></div>
-        <div compile-html="broadcast.content">
+        <div class="form-group text-center">
+          <div class="org-logo"
+               src-key="organization.logo"
+               source-attr="background-image"
+               suffix="?imageView2/1/w/130/h/130">
+          </div>
+          <uploader class="btn btn-danger btn-sm rounded"
+                    limit="{{imageSizeLimitation}}"
+                    on-complete="onLogoUpload($data)"
+                    accept-type="image"
+                    crop="true"
+                    crop-ratio="1"
+                    max-width="256">
+            修改 Logo
+          </uploader>
         </div>
-      </li>
-    </ul>
-  </div>
-</div>
+
+        <hr/>
+
+        <div class="form-group">
+          <label for="organization-name"
+                 class="col-sm-3 control-label">机构全称</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-name"
+                   name="name"
+                   ng-model="editingInfo.name"
+                   placeholder="机构全称"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-name"
+                 class="col-sm-3 control-label">机构简介</label>
+          <div class="col-sm-7">
+            <textarea class="form-control"
+                      id="organization-desc"
+                      name="desc"
+                      rows="2"
+                      ng-model="editingInfo.description"
+                      placeholder="机构简介"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">机构类型</label>
+          <div class="col-sm-7">
+            <ui-select ng-model="editingInfo.type">
+              <ui-select-match placeholder="请选择">{{editingInfo.type}}</ui-select-match>
+              <ui-select-choices repeat="orgType in orgTypes | filter:$select.search">
+                <span ng-bind-html="orgType | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">账户级别</label>
+          <div class="col-sm-7">
+            <label ng-if="organization.isPaid" class="form-control text-primary">高级账户</label>
+            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group text-center">
+          <button type="submit"
+                  class="btn btn-danger rounded save-btn"
+                  ng-disabled="saved || saving"
+                  ng-click="saveOrg(form)">
+            <span ng-if="!saving">
+              <span ng-if="!saved">保存</span>
+              <span ng-if="saved">已保存</span>
+            </span>
+            <span ng-if="saving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </tab>
+
+  <tab heading="机构公告区">
+    <div class="row admin-ui-view">
+      <div class="col-md-6">
+        <form name="form" class="broadcast-form" ng-submit="postBroadcast(form)" novalidate>
+          <div class="form-title">
+            最新公告&nbsp;<i class="fa fa-send"></i>
+          </div>
+          <div class="form-group">
+            <label for="titleInput">标题</label>
+            <input
+              id="titleInput"
+              name="title"
+              placeholder="请输入标题"
+              class="form-control"
+              ng-model="newBroadcast.title"
+              required
+              >
+          </div>
+          <div class="form-group">
+            <label for="contentInput">内容</label>
+            <textarea
+              id="contentInput"
+              name="content"
+              cols="30"
+              placeholder="请输入内容"
+              rows="10"
+              style="height: 140px;"
+              class="form-control"
+              ng-model="newBroadcast.content"
+              required
+              msd-elastic>
+            </textarea>
+          </div>
+          <div class="pull-right">
+            <button class="btn btn-danger rounded" type="submit" ng-disabled="form.content.$invalid">
+              发送
+            </button>
+            <button class="btn btn-default rounded" type="reset">
+              重置
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6 broadcast-browser">
+        <div class="title">已发公告<i class="fa fa-envelope envelope"></i></div>
+        <div class="seach-bar col-xs-12">
+          <div class="search col-xs-6">
+            <i class="fa fa-search pull-right"></i>
+            <input type="text" ng-model="viewState.broadcastQuery">
+          </div>
+        </div>
+        <ul class="list-group col-xs-12">
+          <li class="list-group-item broadcast" id="{{broadcast._id}}" ng-click="viewState.selectedBroadcast=broadcast" ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}" ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery">
+            <div class="clearfix">
+              <h5 class="base-color pull-left">
+                {{broadcast.title}}
+                <br>
+                <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
+              </h5>
+              <div class="pull-right">
+                <div class="well">
+                  <i class="btn btn-xs fa fa-send text-muted" ng-click="resend(broadcast)"></i>
+                  <i class="btn btn-xs fa fa-times text-muted" ng-click="removeBroadcast(broadcast)"></i>
+                </div>
+              </div>
+            </div>
+            <div class="broadcast-content" compile-html="broadcast.content">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </tab>
+</tabset>
+
 

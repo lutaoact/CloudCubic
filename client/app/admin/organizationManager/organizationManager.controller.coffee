@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   $upload
   Restangular
   configs
+  $timeout
 ) ->
 
   editableFields = [
@@ -85,6 +86,31 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
         notify
           message: '删除成功'
           classes: 'alert-success'
+
+    viewState: {}
+
+    resend: (broadcast)->
+      $scope.newBroadcast ?= {}
+      $scope.newBroadcast.title = broadcast.title
+      $scope.newBroadcast.content = broadcast.content
+      broadcastForm = angular.element '.broadcast-form'
+      broadcastForm.addClass 'blink'
+      $timeout ->
+        broadcastForm.removeClass 'blink'
+      , 1000
+      broadcastEle = undefined
+      $timeout ->
+        broadcastEle = angular.element('#'+broadcast._id).append('<div class="outer"></div>')
+      $timeout ->
+        broadcastEle.find('.outer').css
+          left: '-470px'
+          height: '305px'
+          top: '-105px'
+      , 100
+
+
+
+
 
 
 

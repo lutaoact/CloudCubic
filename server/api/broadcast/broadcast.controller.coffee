@@ -14,6 +14,7 @@ exports.index = (req, res, next) ->
 exports.create = (req, res, next) ->
   body =
     org: req.user.orgId
+    title: req.body.title
     content: req.body.content
 
   Broadcast.createQ body
