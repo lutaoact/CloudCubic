@@ -90,9 +90,6 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
     viewState: {}
 
     resend: (broadcast)->
-      $scope.newBroadcast ?= {}
-      $scope.newBroadcast.title = broadcast.title
-      $scope.newBroadcast.content = broadcast.content
       broadcastForm = angular.element '.broadcast-form'
       broadcastForm.addClass 'blink'
       $timeout ->
@@ -101,16 +98,25 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
       broadcastEle = undefined
       $timeout ->
         broadcastEle = angular.element('#'+broadcast._id).append('<div class="outer"></div>')
+
+      outer = undefined
       $timeout ->
-        broadcastEle.find('.outer').css
-          left: '-470px'
-          height: '305px'
-          top: '-105px'
+        outer = broadcastEle.find('.outer')
+        width = (outer.outerWidth() - outer.innerWidth()) / 2
+        broadcastForm = angular.element('.broadcast-form')
+        outer.offset
+          top: broadcastForm.offset().top-width
+          left: broadcastForm.offset().left-width
+        outer.height broadcastForm.height()
+        outer.width broadcastForm.width()
       , 100
 
+      $timeout ->
+        $scope.newBroadcast ?= {}
+        $scope.newBroadcast.title = broadcast.title
+        $scope.newBroadcast.content = broadcast.content
+      , 1000
 
-
-
-
-
-
+      $timeout ->
+        outer.remove()
+      , 1500
