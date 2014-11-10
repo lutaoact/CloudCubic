@@ -85,8 +85,8 @@ angular.module 'budweiserApp'
           when 'teacher', 'admin'
             [
               mkMenu '题库', "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
-              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
               mkMenu '统计', "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
+              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
             ]
           when 'student'
             [

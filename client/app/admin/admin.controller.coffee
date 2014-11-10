@@ -9,11 +9,11 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
     webview: webview
     menus: [
       stateName:'admin.home'
-      className: 'fa fa-home'
+      className: 'budon budon-organization'
       label: '机构管理'
     ,
       stateName:'admin.teacherManager'
-      className: 'fa fa-user'
+      className: 'budon budon-teacher'
       label: '教师管理'
     ,
       stateName:'admin.classeManager'
@@ -21,7 +21,7 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       label: '班级和学生'
     ,
       stateName:'admin.categoryManager'
-      className: 'fa fa-book'
+      className: 'budon budon-category'
       label: '专业管理'
     ]
 

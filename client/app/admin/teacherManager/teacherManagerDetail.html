@@ -12,7 +12,10 @@
     <strong>所授课程</strong>
     <div ng-if="!(courses.length > 0)"
          class="text-center empty-courses course-detail">
-      该教师还未添加课程
+      <h5>
+        <div><i class="budon budon-course fa-4x"></i></div>
+        目前老师还未添加课程，请等待老师创建
+      </h5>
     </div>
     <div ng-if="courses.length > 0">
       <div class="btn-group">
