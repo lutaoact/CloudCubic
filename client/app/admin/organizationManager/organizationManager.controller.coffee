@@ -94,7 +94,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
       broadcastForm.addClass 'blink'
       $timeout ->
         broadcastForm.removeClass 'blink'
-      , 1000
+      , 800
       broadcastEle = undefined
       $timeout ->
         broadcastEle = angular.element('#'+broadcast._id).append('<div class="outer"></div>')
@@ -115,8 +115,8 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
         $scope.newBroadcast ?= {}
         $scope.newBroadcast.title = broadcast.title
         $scope.newBroadcast.content = broadcast.content
-      , 1000
+      , 800
 
       $timeout ->
         outer.remove()
-      , 1500
+      , 800

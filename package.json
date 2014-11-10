@@ -8,6 +8,7 @@
     "azure-media": "^1.0.11",
     "body-parser": "~1.0.0",
     "byline": "^4.1.1",
+    "chinese-cities": "^1.0.4",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
     "connect-mongo": "^0.4.1",

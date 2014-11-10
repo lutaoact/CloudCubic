@@ -50,6 +50,7 @@ module.exports = (app) ->
   app.use '/api/broadcasts', require './api/broadcast'
   app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
   app.use '/api/user_lecture_notes', require './api/user_lecture_note'
+  app.use '/api/areas', require './api/area'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404

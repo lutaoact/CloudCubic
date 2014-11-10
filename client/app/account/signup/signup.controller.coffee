@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   $location
   Restangular
   $timeout
+  $http
 ) ->
 
   $scope.webview = webview
@@ -62,6 +63,9 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+  $http.get('api/areas')
+  .success (areas)->
+    $scope.cities = areas[0]
 
   angular.extend $scope,
     checkEmailPromise: undefined
@@ -107,13 +111,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             orgUniqueName.$remoteChecked = false
         , 800
 
-    cities: [
-        name: '北京市'
-        code: '100000'
-      ,
-        name: '上海市'
-        code: '200000'
-    ]
+    cities: undefined
 
 
 
