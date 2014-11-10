@@ -4,4 +4,9 @@ angular.module('budweiserApp').controller 'SuperuserCtrl', (
   $scope
 ) ->
 
-  console.debug 'superuser ctrl'
+  angular.extend $scope,
+    menus: [
+      stateName:'superuser.home'
+      className: 'budon budon-organization'
+      label: '所有机构'
+    ]
