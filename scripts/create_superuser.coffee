@@ -2,10 +2,10 @@ require '../server/common/init'
 
 User = _u.getModel 'user'
 superUser =
-  username: 'coding'
-  email: 'coding'
-  password: 'coding'
-  role: 'super'
+  username: 'superuser'
+  email: 'superuser'
+  password: 'superuser'
+  role: 'superuser'
 
 User.createQ superUser
 .then (user) ->

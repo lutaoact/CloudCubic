@@ -20,6 +20,7 @@ angular.module('budweiserApp')
   notify
   Restangular
   configs
+  $log
 ) ->
 
   # 能被编辑的字段
@@ -73,10 +74,11 @@ angular.module('budweiserApp')
     $scope.editingInfo = _.pick user, editableFields
     $scope.roleTitle =
       switch user.role
-        when 'student' then '学生'
-        when 'teacher' then '教师'
-        when 'admin'   then '管理员'
-        else throw 'unknown user.role ' + user.role
+        when 'student'   then '学生'
+        when 'teacher'   then '教师'
+        when 'admin'     then '管理员'
+        when 'superuser' then '超级用户'
+        else $log.error 'unknown user.role ' + user.role
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

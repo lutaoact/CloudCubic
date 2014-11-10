@@ -1,13 +1,14 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'NewUserModalCtrl', (
+  $log
   $scope
   notify
+  configs
   userRole
   Restangular
   orgUniqueName
   $modalInstance
-  configs
 ) ->
 
   angular.extend $scope,
@@ -24,7 +25,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
         when 'student' then '添加新学生'
         when 'teacher' then '添加新老师'
         when 'admin'   then '添加新管理员'
-        else throw "unknown user.role #{userRole}"
+        else $log.error "unknown user.role #{userRole}"
 
     cancel: ->
       $modalInstance.dismiss('cancel')
