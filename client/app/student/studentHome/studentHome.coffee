@@ -9,10 +9,8 @@ angular.module('budweiserApp').config ($stateProvider) ->
       Courses: (Restangular)->
         Restangular.all('courses').getList().then (courses)->
           return courses
-        , (err)->
-          # handle
+        , ->
           return []
       CurrentUser: (Auth)->
         Auth.getCurrentUser()
     abstract: true
-    authenticate: true

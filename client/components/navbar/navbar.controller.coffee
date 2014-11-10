@@ -43,8 +43,20 @@ angular.module 'budweiserApp'
       socket.close()
       $state.go($localStorage.global?.loginState or 'main')
 
-    isActive: (route) ->
-      route?.replace(/\(.*?\)/g, '') is $state.current.name
+    goHome: ->
+      currentUser = $scope.getCurrentUser()
+      homeStateName =
+        if currentUser?.role is 'admin'
+          if $state.includes 'admin'
+            'admin.home'
+          else
+            'teacher.home'
+        else
+          currentUser?.role + '.home'
+      $state.go homeStateName
+
+    isActive: (state) ->
+      $state.is state?.replace(/\(.*?\)/g, '')
 
     clearAll: ()->
       if $scope.messages.length
@@ -68,26 +80,23 @@ angular.module 'budweiserApp'
       title: title
       link: link
     $scope.additionalMenu =
-      switch $scope.getCurrentUser()?.role
-        when 'teacher', 'admin'
-          if $state.params.courseId
+      if $state.params.courseId
+        switch $scope.getCurrentUser()?.role
+          when 'teacher', 'admin'
             [
               mkMenu '题库', "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
               mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
               mkMenu '统计', "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
             ]
-          else
-            []
-        when 'student'
-          if $state.params.courseId
+          when 'student'
             [
               mkMenu '统计', "student.courseStats({courseId:'#{$state.params.courseId}'})"
               mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
             ]
           else
             []
-        else
-          []
+      else
+        []
 
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu

@@ -24,7 +24,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ui-sref="{{getCurrentUser().role}}.home"
+      <a ng-click="goHome()" href
          class="navbar-brand">
         <i ng-hide="getCurrentUser().orgId"
            class="budon budon-logo"
@@ -55,8 +55,8 @@
              ng-bind-html="item.title"></a>
         </li>
         <li ng-if="getCurrentUser().role == 'admin'">
-          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">教师界面</a>
-          <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">管理界面</a>
+          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">切换到教师</a>
+          <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
         </li>
         <li ng-show="isLoggedIn()"
             dropdown>

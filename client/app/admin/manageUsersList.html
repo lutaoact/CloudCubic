@@ -82,17 +82,17 @@
           <button class="btn btn-danger btn-sm rounded dropdown-toggle"
                   ng-disabled="selectedUsers.length == 0 || viewState.copying">
            <span ng-if="!viewState.copying">
-             添加到.. <span class="caret"></span>
+             复制到.. <span class="caret"></span>
            </span>
            <span ng-if="viewState.copying">
              <i class="fa fa-spinner fa-spin"></i>
-             添加中
+             复制中
            </span>
           </button>
           <ul class="dropdown-menu users-dropdown"
               ng-click="viewState.copyDropDown = false"
               role="menu">
-            <li><a href>将这选中的{{selectedUsers.length}}个学生添加到...</a></li>
+            <li><a href>将这选中的{{selectedUsers.length}}个学生复制到...</a></li>
             <li class="divider"></li>
             <li ng-repeat="classe in classes | filter: {_id:'!'+classe._id}" >
               <a href ng-click="copyUsers(selectedUsers, classe)">{{classe.name}}</a>

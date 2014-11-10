@@ -2,11 +2,10 @@
 
 angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider.state 'teacher',
-    abstract: true,
+    abstract: true
     url: '/t'
     templateUrl: 'app/teacher/teacher.html'
     controller: 'TeacherCtrl'
-    authenticate: true
     resolve:
       Categories: (Restangular) ->
         Restangular.all('categories').getList().then (categories) ->

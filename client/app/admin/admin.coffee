@@ -7,4 +7,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/admin/admin.html'
     controller: 'AdminCtrl'
     abstract: true
-    authenticate: true

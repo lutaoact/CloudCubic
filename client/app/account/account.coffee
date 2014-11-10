@@ -31,10 +31,9 @@ angular.module('budweiserApp')
     url: '/settings'
     templateUrl: 'app/account/settings/settings.html'
     controller: 'SettingsCtrl'
-    authenticate:true
 
   .state 'settings.profile',
-    url: '/profile',
+    url: '/profile'
     templateUrl: 'app/account/profile/profile.html'
     controller: 'ProfileCtrl'
     authenticate:true
