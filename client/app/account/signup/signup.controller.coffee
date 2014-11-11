@@ -2,71 +2,45 @@
 
 angular.module('budweiserApp').controller 'SignupCtrl', (
   $scope
-  webview
-  $location
-  Restangular
   $timeout
-  $http
+  Restangular
 ) ->
 
-  $scope.webview = webview
-  $scope.user = {}
-  $scope.errors = {}
-  $scope.organization = {}
-
-  $scope.register = (form) ->
-
-    $scope.submitted = true
-
-    if form.$valid
-      # Account created, redirect to home
-      Restangular.all('register/user').post
-        name: $scope.user.name
-        email: $scope.user.email
-        password: $scope.user.password
-      .then ->
-        $location.path '/'
-      , (err) ->
-        err = err.data
-        $scope.errors = {}
-
-        # Update validity of form fields that match the mongoose errors
-        angular.forEach err.errors, (error, field) ->
-          form[field].$setValidity 'mongoose', false
-          $scope.errors[field] = error.message
-
-  $scope.registerOrg = (form) ->
-
-    $scope.submitted = true
-
-    if form.$valid
-      # Account created, redirect to home
-      Restangular.all('register/org').post
-        name: $scope.organization.name + '的管理员'
-        email: $scope.user.email
-        password: $scope.user.password
-        orgName: $scope.organization.name
-        orgUniqueName: $scope.organization.uniqueName
-        orgLocation: $scope.organization.location
-      .then ->
-        $location.path '/'
-      , (err) ->
-        err = err.data
-        $scope.errors = {}
-        notify
-          message: '创建失败'
-          classes: 'alert-danger'
-
-        # Update validity of form fields that match the mongoose errors
-        angular.forEach err.errors, (error, field) ->
-          form[field].$setValidity 'mongoose', false
-          $scope.errors[field] = error.message
-  $http.get('api/areas')
-  .success (areas)->
+  Restangular.all('areas').getList().then (areas) ->
     $scope.cities = areas[0]
 
   angular.extend $scope,
-    checkEmailPromise: undefined
+    user: {}
+    errors: {}
+    submitted: false
+    signupFinish: false
+    organization: {}
+    checkEmailPromise: null
+
+    registerOrg: (form) ->
+      $scope.submitted = true
+      if form.$valid
+        # Account created, redirect to home
+        Restangular.all('register/org').post
+          name: $scope.organization.name + '的管理员'
+          email: $scope.user.email
+          password: $scope.user.password
+          orgName: $scope.organization.name
+          orgUniqueName: $scope.organization.uniqueName
+          orgLocation: $scope.organization.location
+        .then ->
+          $scope.signupFinish = true
+        , (err) ->
+          err = err.data
+          $scope.errors = {}
+          notify
+            message: '创建失败'
+            classes: 'alert-danger'
+
+          # Update validity of form fields that match the mongoose errors
+          angular.forEach err.errors, (error, field) ->
+            form[field].$setValidity 'mongoose', false
+            $scope.errors[field] = error.message
 
     checkEmail: (email)->
       $timeout.cancel($scope.checkEmailPromise)
