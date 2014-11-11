@@ -8,6 +8,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
   controller: (
     Msg
     Auth
+    $modal
     $scope
     $state
     notify
@@ -39,6 +40,22 @@ angular.module('budweiserApp').directive 'loginForm', ->
         , (error)->
           console.debug error
           $scope.loggingIn = false
-          notify
-            message:'用户名或密码错误'
-            classes:'alert-danger'
+
+          if error.unactivated
+            $modal.open
+              templateUrl: 'app/directives/loginForm/activateModal.html'
+              controller: 'ActivateModalCtrl'
+              windowClass: 'center-modal'
+              size: 'sm'
+              resolve:
+                email: -> $scope.user.email
+            .result.then () ->
+              notify
+                message: "一封激活邮件即将发送到'#{$scope.user.email}'，请注意查收。"
+                classes: 'alert-success'
+                duration: 10000
+
+          else
+            notify
+              message:'用户名或密码错误'
+              classes:'alert-danger'

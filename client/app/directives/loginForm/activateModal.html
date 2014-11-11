@@ -1,0 +1,17 @@
+<div>
+    <div class="modal-header modal-header-black">
+        <h4 class="modal-title">
+            账户激活
+            <a class="close" ng-click="cancel()">&times;</a>
+        </h4>
+    </div>
+    <div class="text-center modal-body">
+        <h4>您的账户 {{email}} 尚未激活<br>请登录邮箱激活</h4>
+
+        <button type="submit"
+                id="confirm-btn"
+                class="btn btn-danger"
+                ng-click="confirm(form)">重新发送激活邮件</button>
+
+    </div>
+</div>
