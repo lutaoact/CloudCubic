@@ -80,7 +80,7 @@ angular.module 'budweiserApp'
       title: title
       link: link
     $scope.additionalMenu =
-      if $state.params.courseId
+      if $state.params.courseId && $state.current.name.indexOf('admin') != 0
         switch $scope.getCurrentUser()?.role
           when 'teacher', 'admin'
             [
