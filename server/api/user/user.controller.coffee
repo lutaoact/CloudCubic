@@ -26,12 +26,6 @@ qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
 
-sha1 = (msg) ->
-  crypto.createHash('sha1').update(msg).digest('hex')
-
-generateActivationCode = (email) ->
-  sha1(email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
-
 ###
   Get list of users
   restriction: 'admin'
@@ -79,7 +73,6 @@ exports.create = (req, res, next) ->
 
   delete body._id
   body.orgId = req.user.orgId
-  body.activationCode = generateActivationCode body.email
 
   User.createQ body
   .then (user) ->
@@ -93,7 +86,6 @@ exports.create = (req, res, next) ->
       res.json
         _id: user._id
         token: token
-    sendActivationMail req.headers.host, user.email, user.activationCode
   , next
 
 ###
@@ -304,7 +296,6 @@ exports.bulkImport = (req, res, next) ->
         email : email
         password : email #initial password is the same as email
         orgId : orgId
-        activationCode: generateActivationCode email
       newUser.saveQ()
 
     Q.allSettled(savePromises)
@@ -315,7 +306,6 @@ exports.bulkImport = (req, res, next) ->
         console.log 'Imported user ' + user.name
         importReport.success.push user.name
         importedUsers.push user.id
-        sendActivationMail req.headers.host, user.email, user.activationCode
       else
         console.error 'Failed to import user', result.reason
         importReport.failure.push result.reason
@@ -371,17 +361,17 @@ exports.reset = (req, res, next) ->
   , next
 
 
-exports.createActivate = (req, res, next) ->
+exports.sendActivationMail = (req, res, next) ->
   User.findOneQ
-    _id: req.body.userId
+    email: req.body.email
   .then (user) ->
-    sendActivationMail req.headers.host, user.email, user.activationCode
+    sendActivationMail user.email, user.activationCode
     res.send 200
   .catch next
   .done()
 
 
-exports.completeActivate = (req, res, next) ->
+exports.completeActivation = (req, res, next) ->
   User.findOneQ
     email: req.query.email.toLowerCase()
     activationCode: req.query.activation_code

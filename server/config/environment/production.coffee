@@ -3,6 +3,8 @@
 # Production specific configuration
 # =================================
 module.exports =
+  host: "http://www.cloud3edu.cn"
+
   # Server IP
   ip : process.env.OPENSHIFT_NODEJS_IP or
             process.env.IP or

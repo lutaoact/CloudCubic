@@ -3,6 +3,8 @@
 # Development specific configuration
 # ==================================
 module.exports =
+  host: "http://119.254.108.180"
+
   # MongoDB connection options
   mongo:
     uri: 'mongodb://localhost/budweiser'

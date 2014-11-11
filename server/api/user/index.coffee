@@ -9,8 +9,8 @@ router = express.Router()
 router.get '/', auth.hasRole('admin'), controller.index #?standalone=true
 router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
-router.post '/createactivate', controller.createActivate
-router.get '/completeactivate', controller.completeActivate
+router.post '/sendActivationMail', controller.sendActivationMail
+router.get '/completeActivation', controller.completeActivation
 router.post '/bulk', auth.hasRole('admin'), controller.bulkImport
 router.get '/emails/:email', auth.isAuthenticated(), controller.showByEmail
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete

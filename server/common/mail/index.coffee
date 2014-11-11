@@ -12,6 +12,7 @@ emailjs = require 'emailjs/email'
 
 config = require '../../config/environment'
 credentials = config.emailCredentials
+host = config.host
 
 
 exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
@@ -32,12 +33,12 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
     console.log(err || message)
 
 
-exports.sendActivationMail = (hostName, receiverEmail, activationCode) ->
+exports.sendActivationMail = (receiverEmail, activationCode) ->
   activationLinkQS = querystring.stringify
     email: receiverEmail
     activation_code: activationCode
 
-  activation_link = 'http://'+hostName+'/api/users/completeactivate?'+ activationLinkQS
+  activation_link = host+'/api/users/completeActivation?'+ activationLinkQS
   locals =
     email: receiverEmail
     activation_link: activation_link
