@@ -31,12 +31,6 @@ angular.module('budweiserApp')
   updateSelected = ->
     $scope.selectedUsers =  _.filter($scope.users, '$selected':true)
 
-  addNewUserSuccess = (newUser) ->
-    notify
-      message: "新#{$scope.roleTitle}添加成功"
-      classes: 'alert-success'
-    $scope.onAddUser?($data:newUser)
-
   angular.extend $scope,
 
     currentPage: 1
@@ -64,6 +58,12 @@ angular.module('budweiserApp')
         resolve:
           userRole: -> $scope.userRole
       .result.then (newUser) ->
+        addNewUserSuccess = (newUser) ->
+          notify
+            message: "新#{$scope.roleTitle}添加成功"
+            classes: 'alert-success'
+          $scope.onAddUser?($data:newUser)
+
         if _.isEmpty($scope.classe?._id)
           addNewUserSuccess(newUser)
         else
@@ -154,7 +154,11 @@ angular.module('budweiserApp')
       success = (report) ->
         console.debug report
         $scope.viewState.importing = false
-        addNewUserSuccess(report)
+        notify
+          message: "新#{$scope.roleTitle}添加成功, 初始密码为登录邮箱。"
+          classes: 'alert-success'
+          duration: 0
+        $scope.onAddUser?($data:report)
 
       fileUtils.uploadFile
         files: files
