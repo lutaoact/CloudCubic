@@ -25,6 +25,13 @@ qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
+
+sha1 = (msg) ->
+  crypto.createHash('sha1').update(msg).digest('hex')
+
+generateActivationCode = (email) ->
+  sha1(email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
+
 ###
   Get list of users
   restriction: 'admin'
@@ -72,6 +79,7 @@ exports.create = (req, res, next) ->
 
   delete body._id
   body.orgId = req.user.orgId
+  body.activationCode = generateActivationCode body.email
 
   User.createQ body
   .then (user) ->
@@ -296,6 +304,7 @@ exports.bulkImport = (req, res, next) ->
         username: email + '_' + orgUniqueName
         password : email #initial password is the same as email
         orgId : orgId
+        activationCode: generateActivationCode email
       newUser.saveQ()
 
     Q.allSettled(savePromises)
@@ -361,27 +370,12 @@ exports.reset = (req, res, next) ->
   , next
 
 
-sha1 = (msg) ->
-  crypto.createHash('sha1').update(msg).digest('hex')
-
-
 exports.createActivate = (req, res, next) ->
   User.findOneQ
     _id: req.body.userId
   .then (user) ->
-    logger.info "wtf"
-    if user.activation_code == undefined
-      user.activation_code = sha1(user.email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
-      user.saveQ()
-      .then () ->
-        return user
-    else
-      return user
-  .then (user) ->
-    activation_link = req.protocol+'://'+req.headers.host+'/users/completeactivate?email='+user.email+'&activation_code='+user.activation_code
-    sendActivationMail user.email, activation_link
+    sendActivationMail user.email, user.activationCode
     res.send 200
-#      activation_link: activation_link
   .catch next
   .done()
 

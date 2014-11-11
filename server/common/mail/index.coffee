@@ -31,7 +31,8 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
     console.log(err || message)
 
 
-exports.sendActivationMail = (receiverEmail, activation_link) ->
+exports.sendActivationMail = (receiverEmail, activation_code) ->
+  activation_link = req.protocol+'://'+req.headers.host+'/users/completeactivate?email='+receiverEmail+'&activation_code='+activation_code
   locals =
     email: receiverEmail
     activation_link: activation_link
