@@ -34,6 +34,7 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     currentPage: 1
+    pageSize: 10
     toggleSelectAllUsers: false
     selectedUsers: []
 

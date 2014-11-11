@@ -56,7 +56,7 @@ angular.module('budweiserApp')
       Restangular.all('users').customPOST(email:$scope.user.email, 'sendActivationMail')
       .then ->
         notify
-          message: "一封激活邮件将会发送给#{$scope.user.email}，请注意查收。"
+          message: "一封激活邮件即将发送到'#{$scope.user.email}'，请注意查收。"
           classes: 'alert-success'
           duration: 10000
       .finally ->

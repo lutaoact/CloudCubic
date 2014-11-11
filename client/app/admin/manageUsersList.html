@@ -131,7 +131,7 @@
       账户状态
     </span>
     </div>
-    <div ng-repeat="user in users | filter:searchUser | paging:10:currentPage"
+    <div ng-repeat="user in users | filter:searchUser | paging:pageSize:currentPage"
          class="user-info">
       <input type="checkbox"
              ng-model="user.$selected"
@@ -148,9 +148,9 @@
     </div>
 
     <pager total-items="users.length"
+           ng-show="users.length > pageSize"
            ng-model="currentPage"
            previous-text="上一页"
-           next-text="下一页"
-           ></pager>
+           next-text="下一页"></pager>
   </div>
 </div>
