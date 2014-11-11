@@ -70,8 +70,11 @@ angular.module('budweiserApp')
         tag.$active = true
 
     filterByTags: (item)->
-      $scope.filterTags.every (tag)->
-        item.metadata.tags?.some (x)-> x.name is tag.name
+      if $scope.filterTags?.length
+        $scope.filterTags.some (tag)->
+          item.metadata.tags?.some (x)-> x.name is tag.name
+      else
+        true
 
     createTopic: ()->
       # validate
