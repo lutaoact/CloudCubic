@@ -18,6 +18,9 @@ exports.setup = function (User, config) {
         if (!user.authenticate(password)) {
           return done(null, false, { message: '登录密码错误' });
         }
+        if (user.status == 0) {
+          return done(null, false, { message: '登录邮箱未认证', unactivated: true});
+        }
         return done(null, user);
       });
     }
