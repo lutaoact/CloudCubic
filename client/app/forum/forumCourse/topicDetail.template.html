@@ -39,7 +39,7 @@
       </div>
 
       <div class="article-body">
-        <div class="clearfix title-row tags-bar">
+        <div class="clearfix title-row tags-bar" ng-if="topic.metadata.tags.length">
           <div class="title-row-header">标签<hr></div>
           <div class="view-section all-tags clearfix">
             <a href class="tag pull-left" ng-repeat="tag in topic.metadata.tags" tooltip="{{tag.name}}">{{tag.name}}</a>
