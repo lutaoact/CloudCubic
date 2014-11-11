@@ -32,7 +32,7 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
 
 
 exports.sendActivationMail = (hostName, receiverEmail, activation_code) ->
-  activation_link = 'http://'+hostName+'/users/completeactivate?email='+receiverEmail+'&activation_code='+activation_code
+  activation_link = 'http://'+hostName+'/api/users/completeactivate?email='+receiverEmail+'&activation_code='+activation_code
   locals =
     email: receiverEmail
     activation_link: activation_link
