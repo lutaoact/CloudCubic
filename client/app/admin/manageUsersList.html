@@ -29,6 +29,7 @@
   </div>
   <div ng-if="users.length > 0">
     <strong>{{roleTitle}}列表</strong>
+    <small class="text-muted">({{users.length}})</small>
     <span class="liner"></span>
     <input class="form-control search-input"
            ng-model="searchUser"
@@ -130,7 +131,7 @@
       账户状态
     </span>
     </div>
-    <div ng-repeat="user in users | filter:searchUser"
+    <div ng-repeat="user in users | filter:searchUser | paging:10:currentPage"
          class="user-info">
       <input type="checkbox"
              ng-model="user.$selected"
@@ -144,5 +145,11 @@
       </span>
       </a>
     </div>
+
+    <pager total-items="users.length"
+           ng-model="currentPage"
+           previous-text="上一页"
+           next-text="下一页"
+           ></pager>
   </div>
 </div>

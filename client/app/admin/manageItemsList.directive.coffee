@@ -30,6 +30,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     $state: $state
+    currentPage: 1
     toggledSelectAllItems: false
     selectedItem: null
     selectedItems: []
