@@ -25,7 +25,7 @@ Organization.findOneQ uniqueName: uniqueName
   tmpResult.org = org
 
   admin =
-    username: "admin_#{uniqueName}"
+    email: "admin_#{uniqueName}"
     password: "admin_#{uniqueName}"
     name: "#{name}管理员"
     role: 'admin'

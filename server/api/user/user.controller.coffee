@@ -109,7 +109,7 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  UserUtils.check username: req.query.username, email: req.query.email
+  UserUtils.check email: req.query.email
   .then () ->
     res.send 200
   .catch next
@@ -197,7 +197,7 @@ exports.me = (req, res, next) ->
 ###
 exports.update = (req, res, next) ->
   body = req.body
-  body = _.omit body, ['_id', 'password', 'orgId', 'username']
+  body = _.omit body, ['_id', 'password', 'orgId']
 
   User.findByIdQ req.params.id
   .then (user) ->
@@ -298,10 +298,9 @@ exports.bulkImport = (req, res, next) ->
       email = userItem[1]
       console.log 'userItem', name, email
       newUser = new User.model
-        role   :  type
+        role :  type
         name : name
         email : email
-        username: email + '_' + orgUniqueName
         password : email #initial password is the same as email
         orgId : orgId
         activationCode: generateActivationCode email

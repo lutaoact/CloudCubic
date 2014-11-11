@@ -1,8 +1,8 @@
 require '../server/common/init'
 
 User = _u.getModel 'user'
+
 superUser =
-  username: 'superuser'
   email: 'superuser'
   password: 'superuser'
   role: 'superuser'
