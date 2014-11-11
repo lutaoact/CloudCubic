@@ -1,5 +1,6 @@
 jade = require 'jade'
 fs = require('fs')
+querystring = require("querystring");
 
 pwdResetTpl = require('fs').readFileSync(__dirname + '/views/pwdReset.jade', 'utf8')
 pwdResetFn = jade.compile pwdResetTpl, pretty: true
@@ -31,8 +32,12 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
     console.log(err || message)
 
 
-exports.sendActivationMail = (hostName, receiverEmail, activation_code) ->
-  activation_link = 'http://'+hostName+'/api/users/completeactivate?email='+receiverEmail+'&activation_code='+activation_code
+exports.sendActivationMail = (hostName, receiverEmail, activationCode) ->
+  activationLinkQS = querystring.stringify
+    email: receiverEmail
+    activation_code: activationCode
+
+  activation_link = 'http://'+hostName+'/api/users/completeactivate?'+ activationLinkQS
   locals =
     email: receiverEmail
     activation_link: activation_link

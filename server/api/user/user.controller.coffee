@@ -384,9 +384,9 @@ exports.createActivate = (req, res, next) ->
 exports.completeActivate = (req, res, next) ->
   User.findOneQ
     email: req.query.email.toLowerCase()
-    activation_code: req.query.activation_code
+    activationCode: req.query.activation_code
   .then (user) ->
-    return res.send 404 if not user?
+    return res.send 403 if not user?
     user.status = 1
     user.saveQ()
   .then ()->
