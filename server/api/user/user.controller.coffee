@@ -20,6 +20,7 @@ UserUtils = _u.getUtils 'user'
 crypto = require 'crypto'
 sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
+setTokenCookie = require('../../auth/auth.service').setTokenCookie
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -377,10 +378,13 @@ exports.completeActivation = (req, res, next) ->
     activationCode: req.query.activation_code
   .then (user) ->
     return res.send 403 if not user?
+    req.user = user
+    if user.status == 1
+      throw new Error "used activation link"
     user.status = 1
     user.saveQ()
   .then ()->
-    res.send 200
+    setTokenCookie req,res
   .catch next
   .done()
 
