@@ -93,6 +93,7 @@ exports.create = (req, res, next) ->
       res.json
         _id: user._id
         token: token
+    sendActivationMail req.headers.host, user.email, user.activationCode
   , next
 
 ###
@@ -314,6 +315,7 @@ exports.bulkImport = (req, res, next) ->
         console.log 'Imported user ' + user.name
         importReport.success.push user.name
         importedUsers.push user.id
+        sendActivationMail req.headers.host, user.email, user.activationCode
       else
         console.error 'Failed to import user', result.reason
         importReport.failure.push result.reason
@@ -373,7 +375,7 @@ exports.createActivate = (req, res, next) ->
   User.findOneQ
     _id: req.body.userId
   .then (user) ->
-    sendActivationMail user.email, user.activationCode
+    sendActivationMail req.headers.host, user.email, user.activationCode
     res.send 200
   .catch next
   .done()
