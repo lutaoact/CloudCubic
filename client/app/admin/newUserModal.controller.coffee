@@ -7,14 +7,12 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
   configs
   userRole
   Restangular
-  orgUniqueName
   $modalInstance
 ) ->
 
   angular.extend $scope,
     imageSizeLimitation: configs.imageSizeLimitation
     errors: null
-    orgUniqueName: orgUniqueName
 
     user:
       role: userRole
@@ -36,7 +34,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     confirm: (form) ->
       if !form.$valid then return
       newUser = angular.copy $scope.user
-      newUser.username += '_' + orgUniqueName
+      newUser.email = newUser.username
       Restangular.all('users').post newUser
       .then $modalInstance.close, (error) ->
         $scope.errors = error?.data?.errors

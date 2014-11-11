@@ -62,7 +62,6 @@ angular.module('budweiserApp')
         controller: 'NewUserModalCtrl'
         resolve:
           userRole: -> $scope.userRole
-          orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
       .result.then (newUser) ->
         if _.isEmpty($scope.classe?._id)
           addNewUserSuccess(newUser)

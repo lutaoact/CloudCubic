@@ -139,7 +139,7 @@ setupUserSchema = (UserSchema) ->
       throw err if err
       notTaken = !user or user.id == self.id
       respond notTaken
-  , '该用户名已经被占用，请选择其他用户名'
+  , '该登录邮箱已经被占用，请选择其他邮箱'
 
   validatePresenceOf = (value) ->
     value && value.length
