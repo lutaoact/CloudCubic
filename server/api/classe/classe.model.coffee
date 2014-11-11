@@ -45,7 +45,7 @@ exports.Classe = BaseModel.subclass
   # return [id & name]
   getAllStudentsInfo: (classeIds) ->
     @find _id: $in: classeIds
-    .populate('students', '_id username name')
+    .populate('students', '_id email name')
     .execQ()
     .then (classes) ->
       return _.reduce classes, (studentInfos, classe) ->

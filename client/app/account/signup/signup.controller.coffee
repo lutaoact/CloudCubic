@@ -24,7 +24,6 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
-        username: $scope.user.email
       .then ->
         $location.path '/'
       , (err) ->
@@ -46,7 +45,6 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
         name: $scope.organization.name + '的管理员'
         email: $scope.user.email
         password: $scope.user.password
-        username: $scope.user.email
         orgName: $scope.organization.name
         orgUniqueName: $scope.organization.uniqueName
         orgLocation: $scope.organization.location

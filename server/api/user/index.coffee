@@ -8,7 +8,7 @@ router = express.Router()
 
 router.get '/', auth.hasRole('admin'), controller.index #?standalone=true
 router.get '/me', auth.isAuthenticated(), controller.me
-router.get '/check', controller.check #?username=xxxxx
+router.get '/check', controller.check #?email=xxxxx
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
 router.post '/forgetpassword', controller.forget

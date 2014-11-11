@@ -11,8 +11,8 @@ class UserUtils extends BaseUtils
       if user?
         return Q.reject
           status : 400
-          errCode : ErrCode.UsernameOrEmailInUsed
-          errMsg : 'username或者email已被使用'
+          errCode : ErrCode.UserEmailInUsed
+          errMsg : '该Email已被使用'
 
   multiDelete: (user, ids) ->
     if _.contains ids, user.id

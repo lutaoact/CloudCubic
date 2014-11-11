@@ -196,7 +196,7 @@ class StatsUtils extends BaseUtils
       lectureId: lectureId
       questionId: questionId
       userId: {'$in': students}
-    .populate('userId', '_id username name avatar')
+    .populate('userId', '_id email name avatar')
     .execQ()
 
     this.getQuestionStats answersPromise, questionId
@@ -207,7 +207,7 @@ class StatsUtils extends BaseUtils
     answersPromise = HomeworkAnswer.find
       lectureId : lectureId
       userId: {'$in': students}
-    .populate('userId', '_id username name avatar')
+    .populate('userId', '_id email name avatar')
     .execQ()
     .then (hwas) ->
       answers = _.reduce hwas, (tmpAnswers, hwa) ->

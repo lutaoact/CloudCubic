@@ -26,7 +26,6 @@ angular.module('budweiserApp')
   # 能被编辑的字段
   editableFields = [
     'name'
-    'email'
     'avatar'
     'info'
   ]

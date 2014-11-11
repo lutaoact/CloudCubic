@@ -16,7 +16,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
     user:
       role: userRole
-      username: ''
+      email: ''
 
     title:
       switch userRole
@@ -34,7 +34,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     confirm: (form) ->
       if !form.$valid then return
       newUser = angular.copy $scope.user
-      newUser.email = newUser.username
       Restangular.all('users').post newUser
       .then $modalInstance.close, (error) ->
         $scope.errors = error?.data?.errors
