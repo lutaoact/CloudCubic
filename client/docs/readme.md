@@ -8,4 +8,6 @@
 
 - run
 
-`python -m markdown -x toc input.md > output.html` 
+`python -m markdown -x toc help.md > help.html` 
+
+Unfortunately, generated html file doesn't contain html tag and head and body etc. So I add them by hand.
