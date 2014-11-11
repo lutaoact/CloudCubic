@@ -17,6 +17,9 @@ Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 Organization = _u.getModel "organization"
 UserUtils = _u.getUtils 'user'
+crypto = require 'crypto'
+sendActivationMail = require('../../common/mail').sendActivationMail
+sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -321,7 +324,6 @@ exports.bulkImport = (req, res, next) ->
 exports.forget = (req, res, next) ->
   if not req.body.email? then return res.send 400
 
-  crypto = require 'crypto'
   cryptoQ = Q.nbind(crypto.randomBytes)
   token = null
 
@@ -335,7 +337,6 @@ exports.forget = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
-    sendPwdResetMail = require('../../common/mail').sendPwdResetMail
     resetLink = req.protocol+'://'+req.headers.host+'/accounts/resetpassword?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
@@ -358,6 +359,45 @@ exports.reset = (req, res, next) ->
   .then (saved) ->
     res.send 200
   , next
+
+
+sha1 = (msg) ->
+  crypto.createHash('sha1').update(msg).digest('hex')
+
+
+exports.createActivate = (req, res, next) ->
+  User.findOneQ
+    _id: req.body.userId
+  .then (user) ->
+    logger.info "wtf"
+    if user.activation_code == undefined
+      user.activation_code = sha1(user.email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
+      user.saveQ()
+      .then () ->
+        return user
+    else
+      return user
+  .then (user) ->
+    activation_link = req.protocol+'://'+req.headers.host+'/users/completeactivate?email='+user.email+'&activation_code='+user.activation_code
+    sendActivationMail user.email, activation_link
+    res.send 200
+#      activation_link: activation_link
+  .catch next
+  .done()
+
+
+exports.completeActivate = (req, res, next) ->
+  User.findOneQ
+    email: req.query.email.toLowerCase()
+    activation_code: req.query.activation_code
+  .then (user) ->
+    return res.send 404 if not user?
+    user.status = 1
+    user.saveQ()
+  .then ()->
+    res.send 200
+  .catch next
+  .done()
 
 ###
  Authentication callback

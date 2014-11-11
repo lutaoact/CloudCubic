@@ -78,3 +78,10 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+
+  emailCredentials:
+    user: 'noreply.cloud3edu@gmail.com'
+    password:  'cloud3eduuuu'
+    host: 'smtp.gmail.com'
+    ssl: true
+    timeout: 20000

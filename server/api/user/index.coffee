@@ -20,5 +20,7 @@ router.get '/:id', auth.isAuthenticated(), controller.show
 router.post '/', auth.hasRole('admin'), controller.create
 router.post '/bulk', auth.hasRole('admin'), controller.bulkImport
 router.get '/emails/:email', auth.isAuthenticated(), controller.showByEmail
+router.post '/createactivate', controller.createActivate
+router.post '/completeactivate', controller.completeActivate
 
 module.exports = router

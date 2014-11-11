@@ -40,7 +40,10 @@ exports.User = BaseModel.subclass
         type : String
       #TODO check login ?
       status :
-        type : String
+        type : Number # 0: unactivated; 1: activated
+        default : 0
+      activation_code:
+        type: String
       resetPasswordToken :
         type: String
       resetPasswordExpires :
