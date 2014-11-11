@@ -3,6 +3,8 @@
 # Production specific configuration
 # =================================
 module.exports =
+  host: "http://www.cloud3edu.cn"
+
   # Server IP
   ip : process.env.OPENSHIFT_NODEJS_IP or
             process.env.IP or
@@ -78,3 +80,10 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+
+  emailCredentials:
+    user: 'noreply.cloud3edu@gmail.com'
+    password:  'cloud3eduuuu'
+    host: 'smtp.gmail.com'
+    ssl: true
+    timeout: 20000

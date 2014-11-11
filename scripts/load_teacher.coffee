@@ -12,7 +12,7 @@ teacherInfo = require "#{__dirname}/#{orgUniqueName}_teacher_info.json"
 
 buildTeacherData = (teacherInfo, orgId) ->
   return (for id, name of teacherInfo
-    username: "#{id}_#{orgUniqueName}"
+    email: "#{id}_#{orgUniqueName}"
     password: "#{id}_#{orgUniqueName}"
     name: name
     orgId: orgId

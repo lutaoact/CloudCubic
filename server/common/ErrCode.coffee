@@ -8,7 +8,7 @@ module.exports =
 
   GiveScore: 10006
   UniqueNameInUsed: 10007
-  UsernameOrEmailInUsed: 10008
+  UserEmailInUsed: 10008
 
   IllegalFields: 10009
   DeleteAdmin: 10010

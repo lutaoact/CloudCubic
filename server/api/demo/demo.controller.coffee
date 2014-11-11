@@ -17,7 +17,7 @@ exports.getUser = (req, res, next) ->
     Classe.updateQ {_id: ClasseId}, {$addToSet: {students: user._id}}
   .then ->
     res.json
-      username: demoUser.username
+      email: demoUser.email
       token: auth.signToken(demoUser._id, demoUser.role)
   , next
 

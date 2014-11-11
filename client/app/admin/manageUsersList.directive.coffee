@@ -18,6 +18,7 @@ angular.module('budweiserApp')
 
 .controller 'ManageUsersListCtrl', (
   $q
+  $log
   Auth
   $scope
   $modal
@@ -38,6 +39,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
 
+    currentPage: 1
     toggleSelectAllUsers: false
     selectedUsers: []
 
@@ -49,10 +51,11 @@ angular.module('budweiserApp')
 
     roleTitle:
       switch $scope.userRole
-        when 'student' then '学生'
-        when 'teacher' then '教师'
-        when 'admin'   then '管理员'
-        else throw 'unknown user.role ' + $scope.userRole
+        when 'student'   then '学生'
+        when 'teacher'   then '教师'
+        when 'admin'     then '管理员'
+        when 'superuser' then '管理员'
+        else $log.error 'unknown user.role ' + $scope.userRole
 
     addNewUser: ->
       $modal.open
@@ -60,7 +63,6 @@ angular.module('budweiserApp')
         controller: 'NewUserModalCtrl'
         resolve:
           userRole: -> $scope.userRole
-          orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
       .result.then (newUser) ->
         if _.isEmpty($scope.classe?._id)
           addNewUserSuccess(newUser)

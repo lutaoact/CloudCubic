@@ -9,7 +9,6 @@ exports.createUser = (req, res, next) ->
   body = req.body
 
   user =
-    username: body.username
     email   : body.email
     password: body.password
     name    : body.name
@@ -17,7 +16,6 @@ exports.createUser = (req, res, next) ->
   User.createQ user
   .then (result) ->
     res.send
-      username: result.username
       email: result.email
       role: result.role
   .catch next
@@ -29,7 +27,7 @@ exports.createOrg = (req, res, next) ->
 
   OrgUtils.check body.uniqueName
   .then () ->
-    UserUtils.check username: body.username, email: body.email
+    UserUtils.check email: body.email
   .then () ->
     organization =
       uniqueName: body.orgUniqueName
@@ -39,7 +37,6 @@ exports.createOrg = (req, res, next) ->
     Organization.createQ organization
   .then (org) ->
     admin =
-      username: body.username
       email   : body.email
       password: body.password
       name    : body.name
@@ -49,7 +46,6 @@ exports.createOrg = (req, res, next) ->
     User.createQ admin
   .then (result) ->
     res.send
-      username: result.username
       email   : result.email
       role    : result.role
   .catch next

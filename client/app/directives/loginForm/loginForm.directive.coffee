@@ -30,7 +30,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
         if !form.$valid then return
         # Logged in, redirect to home
         Auth.login(
-          username: $scope.user.username
+          email: $scope.user.email
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->

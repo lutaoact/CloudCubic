@@ -24,7 +24,6 @@ module.exports =
     _id: _s.sprintf userId, 0
     provider: 'local'
     name: 'Test User'
-    username: 'test@test.com'
     email: 'test@test.com'
     password: 'test'
     avatar: 'http://lorempixel.com/128/128/people/1'
@@ -33,7 +32,6 @@ module.exports =
     provider: 'local'
     role: 'admin'
     name: 'Admin'
-    username: 'admin@admin.com'
     email: 'admin@admin.com'
     password: 'admin'
     orgId: _s.sprintf orgId, 0
@@ -43,7 +41,6 @@ module.exports =
     provider: 'local'
     role: 'teacher'
     name: 'Teacher'
-    username: 'teacher@teacher.com'
     email: 'teacher@teacher.com'
     password: 'teacher'
     orgId: _s.sprintf orgId, 0
@@ -53,7 +50,6 @@ module.exports =
     provider: 'local'
     role: 'student'
     name: 'Student3'
-    username: 'student@student.com'
     email: 'student@student.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
@@ -63,7 +59,6 @@ module.exports =
     provider: 'local'
     role: 'student'
     name: 'Student4'
-    username: 'student@student4.com'
     email: 'student@student4.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
@@ -73,7 +68,6 @@ module.exports =
     provider: 'local'
     role: 'student'
     name: 'Student5'
-    username: 'student@student5.com'
     email: 'student@student5.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
@@ -83,7 +77,6 @@ module.exports =
     provider: 'local'
     role: 'student'
     name: 'Student6'
-    username: 'student@student6.com'
     email: 'student@student6.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0

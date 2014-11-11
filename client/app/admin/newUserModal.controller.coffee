@@ -1,30 +1,29 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'NewUserModalCtrl', (
+  $log
   $scope
   notify
+  configs
   userRole
   Restangular
-  orgUniqueName
   $modalInstance
-  configs
 ) ->
 
   angular.extend $scope,
     imageSizeLimitation: configs.imageSizeLimitation
     errors: null
-    orgUniqueName: orgUniqueName
 
     user:
       role: userRole
-      username: ''
+      email: ''
 
     title:
       switch userRole
         when 'student' then '添加新学生'
         when 'teacher' then '添加新老师'
         when 'admin'   then '添加新管理员'
-        else throw "unknown user.role #{userRole}"
+        else $log.error "unknown user.role #{userRole}"
 
     cancel: ->
       $modalInstance.dismiss('cancel')
@@ -35,7 +34,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     confirm: (form) ->
       if !form.$valid then return
       newUser = angular.copy $scope.user
-      newUser.username += '_' + orgUniqueName
       Restangular.all('users').post newUser
       .then $modalInstance.close, (error) ->
         $scope.errors = error?.data?.errors

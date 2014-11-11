@@ -26,13 +26,13 @@ Organization.findOneQ uniqueName: uniqueName
   tmpResult.org = org
 
   adminAndTeacher = [
-    username: "admin_#{uniqueName}"
+    email: "admin_#{uniqueName}"
     password: "admin_#{uniqueName}"
     name: "#{name}管理员"
     role: 'admin'
     orgId: tmpResult.org._id
   ,
-    username: "teacher1_#{uniqueName}"
+    email: "teacher1_#{uniqueName}"
     password: "teacher1_#{uniqueName}"
     name: "#{name}老师1"
     role: 'teacher'
@@ -44,7 +44,7 @@ Organization.findOneQ uniqueName: uniqueName
   tmpResult.adminAndTeacher = adminAndTeacher
 
   students = for id in [1..10]
-    username: "#{id}_#{uniqueName}"
+    email: "#{id}_#{uniqueName}"
     password: "#{id}_#{uniqueName}"
     name: "#{name}学生#{id}"
     orgId: tmpResult.org._id

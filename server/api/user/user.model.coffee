@@ -6,6 +6,13 @@ ObjectId = Schema.ObjectId
 crypto = require 'crypto'
 authTypes = ['google']
 BaseModel = (require '../../common/BaseModel').BaseModel
+sendActivationMail = require('../../common/mail').sendActivationMail
+
+sha1 = (msg) ->
+  crypto.createHash('sha1').update(msg).digest('hex')
+
+generateActivationCode = (email) ->
+  sha1(email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
 
 exports.User = BaseModel.subclass
   classname: 'User'
@@ -13,14 +20,11 @@ exports.User = BaseModel.subclass
     @schema = new Schema
       avatar :
         type : String
-      username :
-        type : String
-        unique: true
-        required: true
       email :
         type : String
         lowercase : true
         unique: true
+        required: true
         sparse: true
       info :
         type : String
@@ -38,9 +42,11 @@ exports.User = BaseModel.subclass
         default : 'student'#TODO change role to Number
       salt :
         type : String
-      #TODO check login ?
       status :
-        type : String
+        type : Number # 0: unactivated; 1: activated
+        default : 0
+      activationCode:
+        type: String
       resetPasswordToken :
         type: String
       resetPasswordExpires :
@@ -53,14 +59,13 @@ exports.User = BaseModel.subclass
 
   findBy: (userInfo) ->
     conditions = {$or: []}
-    conditions.$or.push(username: userInfo.username) if userInfo.username?
     conditions.$or.push(email   : userInfo.email)    if userInfo.email?
 
     if _.isEmpty conditions.$or
       return Q.reject
         status: 400
         errCode: ErrCode.IllegalFields
-        errMsg: 'username或email字段不可同时为空'
+        errMsg: 'email字段不能为空'
 
     @findOneQ conditions
 
@@ -92,7 +97,6 @@ setupUserSchema = (UserSchema) ->
     'email': this.email
     'avatar': this.avatar
     'status': this.status
-    'username': this.username
 
   # Non-sensitive info we will be putting in the token
   UserSchema
@@ -128,30 +132,27 @@ setupUserSchema = (UserSchema) ->
       respond notTaken
   , '该邮箱地址已经被占用，请选择其他邮箱'
 
-  # Validate username is not taken
-  UserSchema
-  .path 'username'
-  .validate (value, respond) ->
-    self = this
-    this.constructor.findOne
-      username: value
-    , (err, user) ->
-      throw err if err
-      notTaken = !user or user.id == self.id
-      respond notTaken
-  , '该用户名已经被占用，请选择其他用户名'
-
   validatePresenceOf = (value) ->
     value && value.length
 
   UserSchema
   .pre 'save', (next) ->
-    if not this.isNew
-      next()
-    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
-      next new Error 'Invalid password'
+    if this.isNew
+      this.activationCode = generateActivationCode this.email
+      this.needSendActivationMail = true
     else
       next()
+
+    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
+      next new Error '密码错误'
+    else
+      next()
+
+  UserSchema
+  .post 'save', (next) ->
+    if this.needSendActivationMail
+      sendActivationMail this.email, this.activationCode
+      this.needSendActivationMail = false
 
   UserSchema.methods =
     ###

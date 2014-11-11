@@ -17,11 +17,15 @@ Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 Organization = _u.getModel "organization"
 UserUtils = _u.getUtils 'user'
+crypto = require 'crypto'
+sendActivationMail = require('../../common/mail').sendActivationMail
+sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
+
 ###
   Get list of users
   restriction: 'admin'
@@ -98,7 +102,7 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  UserUtils.check username: req.query.username, email: req.query.email
+  UserUtils.check email: req.query.email
   .then () ->
     res.send 200
   .catch next
@@ -186,7 +190,7 @@ exports.me = (req, res, next) ->
 ###
 exports.update = (req, res, next) ->
   body = req.body
-  body = _.omit body, ['_id', 'password', 'orgId', 'username']
+  body = _.omit body, ['_id', 'password', 'orgId']
 
   User.findByIdQ req.params.id
   .then (user) ->
@@ -287,10 +291,9 @@ exports.bulkImport = (req, res, next) ->
       email = userItem[1]
       console.log 'userItem', name, email
       newUser = new User.model
-        role   :  type
+        role :  type
         name : name
         email : email
-        username: email + '_' + orgUniqueName
         password : email #initial password is the same as email
         orgId : orgId
       newUser.saveQ()
@@ -321,7 +324,6 @@ exports.bulkImport = (req, res, next) ->
 exports.forget = (req, res, next) ->
   if not req.body.email? then return res.send 400
 
-  crypto = require 'crypto'
   cryptoQ = Q.nbind(crypto.randomBytes)
   token = null
 
@@ -335,7 +337,6 @@ exports.forget = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
-    sendPwdResetMail = require('../../common/mail').sendPwdResetMail
     resetLink = req.protocol+'://'+req.headers.host+'/accounts/resetpassword?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
@@ -358,6 +359,30 @@ exports.reset = (req, res, next) ->
   .then (saved) ->
     res.send 200
   , next
+
+
+exports.sendActivationMail = (req, res, next) ->
+  User.findOneQ
+    email: req.body.email
+  .then (user) ->
+    sendActivationMail user.email, user.activationCode
+    res.send 200
+  .catch next
+  .done()
+
+
+exports.completeActivation = (req, res, next) ->
+  User.findOneQ
+    email: req.query.email.toLowerCase()
+    activationCode: req.query.activation_code
+  .then (user) ->
+    return res.send 403 if not user?
+    user.status = 1
+    user.saveQ()
+  .then ()->
+    res.send 200
+  .catch next
+  .done()
 
 ###
  Authentication callback
