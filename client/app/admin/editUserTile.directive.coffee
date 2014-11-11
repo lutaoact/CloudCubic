@@ -38,6 +38,7 @@ angular.module('budweiserApp')
     viewState:
       saved: true
       saving: false
+      sending: false
     roleTitle: ''
 
     onAvatarUploaded: (key) ->
@@ -49,6 +50,17 @@ angular.module('budweiserApp')
         notify
           message: '头像修改成功'
           classes: 'alert-success'
+
+    sendActiveCode: ->
+      $scope.viewState.sending = true
+      Restangular.all('users').customPOST(email:$scope.user.email, 'sendActivationMail')
+      .then ->
+        notify
+          message: "一封激活邮件将会发送给#{$scope.user.email}，请注意查收。"
+          classes: 'alert-success'
+          duration: 10000
+      .finally ->
+        $scope.viewState.sending = false
 
     saveProfile: (form) ->
       if !form.$valid then return

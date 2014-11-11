@@ -141,7 +141,8 @@
         <span class="name">{{user.name}}</span>
         <span class="email">{{user.email}}</span>
       <span class="pull-right">
-        <span class="status">{{user.status||'激活'}}</span>
+        <span class="status text-success" ng-if="user.status == 1">已激活</span>
+        <span class="status text-danger" ng-if="user.status != 1">等待激活</span>
       </span>
       </a>
     </div>
