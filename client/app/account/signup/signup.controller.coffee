@@ -4,6 +4,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   $scope
   $timeout
   Restangular
+  mailAddressService
 ) ->
 
   Restangular.all('areas').getList().then (areas) ->
@@ -14,6 +15,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
     errors: {}
     submitted: false
     signupFinish: false
+    emailAddress: null
     organization: {}
     checkEmailPromise: null
 
@@ -78,6 +80,9 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             orgUniqueName.$setValidity 'remote', false
             orgUniqueName.$remoteChecked = false
         , 800
+
+    initEmailAddress: ->
+      $scope.emailAddress = mailAddressService.getAddress($scope.user.email)
 
     cities: undefined
 

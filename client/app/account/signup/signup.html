@@ -1,6 +1,7 @@
 <div class="signup">
 
   <div class="container success-message"
+       ng-init="initEmailAddress()"
        ng-if="signupFinish">
     <div class="row">
       <div class="header text-center">
@@ -16,7 +17,10 @@
             请先登录邮箱激活您的账户。
           </p>
         </div>
-        <!--<button class="btn btn-danger rounded">马上去激活</button>-->
+        <a class="btn btn-danger rounded"
+           target="_blank"
+           ng-show="emailAddress"
+           ng-href="{{emailAddress}}">马上去激活</a>
         <a ui-sref="main" class="btn btn-link pull-right">返回</a>
       </div>
     </div>
