@@ -321,7 +321,7 @@ exports.bulkImport = (req, res, next) ->
     next err
 
 
-exports.forget = (req, res, next) ->
+exports.forgotPassword = (req, res, next) ->
   if not req.body.email? then return res.send 400
 
   cryptoQ = Q.nbind(crypto.randomBytes)
@@ -337,23 +337,23 @@ exports.forget = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
-    resetLink = req.protocol+'://'+req.headers.host+'/accounts/resetpassword?email='+user.email+'&token='+token
+    resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
     res.send 200
   , next
 
 
-exports.reset = (req, res, next) ->
+exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
-    email: req.query.email.toLowerCase()
-    resetPasswordToken: req.query.token
+    email: req.body.email.toLowerCase()
+    resetPasswordToken: req.body.token
     resetPasswordExpires:
       $gt: Date.now()
   .then (user) ->
-    return res.send 404 if not user?
+    return res.send 403 if not user?
     user.password = req.body.password
     user.saveQ()
   .then (saved) ->
@@ -383,7 +383,7 @@ exports.completeActivation = (req, res, next) ->
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req,res
+    setTokenCookie req, res
   .catch next
   .done()
 

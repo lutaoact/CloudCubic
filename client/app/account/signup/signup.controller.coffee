@@ -57,14 +57,10 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             email.$remoteChecked = false
         , 800
 
-    checkPasswordAgain: (password, passwordAgain)->
-      if passwordAgain.$modelValue
-        if passwordAgain.$modelValue is password.$modelValue
-          passwordAgain.$setValidity 'sameWith', true
-        else
-          passwordAgain.$setValidity 'sameWith', false
-      else
-        passwordAgain.$setValidity 'sameWith', true
+    checkPasswordAgain: (password, passwordAgain) ->
+      passwordVal = password.$modelValue
+      passwordAgainVal = passwordAgain.$modelValue
+      passwordAgain.$setValidity 'sameWith', !passwordAgainVal || passwordAgainVal == passwordVal
 
     checkOrgUniqueNamePromise: undefined
 
