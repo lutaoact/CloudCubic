@@ -1,5 +1,8 @@
 'use strict';
 
+var anchor = require('anchor-markdown-header');
+
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically, when needed
@@ -20,7 +23,6 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
     // Project settings
     yeoman: {
       // configurable paths
@@ -239,9 +241,9 @@ module.exports = function (grunt) {
         '<%= yeoman.dist %>/public/{,*/}*.js',
       '<%= yeoman.dist %>/public/{,*/}*.css',
     '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-    '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
-    ]
-  }
+  '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
+  ]
+}
 }
 },
 
@@ -636,6 +638,21 @@ options: {
           stylesheet: 'less'
         }
       }
+    },
+    markdown: {
+      all: {
+        files: [
+        {
+          expand: true,
+          src: 'client/assets/html/docs/help.md',
+          dest: './',
+          ext: '.md.html'
+        }
+        ],
+        options: {
+          template: 'client/assets/html/docs/help.tmpl.jst',
+        }
+      }
     }
   });
 
@@ -779,9 +796,11 @@ grunt.registerTask('build', [
     'usemin'
     ]);
 
+
 grunt.registerTask('default', [
   'newer:jshint',
   'test',
   'build'
   ]);
+
 };
