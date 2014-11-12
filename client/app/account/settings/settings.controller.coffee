@@ -21,6 +21,10 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
 #        title: '支付信息'
 #        link: 'settings/billing'
 #      }
+      {
+        title: '消息'
+        link: 'settings/notice'
+      }
     ]
 
     isActive: (route) ->

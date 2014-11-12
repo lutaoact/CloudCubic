@@ -1,8 +1,5 @@
 'use strict';
 
-var anchor = require('anchor-markdown-header');
-
-
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically, when needed
@@ -636,21 +633,6 @@ options: {
             baseClass: "budon"
           },
           stylesheet: 'less'
-        }
-      }
-    },
-    markdown: {
-      all: {
-        files: [
-        {
-          expand: true,
-          src: 'client/assets/html/docs/help.md',
-          dest: './',
-          ext: '.md.html'
-        }
-        ],
-        options: {
-          template: 'client/assets/html/docs/help.tmpl.jst',
         }
       }
     }
