@@ -5,7 +5,9 @@ angular.module('budweiserApp').controller 'ActivateModalCtrl', (
   email
   Restangular
   $modalInstance
+  mailAddressService
 ) ->
+  $scope.emailHostAddress = mailAddressService.getAddress email
 
   angular.extend $scope,
     errors: null
@@ -14,8 +16,7 @@ angular.module('budweiserApp').controller 'ActivateModalCtrl', (
     cancel: ->
       $modalInstance.dismiss('cancel')
 
-    confirm: (form) ->
-      if !form.$valid then return
+    confirm: () ->
       Restangular.all('users').customPOST(email:$scope.email, 'sendActivationMail')
       .then $modalInstance.close
       .catch (error) ->
