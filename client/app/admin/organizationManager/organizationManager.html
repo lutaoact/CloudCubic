@@ -4,7 +4,7 @@
       <form id="org-form"
             class="form-horizontal col-md-10 col-md-offset-1"
             role="form"
-            name="form">
+            name="orgForm">
 
         <div class="form-group text-center">
           <div class="org-logo"
@@ -77,7 +77,7 @@
           <button type="submit"
                   class="btn btn-danger rounded save-btn"
                   ng-disabled="saved || saving"
-                  ng-click="saveOrg(form)">
+                  ng-click="saveOrg(orgForm)">
             <span ng-if="!saving">
               <span ng-if="!saved">保存</span>
               <span ng-if="saved">已保存</span>
