@@ -1,6 +1,7 @@
 jade = require 'jade'
 fs = require('fs')
 querystring = require("querystring");
+nodemailer = require('nodemailer');
 
 pwdResetTpl = require('fs').readFileSync(__dirname + '/views/pwdReset.jade', 'utf8')
 pwdResetFn = jade.compile pwdResetTpl, pretty: true
@@ -8,12 +9,11 @@ pwdResetFn = jade.compile pwdResetTpl, pretty: true
 pwdActivationTpl = require('fs').readFileSync(__dirname + '/views/pwdActivation.jade', 'utf8')
 pwdActivationFn = jade.compile pwdActivationTpl, pretty: true
 
-emailjs = require 'emailjs/email'
-
 config = require '../../config/environment'
-credentials = config.emailCredentials
 host = config.host
 
+emailConfig = config.emailConfig
+transporter = nodemailer.createTransport emailConfig
 
 exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
   locals =
@@ -22,15 +22,14 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
 
   htmlOutput = pwdResetFn locals
 
-  message =
-    from: "学之方" + ' <' + credentials.user + '>'
+  mailOptions =
+    from: "学之方" + ' <' + emailConfig.auth.user + '>'
     to: receiverEmail
     subject: "学之方 -- 找回密码邮件"
-    attachment: [{data: htmlOutput, alternative:true}]
+    html: htmlOutput
 
-  server = emailjs.server.connect credentials
-  server.send message, (err, message) ->
-    console.log(err || message)
+  transporter.sendMail mailOptions, (error, info) ->
+    console.log(error || 'Message sent: ' + info.response)
 
 
 exports.sendActivationMail = (receiverEmail, activationCode) ->
@@ -45,13 +44,11 @@ exports.sendActivationMail = (receiverEmail, activationCode) ->
 
   htmlOutput = pwdActivationFn locals
 
-  message =
-    from: "学之方" + ' <' + credentials.user + '>'
+  mailOptions =
+    from: "学之方" + ' <' + emailConfig.auth.user + '>'
     to: receiverEmail
     subject: "学之方 -- 激活邮件"
-    attachment: [{data: htmlOutput, alternative:true}]
+    html: htmlOutput
 
-  server = emailjs.server.connect credentials
-  server.send message, (err, message) ->
-    console.log(err || message)
-
+  transporter.sendMail mailOptions, (error, info) ->
+    console.log(error || 'Message sent: ' + info.response)

@@ -81,9 +81,12 @@ module.exports =
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
 
-  emailCredentials:
-    user: 'noreply.cloud3edu@gmail.com'
-    password:  'cloud3eduuuu'
-    host: 'smtp.gmail.com'
-    ssl: true
-    timeout: 20000
+  emailConfig:
+    host: "smtp.office365.com"
+    secureConnection: false
+    port: 587
+    auth:
+      user: "noreply@cloud3edu.com"
+      pass: "!nv1te01"
+    tls:
+      ciphers:'SSLv3'
