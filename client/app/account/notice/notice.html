@@ -1,5 +1,5 @@
-<div>
-  <tabset class="tabset-non-border">
+<div class="notice-view">
+  <tabset>
     <tab heading="公告信息">
       <ul class="list-group">
         <li class="list-group-item broadcast" id="{{broadcast._id}}" ng-click="viewState.selectedBroadcast=broadcast" ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}" ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery">
@@ -18,18 +18,19 @@
     <tab heading="回复信息">
       <ul class="media-list message-list"
           ng-if="messages.length > 0">
-        <li ng-repeat="message in messages}"
-            class="message media"
-            ng-click="removeMsg(message)"
+        <li ng-repeat="message in messages|orderBy:'raw.status'"
+            class="message media broadcast"
+            ng-class="{'unread':!message.raw.status}"
+            ng-click="markAsRead(message)"
             ui-sref="{{message.link}}">
           <div class="avatar-xs pull-left"
                src-key="message.raw.fromWhom.avatar"
                source-attr="background-image"></div>
           <div class="media-body">
-            <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
+            <a class="pull-right btn fa" ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" ng-click="markAsRead(message, $event)" title="标记为{{message.raw.status?'未读':'已读'}}"></a>
             <h6 class="media-heading">
               {{message.raw.fromWhom.name}}
-              <small>{{message.raw.created|timeToTimeAgo}}</small>
+              <small>|&nbsp;{{message.raw.created|timeToTimeAgo}}</small>
             </h6>
             <div class="text-muted">{{message.title}}</div>
           </div>

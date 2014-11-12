@@ -86,7 +86,6 @@ angular.module('budweiserApp')
 
   $scope.$watch 'activeReply', (value)->
     if value
-      console.log value
       $timeout ->
         targetElement = angular.element(document.getElementById value)
         targetElement.addClass('active')
