@@ -145,7 +145,12 @@
           </div>
         </div>
         <ul class="list-group col-xs-12">
-          <li class="list-group-item broadcast" id="{{broadcast._id}}" ng-click="viewState.selectedBroadcast=broadcast" ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}" ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery">
+          <li
+            class="list-group-item broadcast"
+            id="{{broadcast._id}}"
+            ng-click="viewState.selectedBroadcast=broadcast"
+            ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
+            ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
             <div class="clearfix">
               <h5 class="base-color pull-left">
                 {{broadcast.title}}
@@ -163,6 +168,21 @@
             </div>
           </li>
         </ul>
+        <pagination
+          ng-hide="broadcasts.length <= itemsPerPage"
+          total-items="broadcasts.length"
+          ng-model="currentBroadcastPage"
+          items-per-page="itemsPerPage"
+          class="pagination-sm"
+          boundary-links="true"
+          rotate="false"
+          max-size="maxSize"
+          previous-text="&lsaquo;"
+          next-text="&rsaquo;"
+          first-text="&laquo;"
+          last-text="&raquo;"
+          num-pages="numPages">
+        </pagination>
       </div>
     </div>
   </tab>

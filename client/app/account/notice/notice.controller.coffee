@@ -9,7 +9,10 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
 ) ->
 
   angular.extend $scope,
-
+    itemsPerPage: 5
+    currentBroadcastPage: 1
+    currentMessagePage: 1
+    maxSize: 4
     broadcasts: undefined
 
     messages: []

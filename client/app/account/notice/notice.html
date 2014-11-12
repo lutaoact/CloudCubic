@@ -2,7 +2,11 @@
   <tabset>
     <tab heading="公告信息">
       <ul class="list-group">
-        <li class="list-group-item broadcast" id="{{broadcast._id}}" ng-click="viewState.selectedBroadcast=broadcast" ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}" ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery">
+        <li class="list-group-item broadcast"
+          id="{{broadcast._id}}"
+          ng-click="viewState.selectedBroadcast=broadcast"
+          ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
+          ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
           <div class="clearfix">
             <h5 class="base-color pull-left">
               {{broadcast.title}}
@@ -14,11 +18,26 @@
           </div>
         </li>
       </ul>
+      <pagination
+        ng-hide="broadcasts.length <= itemsPerPage"
+        total-items="broadcasts.length"
+        ng-model="currentBroadcastPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
     </tab>
     <tab heading="回复信息">
       <ul class="media-list message-list"
           ng-if="messages.length > 0">
-        <li ng-repeat="message in messages|orderBy:'raw.status'"
+        <li ng-repeat="message in messages|orderBy:'raw.status'|paging:itemsPerPage:currentMessagePage"
             class="message media broadcast"
             ng-class="{'unread':!message.raw.status}"
             ng-click="markAsRead(message)"
@@ -36,6 +55,21 @@
           </div>
         </li>
       </ul>
+      <pagination
+        ng-hide="messages.length <= itemsPerPage"
+        total-items="messages.length"
+        ng-model="currentMessagePage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
     </tab>
   </tabset>
 </div>
