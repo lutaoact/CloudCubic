@@ -34,7 +34,6 @@ exports.Question = BaseModel.subclass
       solution: String #填空题的答案
       detailSolution:
         type: String #详解
-        required: true
       deleteFlag:
         type: Boolean
         default: false
