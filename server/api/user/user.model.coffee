@@ -149,7 +149,7 @@ setupUserSchema = (UserSchema) ->
       next()
 
   UserSchema
-  .post 'save', (next) ->
+  .post 'save', (doc) ->
     if this.needSendActivationMail
       sendActivationMail this.email, this.activationCode
       this.needSendActivationMail = false
