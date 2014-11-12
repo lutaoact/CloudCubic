@@ -44,7 +44,11 @@
                                             'has-error': form.orgName.$invalid && submitted }">
           <label>机构名称</label>
 
-          <input type="text" name="orgName" class="form-control input-sm" ng-model="organization.name"
+          <input type="text"
+                 name="orgName"
+                 class="form-control input-sm"
+                 ng-model="organization.name"
+                 placeholder="请输入您的机构名称，比如：“学之方教育科技”"
                  required/>
           <p class="help-block" ng-show="form.orgName.$error.required && submitted">
             请输入机构名称
@@ -55,10 +59,11 @@
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.orgUniqueName.$valid && submitted,
                                             'has-error': form.orgUniqueName.$invalid && submitted}">
-          <label>机构唯一标识<span class="text-primary">（创建后不能修改）</span></label>
+          <label>机构唯一标识<span class="text-primary">（创建后不能修改，支持字母和数字）</span></label>
 
           <input type="text" name="orgUniqueName"
                  class="form-control input-sm"
+                 placeholder="请输入您的机构唯一标识，比如：“cloud3edu”"
                  ng-model="organization.uniqueName"
                  ng-change="checkOrgUniqueName(form.orgUniqueName)"
                  required/>
