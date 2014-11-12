@@ -15,15 +15,19 @@ angular.module('budweiserApp')
     url: '/signup'
     templateUrl: 'app/account/signup/signup.html'
     controller: 'SignupCtrl'
+    navClasses: 'home-nav'
 
   .state 'forgot',
     url: '/forgot'
     templateUrl: 'app/account/forgot/forgot.html'
     controller: 'ForgotCtrl'
+    navClasses: 'home-nav'
+
   .state 'reset',
     url: '/reset?email&token'
     templateUrl: 'app/account/reset/reset.html'
     controller: 'ResetCtrl'
+    navClasses: 'home-nav'
 
   .state 'settings',
     abstract: true

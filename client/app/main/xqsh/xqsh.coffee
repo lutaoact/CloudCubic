@@ -5,3 +5,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/xqsh'
     templateUrl: 'app/main/xqsh/xqsh.html'
     controller: 'XqshCtrl'
+    navClasses: 'home-nav'
