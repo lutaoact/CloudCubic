@@ -7,6 +7,7 @@ angular.module('budweiserApp')
       url: '/',
       templateUrl: 'app/main/main.html'
       controller: 'MainCtrl'
+      navClasses: 'home-nav'
     )
 
 .factory 'Page', ($document) ->
