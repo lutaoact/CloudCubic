@@ -337,6 +337,7 @@ exports.forgotPassword = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
+    return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if not user?
     resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
@@ -379,7 +380,7 @@ exports.completeActivation = (req, res, next) ->
     return res.send 403 if not user?
     req.user = user
     if user.status == 1
-      throw new Error "used activation link"
+      return res.send 403, '抱歉，该激活码已经被使用过。'
     user.status = 1
     user.saveQ()
   .then ()->
