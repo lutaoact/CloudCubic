@@ -93,13 +93,12 @@ exports.create = (req, res, next) ->
   Get a single user
 ###
 exports.show = (req, res, next) ->
-
   userId = req.params.id
-
   User.findByIdQ userId
   .then (user) ->
     res.send user.profile
-  , next
+  .catch next
+  .done()
 
 
 exports.check = (req, res, next) ->
