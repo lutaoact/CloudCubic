@@ -1,21 +1,30 @@
-.new-item-form {
-  padding: 90px 15px 10px 15px;
-  #item-name {
-    border-radius: 4px;
-  }
-  #confirm-btn {
-    margin-top: 60px;
-    width: 90%;
-    border-radius: 4px;
-  }
-}
-
 .center-modal{
-  position: fixed;
-  top: 20%;
-  left: 18.5%;
-  z-index: 1050;
-  width: 80%;
-  height: 80%;
-  margin-left: -10%;
+  .modal-dialog {
+    margin-top: 120px;
+    width: 450px;
+  }
+  .modal-content {
+    border-radius: 4px;
+    border: 4px solid @base-color;
+  }
+  .modal-header {
+    text-align: center;
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    border-bottom-color: #aaa;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .modal-body {
+    text-align: center;
+    padding: 30px 50px 40px 50px;
+  }
+  .body-footer {
+    margin-top: 30px;
+  }
+  .modal-btn {
+    margin: 0 10px;
+    min-width: 90px;
+  }
 }

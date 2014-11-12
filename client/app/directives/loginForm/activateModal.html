@@ -1,29 +1,33 @@
 <div>
-    <div class="modal-header modal-header-black">
-        <h4 class="modal-title">
-            账户激活
-            <a class="close" ng-click="cancel()">&times;</a>
-        </h4>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      账户激活
+      <a class="close" ng-click="cancel()">&times;</a>
+    </h4>
+  </div>
+  <div class="text-center modal-body">
+    您的账户 <span class="text-primary">{{email}}</span> 尚未激活
+    <p>请登录注册邮箱激活</p>
+
+    <div class="body-footer">
+      <span ng-show="emailHostAddress">
+        <a class="btn btn-danger btn-sm rounded modal-btn"
+           target="_blank"
+           ng-href="{{emailHostAddress}}">
+          马上激活
+        </a>
+        或
+      </span>
+      <a class="text-muted modal-btn" href ng-click="resendEmail()">
+        <span ng-show="!viewState.sending">
+          重新发送激活邮件
+        </span>
+        <span ng-if="viewState.sending">
+          <i class="fa fa-spin fa-spinner"></i>
+          发送中
+        </span>
+      </a>
     </div>
-    <div class="text-center modal-body">
-        <h4>您的账户 {{email}} 尚未激活</h4>
 
-        <a type="sumit"
-                id="login-email-btn"
-                class="btn btn-danger"
-                target="_blank"
-                ng-href="{{emailHostAddress}}"
-                ng-show="emailHostAddress">登录邮箱激活账户</a>
-        <h4 ng-hide="emailHostAddress">请登录邮箱激活</h4>
-
-        <div>
-            若您未收到激活邮件点击
-            <button type="submit"
-                    id="confirm-btn"
-                    class="btn btn-danger"
-                    ng-click="confirm()">重新发送激活邮件</button>
-            或与机构管理员联系
-        </div>
-
-    </div>
+  </div>
 </div>

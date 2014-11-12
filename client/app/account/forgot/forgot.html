@@ -5,10 +5,10 @@
         <h3>通过注册/登录邮箱找回密码</h3>
       </div>
       <div class="content col-md-offset-2 col-md-8" ng-show="viewState.sended">
-        <label>电子邮件已发送到</label>
+        电子邮件已发送到
         <span class="text-primary">{{email}}</span>
-        <p class="text-muted">
-          <small>请按照您在以上电子邮件地址中收到的相关说明进行操作。</small>
+        <p>
+          请按照您在以上电子邮件地址中收到的相关说明进行操作。
         </p>
 
         <button type="button"
@@ -30,15 +30,15 @@
         </small>
 
         <p class="info">
-          <small class="text-primary">
+          <span class="text-primary">
             没有收到“找回密码”的电子邮件？
-          </small>
+          </span>
           <br/>
-          <small class="text-muted">
+          <span class="text-muted">
             请查看您的垃圾邮件中是否有来自 no-reply@cloud3edu.com的
             电子邮件。如果您仍未看到该电子邮件，请尝试使用其他方法登
             录帐户。
-          </small>
+          </span>
         </p>
 
       </div>

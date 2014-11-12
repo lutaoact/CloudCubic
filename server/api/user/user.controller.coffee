@@ -337,7 +337,7 @@ exports.forgotPassword = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
-    return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if not user?
+    return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if !user?
     resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
@@ -354,7 +354,7 @@ exports.resetPassword = (req, res, next) ->
     resetPasswordExpires:
       $gt: Date.now()
   .then (user) ->
-    return res.send(403, "重设密码链接已过时或者不合法") if not user?
+    return res.send(403, "重设密码链接已过时或者不合法") if !user?
     user.password = req.body.password
     user.saveQ()
   .then (saved) ->

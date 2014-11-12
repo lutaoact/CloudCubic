@@ -1,23 +1,26 @@
 'use scrict'
 
 angular.module('budweiserApp').controller 'ActivateModalCtrl', (
-  $scope
   email
+  $scope
   Restangular
   $modalInstance
   mailAddressService
 ) ->
-  $scope.emailHostAddress = mailAddressService.getAddress email
 
   angular.extend $scope,
-    errors: null
     email: email
+    emailHostAddress: mailAddressService.getAddress email
+    viewState:
+      sending: false
 
     cancel: ->
       $modalInstance.dismiss('cancel')
 
-    confirm: () ->
+    resendEmail: () ->
+      $scope.viewState.sending = true
+      $scope.errors = null
       Restangular.all('users').customPOST(email:$scope.email, 'sendActivationMail')
       .then $modalInstance.close
-      .catch (error) ->
-        $scope.errors = error?.data?.errors
+      .finally ->
+        $scope.viewState.sending = false
