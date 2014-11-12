@@ -349,12 +349,12 @@ exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
-    email: req.body.email.toLowerCase()
+    email: req.body.email?.toLowerCase?()
     resetPasswordToken: req.body.token
     resetPasswordExpires:
       $gt: Date.now()
   .then (user) ->
-    return res.send 403 if not user?
+    return res.send(403, "重设密码链接已过时或者不合法") if not user?
     user.password = req.body.password
     user.saveQ()
   .then (saved) ->

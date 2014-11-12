@@ -31,23 +31,30 @@
                  required/>
         </div>
         <div class="form-group">
-          <label for="confirm-input" class="control-label">确认密码：</label>
+          <label for="confirm-input" class="control-label">
+            确认密码：
+            <span class="text-danger"
+               ng-show="form.passwordAgain.$error.sameWith">
+              (两次输入密码不一致)
+            </span>
+            <span class="text-danger"
+               ng-show="viewState.errors">
+              ({{viewState.errors.data}})
+            </span>
+          </label>
           <input type="password"
                  name="passwordAgain"
                  id="confirm-input"
                  class="form-control"
                  min-length="6"
-                 ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
+                 ng-blur="checkPasswordAgain(form.password, form.passwordAgain)"
                  placeholder="请再次输入您的新登录密码"
                  ng-model="passwordConfirm"
                  required/>
-          <p class="help-block"
-             ng-show="form.passwordAgain.$error.sameWith">
-            两次输入密码不一致
-          </p>
         </div>
-        <div class="btn-group pull-right">
-          <button type="submit" class="btn btn-danger rounded">
+        <div class="form-group content-footer">
+          <a ui-sref="main">返回</a>
+          <button type="submit" class="btn btn-danger rounded pull-right">
             <span ng-if="viewState.resetting">
               <i class="fa fa-spin fa-spinner"></i>
               重设中

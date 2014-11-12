@@ -13,16 +13,20 @@ angular.module('budweiserApp').controller 'ResetCtrl', (
     viewState:
       resetting: false
       reseted: false
+      errors: null
     password: ''
 
     resetPassword: (form) ->
       if !form.$valid then return
       $scope.viewState.resetting = true
+      $scope.viewState.errors = null
       data = angular.extend $state.params,
         password: $scope.password
       Restangular.all('users').customPOST(data, 'resetPassword')
       .then ->
         $scope.viewState.reseted = true
+      .catch (errors) ->
+        $scope.viewState.errors = errors
       .finally ->
         $scope.viewState.resetting = false
 
