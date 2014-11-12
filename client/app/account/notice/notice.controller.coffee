@@ -5,21 +5,35 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
   $scope
   notify
   Restangular
+  Msg
 ) ->
 
   angular.extend $scope,
-
+    itemsPerPage: 5
+    currentBroadcastPage: 1
+    currentMessagePage: 1
+    maxSize: 4
     broadcasts: undefined
 
-    messages: undefined
+    messages: []
 
     viewState: {}
 
-  Restangular.all('notices').getList()
+    markAsRead: (message, $event)->
+      $event?.stopPropagation()
+      if message.raw.status
+        return
+      noticeId = message.raw._id
+      Restangular.all('notices/read').post ids:[noticeId]
+      .then ()->
+        message.raw.status = 1
+
+  Restangular.all('notices').getList({all: true})
   .then (notices)->
-    $scope.messages = notices
+    notices.forEach (notice)->
+      Msg.genMessage(notice).then (msg)->
+        $scope.messages.splice 0, 0, msg
 
   Restangular.all('broadcasts').getList()
   .then (broadcasts)->
-    console.log 1
     $scope.broadcasts = broadcasts

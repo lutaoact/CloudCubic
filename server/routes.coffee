@@ -64,6 +64,7 @@ module.exports = (app) ->
     res.sendfile __dirname + '/common/Const.js'
 
   # All other routes should redirect to the index.html
+  # TODO use template
   app.route '/*'
   .get (req, res) ->
     # if there is no cookie token, return index.html immediately
@@ -83,7 +84,7 @@ module.exports = (app) ->
           res.sendfile app.get('appPath') + '/index.html'
         else
           userInfo = """
-             ("indexUser" , {
+             ("initUser" , {
                  "_id": "#{user._id}",
                  "role": "#{user.role}"
              })
@@ -91,8 +92,12 @@ module.exports = (app) ->
           webviewInfo = """
             ("webview", #{req.query.webview?})
           """
+          notifyInfo = """
+            ("initNotify", "#{req.query.message}")
+          """
           fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
           fileString = fileString
-            .replace "('indexUser', null)", userInfo
             .replace "('webview', false)", webviewInfo
+            .replace "('initUser', null)", userInfo
+            .replace "('initNotify', null)", notifyInfo
           res.send fileString

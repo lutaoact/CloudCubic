@@ -6,8 +6,12 @@ exports.index = (req, res, next) ->
   userId = req.user.id
 
   #status: 0 -> unread
-  Notice.find
-    userId: userId, status: 0
+  queryObj =
+    userId: userId
+  if !req.query.all
+    queryObj.status = 0
+
+  Notice.find queryObj
   .populate 'data.lecture data.disTopic data.disReply fromWhom'
   .execQ()
   .then (notices) ->

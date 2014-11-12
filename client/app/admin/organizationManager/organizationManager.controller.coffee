@@ -68,6 +68,11 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   angular.extend $scope,
     broadcasts: undefined
 
+    itemsPerPage: 5
+    currentBroadcastPage: 1
+    currentMessagePage: 1
+    maxSize: 4
+
     newBroadcast: {}
 
     postBroadcast: (form)->

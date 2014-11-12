@@ -1,5 +1,29 @@
 <div class="signup">
-  <div class="container">
+
+  <div class="container success-message"
+       ng-if="signupFinish">
+    <div class="row">
+      <div class="header text-center">
+        <h3>您的账户已注册成功</h3>
+      </div>
+      <div class="content col-md-8 col-md-offset-2">
+        <div class="info">
+          <label>
+            系统已发送一封激活邮件到您的邮箱
+          </label>
+          <p class="text-muted">
+            <span class="text-primary">{{user.email}}</span>，
+            请先登录邮箱激活您的账户。
+          </p>
+        </div>
+        <!--<button class="btn btn-danger rounded">马上去激活</button>-->
+        <a ui-sref="main" class="btn btn-link pull-right">返回</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container"
+       ng-show="!signupFinish">
     <div class="row header">
       <h2 class="text-center">
         快速创建您的机构账户
@@ -26,19 +50,8 @@
           <div class="feature-body" src-key="'/assets/images/demo_1.png'" source-attr="background-image"></div>
         </div>
       </div>
-      <div class="form col-md-6 register-form"
-           ng-show="signupFinish">
-        <h3>您的账户已注册成功！</h3>
-        <div style="margin-top: 20px; margin-bottom: 20px;">
-          系统已发送一封激活邮件到您的邮箱：
-          <span class="text-success">{{user.email}}</span>，
-          请先登录邮箱激活您的账户。
-        </div>
-        <a href="/" class="btn btn-link pull-right">返回</a>
-      </div>
       <form class="form col-md-6 register-form"
             name="form"
-            ng-show="!signupFinish"
             ng-submit="registerOrg(form)" novalidate>
         <div class="form-group" ng-class="{ 'has-success': form.orgName.$valid && submitted,
                                             'has-error': form.orgName.$invalid && submitted }">

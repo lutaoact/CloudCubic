@@ -154,8 +154,9 @@ angular.module 'budweiserApp', [
   notify
   $state
   webview
-  indexUser
+  initUser
   $location
+  initNotify
   $rootScope
   socketHandler
   loginRedirector
@@ -178,7 +179,7 @@ angular.module 'budweiserApp', [
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !indexUser?
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
     checkInitState?(toState)
 
   # fix bug, the view does not scroll to top when changing view.
@@ -197,4 +198,17 @@ angular.module 'budweiserApp', [
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then setupUser
+
+  # Display notify from server
+  switch initNotify
+    when 'activation-success'
+      notify
+        message: '恭喜，您的账户已经激活成功。'
+        classes: 'alert-success'
+        duration: 10000
+    when 'activation-used'
+      notify
+        message: '抱歉，该邮箱激活码已经被使用过，请登录。'
+        classes: 'alert-danger'
+        duration: 10000
 

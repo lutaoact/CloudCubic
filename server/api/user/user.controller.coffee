@@ -337,6 +337,7 @@ exports.forgotPassword = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
+    return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if not user?
     resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
@@ -348,12 +349,12 @@ exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
-    email: req.body.email.toLowerCase()
+    email: req.body.email?.toLowerCase?()
     resetPasswordToken: req.body.token
     resetPasswordExpires:
       $gt: Date.now()
   .then (user) ->
-    return res.send 403 if not user?
+    return res.send(403, "重设密码链接已过时或者不合法") if not user?
     user.password = req.body.password
     user.saveQ()
   .then (saved) ->
@@ -373,17 +374,18 @@ exports.sendActivationMail = (req, res, next) ->
 
 exports.completeActivation = (req, res, next) ->
   User.findOneQ
-    email: req.query.email.toLowerCase()
+    email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->
     return res.send 403 if not user?
     req.user = user
-    if user.status == 1
-      throw new Error "used activation link"
+#    if user.status == 1
+#      return res.redirect '/notify?message=activation-used';
+#      return res.send 403, '抱歉，该激活码已经被使用过。'
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res
+    setTokenCookie req, res, "/notify?message=activation-success"
   .catch next
   .done()
 
