@@ -1,0 +1,40 @@
+<div>
+  <tabset class="tabset-non-border">
+    <tab heading="公告信息">
+      <ul class="list-group">
+        <li class="list-group-item broadcast" id="{{broadcast._id}}" ng-click="viewState.selectedBroadcast=broadcast" ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}" ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery">
+          <div class="clearfix">
+            <h5 class="base-color pull-left">
+              {{broadcast.title}}
+              <br>
+              <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
+            </h5>
+          </div>
+          <div class="broadcast-content" compile-html="broadcast.content">
+          </div>
+        </li>
+      </ul>
+    </tab>
+    <tab heading="回复信息">
+      <ul class="media-list message-list"
+          ng-if="messages.length > 0">
+        <li ng-repeat="message in messages}"
+            class="message media"
+            ng-click="removeMsg(message)"
+            ui-sref="{{message.link}}">
+          <div class="avatar-xs pull-left"
+               src-key="message.raw.fromWhom.avatar"
+               source-attr="background-image"></div>
+          <div class="media-body">
+            <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
+            <h6 class="media-heading">
+              {{message.raw.fromWhom.name}}
+              <small>{{message.raw.created|timeToTimeAgo}}</small>
+            </h6>
+            <div class="text-muted">{{message.title}}</div>
+          </div>
+        </li>
+      </ul>
+    </tab>
+  </tabset>
+</div>
