@@ -374,17 +374,18 @@ exports.sendActivationMail = (req, res, next) ->
 
 exports.completeActivation = (req, res, next) ->
   User.findOneQ
-    email: req.query.email.toLowerCase()
+    email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->
     return res.send 403 if not user?
     req.user = user
-    if user.status == 1
-      return res.send 403, '抱歉，该激活码已经被使用过。'
+#    if user.status == 1
+#      return res.redirect '/notify?message=activation-used';
+#      return res.send 403, '抱歉，该激活码已经被使用过。'
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res
+    setTokenCookie req, res, "/notify?message=activation-success"
   .catch next
   .done()
 

@@ -63,11 +63,11 @@ function signToken(id, role) {
 /**
  * Set token cookie directly for oAuth strategies
  */
-function setTokenCookie(req, res) {
+function setTokenCookie(req, res, redirect) {
   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.'});
   var token = signToken(req.user._id, req.user.role);
   res.cookie('token', JSON.stringify(token));
-  res.redirect('/');
+  res.redirect(redirect || '/');
 }
 
 exports.isAuthenticated = isAuthenticated;
