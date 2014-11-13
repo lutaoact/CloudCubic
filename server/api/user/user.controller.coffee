@@ -252,12 +252,14 @@ exports.bulkImport = (req, res, next) ->
     streamCloseQ()
   .then ->
 
+    # 增加对Excel格式容错的逻辑：
+
     isEmail = (input) ->  /\S+@\S+\.\S+/.test(input)
 
-    # 取第一个包含‘@’符号的为Email
+    # 取第一个‘符合Email格式的’的为Email
     getEmail = (itemArray) -> _.find itemArray, isEmail
 
-    # 取第一个包含‘@’符号的为姓名
+    # 取第一个‘不符合Email格式的’符号的为姓名
     getName = (itemArray) -> _.find itemArray, (item) -> !isEmail(item)
 
     # 取Email中‘@’之前的字符作为姓名
