@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   $scope
   $upload
   Courses
+  $modal
 ) ->
 
   angular.extend $scope,

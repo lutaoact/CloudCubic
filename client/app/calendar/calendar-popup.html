@@ -1,0 +1,44 @@
+<div class="calendar-block">
+  <div class="calendar-block-left">
+    <div class="title">
+      <h4 ng-if="selectedDate.isSame(today,'day')">今天</h4>
+      <h5>{{selectedDate._d|date:'MM月dd日'}}</h5>
+    </div>
+    <div class="schedule clearfix" ng-repeat="event in coursesOfCurrentDate">
+      <div class="dot pull-left" ng-style="{'background-color':event.color}"></div>
+      <h5 class="pull-left">
+        {{event.title}}
+        <br>
+        <small>
+          {{event.startTime._d|date:'HH:mm'}} - {{event.endTime._d|date:'HH:mm'}}
+        </small>
+      </h5>
+    </div>
+
+  </div>
+  <div class="calendar-block-right">
+    <div class="clearfix calendar-header">
+      <div class="pull-right">
+        <a ng-click="prevClick()"><i class="fa fa-caret-left"></i></a>
+        <span class="title month">{{selectedDate._d | date:'MM月'}}</span>
+        <a ng-click="nextClick()"><i class="fa fa-caret-right"></i></a>
+        <span class="title year">{{selectedDate._d | date:'yyyy'}}</span>
+      </div>
+    </div>
+    <div class="calendar">
+      <div class="calendar-row weekDays" ng-style="calendarHeaderStyle">
+        <div ng-repeat="day in dayNames" class="calendar-cell">{{day}}</div>
+      </div>
+      <div class="calendar-row week" ng-repeat="week in weeks" ng-style="rowStyle">
+        <div ng-repeat="weekDay in week" class="weekday calendar-cell"
+             ng-class="{'in-other-month':!weekDay.isInCurrentMonth,'today':weekDay.isToday,'is-chosen':weekDay.isChosen,'is-selected':selectedDate.isSame(weekDay.day,'day')}">
+          <div class="content" ng-click="dayClick(weekDay,$event)">
+            <div class="title day">{{weekDay.day._d | date:'d'}}</div>
+            <div class="dot" ng-repeat="event in weekDay.events|limitTo:'3'" ng-style="{'background-color':event.color}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

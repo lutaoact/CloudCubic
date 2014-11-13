@@ -22,6 +22,7 @@ angular.module 'budweiserApp'
   $rootScope
   Restangular
   $localStorage
+  $modal
 ) ->
 
   angular.extend $scope,
@@ -73,6 +74,11 @@ angular.module 'budweiserApp'
       Restangular.all('notices/read').post ids:[noticeId]
       .then ()->
         $scope.messages.splice $scope.messages.indexOf(message), 1
+
+    openCalendar: ()->
+      $modal.open
+        templateUrl: 'app/calendar/calendar-popup.html'
+        controller: 'CalendarPopupCtrl'
 
   generateAdditionalMenu = ->
     $scope.switchMenu(true)

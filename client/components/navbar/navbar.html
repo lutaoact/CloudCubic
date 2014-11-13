@@ -68,6 +68,11 @@
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
+        <li ng-if="$state.includes('student')||$state.includes('teacher')">
+          <a class="text-center" href="" ng-click="openCalendar()">
+            课程表
+          </a>
+        </li>
         <li ng-repeat="item in additionalMenu"
             ng-class="{active: isActive(item.link)}">
           <a class="text-center"
