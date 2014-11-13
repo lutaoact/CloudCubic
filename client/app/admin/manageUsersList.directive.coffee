@@ -5,8 +5,9 @@ angular.module('budweiserApp')
 .directive 'manageUsersList', ->
   restrict: 'EA'
   replace: true
-  controller: 'ManageUsersListCtrl'
   templateUrl: 'app/admin/manageUsersList.html'
+  controller: 'ManageUsersListCtrl'
+
   scope:
     users: '='
     classe: '='
@@ -23,6 +24,7 @@ angular.module('budweiserApp')
   $scope
   $modal
   notify
+  $filter
   fileUtils
   Restangular
   $rootScope
@@ -35,7 +37,6 @@ angular.module('budweiserApp')
 
     currentPage: 1
     pageSize: 10
-    toggleSelectAllUsers: false
     selectedUsers: []
 
     viewState:
@@ -75,7 +76,10 @@ angular.module('budweiserApp')
     showDetail: (user) ->
       $scope.onViewUser?($data:user)
 
-    toggleSelect: (users, selected) ->
+    isSelectedAll: (currentUsers) ->
+      _.filter(currentUsers, '$selected':true).length == currentUsers?.length
+
+    toggleSelect: (users, selected, currentUsers) ->
       angular.forEach users, (u) -> u.$selected = selected
       updateSelected()
 

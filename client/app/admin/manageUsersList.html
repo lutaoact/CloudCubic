@@ -121,17 +121,16 @@
     <hr/>
 
     <div class="user-info header">
-      <input type="checkbox"
-             ng-model="toggleSelectAllUsers"
-             ng-change="toggleSelect(users, toggleSelectAllUsers)"
-             class="bud checkbox-default">
+      <button ng-class="{'checked':isSelectedAll(currentUsers)}"
+              ng-click="toggleSelect(currentUsers, !isSelectedAll(currentUsers))"
+              class="btn btn-check checkbox-default"></button>
       <span class="name">姓名</span>
       <span class="email">邮箱</span>
     <span class="pull-right">
       账户状态
     </span>
     </div>
-    <div ng-repeat="user in users | filter:searchUser | paging:pageSize:currentPage"
+    <div ng-repeat="user in currentUsers = (users | filter:searchUser | paging:pageSize:currentPage)"
          class="user-info">
       <input type="checkbox"
              ng-model="user.$selected"
