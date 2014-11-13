@@ -19,7 +19,7 @@
     "ng-file-upload-shim": "~1.5.1",
     "restangular": "~1.4.0",
     "angular-notify": "~2.0.2",
-    "moment": "~2.7.0",
+    "moment": "~2.8.3",
     "videogular": "~0.6.0",
     "videogular-controls": "~0.6.0",
     "videogular-buffering": "~0.6.0",
@@ -67,7 +67,7 @@
     "moment": {
       "main": [
         "moment.js",
-        "lang/zh-cn.js"
+        "locale/zh-cn.js"
       ]
     },
     "angular-scroll": {
@@ -83,15 +83,15 @@
         "./dist/textAngular-sanitize.min.js"
       ]
     },
-    "videogular":{
+    "videogular": {
       "dependencies": {
         "angular": "~1.2.0"
       }
     }
-
   },
   "resolutions": {
     "angular": "1.2.20",
-    "textAngular": "v1.3.0-pre5"
+    "textAngular": "v1.3.0-pre5",
+    "moment": "~2.8.3"
   }
 }

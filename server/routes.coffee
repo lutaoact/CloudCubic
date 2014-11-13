@@ -64,40 +64,27 @@ module.exports = (app) ->
     res.sendfile __dirname + '/common/Const.js'
 
   # All other routes should redirect to the index.html
-  # TODO use template
   app.route '/*'
   .get (req, res) ->
     # if there is no cookie token, return index.html immediately
+    indexPath = app.get('appPath') + '/index.html'
+    locals =
+      webview: "#{req.query.webview?}"
+      initUser: "null"
+      initNotify: "#{req.query.message}"
+
     if not req.cookies.token?
-      res.sendfile app.get('appPath') + '/index.html'
+      res.send(_u.render indexPath, locals)
     else
-      # remove double quote
-      token = req.cookies.token.replace /"/g, ''
       logger.info 'refreshing, req.cookies:'
       logger.info req.cookies
+      # remove double quote
+      token = req.cookies.token.replace /"/g, ''
       jwt.verify token, config.secrets.session, null, (err, user) ->
         logger.info "after verity token, we get user:"
         logger.info user
-        if err?
-          # console.log 'Cannot verify token'
-          # failed to verify token, return index.html
-          res.sendfile app.get('appPath') + '/index.html'
-        else
-          userInfo = """
-             ("initUser" , {
-                 "_id": "#{user._id}",
-                 "role": "#{user.role}"
-             })
-          """
-          webviewInfo = """
-            ("webview", #{req.query.webview?})
-          """
-          notifyInfo = """
-            ("initNotify", "#{req.query.message}")
-          """
-          fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
-          fileString = fileString
-            .replace "('webview', false)", webviewInfo
-            .replace "('initUser', null)", userInfo
-            .replace "('initNotify', null)", notifyInfo
-          res.send fileString
+
+        unless err?
+          locals.initUser = JSON.stringify  _id: user._id, role: user.role
+
+        res.send(_u.render indexPath, locals)

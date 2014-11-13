@@ -31,7 +31,6 @@ angular.module('budweiserApp')
   angular.extend $scope,
     $state: $state
     currentPage: 1
-    toggledSelectAllItems: false
     selectedItem: null
     selectedItems: []
     itemTitle:
@@ -50,7 +49,6 @@ angular.module('budweiserApp')
           message: ->
             """确认要删除这#{selectedItems.length}个#{$scope.itemTitle}？"""
       .result.then ->
-        $scope.toggledSelectAllItems = false if $scope.toggledSelectAllItems
         $scope.deleting = true
         Restangular.all($scope.itemType).customPOST(ids: _.pluck(selectedItems, '_id'), 'multiDelete')
         .then ->
@@ -73,6 +71,9 @@ angular.module('budweiserApp')
 
     viewItem: (item) ->
       $scope.onViewItem?($item:item)
+
+    isSelectedAll: (currentItems) ->
+      _.filter(currentItems, '$selected':true).length == currentItems?.length
 
     toggleSelect: (items, selected) ->
       angular.forEach items, (o) -> o.$selected = selected

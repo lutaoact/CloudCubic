@@ -357,8 +357,7 @@ options: {
           '*.{ico,png,txt}',
           '.htaccess',
           'bower_components/**/*',
-        'assets/images/{,*/}*.{webp}',
-        'assets/fonts/**/*',
+        'assets/**/*',
         'index.html'
         ]
       }, {

@@ -7,4 +7,3 @@ angular.module('budweiserApp').config ($stateProvider, $urlRouterProvider) ->
     templateUrl: 'app/student/studentCourseList/studentCourseList.html'
     controller: 'StudentCourseListCtrl'
     authenticate: true
-    navClasses: 'home'

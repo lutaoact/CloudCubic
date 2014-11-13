@@ -242,23 +242,34 @@ exports.bulkImport = (req, res, next) ->
 
   importedUsers = []
 
-  orgUniqueName = ''
-
   userList = []
   
-  Organization.findByIdQ orgId
-  .then (org) ->
-    orgUniqueName = org.uniqueName
-    AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
+  AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
   .then (downloadUrl) ->
     request.get(downloadUrl).pipe stream
     streamOnQ 'finish'
   .then ->
     streamCloseQ()
   .then ->
-    console.log 'Start parsing file to ', destFile
+
+    # 增加对Excel格式容错的逻辑：
+
+    isEmail = (input) ->  /\S+@\S+\.\S+/.test(input)
+
+    # 取第一个‘符合Email格式的’的为Email
+    getEmail = (itemArray) -> _.find itemArray, isEmail
+
+    # 取第一个‘不符合Email格式的’符号的为姓名
+    getName = (itemArray) -> _.find itemArray, (item) -> !isEmail(item)
+
+    # 取Email中‘@’之前的字符作为姓名
+    getNameFromEmail = (itemArray) -> getEmail(itemArray)?.replace(/(.*)@.*/g, '$1')
+
     sheets = xlsx.parse destFile
-    userList = sheets[0].data
+    userList = _.map sheets[0].data, (userItemArray) ->
+      email: getEmail(userItemArray)
+      name: getName(userItemArray) ? getNameFromEmail(userItemArray)
+      info: userItemArray.join(', ') # 信息join起来都放到 user.info (备注) 里面
 
     if not userList
       logger.error 'Failed to parse user list file or empty file'
@@ -268,15 +279,14 @@ exports.bulkImport = (req, res, next) ->
     # for existing students, don't need to import it
     # just add it to importedUsers list
     existingStudentPromises = _.map userList, (userItem) ->
-      email = userItem[1]
       User.findQ
-        "email" : email
+        "email" : userItem.email
           
     Q.allSettled(existingStudentPromises)
   .then (results) ->
     
     # filter out existing users from userList
-    _.forEach results, (result, index) ->
+    _.forEach results, (result) ->
       if (result.state is 'fulfilled') && (result.value.length > 0) && (type is 'student')
         
         foundUser = result.value[0]
@@ -284,18 +294,18 @@ exports.bulkImport = (req, res, next) ->
         importedUsers.push foundUser.id
         
         # remove this user from UserList
-        userList.splice index, 1
-        
+        # fix： 这里不能取 result 的 index，因为 result 的 length 不一定是 userList 的 length
+        removeIndex = _.findIndex userList, email:foundUser.email
+        userList.splice removeIndex, 1
+
     savePromises = _.map userList, (userItem) ->
-      name = userItem[0]
-      email = userItem[1]
-      console.log 'userItem', name, email
       newUser = new User.model
-        role :  type
-        name : name
-        email : email
-        password : email #initial password is the same as email
+        role : type
         orgId : orgId
+        name : userItem.name
+        info : userItem.info
+        email : userItem.email
+        password : userItem.email #initial password is the same as email
       newUser.saveQ()
 
     Q.allSettled(savePromises)
@@ -377,15 +387,15 @@ exports.completeActivation = (req, res, next) ->
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->
-    return res.send 403 if not user?
+    if not user?
+      return res.redirect "/index?message='activation-none'"
     req.user = user
-#    if user.status == 1
-#      return res.redirect '/notify?message=activation-used';
-#      return res.send 403, '抱歉，该激活码已经被使用过。'
+    if user.status == 1
+      return res.redirect "/index?message='activation-used'"
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res, "/notify?message=activation-success"
+    setTokenCookie req, res, "/index?message='activation-success'"
   .catch next
   .done()
 

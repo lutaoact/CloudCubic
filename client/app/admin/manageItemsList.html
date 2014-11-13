@@ -13,10 +13,9 @@
   </div>
   <div class="list-group-item item-info desc">
     <label>
-      <input type="checkbox"
-             ng-model="toggledSelectAllItems"
-             ng-change="toggleSelect(items, toggledSelectAllItems)"
-             class="bud checkbox-default">
+      <button ng-class="{'checked':isSelectedAll(currentItems)}"
+              ng-click="toggleSelect(currentItems, !isSelectedAll(currentItems))"
+              class="btn btn-check checkbox-default"></button>
       <span ng-if="!toggledSelectAllItems">全选</span>
       <span ng-if="toggledSelectAllItems">取消全选</span>
     </label>
@@ -36,7 +35,7 @@
       <span class="badge pull-right">{{other[children].length}}</span>
     </a>
   </div>
-  <div ng-repeat="item in items | filter:{name:searchItem} | paging:10:currentPage"
+  <div ng-repeat="item in currentItems = (items | filter:{name:searchItem} | paging:10:currentPage)"
        class="list-group-item item-info"
        ng-class="{'selected':item.$selected, 'active':activeItem == item}">
     <input type="checkbox"

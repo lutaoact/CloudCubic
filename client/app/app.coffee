@@ -211,4 +211,9 @@ angular.module 'budweiserApp', [
         message: '抱歉，该邮箱激活码已经被使用过，请登录。'
         classes: 'alert-danger'
         duration: 10000
+    when 'activation-none'
+      notify
+        message: '抱歉，该邮箱激活码非法或者已失效。'
+        classes: 'alert-danger'
+        duration: 10000
 

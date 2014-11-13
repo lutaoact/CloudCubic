@@ -11,6 +11,26 @@
     }
   }
 
+  &.btn-check {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    background: none;
+    &:after{
+      // fa-square-o
+      content:"\f096";
+    }
+    &.checked{
+      &:after{
+        // fa-check-square-o
+        content:'\f046';
+      }
+    }
+  }
+
   &.btn-sub{
     color: @base-color;
     background: transparent;
