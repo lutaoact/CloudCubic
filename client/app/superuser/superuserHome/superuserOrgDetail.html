@@ -1,0 +1,27 @@
+<div>
+
+  <h4 class="text-primary">{{organization.name}}</h4>
+  <div class="text-muted">
+    <div>机构标识: {{organization.uniqueName}}</div>
+    <div>创建日期: {{organization.created | date}}</div>
+    <div>机构类型: {{organization.type | orgType2Label}}</div>
+  </div>
+
+  <br/>
+  <dl>
+    <dt>管理员:</dt>
+    <dd ng-repeat="admin in detail.admins">
+      {{admin.name}}, {{admin.email}}
+    </dd>
+  </dl>
+
+  <dl>
+    <dt>该机构有：</dt>
+    <dd>用户数 - {{detail.nUsers}}</dd>
+    <dd>教师数 - {{detail.nTeachers}}</dd>
+    <dd>学生数 - {{detail.nStudents}}</dd>
+    <dd>班级数 - {{detail.nClasses}}</dd>
+    <dd>课程数 - {{detail.nCourses}}</dd>
+  </dl>
+
+</div>

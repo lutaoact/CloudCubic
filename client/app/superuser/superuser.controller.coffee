@@ -1,12 +1,11 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SuperuserCtrl', (
+angular.module('budweiserApp')
+
+.factory 'SuperuserAPI', (Restangular) ->
+  Restangular.withConfig (RestangularConfigurer) ->
+    RestangularConfigurer.setBaseUrl('api/superuser')
+
+.controller 'SuperuserCtrl', (
   $scope
 ) ->
-
-  angular.extend $scope,
-    menus: [
-      stateName:'superuser.home'
-      className: 'budon budon-organization'
-      label: '所有机构'
-    ]

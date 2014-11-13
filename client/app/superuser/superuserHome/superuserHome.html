@@ -1,5 +1,20 @@
-<div>
+<div class="superuser-home container">
 
- superuser's Home.
+  <div class="row">
+
+
+    <ul class="nav nav-pills nav-stacked col-md-4"
+        role="tablist">
+      <h4 class="org-list-title">机构列表</h4>
+      <li role="presentation"
+          ui-sref-active="active"
+          ng-repeat="org in organizations">
+        <a ui-sref="superuser.home.organization({orgId: org._id})">{{org.name}}</a>
+      </li>
+    </ul>
+
+    <div class="fadeIn col-md-8 org-detail" ui-view></div>
+
+  </div>
 
 </div>

@@ -1,21 +1,4 @@
-<div class="superuser-menu-bar">
-  <div class="container superuser-menu">
-    <div class="col-md-12 h-padding-15">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="menu in menus">
-          <a class="menu-item"
-             ui-sref-active="active"
-             ui-sref="{{menu.stateName}}">
-            <i ng-class="menu.className"/>
-            {{menu.label}}
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="sueruser">
+<div class="superuser">
   <div class="container">
     <div ui-view class="fadeIn superuser-ui-view"></div>
   </div>
