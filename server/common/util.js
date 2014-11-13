@@ -148,3 +148,11 @@ function union() {
   });
 }
 exports.union = union;
+
+var ejs = require('ejs');
+var fs = require('fs');
+function render(path, locals) {
+  var fileString = fs.readFileSync(path, {encoding: 'utf-8'});
+  return ejs.render(fileString, locals);
+}
+exports.render = render;
