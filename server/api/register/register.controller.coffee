@@ -32,7 +32,7 @@ exports.createOrg = (req, res, next) ->
     organization =
       uniqueName: body.orgUniqueName
       name      : body.orgName
-      type      : body.orgType ? Const.OrgType.Colledge
+      type      : body.orgType ? Const.OrgType.College
 
     Organization.createQ organization
   .then (org) ->

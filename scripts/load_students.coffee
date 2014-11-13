@@ -24,7 +24,7 @@ importOneClasse = (classename, studentsMap, orgId) ->
     classe = name: classename, orgId: orgId, students: studentIds
     Classe.createQ classe
 
-organization = uniqueName: 'xqsh', name: '上海新侨学院', type: 'colledge'
+organization = uniqueName: 'xqsh', name: '上海新侨学院', type: 5
 admin =
   email: "admin_xqsh"
   password: "admin_xqsh"

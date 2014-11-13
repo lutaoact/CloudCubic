@@ -13,7 +13,7 @@ Organization = _u.getModel 'organization'
 User = _u.getModel 'user'
 
 tmpResult = {}
-organization = uniqueName: uniqueName, name: name, type: 'colledge'
+organization = uniqueName: uniqueName, name: name, type: 5
 
 Organization.findOneQ uniqueName: uniqueName
 .then (org) ->

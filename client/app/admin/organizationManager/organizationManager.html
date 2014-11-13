@@ -55,9 +55,9 @@
           <label class="col-sm-3 control-label">机构类型</label>
           <div class="col-sm-7">
             <ui-select ng-model="editingInfo.type">
-              <ui-select-match placeholder="请选择">{{editingInfo.type}}</ui-select-match>
-              <ui-select-choices repeat="orgType in orgTypes | filter:$select.search">
-                <span ng-bind-html="orgType | highlight: $select.search"></span>
+              <ui-select-match placeholder="请选择">{{editingInfo.type | orgType2Label}}</ui-select-match>
+              <ui-select-choices repeat="orgType.value as orgType in orgTypes | filter:{label:$select.search}">
+                <span ng-bind-html="orgType.label | highlight: $select.search"></span>
               </ui-select-choices>
             </ui-select>
           </div>

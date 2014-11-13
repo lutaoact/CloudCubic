@@ -14,7 +14,7 @@ User = _u.getModel 'user'
 Classe = _u.getModel 'classe'
 
 tmpResult = {}
-organization = uniqueName: uniqueName, name: name, type: 'colledge'
+organization = uniqueName: uniqueName, name: name, type: 5
 
 Organization.findOneQ uniqueName: uniqueName
 .then (org) ->

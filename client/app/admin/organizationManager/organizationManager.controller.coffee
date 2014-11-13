@@ -1,12 +1,15 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
+angular.module('budweiserApp')
+
+.controller 'OrganizationManagerCtrl', (
   Auth
   $http
   $modal
   notify
   $scope
   $upload
+  orgTypeService
   Restangular
   configs
   $timeout
@@ -25,14 +28,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
     saving: false
     saved: true
 
-    orgTypes: [
-      "小学"
-      "初中"
-      "高中"
-      "大学"
-      "职业学校"
-      "培训机构"
-    ]
+    orgTypes: orgTypeService.getList()
 
     onLogoUpload: (key) ->
       $scope.organization.logo = key
