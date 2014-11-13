@@ -82,11 +82,6 @@ module.exports =
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
 
   emailConfig:
-    host: "smtp.office365.com"
-    secureConnection: false
-    port: 587
     auth:
-      user: "noreply@cloud3edu.com"
-      pass: "!nv1te01"
-    tls:
-      ciphers:'SSLv3'
+      api_user: 'cloud3edu'
+      api_key: 'gXI2WTs8w4D6BF09'

@@ -2,6 +2,7 @@ jade = require 'jade'
 fs = require('fs')
 querystring = require("querystring");
 nodemailer = require('nodemailer');
+scTransport = require('./sendcloud-transport');
 
 pwdResetTpl = require('fs').readFileSync(__dirname + '/views/pwdReset.jade', 'utf8')
 pwdResetFn = jade.compile pwdResetTpl, pretty: true
@@ -11,9 +12,20 @@ pwdActivationFn = jade.compile pwdActivationTpl, pretty: true
 
 config = require '../../config/environment'
 host = config.host
-
 emailConfig = config.emailConfig
-transporter = nodemailer.createTransport emailConfig
+transporter = nodemailer.createTransport(scTransport(emailConfig))
+
+
+sendMail = (receiverEmail, htmlOutput, subject) ->
+  mailOptions =
+    from: "学之方 <noreply@cloud3edu.cn>"
+    to: receiverEmail
+    subject: subject
+    html: htmlOutput
+
+  transporter.sendMail mailOptions, (error, info) ->
+    console.log(error || 'Message sent: ' + info)
+
 
 exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
   locals =
@@ -22,14 +34,7 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
 
   htmlOutput = pwdResetFn locals
 
-  mailOptions =
-    from: "学之方" + ' <' + emailConfig.auth.user + '>'
-    to: receiverEmail
-    subject: "学之方 -- 找回密码邮件"
-    html: htmlOutput
-
-  transporter.sendMail mailOptions, (error, info) ->
-    console.log(error || 'Message sent: ' + info.response)
+  sendMail receiverEmail, htmlOutput, "学之方 -- 密码找回邮件"
 
 
 exports.sendActivationMail = (receiverEmail, activationCode) ->
@@ -44,11 +49,5 @@ exports.sendActivationMail = (receiverEmail, activationCode) ->
 
   htmlOutput = pwdActivationFn locals
 
-  mailOptions =
-    from: "学之方" + ' <' + emailConfig.auth.user + '>'
-    to: receiverEmail
-    subject: "学之方 -- 激活邮件"
-    html: htmlOutput
+  sendMail receiverEmail, htmlOutput, "学之方 -- 账户激活邮件"
 
-  transporter.sendMail mailOptions, (error, info) ->
-    console.log(error || 'Message sent: ' + info.response)
