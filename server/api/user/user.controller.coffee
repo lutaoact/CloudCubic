@@ -387,15 +387,15 @@ exports.completeActivation = (req, res, next) ->
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->
-    return res.send 403 if not user?
+    if not user?
+      return res.redirect "/index?message='activation-none'"
     req.user = user
-#    if user.status == 1
-#      return res.redirect '/notify?message=activation-used';
-#      return res.send 403, '抱歉，该激活码已经被使用过。'
+    if user.status == 1
+      return res.redirect "/index?message='activation-used'"
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res, "/notify?message=activation-success"
+    setTokenCookie req, res, "/index?message='activation-success'"
   .catch next
   .done()
 
