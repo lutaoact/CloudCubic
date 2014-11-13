@@ -17,7 +17,7 @@ exports.Organization = BaseModel.subclass
         type: String
         required: true
       type:
-        type: String
+        type: Number
         required : true
       logo: String
       description : String # url

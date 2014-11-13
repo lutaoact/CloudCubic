@@ -7,7 +7,14 @@ Const =
     Lecture: 4
 
   OrgType:
-    Colledge: '大学'
+    Primary     : 1 # 小学
+    JuniorMiddle: 2 # 初中
+    HighMiddle  : 3 # 高中
+    University  : 4 # 大学
+    Colledge    : 5 # 职业学校
+    Institute   : 6 # 培训机构
+    Company     : 7 # 企业
+    Other       : 10# 其他
 
   MsgType:
     Login: 'login'
