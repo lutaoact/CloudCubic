@@ -251,11 +251,14 @@ exports.bulkImport = (req, res, next) ->
   .then ->
     streamCloseQ()
   .then ->
+
+    isEmail = (input) ->  /\S+@\S+\.\S+/.test(input)
+
     # 取第一个包含‘@’符号的为Email
-    getEmail = (itemArray) -> _.find itemArray, (item) -> item?.indexOf('@') > 0
+    getEmail = (itemArray) -> _.find itemArray, isEmail
 
     # 取第一个包含‘@’符号的为姓名
-    getName = (itemArray) -> _.find itemArray, (item) -> item?.indexOf('@') == -1
+    getName = (itemArray) -> _.find itemArray, (item) -> !isEmail(item)
 
     # 取Email中‘@’之前的字符作为姓名
     getNameFromEmail = (itemArray) -> getEmail(itemArray)?.replace(/(.*)@.*/g, '$1')
@@ -274,7 +277,6 @@ exports.bulkImport = (req, res, next) ->
     # for existing students, don't need to import it
     # just add it to importedUsers list
     existingStudentPromises = _.map userList, (userItem) ->
-      console.log 'map userList', userItem.email
       User.findQ
         "email" : userItem.email
           
