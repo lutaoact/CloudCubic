@@ -1,12 +1,19 @@
+
 .toc{
   width: 30%;
-  overflow: hidden;
-  position: fixed;
+  top: 50px;
+  position: absolute;
+  bottom: 0;
+  overflow: auto;
 }
 
 .main{
   margin-left: 30%;
+  margin-top: 50px;
   width: calc(70% - 30px);
   padding: 15px;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+.main img{
+  max-width: 100%;
 }
