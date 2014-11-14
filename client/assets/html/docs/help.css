@@ -1,6 +1,7 @@
 body{
   background: rgb(244,244,244);
 }
+
 .toc{
   width: 30%;
   top: 100px;
@@ -42,4 +43,9 @@ ul{
   max-width: 100%;
   box-shadow: 0 0 8px 2px rgba(0,0,0,0.3);
   -webkit-box-shadow: 0 0 8px 2px rgba(0,0,0,0.3);
+}
+.to-top{
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
 }

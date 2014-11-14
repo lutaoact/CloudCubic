@@ -20,6 +20,9 @@
       <li>
         <a href="//www.cloud3edu.com/blog" target="blank">博客</a>
       </li>
+      <li class="active">
+        <a href="#" >帮助中心</a>
+      </li>
     </ul>
   </div>
 </div>
@@ -253,6 +256,10 @@
 
 
 </div>
+
+<a href="#" class="to-top">
+  回到顶部
+</a>
   </body>
 </html>
 
