@@ -4,7 +4,7 @@
       <h4 ng-if="selectedDate.isSame(today,'day')">今天</h4>
       <h5>{{selectedDate._d|date:'MM月dd日'}}</h5>
     </div>
-    <div class="schedule clearfix" ng-repeat="event in coursesOfCurrentDate">
+    <div class="schedule clearfix" ng-repeat="event in coursesOfCurrentDate" ng-click="gotoCourse(event)">
       <div class="dot pull-left" ng-style="{'background-color':event.color}"></div>
       <h5 class="pull-left">
         {{event.title}}

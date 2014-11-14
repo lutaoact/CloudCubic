@@ -7,6 +7,7 @@ angular.module('budweiserApp')
   Restangular
   $state
   $filter
+  $modalInstance
 ) ->
 
   weeksOfMonth = (date, useIsoweek) ->
@@ -65,6 +66,16 @@ angular.module('budweiserApp')
       $scope.weeks = weeksOfMonth($scope.selectedDate, false)
       bindSchedules()
 
+    gotoCourse: (event)->
+
+      if $state.includes 'student'
+        $state.go 'student.courseDetail', courseId: event.$course._id
+      else if $state.includes 'teacher'
+        $state.go 'teacher.course', courseId: event.$course._id
+      else
+        console.log event
+      $modalInstance.dismiss('close')
+
   Restangular.all('schedules').getList()
   .then (schedules)->
     # Compose this week then set handle
@@ -97,6 +108,8 @@ angular.module('budweiserApp')
         day.events = eventsOfDay(day.day, $scope.schedules)
         if day.day.isSame($scope.today, 'day')
           $scope.coursesOfCurrentDate = day.events
+
+
 
 
 
