@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <link rel="stylesheet" href="help.css">
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="help.css">
   </head>
   <title>云立方学院帮助中心</title>
   <body>
@@ -24,10 +24,10 @@
   </div>
 </div>
 
-
-[TOC]  
+[TOC]
 
   <div class="main">  
+
 
 # 管理员功能
 管理员主要负责机构管理，教师和班级学生管理，以及专业管理
@@ -95,7 +95,7 @@
 ![admin category courses stats](./imgs/admin_10.png)
 
 
-<br><br>
+<hr>
 
 # 教师功能
 
@@ -186,7 +186,7 @@
 
 ![teacher view course stats](./imgs/teacher_14.png)
 
-<br><br>
+<hr>
 # 学生功能
 
 ### 一、学习课程
@@ -221,7 +221,7 @@
 ![student knowledge point](./imgs/student_7.png)
 
 
-<br><br>
+<hr>
 # 通用功能
 
 ### 一、个人设置
@@ -249,9 +249,10 @@
 
 
 在讨论区中，用户可以点击某一个主题查看主题细节，也可以点赞或回复主题。
-![view topic](./imgs/general_5.png)
-  
-  </div>
+![view topic](./imgs/general_5.png)  
+
+
+</div>
   </body>
 </html>
 
