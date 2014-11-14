@@ -8,7 +8,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/classes'
     templateUrl: 'app/admin/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
-    authenticate: true
+    roleRequired: 'admin'
     resolve:
       Classes: (Restangular) ->
         Restangular.all('classes').getList()
@@ -22,10 +22,10 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/:classeId'
     templateUrl: 'app/admin/classeManager/classeManagerDetail.html'
     controller: 'ClasseManagerDetailCtrl'
-    authenticate: true
+    roleRequired: 'admin'
 
   .state 'admin.classeManager.detail.student',
     url: '/students/:studentId'
     templateUrl: 'app/admin/classeManager/classeManagerStudentDetail.html'
     controller: 'ClasseManagerStudentDetailCtrl'
-    authenticate: true
+    roleRequired: 'admin'

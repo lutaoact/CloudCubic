@@ -6,10 +6,10 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/teachers'
     templateUrl: 'app/admin/teacherManager/teacherManager.html'
     controller: 'TeacherManagerCtrl'
-    authenticate: true
+    roleRequired: 'admin'
 
   .state 'admin.teacherManager.detail',
     url: '/:teacherId'
     templateUrl: 'app/admin/teacherManager/teacherManagerDetail.html'
     controller: 'TeacherManagerDetailCtrl'
-    authenticate: true
+    roleRequired: 'admin'

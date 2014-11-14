@@ -6,7 +6,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: ''
     templateUrl: 'app/superuser/superuserHome/superuserHome.html'
     controller: 'SuperuserHomeCtrl'
-    authenticate: true
+    roleRequired: 'superuser'
     resolve:
       Organizations: (SuperuserAPI) ->
         SuperuserAPI.all('organizations').getList().then (organizations) ->
@@ -19,4 +19,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/organizations/:orgId'
     templateUrl: 'app/superuser/superuserHome/superuserOrgDetail.html'
     controller: 'SuperuserOrgDetailCtrl'
-    authenticate: true
+    roleRequired: 'superuser'

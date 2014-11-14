@@ -170,17 +170,13 @@ angular.module 'budweiserApp', [
     startTop: 30
     duration: 4000
 
-  checkInitState = (toState) ->
-    checkInitState = null
-    if !toState.authenticate
-      Auth.getCurrentUser().$promise?.then (me) ->
-        event.preventDefault()
-        $state.go(me.role+'.home')
-
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
-    checkInitState?(toState)
+    if initUser?
+      Auth.getCurrentUser().$promise?.then (me) ->
+        $state.go(me.role+'.home') if !Auth.hasRole(toState.roleRequired) || !toState.roleRequired
+    else
+      loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
@@ -190,7 +186,7 @@ angular.module 'budweiserApp', [
     Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
-      $state.go(user.role+'.home')  if goHome
+      $state.go(user.role+'.home') if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->
@@ -216,4 +212,3 @@ angular.module 'budweiserApp', [
         message: '抱歉，该邮箱激活码非法或者已失效。'
         classes: 'alert-danger'
         duration: 10000
-

@@ -25,4 +25,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
           []
 
     abstract: true
-    authenticate: true

@@ -5,7 +5,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/courses/:courseId/lectures/:lectureId'
     templateUrl: 'app/teacher/teacherLecture/teacherLecture.html'
     controller: 'TeacherLectureCtrl'
-    authenticate: true
+    roleRequired: 'teacher'
     resolve:
       KeyPoints: (Restangular) ->
         Restangular.all('key_points').getList().then (keyPoints) ->
@@ -20,4 +20,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
                         lecture="lecture">
       </question-library>
     """
-    authenticate: true
+    roleRequired: 'teacher'

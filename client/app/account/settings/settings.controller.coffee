@@ -9,18 +9,13 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
 
   angular.extend $scope,
     webview: webview
-    me: null
+    me: Auth.getCurrentUser()
 
     menu: [
       {
         title: '基本信息'
         link: 'settings/profile'
       }
-#     暂时不用
-#      {
-#        title: '支付信息'
-#        link: 'settings/billing'
-#      }
       {
         title: '消息'
         link: 'settings/notice'
@@ -29,8 +24,3 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
 
     isActive: (route) ->
       _.str.trim(route, '/') is _.str.trim($location.path(), '/')
-
-  Auth.getCurrentUser().$promise
-  .then (me) ->
-    $scope.me = me
-

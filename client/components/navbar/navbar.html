@@ -1,9 +1,9 @@
 <div class="bud navbar navbar-default main-nav"
-     ng-class="[$state.current.navClasses, ($state.current.authenticate?'auth':'login')]"
+     ng-class="[$state.current.navClasses, ($state.current.roleRequired?'auth':'login')]"
      ng-controller="NavbarCtrl">
 
   <div class="container"
-       ng-if="!$state.current.authenticate">
+       ng-if="!$state.current.roleRequired">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
               ng-click="switchMenu(!viewState.isCollapsed)"
@@ -34,7 +34,7 @@
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed"
-       ng-if="$state.current.authenticate">
+       ng-if="$state.current.roleRequired">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"

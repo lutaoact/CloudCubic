@@ -39,10 +39,11 @@ angular.module('budweiserApp')
     url: '/profile'
     templateUrl: 'app/account/profile/profile.html'
     controller: 'ProfileCtrl'
-    authenticate: true
+    roleRequired: 'user'
 
   .state 'settings.notice',
     url: '/notice'
     templateUrl: 'app/account/notice/notice.html'
     controller: 'NoticeCtrl'
-    authenticate: true
+    roleRequired: 'user'
+

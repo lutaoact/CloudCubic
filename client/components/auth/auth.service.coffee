@@ -71,12 +71,19 @@ angular.module('budweiserApp').factory 'Auth', (
     currentUser.hasOwnProperty('role')
 
   ###
-  Check if a user is an admin
+  Checks if the user role meets the minimum requirements of the route
 
   @return {Boolean}
   ###
-  isAdmin: ->
-    currentUser.role is 'admin'
+  hasRole: (roleRequired) ->
+    userRoles = [
+      'user'      # 允许登录后的用户 abstract
+      'student'   # 允许学生或以上
+      'teacher'   # 允许老师或以上
+      'admin'     # 允许管理员或以上
+      'superuser' # 允许超级用户
+    ]
+    userRoles.indexOf(currentUser.role) >= userRoles.indexOf(roleRequired)
 
 
   ###
