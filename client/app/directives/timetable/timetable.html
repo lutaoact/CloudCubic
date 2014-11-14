@@ -32,7 +32,7 @@
           </sup>
         </div>
       </div>
-      <div class="day" ng-repeat="day in ['一','二','三','四','五']" ng-class="{'today': today.weekday()-1==$index}">
+      <div class="day" ng-repeat="day in ['一','二','三','四','五']" ng-class="{'today': today.weekday()==$index}">
         <div class="time-span time-span-header">{{day}}</div>
         <div class="time-span" ng-repeat="span in ['9:00','10:00','11:00','12:00','1:00','2:00','3:00','4:00']">
         </div>

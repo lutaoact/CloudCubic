@@ -86,10 +86,10 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
   genStudentTimetable: (schedules, day)->
     eventSouces = [1..5].map -> []
     today = day or moment()
-    weekStart = today.clone().isoWeekday(1)
-    weekEnd = today.clone().isoWeekday(5)
+    weekStart = today.clone().startOf('isoWeek')
+    weekEnd = today.clone().endOf('isoWeek')
     schedules.forEach (schedule)->
-      if moment(schedule.start).isAfter weekEnd or moment(schedule.until).isBefore weekStart
+      if moment(schedule.start).isAfter(weekEnd) or moment(schedule.until).isBefore(weekStart)
         # not shown
         console.log 'out of date'
       else
@@ -108,10 +108,10 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
   genTeacherTimetable: (schedules, day)->
     eventSouces = [1..5].map -> []
     today = day or moment()
-    weekStart = today.clone().isoWeekday(1)
-    weekEnd = today.clone().isoWeekday(5)
+    weekStart = today.clone().startOf('isoWeek')
+    weekEnd = today.clone().endOf('isoWeek')
     schedules.forEach (schedule)->
-      if moment(schedule.start).isAfter weekEnd or moment(schedule.until).isBefore weekStart
+      if moment(schedule.start).isAfter(weekEnd) or moment(schedule.until).isBefore(weekStart)
         # not shown
         console.log 'out of date'
       else
