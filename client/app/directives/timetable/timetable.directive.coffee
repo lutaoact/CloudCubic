@@ -91,7 +91,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
     schedules.forEach (schedule)->
       if moment(schedule.start).isAfter(weekEnd) or moment(schedule.until).isBefore(weekStart)
         # not shown
-        console.log 'out of date'
+        return
       else
         isoWeekday =  moment(schedule.start).isoWeekday() # 1,2...7
         event = {}
@@ -113,7 +113,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
     schedules.forEach (schedule)->
       if moment(schedule.start).isAfter(weekEnd) or moment(schedule.until).isBefore(weekStart)
         # not shown
-        console.log 'out of date'
+        return
       else
         isoWeekday =  moment(schedule.start).isoWeekday() # 1,2...7
         event = {}
