@@ -18,7 +18,7 @@
     "ng-file-upload": "~1.5.1",
     "ng-file-upload-shim": "~1.5.1",
     "restangular": "~1.4.0",
-    "angular-notify": "~2.0.2",
+    "angular-notify": "https://github.com/zhenkunou/angular-notify.git#master",
     "moment": "~2.8.3",
     "videogular": "~0.6.0",
     "videogular-controls": "~0.6.0",

@@ -22,7 +22,7 @@ exports.show = (req, res, next) ->
   countUserPromise    = User.countQ orgId: orgId
   countTeacherPromise = User.countQ orgId: orgId, role: 'teacher'
   countStudentPromise = User.countQ orgId: orgId, role: 'student'
-  countClassePromise = Classe.countQ orgId: orgId
+  countClassePromise  = Classe.countQ orgId: orgId
   countCoursePromise  = (
     Category.findQ {orgId: orgId, deleteFlag: $ne: true}, "_id"
     .then (categories) ->
