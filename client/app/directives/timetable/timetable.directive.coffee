@@ -170,5 +170,54 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       .then (data)->
         $modalInstance.close data
 
+    open: ($event) ->
+      $event.preventDefault()
+      $event.stopPropagation()
+      $scope.viewState.fromPopOpened = true
+
+    format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
+
+    dateOptions:
+      formatYear: 'yy'
+      startingDay: 1
+
+    shifts: []
+
+    weekdays:
+      [
+          title: '不重复'
+          value: NaN
+        ,
+          title: '周一'
+          value: '1'
+        ,
+          title: '周二'
+          value: '2'
+        ,
+          title: '周三'
+          value: '3'
+        ,
+          title: '周四'
+          value: '4'
+        ,
+          title: '周五'
+          value: '5'
+        ,
+          title: '周六'
+          value: '6'
+        ,
+          title: '周日'
+          value: '0'
+      ]
+
+    addShift: ()->
+      $scope.shifts.push
+        weekday: $scope.weekdays[0]
+        start: moment()._d
+        last: 90
+
+    removeShift: (shift)->
+      $scope.shifts.splice $scope.shifts.indexOf(shift), 1
+
   $scope.loadCourses()
 

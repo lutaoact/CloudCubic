@@ -194,8 +194,9 @@
       right: 10px;
       bottom: 10px;
       .btn-crystal{
+        background: rgba(0,0,0,0.3);
         &:hover{
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.7);
         }
       }
     }
@@ -279,5 +280,38 @@
 
 
 .schedule-popup{
+  &.modal-body {
+    padding: 15px;
+  }
+  .shifts{
+    .header{
+      border-bottom: 1px solid @gray-lighter;
+      font-size: 12px;
+      height: 45px;
+      line-height: 45px;
+      .btn-danger {
+        margin-top: 8px;
+      }
+    }
+    .hint-icon{
+      color: @brand-warning;
+    }
+    background: #F2F2F3;
+    .shifts-table{
+      margin: 10px 30px 20px 30px;
+      .shift-rule{
+        width: 30%;
+      }
+      .shift-start{
+        width: 40%;
+      }
+      .shift-duration{
+        width: 20%;
+      }
+      .shift-delete{
+        width: 10%;
+      }
+    }
+  }
 
 }
