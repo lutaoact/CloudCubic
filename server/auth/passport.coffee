@@ -11,6 +11,8 @@ passport.use(new WeiboStrategy({
   callbackURL : config.weiboAuth.oauth_callback_url
   passReqToCallback: true
 }, (req, token, refreshToken, profile, done) ->
+  logger.info "Weibo profile"
+  logger.info profile
   if req.user?
     user = req.user
 
@@ -42,12 +44,14 @@ passport.use(new QQStrategy({
   callbackURL : config.qqAuth.oauth_callback_url
   passReqToCallback: true
 }, (req, token, refreshToken, profile, done) ->
+  logger.info "QQ profile"
+  logger.info profile
   if req.user?
     user = req.user
 
     user.qq.id    = profile.id
     user.qq.token = token
-    user.qq.name  = profile.displayName
+    user.qq.name  = profile.nickname
 
     user.save (err) ->
       if err then return done err
@@ -59,7 +63,7 @@ passport.use(new QQStrategy({
       unless user then return done null, false, { message: '该用户尚未绑定社交登录' }
 
       user.qq.token = token
-      user.qq.name  = profile.displayName
+      user.qq.name  = profile.nickname
 
       user.save (err) ->
         if err then return done err
