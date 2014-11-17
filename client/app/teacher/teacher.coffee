@@ -19,3 +19,5 @@ angular.module('budweiserApp').config ($stateProvider) ->
         Restangular.all('courses').getList().then (courses) ->
           courses
         , -> []
+      CurrentUser: (Auth)->
+        Auth.getCurrentUser()

@@ -28,17 +28,23 @@
     display: inline-block;
     zoom: 1;
     position: relative;
-    @media screen and (max-width: 1200px){
+    @media screen and (max-width: 1250px){
       zoom: 0.9;
     }
-    @media screen and (max-width: 1000px){
-      zoom: 0.8;
+    @media screen and (max-width: 1100px){
+      zoom: 0.7;
     }
     .arrow{
       font-size: 60px;
       color: #FFFFFF;
       height: 400px;
       line-height: 400px;
+      &:nth-child(1){
+        margin-right: 30px;
+      }
+      &:nth-last-child(1){
+        margin-left: 30px;
+      }
       i{
         .text-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
         .transition(all .2s ease-in-out);
@@ -207,6 +213,11 @@
           background: rgba(0,0,0,0.7);
         }
       }
+    }
+    .tip-right{
+      position: absolute;
+      right: -110px;
+      bottom: 275px;
     }
   }
   .calendar-continer{

@@ -1,12 +1,13 @@
-<timetable event-click="startCourse" id="timetable">
+<timetable
+  event-click="startCourse"
+  id="timetable"
+  ng-if="!hideTimetable">
 </timetable>
 
 <section class="course-list"
          id="course-list">
-  <a class="anchor anchor-up"
-     href="#course-list"
-     du-smooth-scroll>
-    <i class="fa fa-chevron-down"></i>
+  <a class="anchor anchor-up" ng-click="toggleHideTimetable()">
+    <i class="fa" ng-class="{'fa-chevron-down':hideTimetable,'fa-chevron-up':!hideTimetable}"></i>
   </a>
   <div class="container">
   <div class="section-header"

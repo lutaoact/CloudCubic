@@ -7,11 +7,15 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   $scope
   Courses
   Categories
+  $localStorage
+  CurrentUser
 ) ->
 
   angular.extend $scope,
 
     courses: Courses
+
+    me: CurrentUser
 
     createNewCourse: ->
       $modal.open
@@ -25,3 +29,12 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
 
     startCourse : (event) ->
       $state.go 'teacher.course', courseId: event.$course._id
+
+    hideTimetable: false
+
+    toggleHideTimetable: ()->
+      $scope.hideTimetable = !$scope.hideTimetable
+      $localStorage[$scope.me._id] ?= {}
+      $localStorage[$scope.me._id].hideTimetable = $scope.hideTimetable
+
+  $scope.hideTimetable = $localStorage[$scope.me._id]?.hideTimetable
