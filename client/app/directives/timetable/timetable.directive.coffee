@@ -53,8 +53,17 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
           controller: 'SchedulePopupCtrl'
           resolve:
             courses: $scope.courses
-        .result.then (schedule)->
+        .result.then (schedules)->
+          $scope.schedules.concat schedules
+          console.log $scope.schedules
           $scope.eventSouces = timetableHelper.genTimetable($scope.schedules)
+
+      removeEvent: ($event, event)->
+        $event.stopPropagation()
+        console.log event
+        event.schedule.remove()
+        .then ->
+          event.$container.splice event.$container.indexOf(event), 1
 
     $scope.loadTimetable()
 
@@ -102,6 +111,8 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         event.currentWeek = today.diff(moment(schedule.start),'weeks') + 1
         event.weeks = moment(schedule.until).diff(moment(schedule.start),'weeks') + 1
         event.endTime = moment(schedule.end).weeks(today.weeks())
+        event.schedule = schedule
+        event.$container = eventSouces[isoWeekday - 1]
         eventSouces[isoWeekday - 1].push event
     eventSouces
 
@@ -124,6 +135,8 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         # event.currentWeek = today.diff(moment(schedule.start),'weeks') + 1
         # event.weeks = moment(schedule.until).diff(moment(schedule.start),'weeks') + 1
         event.endTime = moment(schedule.end).weeks(today.weeks())
+        event.schedule = schedule
+        event.$container = eventSouces[isoWeekday - 1]
         eventSouces[isoWeekday - 1].push event
     eventSouces
 
@@ -134,7 +147,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       @genStudentTimetable(schedules, day)
 
 
-.controller 'SchedulePopupCtrl', ($scope, $modalInstance, Restangular)->
+.controller 'SchedulePopupCtrl', ($scope, $modalInstance, Restangular,$q)->
   angular.extend $scope,
     close: ->
       $modalInstance.dismiss('close')
@@ -158,31 +171,44 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       $scope.viewState.classe = undefined
 
     create: ()->
-      startMoment = moment($scope.viewState.startTime)
-      endMoment = moment($scope.viewState.endTime)
-      schedule =
-        course: $scope.viewState.course._id
-        classe: $scope.viewState.classe._id
-        start: moment($scope.viewState.startDate).hours(startMoment.hours()).minute(startMoment.minute())._d
-        end: moment($scope.viewState.startDate).hours(endMoment.hours()).minute(endMoment.minute())._d
-        until: moment($scope.viewState.endDate)._d
-      Restangular.all('schedules').post schedule
-      .then (data)->
-        $modalInstance.close data
+      if $scope.shifts.length
+        schedules = []
+        $scope.shifts.forEach (shift)->
+          if shift.weekday is NaN
+            startMoment = moment($scope.viewState.startDate).hours(shift.start.hour).minute(shift.start.minute)._d
+            endMoment = moment($scope.viewState.startDate).hours(shift.start.hour).minute(shift.start.minute).add(shift.last,'minutes')._d
+            untilMoment = endMoment
+          else
+            startMoment = moment($scope.viewState.startDate).isoWeekday(shift.weekday.value).hours(shift.start.hour).minute(shift.start.minute)._d
+            endMoment = moment($scope.viewState.startDate).isoWeekday(shift.weekday.value).hours(shift.start.hour).minute(shift.start.minute).add(shift.last,'minutes')._d
+            untilMoment = moment($scope.viewState.endDate).isoWeekday(shift.weekday.value)._d
 
-    open: ($event) ->
-      $event.preventDefault()
-      $event.stopPropagation()
-      $scope.viewState.fromPopOpened = true
+          schedule =
+            course: $scope.viewState.course._id
+            classe: $scope.viewState.classe._id
+            start: startMoment
+            end: endMoment
+            until: untilMoment
+          console.log schedule
+
+          schedules.push schedule
+
+        $q.all(schedules.map (schedule)->
+          Restangular.all('schedules').post schedule
+        ).then (data)->
+          $modalInstance.close data
+      else
+        console.log 'no shift found'
 
     format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
 
     dateOptions:
-      formatYear: 'yy'
-      startingDay: 1
+      startingDay: 0
+      "show-weeks": false
 
     shifts: []
 
+    # sequence matters!
     weekdays:
       [
           title: '不重复'
@@ -207,17 +233,32 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
           value: '6'
         ,
           title: '周日'
-          value: '0'
+          value: '7'
       ]
 
+    durations: [0..60].map (index)-> (index * 5 + 30)
+    hours: [0..23]
+    minutes: [0..11].map (index)-> (index * 5)
     addShift: ()->
       $scope.shifts.push
         weekday: $scope.weekdays[0]
-        start: moment()._d
+        start:
+          hour: 9
+          minute: 0
         last: 90
 
     removeShift: (shift)->
       $scope.shifts.splice $scope.shifts.indexOf(shift), 1
+
+  $scope.$watch 'viewState.startDate', (value)->
+    if value and $scope.shifts.length is 0
+      # initial the first shift
+      $scope.shifts.push
+        weekday: $scope.weekdays[moment(value).isoWeekday()]
+        start:
+          hour: 9
+          minute: 0
+        last: 90
 
   $scope.loadCourses()
 

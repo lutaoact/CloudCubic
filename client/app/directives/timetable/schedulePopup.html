@@ -24,23 +24,28 @@
   </div>
 
   <div class="clearfix title-row row">
-    <div class="form-group col-xs-12">
-      从<div class="btn-group" dropdown>
-        <button type="button" class="btn btn-default rounded dropdown-toggle">
-          {{viewState.startDate||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
-        </button>
-        <div class="dropdown-menu" role="menu">
-          <datepicker ng-model="viewState.startDate" show-weeks="false" class="bud datepicker"></datepicker>
-        </div>
-      </div>
-      到<div class="btn-group" dropdown>
-        <button type="button" class="btn btn-default rounded dropdown-toggle">
-          {{viewState.endDate||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
-        </button>
-        <div class="dropdown-menu" role="menu">
-          <datepicker ng-model="viewState.endDate" show-weeks="false" class="bud datepicker"></datepicker>
-        </div>
-      </div>
+    <div class="form-group col-xs-12 bud-datepicker-wrap">
+      从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
+        datepicker-popup="{{format}}"
+        ng-model="viewState.startDate"
+        is-open="viewState.fromPopOpened"
+        ng-click="viewState.fromPopOpened = true;"
+        show-button-bar="false"
+        datepicker-options="dateOptions">
+        {{viewState.startDate||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+      </button>
+
+      到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
+        datepicker-popup="{{format}}"
+        ng-model="viewState.endDate"
+        is-open="viewState.toPopOpened"
+        min-date="viewState.startDate"
+        ng-click="viewState.toPopOpened = true;"
+        show-button-bar="false"
+        datepicker-options="dateOptions">
+        {{viewState.endDate||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+      </button>
+
     </div>
   </div>
 
@@ -56,25 +61,20 @@
           <th class="shift-start">开始时间</th>
           <th class="shift-duration">用时（小时）</th>
         </tr>
-        <tr ng-repeat="shift in shifts">
-          <td>
-            <div class="btn-group" dropdown is-open="shift.$isOpen">
-              <button type="button" class="btn btn-default rounded dropdown-toggle">
-                {{shift.weekday.title}} &nbsp;<i class="fa fa-chevron-down"></i>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="weekday in weekdays"><a href="" ng-click="shift.weekday = weekday;shift.$isOpen = false">{{weekday.title}}</a></li>
-              </ul>
-            </div>
+        <tr ng-repeat="shift in shifts" class="shift-row">
+          <td class="shift-rule">
+            <select class="form-control input-sm" ng-model="shift.weekday" ng-options="weekday.title for weekday in weekdays"></select>
+          </td>
+          <td class="shift-start">
+            <select class="form-control input-sm" ng-model="shift.start.hour" ng-options="hour for hour in hours"></select>
+            <label>:</label>
+            <select class="form-control input-sm" ng-model="shift.start.minute" ng-options="minute for minute in minutes"></select>
           </td>
           <td>
-            <timepicker ng-model="shift.start" hour-step="'1'" minute-step="'5'"></timepicker>
+            <select class="form-control input-sm" ng-model="shift.last" ng-options="duration for duration in durations"></select>
           </td>
-          <td>
-            <input type="number" ng-model="shift.last">
-          </td>
-          <td>
-            <a href="" ng-click="removeShift(shift)"><i class="fa fa-times"></i></a>
+          <td class="shift-action">
+            <a href="" ng-click="removeShift(shift)"><i class="fa fa-times"></i>删除</a>
           </td>
         </tr>
       </table>
@@ -83,8 +83,8 @@
   </div>
 
 </div>
-<div class=" modal-footer schedule-popup">
+<div class="modal-footer schedule-popup">
   <button class="btn btn-danger" ng-click="create()"
-  ng-disabled="!viewState.course||!viewState.classe||!viewState.startDate||!viewState.endDate||!viewState.startTime||!viewState.endTime">提交</button>
+  ng-disabled="!viewState.course||!viewState.classe||!viewState.startDate||!viewState.endDate">提交</button>
   <button class="btn btn-default" ng-click="close()">取消</button>
 </div>

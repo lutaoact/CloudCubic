@@ -141,12 +141,20 @@
             top: 6px;
             bottom: 6px;
           }
+          .remove{
+            position: absolute;
+            top: 6px;
+            right: 4px;
+            color: @gray-light;
+            &:hover{
+              color: @gray;
+            }
+          }
           .transition(all .2s ease-in-out);
           cursor: pointer;
 
           .title{
             .text-overflow();
-
           }
           .subtitle{
             background: @gray-light;
@@ -282,6 +290,10 @@
 .schedule-popup{
   &.modal-body {
     padding: 15px;
+    padding-bottom: 0;
+  }
+  &.modal-footer{
+    margin-top: 0;
   }
   .shifts{
     .header{
@@ -298,18 +310,36 @@
     }
     background: #F2F2F3;
     .shifts-table{
-      margin: 10px 30px 20px 30px;
+      margin: 10px 0 20px 0;
+      width: 100%;
+      td, th{
+        padding: 0 0 0 10px;
+      }
       .shift-rule{
         width: 30%;
+        .form-control {
+          width: 100px;
+        }
       }
       .shift-start{
-        width: 40%;
+        width: 30%;
+        .form-control{
+          width: 50px;
+          display: inline-block;
+        }
       }
       .shift-duration{
         width: 20%;
       }
-      .shift-delete{
-        width: 10%;
+      .shift-row{
+        background: #FFF;
+        height: 45px;
+        border: 1px solid @gray-lighter;
+
+      }
+      .shift-action{
+        width: 20%;
+        text-align: center;
       }
     }
   }

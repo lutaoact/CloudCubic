@@ -50,6 +50,9 @@
             <div class="class-info" ng-show="event.weeks">
               <span class="thisweek circle">{{event.currentWeek}}</span><span>/</span><span class="total circle">{{event.weeks}}</span>周
             </div>
+            <a href="" class="remove" ng-if="showAddBtn()" ng-click="removeEvent($event, event)">
+              <i class="fa fa-times"></i>
+            </a>
           </div>
         </div>
       </div>
