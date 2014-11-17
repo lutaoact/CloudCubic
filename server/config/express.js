@@ -20,6 +20,15 @@ module.exports = function(app) {
   var env = app.get('env');
   console.log("Env is " + env);
 
+  //CORS middleware
+  var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+  };
+
   app.set('views', config.root + '/server/views');
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -27,6 +36,7 @@ module.exports = function(app) {
   app.use(bodyParser());
   app.use(methodOverride());
   app.use(cookieParser());
+  app.use(allowCrossDomain);
   app.use(passport.initialize());
 
   if ('production' === env || 'online_test' === env) {
