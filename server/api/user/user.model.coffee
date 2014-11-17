@@ -25,7 +25,6 @@ exports.User = BaseModel.subclass
         lowercase : true
         unique: true
         required: true
-        sparse: true
       info :
         type : String
       name :
@@ -40,6 +39,10 @@ exports.User = BaseModel.subclass
       role :
         type : String
         default : 'student'#TODO change role to Number
+      weibo:
+        id: String
+        name: String
+        token: String
       salt :
         type : String
       status :

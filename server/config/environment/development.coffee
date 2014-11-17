@@ -18,6 +18,11 @@ module.exports =
 
   nodejsServer : '115.29.244.232'
 
+  weiboAuth:
+    appkey: '1324448620'
+    secret: '3bb9527da4c087f942c7e785ddc5332a'
+    oauth_callback_url: 'http://localhost.com:9000/auth/weibo/callback'
+
   redis :
     port : 6379
     host : "localhost"
