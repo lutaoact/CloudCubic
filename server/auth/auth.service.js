@@ -82,8 +82,20 @@ function verifyTokenCookie() {
           next();
         });
       } else {
-        next()
+        next();
       }
+    })
+    .use(function(req, res, next) {
+        if (req.user) {
+          User.findById(req.user._id, function (err, user) {
+            if (err) return next(err);
+            if (user) req.user = user;
+
+            next();
+          });
+        } else {
+          next();
+        }
     });
 }
 
