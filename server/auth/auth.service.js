@@ -70,7 +70,25 @@ function setTokenCookie(req, res, redirect) {
   res.redirect(redirect || '/');
 }
 
+function verifyTokenCookie() {
+  return compose()
+    .use(function(req, res, next) {
+      if (req.cookies.token) {
+        var token = req.cookies.token.replace(/"/g, '');
+        jwt.verify(token, config.secrets.session, null, function(err, user) {
+          if (err) return next(err);
+          if (user) req.user = user;
+
+          next();
+        });
+      } else {
+        next()
+      }
+    });
+}
+
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
+exports.verifyTokenCookie = verifyTokenCookie;
