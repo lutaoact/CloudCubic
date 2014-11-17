@@ -21,7 +21,12 @@ module.exports =
   weiboAuth:
     appkey: '1324448620'
     secret: '3bb9527da4c087f942c7e785ddc5332a'
-    oauth_callback_url: 'http://localhost.com:9000/auth/weibo/callback'
+    oauth_callback_url: 'http://marry-me.today/auth/weibo/callback'
+
+  qqAuth:
+    appkey: '101170221'
+    secret: 'd847467b7087385fc73afa150cd82911'
+    oauth_callback_url: 'http://marry-me.today/auth/qq/callback'
 
   redis :
     port : 6379

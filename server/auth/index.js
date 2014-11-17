@@ -26,4 +26,16 @@ router.get('/weibo/callback', auth.verifyTokenCookie(), function(req, res, next)
   })(req, res, next);
 });
 
+router.get('/qq', passport.authenticate('qq'));
+router.get('/qq/callback', auth.verifyTokenCookie(), function(req, res, next) {
+  passport.authenticate('qq', function(err, user, info) {
+    var error = err || info;
+    if (error) return res.json(401, error);
+    if (!user) return res.json(404, {message: 'Something went wrong, please try again.'});
+
+    var token = auth.signToken(user._id, user.role);
+    res.json({token: token});
+  })(req, res, next);
+});
+
 module.exports = router;
