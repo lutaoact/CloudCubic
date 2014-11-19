@@ -39,7 +39,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',(
         notify
           message:'密码修改成功'
           classes:'alert-success'
-          $scope.password = {}
+        $scope.password = {}
       .catch ->
         notify
           message:'原密码错误'
