@@ -25,7 +25,6 @@ exports.User = BaseModel.subclass
         lowercase : true
         unique: true
         required: true
-        sparse: true
       info :
         type : String
       name :
@@ -51,6 +50,24 @@ exports.User = BaseModel.subclass
         type: String
       resetPasswordExpires :
         type: Date
+
+      #migrate from nodeBB
+      username: String
+      joindate: Number
+      picture: String
+      gravatarpicture: String
+      fullname: String
+      location: String
+      birthday: String
+      website: String
+      signature: String
+      uploadedpicture: String
+      profileviews: Number
+      reputation: Number
+      postcount: Number
+      lastposttime: Number
+      banned: Number
+      onlineStatus: String
 
     setupUserSchema @schema
 
