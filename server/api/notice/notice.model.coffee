@@ -16,7 +16,7 @@ exports.Notice = BaseModel.subclass
       fromWhom:
         type: ObjectId
         ref: 'user'
-      type: Number
+      type: Number #参考Const中的定义
       data:
         lecture:
            type: ObjectId

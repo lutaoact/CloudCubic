@@ -6,6 +6,12 @@ Const =
     Comment: 3
     Lecture: 4
 
+  Notification:
+    1: '有人赞了你的话题'
+    2: '有人赞了你的回复'
+    3: '有人给你评论啦^_^'
+    4: '新的课时发布啦'
+
   OrgType:
     Primary     : 1  # 小学
     JuniorMiddle: 2  # 初中

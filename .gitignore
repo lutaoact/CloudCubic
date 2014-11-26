@@ -20,3 +20,4 @@ client/index.html
 dump.rdb
 npm-debug.log
 /server/test/**/*.js
+/server/cert
