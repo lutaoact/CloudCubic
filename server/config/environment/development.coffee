@@ -51,7 +51,7 @@ module.exports =
   assetHost :
     uploadImageType : '0'
     uploadSlideType : '1'
-    uploadVideoType : '2'
+    uploadVideoType : '3'
     uploadFileType : '0'
 
   assetsConfig:
@@ -67,6 +67,10 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+    3:
+      serviceName: 'azure'
+      accountName: 'cloud3educnmedia'
+      accountKey: '4N+9pgfuQnlo2qYj3OpwvS0TopFStMpx139zsORMc3k='
 
 #  emailConfig:
 #    host: "smtp.office365.com"
