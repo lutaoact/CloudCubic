@@ -13,6 +13,8 @@ options =
 
 apnConnection = new apn.Connection(options)
 
+Device = _u.getModel 'device'
+
 class DeviceUtils
   classname: 'DeviceUtils'
   push: (deviceToken, notice) ->
@@ -29,5 +31,12 @@ class DeviceUtils
     note.payload.payload = JSON.stringify notice
 
     return note
+
+  pushToUser: (userId, notice) ->
+    Device.getByUserId userId
+    .then (devices) =>
+      _.each devices, (device) =>
+        @push device.deviceToken, notice
+      return
 
 exports.DeviceUtils = DeviceUtils

@@ -27,3 +27,6 @@ exports.Device = BaseModel.subclass
 
   createOne: (userId, deviceToken) ->
     return @createQ {userId: userId, deviceToken: deviceToken}
+
+  getByUserId: (userId) ->
+    return @findQ {userId: userId}
