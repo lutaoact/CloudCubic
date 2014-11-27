@@ -25,6 +25,9 @@
       </div>
     </div>
   </div>
+  <div class="form-group clearfix">
+    <a href="" class="pull-right" ui-sref="forgot">忘记密码&nbsp;<i class="fa fa-question-circle"></i></a>
+  </div>
   <div class="form-group">
     <button class="btn btn-danger btn-lg rounded"
             ng-disabled="loggingIn"
@@ -38,5 +41,40 @@
       </span>
     </button>
   </div>
-  <a ui-sref="signup" href="">注册</a><span class="text-muted">&nbsp;|&nbsp;</span><a ui-sref="forgot" href="">忘记密码</a>
+  <div class="lines clearfix">
+    <div class="col-xs-5">
+      <div class="left-line"></div>
+    </div>
+    <div class="col-xs-2">
+      <span style="font-size: 16px;">或</span>
+    </div>
+    <div class="col-xs-5">
+      <div class="col-xs-3">
+        <div class="right-line"></div>
+      </div>
+      <div class="col-xs-6">
+        <span style="font-size: 12px;">快速登录</span>
+      </div>
+      <div class="col-xs-3">
+        <div class="right-line"></div>
+      </div>
+    </div>
+  </div>
+  <div class="register clearfix">
+    <div class="col-xs-6 left-side">
+      <button class="btn btn-xs btn-warning rounded register-btn" ui-sref="signup">注册</button>
+    </div>
+    <div class="col-xs-6">
+      <div class="col-xs-6">
+        <a href="" class="btn social-btn">
+          <i class="fa fa-weibo"></i>
+        </a>
+      </div>
+      <div class="col-xs-6">
+        <a href="" class="btn social-btn">
+          <i class="fa fa-qq"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 </form>

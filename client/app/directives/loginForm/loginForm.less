@@ -1,11 +1,39 @@
 .login-form{
-  width: 342px;
-  height: 300px;
+  width: 80%;
+  max-width: 500px;
   background-color: rgba(255,255,255,0.7);
   border-radius: 3px;
-  padding: 58px 20px 58px 22px;
+  padding: 30px 20px 30px 22px;
+  text-align: center;
+  a{
+    color: #606060;
+    font-size: 12px;
+  }
+  .lines{
+    span{
+      color: #606060;
+    }
+    .left-line{
+      border-top: 1px solid #888;
+      margin-top: 12px;
+    }
+    .col-xs-5{
+      padding-left: 0;
+      padding-right: 0;
+      .col-xs-3,.col-xs-6{
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    .right-line{
+      border-top: 1px solid #888;
+      margin-top: 12px;
+    }
+    .line{
+    }
+  }
   .form-group{
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
   .input-group{
     border-radius: 3px;
@@ -15,14 +43,58 @@
       border-top-left-radius: 3px;
     }
     .input-group-addon{
-      .fa{
+      .budon{
         width: 20px;
       }
       border-bottom-right-radius: 3px;
       border-top-right-radius: 3px;
     }
   }
+  .register{
+    padding-top: 15px;
+    .register-btn{
+      width: 100%;
+    }
+    .left-side{
+      border-right: 1px solid #888;
+    }
+    .social-btn{
+      font-size: 18px;
+      height: 30px;
+      width: 30px;
+      border-radius: 30px;
+      border: 1px solid #888;
+      padding: 1px 3px;
+      &:hover{
+        background: #888;
+        color: #FFF;
+      }
+    }
+  }
   .btn-danger{
     width: 100%;
+  }
+  @media screen and (max-width: @screen-xs-max) {
+    padding: 15px 10px 15px 12px;
+    width: 100%;
+    .form-group{
+      margin-bottom: 10px;
+    }
+    .input-group{
+      font-size: 14px;
+      .input-group-addon{
+        .budon{
+          width: 16px;
+        }
+      }
+      .input-lg{
+        height: 38px;
+        padding: 8px 16px;
+      }
+    }
+    .btn.rounded.btn-lg{
+      height: 38px;
+      padding: 8px 16px;
+    }
   }
 }

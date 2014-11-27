@@ -1,46 +1,107 @@
-<section class="home-section text-center" id="main" src-key="'/assets/images/classroom.jpg'" source-attr="background-image">
-  <div class="container">
-    <h2>教育的云计算时代，从云立方学院开始</h2>
-    <p class="text-muted">5秒钟创建班级，1分钟课程上线；实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！</p>
-    <a class="btn btn-warning btn-lg rounded" ui-sref="signup">
-      加入我们
-    </a>
-    <div class="demo hidden-sm hidden-xs" src-key="'/assets/images/demo_1.png'" source-attr="background-image">
+<section full-page
+  class="home-section center-wrap"
+  id="main"
+  src-key="'/assets/images/classroom.jpg'"
+  source-attr="background-image">
+  <div class="text-center center-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 description">
+          <div class="description-content" style="max-width: 500px;margin: auto;">
+            <h2>教育的云计算时代<br>从云立方学院开始！</h2>
+            <h5>5秒钟创建班级，1分钟课程上线；实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！</h5>
+            <div class="apps clearfix hidden-xs">
+              <div class="col-sm-4 app" dropdown>
+                <a href="" class="dropdown-toggle">
+                  <i class="fa fa-apple"></i>
+                  云立方-iPhone
+                  <br>
+                  v1.0 | 2014.11.18
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    正在加紧开发中。。。
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-4 app" dropdown>
+                <a href="" class="dropdown-toggle">
+                  <i class="fa fa-android"></i>
+                  云立方-Android
+                  <br>
+                  v1.0 | 2014.11.18
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    正在加紧开发中。。。
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-4 app" dropdown>
+                <a href="" class="dropdown-toggle">
+                  <i class="fa fa-wechat"></i>
+                  微信公众号
+                  <br>
+                  学之方教育科技
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <img src="/assets/images/wechatQR.jpg" alt="">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <login-form style="margin:auto;"></login-form>
+        </div>
+      </div>
     </div>
-    <login-form></login-form>
-
   </div>
+  <a href="#features-header" class="btn know-more" du-smooth-scroll>
+    了解更多
+    <br>
+    <i class="fa fa-chevron-down"></i>
+  </a>
 
 </section>
 
-<feature-list title="云立方学院可以为您带来什么？" distance="850"></feature-list>
+<feature-list title="云立方学院可以为您带来什么？" distance="{{distance}}"></feature-list>
 
-<section class="home-section text-center" id="contacts">
-  <div class="section_header">
-    <h1>
-      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
-      如果您的教育机构需要
-      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
-    </h1>
-  </div>
-  <div class="container">
-    <div class="demo col-sm-6 hidden-sm hidden-xs" src-key="'/assets/images/demo_2.png'" source-attr="background-image">
+<section full-page
+  class="home-section text-center center-wrap"
+  id="contacts"
+  src-key="'/assets/images/timetable_back.png'"
+  source-attr="background-image">
+  <div class="center-content">
+    <div class="section_header">
+      <h1>
+        <i class="budon budon-diamond"></i><i class="budon budon-diamond"></i><i class="budon budon-diamond"></i>
+        如果您的教育机构需要
+        <i class="budon budon-diamond"></i><i class="budon budon-diamond"></i><i class="budon budon-diamond"></i>
+      </h1>
     </div>
-    <div class="col-sm-6">
-      <ul class="advantages">
-        <li><i class="fa fa-check base-color"></i>快速部署在线教育服务，追踪教学过程</li>
-        <li><i class="fa fa-check base-color"></i>增强教学和学习体验，机构竞争优势</li>
-        <li><i class="fa fa-check base-color"></i>利用课堂实时互动，增强学习效率</li>
-        <li><i class="fa fa-check base-color"></i>使用云服务，统计分析大量教学数据</li>
-        <li><i class="fa fa-check base-color"></i>充分融合线上和线下的教学</li>
-      </ul>
-    </div>
-    <div class="col-sm-12">
-      <a href="mailto:info@cloud3edu.com" target="blank" class="btn btn-warning btn-lg rounded mail-to">
-        请联系我们进入云立方学院
-      </a>
+    <div class="container">
+      <div class="col-sm-6 col-sm-offset-3">
+        <ul class="advantages">
+          <li><i class="fa fa-check"></i>快速部署在线教育服务，追踪教学过程</li>
+          <li><i class="fa fa-check"></i>增强教学和学习体验，机构竞争优势</li>
+          <li><i class="fa fa-check"></i>利用课堂实时互动，增强学习效率</li>
+          <li><i class="fa fa-check"></i>使用云服务，统计分析大量教学数据</li>
+          <li><i class="fa fa-check"></i>充分融合线上和线下的教学</li>
+        </ul>
+      </div>
+      <div class="col-sm-8 col-sm-offset-2">
+        <a href="mailto:info@cloud3edu.com" target="blank" class="btn btn-warning btn-lg rounded mail-to">
+          请联系我们进入云立方学院
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
+<a href="#main" du-smooth-scroll class="back-to-top" du-scrollspy offset="120">
+  <i class="fa fa-chevron-up"></i>
+</a>
 
