@@ -47,6 +47,7 @@ module.exports = (app) ->
   app.use '/api/offline_works', require './api/offline_work'
   app.use '/api/demo', require './api/demo'
   app.use '/auth', require './auth'
+  app.use '/bind', require './api/bind'
   app.use '/api/register', require './api/register'
   app.use '/api/devices', require './api/device'
   app.use '/api/superuser', require './api/superuser'
