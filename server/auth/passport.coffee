@@ -27,7 +27,14 @@ passport.use(new WeiboStrategy({
   else
     User.findOne {'weibo.id': profile.id}, (err, user) ->
       if err then return done err
-      unless user then return done null, false, { message: '该用户尚未绑定社交登录' }
+
+      #如果用户未绑定，则将授权信息传给前端，完成绑定
+      unless user
+        payload =
+          weibo_id   : profile.id
+          weibo_token: token
+          weibo_name : profile.displayName
+        return done null, false, payload
 
       user.weibo.token = token
       user.weibo.name  = profile.displayName
