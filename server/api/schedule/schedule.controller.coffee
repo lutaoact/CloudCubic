@@ -54,3 +54,24 @@ exports.upsert = (req, res, next) ->
   .then () ->
     res.send body
   , next
+
+exports.destroy = (req, res, next) ->
+  user = req.user
+  scheduleId = req.params.id
+  Schedule.findByIdQ scheduleId
+  .then (schedule) ->
+    (if user.role is 'teacher'
+      Course.findOneQ _id: schedule.course, owners: user._id
+      .then (course) ->
+        unless course?
+          Q.reject
+            status : 403
+            errCode : ErrCode.EAccessSchedule
+            errMsg : 'no permission to operate it'
+    )
+  .then () ->
+    Schedule.removeQ _id: scheduleId
+  .then () ->
+    res.send 204
+  .catch next
+  .done()

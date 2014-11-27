@@ -13,6 +13,7 @@ class LectureUtils extends BaseUtils
       lectureAssembly: lectureId
     .then (course) ->
       mCourse = course
+      # TODO FIXME mCourse is null
       CourseUtils.getAuthedCourseById user, mCourse._id
     .then (course) ->
       Lecture.findOne

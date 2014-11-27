@@ -37,6 +37,16 @@ module.exports = function(app) {
   }
 
   if ('development' === env || 'test' === env) {
+    //TODO check production
+    //CORS middleware
+    var allowCrossDomain = function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION,PATCH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+
+      next();
+    };
+    app.use(allowCrossDomain);
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp'), {index: 'index'}));
     app.use(express.static(path.join(config.root, 'client'), {index: 'index'}));

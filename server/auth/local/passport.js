@@ -13,11 +13,8 @@ exports.setup = function (User, config) {
       }, function(err, user) {
         if (err) return done(err);
 
-        if (!user) {
-          return done(null, false, { message: '该邮箱还未注册' });
-        }
-        if (!user.authenticate(password)) {
-          return done(null, false, { message: '登录密码错误' });
+        if (!user || !user.authenticate(password)) {
+          return done(null, false, { message: '登录邮箱或密码错误，请重新填写' });
         }
         if (user.status == 0) {
           return done(null, false, { message: '登录邮箱未认证', unactivated: true});

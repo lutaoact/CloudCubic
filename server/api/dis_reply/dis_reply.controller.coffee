@@ -5,6 +5,7 @@ DisReply = _u.getModel 'dis_reply'
 CourseUtils = _u.getUtils 'course'
 DisUtils = _u.getUtils 'dis'
 NoticeUtils = _u.getUtils 'notice'
+DeviceUtils = _u.getUtils 'device'
 SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
@@ -60,6 +61,8 @@ exports.create = (req, res, next) ->
         disReply._id
       ).then (notice) ->
         SocketUtils.sendNotices notice
+        DeviceUtils.pushToUser user._id, notice
+
   .then () ->
     res.send 201, tmpResult.disReply
   , next

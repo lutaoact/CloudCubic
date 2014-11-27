@@ -28,17 +28,23 @@
     display: inline-block;
     zoom: 1;
     position: relative;
-    @media screen and (max-width: 1200px){
+    @media screen and (max-width: 1250px){
       zoom: 0.9;
     }
-    @media screen and (max-width: 1000px){
-      zoom: 0.8;
+    @media screen and (max-width: 1100px){
+      zoom: 0.7;
     }
     .arrow{
       font-size: 60px;
       color: #FFFFFF;
       height: 400px;
       line-height: 400px;
+      &:nth-child(1){
+        margin-right: 30px;
+      }
+      &:nth-last-child(1){
+        margin-left: 30px;
+      }
       i{
         .text-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
         .transition(all .2s ease-in-out);
@@ -141,12 +147,20 @@
             top: 6px;
             bottom: 6px;
           }
+          .remove{
+            position: absolute;
+            top: 6px;
+            right: 4px;
+            color: @gray-light;
+            &:hover{
+              color: @gray;
+            }
+          }
           .transition(all .2s ease-in-out);
           cursor: pointer;
 
           .title{
             .text-overflow();
-
           }
           .subtitle{
             background: @gray-light;
@@ -194,10 +208,16 @@
       right: 10px;
       bottom: 10px;
       .btn-crystal{
+        background: rgba(0,0,0,0.3);
         &:hover{
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.7);
         }
       }
+    }
+    .tip-right{
+      position: absolute;
+      right: -110px;
+      bottom: 275px;
     }
   }
   .calendar-continer{
@@ -279,5 +299,60 @@
 
 
 .schedule-popup{
+  &.modal-body {
+    padding: 15px;
+    padding-bottom: 0;
+  }
+  &.modal-footer{
+    margin-top: 0;
+  }
+  .shifts{
+    .header{
+      border-bottom: 1px solid @gray-lighter;
+      font-size: 12px;
+      height: 45px;
+      line-height: 45px;
+      .btn-danger {
+        margin-top: 8px;
+      }
+    }
+    .hint-icon{
+      color: @brand-warning;
+    }
+    background: #F2F2F3;
+    .shifts-table{
+      margin: 10px 0 20px 0;
+      width: 100%;
+      td, th{
+        padding: 0 0 0 10px;
+      }
+      .shift-rule{
+        width: 30%;
+        .form-control {
+          width: 100px;
+        }
+      }
+      .shift-start{
+        width: 30%;
+        .form-control{
+          width: 50px;
+          display: inline-block;
+        }
+      }
+      .shift-duration{
+        width: 20%;
+      }
+      .shift-row{
+        background: #FFF;
+        height: 45px;
+        border: 1px solid @gray-lighter;
+
+      }
+      .shift-action{
+        width: 20%;
+        text-align: center;
+      }
+    }
+  }
 
 }

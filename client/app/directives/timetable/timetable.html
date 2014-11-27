@@ -50,6 +50,9 @@
             <div class="class-info" ng-show="event.weeks">
               <span class="thisweek circle">{{event.currentWeek}}</span><span>/</span><span class="total circle">{{event.weeks}}</span>周
             </div>
+            <a href="" class="remove" ng-if="showAddBtn()" ng-click="removeEvent($event, event)">
+              <i class="fa fa-times"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -57,8 +60,12 @@
         <img src="/assets/images/timetable_tip.png" alt="">
       </div>
 
+      <div class="tip-right">
+        <img src="/assets/images/timetable_tip2.png" alt="">
+      </div>
+
       <div class="tip-bottom-right" ng-show="showAddBtn()">
-        <a href class="btn btn-crystal rounded" ng-click="addSchedule()"><i class="fa fa-plus"></i></a>
+        <a href class="btn btn-crystal rounded" ng-click="addSchedule()"><i class="budon budon-schedule"></i></a>
       </div>
     </div>
 

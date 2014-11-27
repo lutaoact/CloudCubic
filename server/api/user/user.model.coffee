@@ -151,7 +151,7 @@ setupUserSchema = (UserSchema) ->
       next()
 
     if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
-      next new Error '密码错误'
+      next new Error '用户名或者密码错误'
     else
       next()
 

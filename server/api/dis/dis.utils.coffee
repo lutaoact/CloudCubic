@@ -2,6 +2,7 @@ BaseUtils = require('../../common/BaseUtils')
 
 SocketUtils = _u.getUtils 'socket'
 NoticeUtils = _u.getUtils 'notice'
+DeviceUtils = _u.getUtils 'device'
 
 class DisUtils extends BaseUtils
   classname: 'DisUtils'
@@ -23,6 +24,7 @@ class DisUtils extends BaseUtils
             dis._id
           ).then (notice) ->
             SocketUtils.sendNotices notice
+            DeviceUtils.pushToUser user._id, notice
 
       do dis.saveQ
     .then (result) ->
