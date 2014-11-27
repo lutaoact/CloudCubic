@@ -1,4 +1,8 @@
 #features{
+  .features-header{
+    position: relative;
+    background: #F3F3F3;
+  }
   .section_header{
     p{
       margin-top: 20px;
@@ -21,7 +25,13 @@
       float: left;
       text-decoration: none;
       background: no-repeat center;
+      text-align: center;
       color: @gray-light;
+      h4{
+        max-width: 110px;
+        margin-left:auto;
+        margin-right: auto;
+      }
       &:hover, &.active{
         color: @base-color;
       }
@@ -30,7 +40,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.5);
       z-index: 1000;
       .container{
         margin-top: 10px;
@@ -42,34 +52,28 @@
         width: 45px;
         height: 30px;
         font-size: 30px;
+        h4{
+          display: none;
+        }
       }
     }
   }
 
   .feature{
-    &.fixed{
-      margin-top: 120px;
-    }
-    min-height: 425px;
+    position: relative;
     .container{
       padding-left: 0;
       padding-right: 0;
     }
-    &:nth-child(odd){
-      background-color: @gray-lighter;
-    }
-    padding: 40px 0;
-    .col-sm-5{
+    .col-sm-7{
+      padding: 0;
       .feat-img{
-        height: 300px;
-        margin-top: 20px;
-        background: no-repeat center;
-        background-size: contain;
+        max-width: 100%;
       }
     }
-    .col-sm-7{
+    .col-sm-5{
+      padding-top: 100px;
       text-align: left;
-      padding: 80px 0 0 0px;
       p{
         margin-top:40px;
         font-size: 18px;
@@ -78,8 +82,6 @@
     border-top: 1px solid @gray-light;
 
     @media screen and (max-width: @screen-xs-max) {
-      padding: 30px 0;
-      min-height: 400px;
       .container{
         padding-left: 15px;
         padding-right: 15px;
@@ -88,17 +90,10 @@
         font-size: 20px;
       }
       .col-sm-5{
-        .feat-img{
-          margin-top: 0;
-          height: 150px;
-        }
-      }
-      .col-sm-7{
-        text-align: left;
-        padding: 10px 0 0 0px;
+        padding-top: 0px;
         p{
-          margin-top:20px;
-          font-size: 16px;
+          margin-top:10px;
+          font-size: 14px;
         }
       }
     }
