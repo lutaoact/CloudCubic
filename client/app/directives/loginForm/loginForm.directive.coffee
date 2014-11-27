@@ -16,6 +16,8 @@ angular.module('budweiserApp').directive 'loginForm', ->
     socketHandler
     $localStorage
     loginRedirector
+    $http
+    $timeout
   ) ->
 
     $localStorage.global ?= {}
@@ -59,3 +61,10 @@ angular.module('budweiserApp').directive 'loginForm', ->
             notify
               message:'用户名或密码错误'
               classes:'alert-danger'
+
+      weiboLogin: ()->
+        $timeout ->
+          weiboLoginWindow = window.open("/auth/weibo", "_self", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400")
+
+
+
