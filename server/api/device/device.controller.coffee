@@ -5,13 +5,14 @@ Device = _u.getModel 'device'
 exports.register = (req, res, next) ->
   user = req.user
   deviceToken = req.body.deviceToken
+  deviceType = req.body.deviceType
 
-  Device.getOne user._id, deviceToken
+  Device.getOne user._id, deviceToken, deviceType
   .then (device) ->
     if device?
       return device
     else
-      Device.createOne user._id, deviceToken
+      Device.createOne user._id, deviceToken, deviceType
   .then (device) ->
     res.send device
   .catch next
@@ -20,8 +21,9 @@ exports.register = (req, res, next) ->
 exports.unregister = (req, res, next) ->
   user = req.user
   deviceToken = req.body.deviceToken
+  deviceType = req.body.deviceType
 
-  Device.getOne user._id, deviceToken
+  Device.getOne user._id, deviceToken, deviceType
   .then (device) ->
     if device?
       return device.removeQ()

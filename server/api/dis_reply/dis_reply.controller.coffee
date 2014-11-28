@@ -61,7 +61,7 @@ exports.create = (req, res, next) ->
         disReply._id
       ).then (notice) ->
         SocketUtils.sendNotices notice
-        DeviceUtils.pushToUser user._id, notice
+        DeviceUtils.pushToUser notice
 
   .then () ->
     res.send 201, tmpResult.disReply
