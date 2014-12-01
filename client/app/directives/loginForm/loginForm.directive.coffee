@@ -66,5 +66,9 @@ angular.module('budweiserApp').directive 'loginForm', ->
         $timeout ->
           weiboLoginWindow = window.open("/auth/weibo", "_self", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400")
 
+      qqLogin: ()->
+        $timeout ->
+          weiboLoginWindow = window.open("/auth/qq", "_self", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400")
+
 
 

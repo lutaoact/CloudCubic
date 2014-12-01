@@ -20,13 +20,15 @@ angular.module('budweiserApp')
   $cookieStore
   $http
   Auth
+  Restangular
+  $q
 )->
 
   weiboProfile = $cookieStore.get 'weibo_profile'
   qqProfile = $cookieStore.get 'qq_profile'
 
   angular.extend $scope,
-    social: {}
+    socials: []
 
     socialBind: (form)->
       if !form.$valid then return
@@ -35,24 +37,27 @@ angular.module('budweiserApp')
         email: $scope.user.email
         password: $scope.user.password
       ).then ->
-        if weiboProfile
-          subUrl = 'weibo'
-          params = weiboProfile
-        else if qqProfile
-          subUrl = 'qq'
-          params = qqProfile
-
-        $http.post "/bind/#{subUrl}", params
-        .success ->
+        promises = $scope.socials.map (social)->
+          switch social.type
+            when '微博'
+              subUrl = 'weibo'
+            when 'QQ'
+              subUrl = 'qq'
+          Restangular.all("bind/#{subUrl}").post social.params
+        $q.all promises
+        .then ->
           Auth.getCurrentUser().$promise.then (me)->
             $scope.loading = false
             $scope.$emit 'loginSuccess', me
 
   if weiboProfile
-    $scope.social.type = '微博'
-    console.log weiboProfile
-    $scope.social.name = weiboProfile.weibo_name
-  else if qqProfile
-    $scope.social.type = 'QQ'
-    $scope.social.name = qqProfile.qq_name
+    $scope.socials.push
+      type : '微博'
+      name : utf8.decode weiboProfile.weibo_name
+      params : weiboProfile
+  if qqProfile
+    $scope.socials.push
+      type : 'QQ'
+      name : utf8.decode qqProfile.qq_name
+      params: qqProfile
 

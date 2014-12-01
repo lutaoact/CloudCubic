@@ -4,11 +4,11 @@
       <h3>社交账号绑定<br><small>请输入已有账号</small></h3>
     </div>
     <hr>
-    <div class="social-card col-md-6">
+    <div ng-repeat="social in socials" class="social-card col-md-6 col-md-offset-3">
       当前{{social.type}}账户：{{social.name}}
     </div>
 
-    <form class="form col-md-6"
+    <form class="form col-md-6 col-md-offset-3"
           name="form"
           ng-submit="socialBind(form)" novalidate>
 
