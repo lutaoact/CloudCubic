@@ -76,3 +76,7 @@ module.exports =
     auth:
       api_user: 'cloud3edu'
       api_key: 'gXI2WTs8w4D6BF09'
+
+  baiduPushService:
+    ak: "d3ylollIsSvgrAKss9iD9pGt"           # API Key
+    sk: "XTxRVe6SvXnx0N3CdOSu5j1swXcEoHi2"   # Secret Key

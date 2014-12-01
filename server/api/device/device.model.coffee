@@ -17,16 +17,19 @@ exports.Device = BaseModel.subclass
       deviceToken:
         type: String
         required: true
+      deviceType:
+        type: Number   # 0: ios; 1: android (baidu userId)
+        required: true
 
     @schema.index {userId: 1, deviceToken: 1}, {unique: true}
 
     $super()
 
-  getOne: (userId, deviceToken) ->
-    return @findOneQ {userId: userId, deviceToken: deviceToken}
+  getOne: (userId, deviceToken, deviceType) ->
+    return @findOneQ {userId: userId, deviceToken: deviceToken, deviceType: deviceType}
 
-  createOne: (userId, deviceToken) ->
-    return @createQ {userId: userId, deviceToken: deviceToken}
+  createOne: (userId, deviceToken, deviceType) ->
+    return @createQ {userId: userId, deviceToken: deviceToken, deviceType: deviceType}
 
   getByUserId: (userId) ->
     return @findQ {userId: userId}
