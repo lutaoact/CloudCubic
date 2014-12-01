@@ -10,8 +10,8 @@ exports.bindWeibo = (req, res, next) ->
     name : req.body.weibo_name
 
   User.findOneQ {'weibo.id': weibo.id}
-  .then (user) ->
-    if user?
+  .then (result) ->
+    if result?
       return Q.reject
         status: 403
         errCode: ErrCode.GoAway
@@ -32,14 +32,14 @@ exports.bindQQ = (req, res, next) ->
     name : req.body.qq_name
 
   User.findOneQ {'qq.id': qq.id}
-  .then (user) ->
-    if user?
+  .then (result) ->
+    if result?
       return Q.reject
         status: 403
         errCode: ErrCode.GoAway
         errMsg: 'you should not come here'
 
-  User.updateQ {_id: user._id}, {qq: qq}
+    User.updateQ {_id: user._id}, {qq: qq}
   .then () ->
     res.send 200
   .catch next
