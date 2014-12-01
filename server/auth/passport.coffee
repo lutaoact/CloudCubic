@@ -67,7 +67,14 @@ passport.use(new QQStrategy({
   else
     User.findOne {'qq.id': profile.id}, (err, user) ->
       if err then return done err
-      unless user then return done null, false, { message: '该用户尚未绑定社交登录' }
+
+      #如果用户未绑定，则将授权信息传给前端，完成绑定
+      unless user
+        payload =
+          qq_id   : profile.id
+          qq_token: token
+          qq_name : profile.nickname
+        return done null, false, payload
 
       user.qq.token = token
       user.qq.name  = profile.nickname
