@@ -29,8 +29,8 @@ angular.module('budweiserApp').directive 'loginForm', ->
       errors: {}
 
       login: (form) ->
-        $scope.loggingIn = true
         if !form.$valid then return
+        $scope.loggingIn = true
         # Logged in, redirect to home
         Auth.login(
           email: $scope.user.email
