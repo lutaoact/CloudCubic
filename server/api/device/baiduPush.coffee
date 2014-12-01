@@ -13,7 +13,7 @@ PROTOCOL_SCHEMA = "http://"
 SERVER_HOST = "channel.api.duapp.com"
 COMMON_PATH = "/rest/2.0/channel/"
 #URL_HEADER = PROTOCOL_SCHEMA + SERVER_HOST;
-debug = true
+debug = false
 errMsg =
   INVALID_ARGS: "Arguments error"
   INVALID_USER_ID: "Arguments error: invalid user_id, the length of user_id must be less than 257B"

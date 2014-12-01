@@ -34,8 +34,10 @@ class DeviceUtils
       message_type: 1
       user_id: deviceToken
       messages: JSON.stringify([
-        title: Const.Notification[notice.type]
-        description: JSON.stringify notice # TODO: change description!
+        #title: Const.Notification[notice.type] # TODO: add title
+        description: Const.Notification[notice.type]
+        custom_content:
+          detail: JSON.stringify notice
       ])
       msg_keys: JSON.stringify(["key0"])
 
