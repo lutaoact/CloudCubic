@@ -22,3 +22,9 @@ angular.module('budweiserApp')
   angular.extend $scope,
     social: {}
 
+  weiboProfile = $cookieStore.get 'weibo_profile'
+
+  if weiboProfile
+    $scope.social.type = '微博'
+    console.log weiboProfile
+
