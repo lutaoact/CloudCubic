@@ -20,6 +20,7 @@ router.get('/weibo/callback', auth.verifyTokenCookie(), function(req, res, next)
     if (err) return res.json(401, err);
     //如果有信息传出，则将信息以cookie的形式传给前端
     if (info) {
+      res.clearCookie('qq_profile')
       res.cookie('weibo_profile', JSON.stringify(info));
       return res.redirect('/social');
     }
@@ -36,6 +37,7 @@ router.get('/qq/callback', auth.verifyTokenCookie(), function(req, res, next) {
 
     //如果有信息传出，则将信息以cookie的形式传给前端
     if (info) {
+      res.clearCookie('weibo_profile')
       res.cookie('qq_profile', JSON.stringify(info));
       return res.redirect('/social');
     }

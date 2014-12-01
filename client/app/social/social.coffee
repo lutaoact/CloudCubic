@@ -22,6 +22,7 @@ angular.module('budweiserApp')
   Auth
   Restangular
   $q
+  notify
 )->
 
   weiboProfile = $cookieStore.get 'weibo_profile'
@@ -49,6 +50,12 @@ angular.module('budweiserApp')
           Auth.getCurrentUser().$promise.then (me)->
             $scope.loading = false
             $scope.$emit 'loginSuccess', me
+        , (error)->
+          console.log error
+      , ->
+        notify
+          message:'登录失败'
+          classes:'alert-danger'
 
   if weiboProfile
     $scope.socials.push
