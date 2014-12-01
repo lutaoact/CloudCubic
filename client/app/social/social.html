@@ -1,66 +1,69 @@
 <div class="social-bind">
   <div class="container">
-    <div class="col-md-12 text-center">
-      <h3>社交账号绑定<br><small>请输入已有账号</small></h3>
+    <div class="content col-md-offset-2 col-md-8">
+      <div class="col-md-12 text-center">
+        <h3>社交账号绑定<br><small>请输入已有账号</small></h3>
+      </div>
+      <hr>
+      <div ng-repeat="social in socials" class="social-card col-md-12">
+        当前{{social.type}}账户：{{social.name}}
+      </div>
+
+      <form class="form col-md-12"
+            name="form"
+            ng-submit="socialBind(form)" novalidate>
+
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                            'has-error': form.email.$invalid && submitted }">
+          <label>学之方账户</label>
+
+          <input type="email" name="email" class="form-control" ng-model="user.email"
+                 ng-model-options="{ debounce: 250 }"
+                 ng-change="checkEmail(form.email)"
+                 required
+                 mongoose-error/>
+          <p class="help-block" ng-show="form.email.$error.email && submitted">
+            邮箱格式不对
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">
+            请输入邮箱（您将通过邮箱激活账号或者重置密码）
+          </p>
+          <p class="help-block" ng-show="form.email.$error.remote">
+            <i class="fa fa-exclamation-triangle text-danger"></i>该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forgot">密码找回</a>
+          </p>
+          <p class="help-block" ng-show="form.email.$remoteChecked == 'pending'">
+            <i class="fa fa-spin fa-spinner"></i>检查中
+          </p>
+          <p class="help-block" ng-show="form.email.$remoteChecked == true">
+            <i class="fa fa-check text-success"></i>该邮箱可用
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+          <label>密码</label>
+
+          <input type="password" name="password" class="form-control" ng-model="user.password"
+                 ng-minlength="6"
+                 ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
+                 required
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+            密码最少为6位字符
+          </p>
+          <p class="help-block" ng-show="form.password.$error.mongoose">
+            {{ errors.password }}
+          </p>
+        </div>
+
+        <div>
+          <button class="btn btn-danger rounded pull-right btn-register" type="submit">
+            绑定
+          </button>
+        </div>
+      </form>
+
     </div>
-    <hr>
-    <div ng-repeat="social in socials" class="social-card col-md-6 col-md-offset-3">
-      当前{{social.type}}账户：{{social.name}}
-    </div>
-
-    <form class="form col-md-6 col-md-offset-3"
-          name="form"
-          ng-submit="socialBind(form)" novalidate>
-
-      <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
-                                          'has-error': form.email.$invalid && submitted }">
-        <label>学之方账户</label>
-
-        <input type="email" name="email" class="form-control input-sm" ng-model="user.email"
-               ng-model-options="{ debounce: 250 }"
-               ng-change="checkEmail(form.email)"
-               required
-               mongoose-error/>
-        <p class="help-block" ng-show="form.email.$error.email && submitted">
-          邮箱格式不对
-        </p>
-        <p class="help-block" ng-show="form.email.$error.required && submitted">
-          请输入邮箱（您将通过邮箱激活账号或者重置密码）
-        </p>
-        <p class="help-block" ng-show="form.email.$error.remote">
-          <i class="fa fa-exclamation-triangle text-danger"></i>该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forgot">密码找回</a>
-        </p>
-        <p class="help-block" ng-show="form.email.$remoteChecked == 'pending'">
-          <i class="fa fa-spin fa-spinner"></i>检查中
-        </p>
-        <p class="help-block" ng-show="form.email.$remoteChecked == true">
-          <i class="fa fa-check text-success"></i>该邮箱可用
-        </p>
-      </div>
-
-      <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
-                                          'has-error': form.password.$invalid && submitted }">
-        <label>密码</label>
-
-        <input type="password" name="password" class="form-control input-sm" ng-model="user.password"
-               ng-minlength="6"
-               ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
-               required
-               mongoose-error/>
-        <p class="help-block"
-           ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
-          密码最少为6位字符
-        </p>
-        <p class="help-block" ng-show="form.password.$error.mongoose">
-          {{ errors.password }}
-        </p>
-      </div>
-
-      <div>
-        <button class="btn btn-danger rounded pull-right btn-register" type="submit">
-          绑定
-        </button>
-      </div>
-    </form>
   </div>
 </div>
