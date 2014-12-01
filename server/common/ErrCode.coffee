@@ -12,3 +12,5 @@ module.exports =
 
   IllegalFields: 10009
   DeleteAdmin: 10010
+
+  GoAway: 10011
