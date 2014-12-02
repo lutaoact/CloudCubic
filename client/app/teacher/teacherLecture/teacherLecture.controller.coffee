@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   KeyPoints
   Restangular
   $sce
+  configs
 ) ->
 
   course = _.find Courses, _id :$state.params.courseId
@@ -25,7 +26,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    videoLimitation: if Auth.getCurrentUser().orgId.isPaid then 2000 * 1024 * 1024 else 30 * 1024 * 1024
+    me: Auth.getCurrentUser()
+    videoLimitation: if Auth.getCurrentUser().orgId.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     course: course
     keyPoints: KeyPoints
     mediaApi: null

@@ -195,6 +195,7 @@
               <i class="fa fa-file-video-o"></i>
               导入视频
             </uploader>
+            <span class="text-muted" style="vertical-align: middle;margin-top: 10px;display: inline-block;">(不大于{{videoLimitation|bytes}} <span ng-if="!me.orgId.isPaid"> ，太小？<a tooltip="基础功能用户的视频大小限制为30MB。如需要升级，请联系我们 info@cloud3edu.com" href="mailto:info@cloud3edu.com" target="blank" >联系我们</a></span>)</span>
             <h4><small>或者</small></h4>
             <form ng-submit="insertExternalVideo()" name="form" class="insert-link-form col-sm-8 col-sm-offset-2">
               <div class="input-group input-group-sm">
