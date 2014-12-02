@@ -80,7 +80,10 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       $scope.selectedFile = file
 
     getViewerHeight: ->
-      $('#lecture-file-content').width() * $scope.selectedFile.fileHeight / $scope.selectedFile.fileWidth
+      if $scope.selectedFile
+        $('#lecture-file-content').width() * $scope.selectedFile.fileHeight / $scope.selectedFile.fileWidth
+      else
+        return 300
 
     seek: (timestamp)->
       $scope.viewState.isVideo = true

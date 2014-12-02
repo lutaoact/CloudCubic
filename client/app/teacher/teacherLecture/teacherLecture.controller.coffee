@@ -117,8 +117,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       notify
         message: '上传失败：' + error
         classes: 'alert-danger'
+        duration: '0'
     onMediaUploadStart: ->
-      console.debug 'media upload start'
+      notify.closeAll()
     onMediaUploading: (speed, progress, event) ->
       console.debug 'media uploading', speed, progress
     onMediaConverting: ->
