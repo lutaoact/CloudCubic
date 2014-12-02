@@ -25,8 +25,8 @@ exports.Device = BaseModel.subclass
 
     $super()
 
-  getOne: (userId, deviceToken, deviceType) ->
-    return @findOneQ {userId: userId, deviceToken: deviceToken, deviceType: deviceType}
+  getOne: (deviceToken, deviceType) ->
+    return @findOneQ {deviceToken: deviceToken, deviceType: deviceType}
 
   createOne: (userId, deviceToken, deviceType) ->
     return @createQ {userId: userId, deviceToken: deviceToken, deviceType: deviceType}

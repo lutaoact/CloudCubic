@@ -7,12 +7,17 @@ exports.register = (req, res, next) ->
   deviceToken = req.body.deviceToken
   deviceType = req.body.deviceType
 
-  console.log 'register device', user, deviceToken, deviceType
+  console.log 'register device', user._id, deviceToken, deviceType
 
-  Device.getOne user._id, deviceToken, deviceType
+  Device.getOne deviceToken, deviceType
   .then (device) ->
     if device?
-      return device
+      if device.userId is user._id
+        return device
+      else
+        device.removeQ()
+        .then ()->
+          Device.createOne user._id, deviceToken, deviceType
     else
       Device.createOne user._id, deviceToken, deviceType
   .then (device) ->
@@ -25,9 +30,9 @@ exports.unregister = (req, res, next) ->
   deviceToken = req.body.deviceToken
   deviceType = req.body.deviceType
 
-  console.log 'unregister device', user, deviceToken, deviceType
+  console.log 'unregister device', user._id, deviceToken, deviceType
 
-  Device.getOne user._id, deviceToken, deviceType
+  Device.getOne deviceToken, deviceType
   .then (device) ->
     if device?
       return device.removeQ()
