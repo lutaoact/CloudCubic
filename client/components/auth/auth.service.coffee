@@ -75,7 +75,7 @@ angular.module('budweiserApp').factory 'Auth', (
 
   @return {Boolean}
   ###
-  hasRole: (roleRequired) ->
+  hasRole: (roleRequired, role) ->
     userRoles = [
       'user'      # 允许登录后的用户 abstract
       'student'   # 允许学生或以上
@@ -83,7 +83,7 @@ angular.module('budweiserApp').factory 'Auth', (
       'admin'     # 允许管理员或以上
       'superuser' # 允许超级用户
     ]
-    userRoles.indexOf(currentUser.role) >= userRoles.indexOf(roleRequired)
+    userRoles.indexOf(currentUser.role ? role) >= userRoles.indexOf(roleRequired)
 
 
   ###
