@@ -11,6 +11,7 @@ client/index.html
 /server/test.coffee
 /server/test.js
 /server/api/**/*.js
+/server/auth/*.js
 /server/config/*seed*.js
 /server/app.js
 /server/routes.js

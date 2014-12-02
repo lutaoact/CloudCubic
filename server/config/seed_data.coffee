@@ -107,7 +107,7 @@ module.exports =
     _id: _s.sprintf orgId, 0
     uniqueName : 'cloud3'
     name : 'Cloud3 Edu'
-    logo : 'http://cloud3edu.com/logo.jpg'
+    logo : '//www.cloud3edu.cn/logo.jpg'
     description : 'This is a test organization'
     type : 'school'
   ,

@@ -1,5 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var WeiboStrategy = require('passport-weibo').Strategy
 
 exports.setup = function (User, config) {
   passport.use(new LocalStrategy({
