@@ -22,6 +22,7 @@ Device = _u.getModel 'device'
 class DeviceUtils
   classname: 'DeviceUtils'
   pushIos: (deviceToken, notice) ->
+    console.log 'push ios', notice
     myDevice = new apn.Device(deviceToken)
 
     note = @_buildNote notice
@@ -29,6 +30,7 @@ class DeviceUtils
     apnConnection.pushNotification note, myDevice
 
   pushAndroid: (deviceToken, notice) ->
+    console.log 'push android', notice
     msg =
       push_type: 1
       message_type: 1
@@ -36,8 +38,7 @@ class DeviceUtils
       messages: JSON.stringify([
         #title: Const.Notification[notice.type] # TODO: add title
         description: Const.Notification[notice.type]
-        custom_content:
-          detail: JSON.stringify notice
+        custom_content: notice
       ])
       msg_keys: JSON.stringify(["key0"])
 
