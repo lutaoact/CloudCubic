@@ -1,7 +1,6 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
-  Auth
   $http
   $scope
   $state
@@ -14,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Restangular
   $sce
   configs
+  CurrentUser
 ) ->
 
   course = _.find Courses, _id :$state.params.courseId
@@ -26,8 +26,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    me: Auth.getCurrentUser()
-    videoLimitation: if Auth.getCurrentUser().orgId.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
+    me: CurrentUser
+    videoLimitation: if CurrentUser.orgId.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     course: course
     keyPoints: KeyPoints
     mediaApi: null
