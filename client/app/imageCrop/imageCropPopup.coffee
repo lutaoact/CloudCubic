@@ -74,7 +74,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
     $scope.viewState.start = undefined
     $scope.viewState.end = undefined
 
-  $scope.$watch 'files', (value)->
+  $scope.$watch 'files', (value, oldValue)->
     if value
       url = URL.createObjectURL(value[0])
       safeUrl = $sce.trustAsResourceUrl(url)

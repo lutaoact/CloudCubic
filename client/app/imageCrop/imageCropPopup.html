@@ -10,12 +10,12 @@
         ng-show="viewState.previewUrl"
         alt="预览" class="img-preview"
         >
-        <img src="/assets/images/empty.jpg"
-        ng-hide="viewState.previewUrl"
+        <img
+          holder-src="holder.js/300x300/:#9c9c99:#bbb/text:请上传图片"
+          ng-if="!viewState.previewUrl"
         alt="">
-
       </div>
-      <label class="btn btn-default" ng-show="!viewState.uploading">
+      <label class="btn btn-default" ng-if="!viewState.previewUrl">
         <input type="file"
         style="display:none;"
         accept="image/*"
