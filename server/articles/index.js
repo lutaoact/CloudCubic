@@ -10,7 +10,11 @@
       var indexPath;
       console.log(req.url);
       indexPath = app.get('appPath') + '/assets/html/articles/' + req.url;
-      return res.sendfile(indexPath);
+      return res.sendfile(indexPath, {}, function(err) {
+        if (err) {
+          return res.render('404');
+        }
+      });
     });
     return router;
   };
