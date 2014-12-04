@@ -61,6 +61,8 @@ module.exports = (app) ->
   app.route '/:url(api|auth|components|app|bower_components|assets)/*'
   .get errors[404]
 
+  app.use '/articles', require('./articles')(app)
+
   app.route '/common/Const.js'
   .get (req, res) ->
     res.sendfile __dirname + '/common/Const.js'

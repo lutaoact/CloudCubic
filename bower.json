@@ -39,7 +39,8 @@
     "angular-fullscreen": "~1.0.0",
     "angular-i18n": "~1.2.26",
     "Jcrop": "~0.9.12",
-    "textAngular": "v1.3.0-pre5"
+    "textAngular": "v1.3.0-pre5",
+    "fullpage.js": "~2.5.1"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -87,11 +88,15 @@
       "dependencies": {
         "angular": "~1.2.0"
       }
+    },
+    "fullpage.js": {
+      "ignore": true
     }
   },
   "resolutions": {
     "angular": "1.2.20",
     "textAngular": "v1.3.0-pre5",
-    "moment": "~2.8.3"
+    "moment": "~2.8.3",
+    "fullpage.js": "~2.5.1"
   }
 }
