@@ -170,18 +170,11 @@ angular.module 'budweiserApp', [
     startTop: 30
     duration: 4000
 
-  gotoUserHome = (user, state) ->
-    if !Auth.hasRole(state.roleRequired, user.role) || !state.roleRequired
-      homeState = user.role+'.home'
-      $location.url $state.href(homeState)
-      $state.go homeState
-
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    if initUser? && !reloadFinish
-      gotoUserHome(initUser, toState)
-    else if Auth.isLoggedIn()
-      Auth.getCurrentUser().$promise?.then (me) -> gotoUserHome(me, toState)
+    if initUser?
+      Auth.getCurrentUser().$promise?.then (me) ->
+        $state.go(me.role+'.home') if !Auth.hasRole(toState.roleRequired) || !toState.roleRequired
     else
       loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 
@@ -200,9 +193,7 @@ angular.module 'budweiserApp', [
     setupUser(user, true)
 
   # Reload Auth
-  reloadFinish = false
-  Auth.getCurrentUser().$promise?.then(setupUser)
-  .finally -> reloadFinish = true
+  Auth.getCurrentUser().$promise?.then setupUser
 
   # Display notify from server
   switch initNotify
