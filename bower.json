@@ -90,7 +90,7 @@
       }
     },
     "fullpage.js": {
-      "ignore": true
+      "main": []
     }
   },
   "resolutions": {
