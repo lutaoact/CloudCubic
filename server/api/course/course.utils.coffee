@@ -68,11 +68,12 @@ class CourseUtils extends BaseUtils
 
   getStudentCourses : (studentId) ->
     Classe = _u.getModel 'classe'
-    Classe.findOneQ
+    Classe.findQ
       students: studentId
-    .then (classe) ->
+    .then (classes) ->
+      classeIds = _.pluck classes, '_id'
       Course.find
-        classes : classe._id
+        classes: $in: classeIds
       .populate 'owners', '_id name avatar'
       .execQ()
     .then (courses) ->
