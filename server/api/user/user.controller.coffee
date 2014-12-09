@@ -136,7 +136,7 @@ exports.destroy = (req, res, next) ->
   .then (classes) ->
     if classes?
       promiseAll = for classe in classes
-        return classe.updateQ $pull: students: userId
+        classe.updateQ $pull: students: userId
       Q.all promiseAll
   .then () ->
     res.send userObj
