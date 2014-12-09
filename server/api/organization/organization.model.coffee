@@ -21,6 +21,9 @@ exports.Organization = BaseModel.subclass
         required : true
       logo: String
       description : String # url
+      location:
+        name: String
+        id: String
       paid:
         type : Boolean
         default : false
