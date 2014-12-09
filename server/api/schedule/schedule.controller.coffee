@@ -15,14 +15,15 @@ exports.index = (req, res, next) ->
         .execQ()
     when 'student'
       tmpRes = {}
-      Classe.findOneQ students: user._id
-      .then (classe) ->
-        tmpRes.classe = classe
-        Course.findQ classes: classe._id
+      Classe.findQ students: user._id
+      .then (classes) ->
+        classeIds = _.pluck classes, '_id'
+        tmpRes.classeIds = classeIds
+        Course.findQ classes: $in: classeIds
       .then (courses) ->
         Schedule.find
           course: $in: _.pluck courses, '_id'
-          classe: tmpRes.classe._id
+          classe: $in: tmpRes.classeIds
         .populate 'course classe'
         .execQ()
   ).then (schedules) ->
