@@ -24,6 +24,8 @@ exports.createUser = (req, res, next) ->
 
 exports.createOrg = (req, res, next) ->
   body = req.body
+  logger.info req.originalUrl
+  logger.info "body: ", body
 
   OrgUtils.check body.uniqueName
   .then () ->
@@ -33,6 +35,7 @@ exports.createOrg = (req, res, next) ->
       uniqueName: body.orgUniqueName
       name      : body.orgName
       type      : body.orgType ? Const.OrgType.College
+      location  : body.orgLocation
 
     Organization.createQ organization
   .then (org) ->
