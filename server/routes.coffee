@@ -18,25 +18,27 @@ errorHandler = (err, req, res, next) ->
   res.json err.status || 500, result
 
 orgIdGetter = (req, res, next) ->
-  # remove 'www' prefix from URL?
   host = req.headers.host
-#  if /^www\./.test(host)
-#    host = host.replace(/^www\./, '')
+  host = host.replace(/:\d+/, '') # remove :port
 
-#  if host.endsWith
-
-  if host != config.domainName
-    matches = host.match(new RegExp('(.*)\.' + config.domainName));
-    if matches?.length == 2
-      Organization.findBy matches[1]
-      .then (org)->
-        console.log org
-        req.orgId = org.id
-        next();
-    else
-      next();
+  orgQ = Q('default')
+  # subDomain
+  if (new RegExp('\\'+config.domainName+'$')).test(host)
+    if host != config.domainName
+      matches = host.match(new RegExp('(.*)\.' + config.domainName));
+      if matches?.length == 2
+        orgQ = Organization.findBy matches[1]
+  # customDomain
   else
-    next()
+    orgQ = Organization.findByCustomDomain host
+
+  orgQ
+  .then (org)->
+    if org == null
+      res.render '404'
+    else
+      req.orgId = org?.id
+      next()
 
 module.exports = (app) ->
 

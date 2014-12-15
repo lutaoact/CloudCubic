@@ -35,3 +35,6 @@ exports.Organization = BaseModel.subclass
 
   findBy: (uniqueName) ->
     @findOneQ uniqueName: uniqueName
+
+  findByCustomDomain: (customDomain) ->
+    @findOneQ customDomain: customDomain
