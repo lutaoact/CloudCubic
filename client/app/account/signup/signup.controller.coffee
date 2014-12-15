@@ -89,8 +89,3 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
       $scope.emailAddress = mailAddressService.getAddress($scope.user.email)
 
     cities: undefined
-
-
-
-
-
