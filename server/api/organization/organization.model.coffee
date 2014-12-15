@@ -9,7 +9,7 @@ exports.Organization = BaseModel.subclass
   classname: 'Organization'
   initialize: ($super) ->
     @schema = new Schema
-      uniqueName:
+      uniqueName: #subdomain in cloud3edu
         type : String
         required : true
         unique : true
@@ -27,6 +27,9 @@ exports.Organization = BaseModel.subclass
       paid:
         type : Boolean
         default : false
+      customDomain:
+        type: String
+        unique: true
 
     $super()
 

@@ -7,6 +7,7 @@ fs = require 'fs'
 byline = require 'byline'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
+Organization = _u.getModel "organization"
 
 errorHandler = (err, req, res, next) ->
   logger.error err
@@ -16,9 +17,31 @@ errorHandler = (err, req, res, next) ->
     errors: err?.errors
   res.json err.status || 500, result
 
+orgIdGetter = (req, res, next) ->
+  # remove 'www' prefix from URL?
+  host = req.headers.host
+#  if /^www\./.test(host)
+#    host = host.replace(/^www\./, '')
+
+#  if host.endsWith
+
+  if host != config.domainName
+    matches = host.match(new RegExp('(.*)\.' + config.domainName));
+    if matches?.length == 2
+      Organization.findBy matches[1]
+      .then (org)->
+        console.log org
+        req.orgId = org.id
+        next();
+    else
+      next();
+  else
+    next()
+
 module.exports = (app) ->
 
   # Insert routes below
+  app.use orgIdGetter
   app.use '/api/users', require './api/user'
   app.use '/api/courses', require './api/course'
   app.use '/api/categories', require './api/category'
