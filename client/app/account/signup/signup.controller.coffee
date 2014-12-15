@@ -89,3 +89,26 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
       $scope.emailAddress = mailAddressService.getAddress($scope.user.email)
 
     cities: undefined
+
+    register: (form) ->
+      $scope.submitted = true
+      if form.$valid
+        # Account created, redirect to home
+        Restangular.all('register/user').post
+          name: $scope.user.email.split('@')[0]
+          email: $scope.user.email
+          password: $scope.user.password
+        .then ->
+          $scope.signupFinish = true
+        , (err) ->
+          err = err.data
+          $scope.errors = {}
+          notify
+            message: '创建失败'
+            classes: 'alert-danger'
+
+          # Update validity of form fields that match the mongoose errors
+          angular.forEach err.errors, (error, field) ->
+            form[field].$setValidity 'mongoose', false
+            $scope.errors[field] = error.message
+
