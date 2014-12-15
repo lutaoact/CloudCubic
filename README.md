@@ -70,6 +70,7 @@ JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/nod
 #### 课程页面显示的老师信息
 
 #### 课程主页显示富文本
+#####设计
 
 #### 免费课时预览：把router权限控制放入到controller中
 
@@ -77,8 +78,7 @@ JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/nod
 
 #### 3rd login/register
 
-#### 讨论区放到主入口，按课程默认划分板块，同时也可以自己创建板块（与课程无关）
-    老师创建课程的时候自动创建讨论版
+#### 讨论区放到主入口，按课程默认划分板块，同时也可以自己创建板块（与课程无关），老师创建课程的时候自动创建讨论版
 
 ##### 富文本中引入音频，tooltip。
 

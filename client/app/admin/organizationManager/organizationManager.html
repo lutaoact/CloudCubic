@@ -40,6 +40,35 @@
 
         <div class="form-group">
           <label for="organization-name"
+                 class="col-sm-3 control-label">机构标识</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-uniquename"
+                   disabled
+                   name="uniquename"
+                   ng-model="organization.uniqueName"
+                   placeholder="机构唯一标识"
+                   required>
+            <span class="text-muted">您的二级登录域名为：http://{{organization.uniqueName}}.cloud3edu.cn</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-custom-domain"
+                 class="col-sm-3 control-label">绑定域名</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-custom-domain"
+                   name="uniquename"
+                   ng-model="editingInfo.customDomain"
+                   placeholder="您可以在这里绑定域名">
+
+            <div class="text-danger" ng-if="errors.customDomain">{{ errors.customDomain.message }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-name"
                  class="col-sm-3 control-label">机构简介</label>
           <div class="col-sm-7">
             <textarea class="form-control"
@@ -187,5 +216,3 @@
     </div>
   </tab>
 </tabset>
-
-

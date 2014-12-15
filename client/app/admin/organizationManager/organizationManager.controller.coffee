@@ -18,6 +18,7 @@ angular.module('budweiserApp')
   editableFields = [
     'name'
     'type'
+    'customDomain'
     'description'
     ]
 
@@ -25,6 +26,7 @@ angular.module('budweiserApp')
     imageSizeLimitation: configs.imageSizeLimitation
     organization: null
     editingInfo: null
+    errors: null
     saving: false
     saved: true
 
@@ -41,8 +43,14 @@ angular.module('budweiserApp')
     saveOrg: (form)->
       if !form.$valid then return
       $scope.saving = true
-      angular.extend $scope.organization, $scope.editingInfo
-      $scope.organization.put().then ->
+      $scope.errors = null
+      Restangular.one('organizations', $scope.organization._id)
+      .patch($scope.editingInfo)
+      .then ->
+        angular.extend $scope.organization, $scope.editingInfo
+        $scope.saving = false
+      .catch (error) ->
+        $scope.errors = error?.data?.errors
         $scope.saving = false
 
   Auth.getCurrentUser().$promise.then (me) ->

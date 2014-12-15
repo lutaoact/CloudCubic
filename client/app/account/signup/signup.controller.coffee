@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   $timeout
   Restangular
   mailAddressService
+  orgId
 ) ->
 
   Restangular.all('areas').getList().then (areas) ->
@@ -18,6 +19,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
     emailAddress: null
     organization: {}
     checkEmailPromise: null
+    isCloud3edu: !orgId
 
     registerOrg: (form) ->
       $scope.submitted = true
@@ -87,8 +89,3 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
       $scope.emailAddress = mailAddressService.getAddress($scope.user.email)
 
     cities: undefined
-
-
-
-
-

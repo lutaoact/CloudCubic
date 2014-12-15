@@ -95,12 +95,14 @@ module.exports = (app) ->
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
+    console.log req.orgId
     # if there is no cookie token, return index.html immediately
     indexPath = app.get('appPath') + '/index.html'
     locals =
       webview: "#{req.query.webview?}"
       initUser: "null"
       initNotify: "#{req.query.message}"
+      orgId: "#{if req.orgId then '\"' + req.orgId + '\"' else undefined}"
 
     if not req.cookies.token?
       res.send(_u.render indexPath, locals)
