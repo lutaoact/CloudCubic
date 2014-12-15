@@ -13,9 +13,6 @@ exports.Organization = BaseModel.subclass
         type : String
         required : true
         unique : true
-      customDomain:
-        type : String
-        unique: true
       name:
         type: String
         required: true
@@ -31,8 +28,8 @@ exports.Organization = BaseModel.subclass
         type : Boolean
         default : false
       customDomain:
-        type: String
-        unique: true
+        type : String
+        unique : true
 
     setupOrgSchema @schema
 
