@@ -55,3 +55,37 @@ Install Coffee/Less
 HTML/CSS Coding Style: follow [Github Coding Sytle](https://github.com/styleguide/css)  
 JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)
 
+
+## Roadmap
+### 用户自己的域mapping orgId
+
+### 用户二级域名mapping orgId
+
+### 用户主页
+
+#### 主页显示课程，价格，支付
+
+#### 管理员界面要有支付信息
+
+#### 课程页面显示的老师信息
+
+#### 课程主页显示富文本
+
+#### 免费课时预览：把router权限控制放入到controller中
+
+#### 创建小组讨论
+
+#### 3rd login/register
+
+#### 讨论区放到主入口，按课程默认划分板块，同时也可以自己创建板块（与课程无关）
+    老师创建课程的时候自动创建讨论版
+
+##### 富文本中引入音频，tooltip。
+
+#### 课程开课
+创建班级，关联课程，from， to，价格。
+线下报名的话，管理员手动添加到班级
+
+#### 错题本，错题统计
+
+#### 付费虚拟货币。学生用户在机构下面有余额，用余额购买课程。
