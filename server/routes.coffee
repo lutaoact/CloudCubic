@@ -100,7 +100,7 @@ module.exports = (app) ->
       webview: "#{req.query.webview?}"
       initUser: "null"
       initNotify: "#{req.query.message}"
-      orgId: "#{req.orgId}"
+      orgId: "#{if req.orgId then '\"' + req.orgId + '\"' else undefined}"
 
     if not req.cookies.token?
       res.send(_u.render indexPath, locals)
