@@ -17,6 +17,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 ) ->
 
   course = _.find Courses, _id :$state.params.courseId
+  Restangular.all('classes').getList(courseId: $state.params.courseId)
+  .then (classes) ->
+    $scope.classes = classes
 
   Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle

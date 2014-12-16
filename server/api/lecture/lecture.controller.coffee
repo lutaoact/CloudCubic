@@ -65,7 +65,13 @@ exports.create = (req, res, next) ->
     tmpResult.course.lectureAssembly.push lecture._id
     do tmpResult.course.saveQ #TODO: should rollback creating lecture part
   .then () ->
-    Classe.getAllStudents tmpResult.course.classes
+    Classe.find
+      courseId: courseId
+  .then (classes) ->
+    if classes?.length
+      Classe.getAllStudents _.pluck(classes, '_id')
+    else
+      []
   .then (studentIds) ->
     NoticeUtils.addLectureNotices studentIds, tmpResult.lecture._id
 #  .then (notices) ->

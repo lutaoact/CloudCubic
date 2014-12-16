@@ -6,6 +6,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/course/course.html'
     controller: 'CourseCtrl'
     navClasses: 'home-nav'
-    resolve:
-      Courses: (Restangular)->
-        Restangular.all('courses/public').getList()
