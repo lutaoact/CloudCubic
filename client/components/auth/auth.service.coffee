@@ -4,6 +4,7 @@ angular.module('budweiserApp').factory 'Auth', (
   $q
   User
   $http
+  orgId
   $rootScope
   Restangular
   $cookieStore
@@ -23,6 +24,11 @@ angular.module('budweiserApp').factory 'Auth', (
     cb = callback or angular.noop
     deferred = $q.defer()
     $http.post('/auth/local', user).success ((data) ->
+      # if !orgId?
+      console.log 'login success', data
+      if data.targetUrl
+        window.location.href = data.targetUrl
+        return
       @setToken(data.token)
       deferred.resolve currentUser
       cb()

@@ -107,18 +107,20 @@ module.exports = (app) ->
       initNotify: "#{JSON.stringify(req.query.message)}"
       org: "#{JSON.stringify(req.org)}"
 
-    if not req.cookies.token?
+    token = (req.cookies.token ? req.query.access_token)?.replace /"/g, ''
+
+    if !token?
       res.send(_u.render indexPath, locals)
     else
-      logger.info 'refreshing, req.cookies:'
-      logger.info req.cookies
+      logger.info 'refreshing, token:'
+      logger.info token
       # remove double quote
-      token = req.cookies.token.replace /"/g, ''
       jwt.verify token, config.secrets.session, null, (err, user) ->
         logger.info "after verity token, we get user:"
         logger.info user
 
         unless err?
+          res.cookie('token', JSON.stringify(token))
           locals.initUser = JSON.stringify  _id: user._id, role: user.role
 
         res.send(_u.render indexPath, locals)

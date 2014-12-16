@@ -26,23 +26,34 @@ angular.module('budweiserApp').directive 'loginForm', ->
     $localStorage.global.loginPath = $state.current.url
 
     angular.extend $scope,
+      orgId: orgId
       user: {}
-      errors: {}
+      loginUsers: null
 
-      login: (form) ->
+      loginAgain: ->
+        $scope.loginUsers = null
+
+      login: (form, selectedOrgId) ->
         if !form.$valid then return
+        $scope.loginUsers = null
         $scope.loggingIn = true
         # Logged in, redirect to home
         Auth.login(
+          orgId: selectedOrgId
           email: $scope.user.email
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->
             $scope.loggingIn = false
             $scope.$emit 'loginSuccess', me
-        , (error)->
+        .catch (error) ->
           console.debug error
           $scope.loggingIn = false
+
+          if error.loginUsers
+            $scope.loginUsers = error.loginUsers
+            console.log 'login users', error.loginUsers
+            return
 
           if error.unactivated
             $modal.open
@@ -57,11 +68,11 @@ angular.module('budweiserApp').directive 'loginForm', ->
                 message: "一封激活邮件即将发送到'#{$scope.user.email}'，请注意查收。"
                 classes: 'alert-success'
                 duration: 10000
+            return
 
-          else
-            notify
-              message:'用户名或密码错误'
-              classes:'alert-danger'
+          notify
+            message:'用户名或密码错误'
+            classes:'alert-danger'
 
       weiboLogin: ()->
         $timeout ->

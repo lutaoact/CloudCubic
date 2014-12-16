@@ -68,7 +68,7 @@ exports.User = BaseModel.subclass
 
   findBy: (userInfo) ->
     conditions = {$or: []}
-    conditions.$or.push(email   : userInfo.email)    if userInfo.email?
+    conditions.$or.push(email: userInfo.email) if userInfo.email?
 
     if _.isEmpty conditions.$or
       return Q.reject
