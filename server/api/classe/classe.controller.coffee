@@ -60,13 +60,7 @@ exports.update = (req, res, next) ->
     res.send newClasse
   , next
 
-exports.destroy = (req, res, next) ->
-  classeId = req.params.id
-  Classe.removeQ
-    _id: classeId
-  .then () ->
-    res.send 204
-  , next
+exports.destroy = WrapRequest.wrapDestroy()
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
