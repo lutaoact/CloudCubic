@@ -63,6 +63,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
               size: 'sm'
               resolve:
                 email: -> $scope.user.email
+                orgId: -> selectedOrgId
             .result.then () ->
               notify
                 message: "一封激活邮件即将发送到'#{$scope.user.email}'，请注意查收。"

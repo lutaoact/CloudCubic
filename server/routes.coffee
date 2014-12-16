@@ -11,7 +11,6 @@ Organization = _u.getModel "organization"
 
 errorHandler = (err, req, res, next) ->
   logger.error err
-  console.log 'haha'
   result =
     name: err?.name
     message: err?.message

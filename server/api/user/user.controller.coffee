@@ -367,7 +367,6 @@ exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
-    orgId: req.org?.id
     email: req.body.email?.toLowerCase?()
     resetPasswordToken: req.body.token
     resetPasswordExpires:
@@ -383,7 +382,7 @@ exports.resetPassword = (req, res, next) ->
 
 exports.sendActivationMail = (req, res, next) ->
   User.findOneQ
-    orgId: req.org?.id
+    orgId: req.org?.id ? req.body.orgId
     email: req.body.email
   .then (user) ->
     host = req.protocol+'://'+req.headers.host
@@ -395,7 +394,6 @@ exports.sendActivationMail = (req, res, next) ->
 
 exports.completeActivation = (req, res, next) ->
   User.findOneQ
-    orgId: req.org?.id
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->

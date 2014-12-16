@@ -2,6 +2,7 @@
 
 angular.module('budweiserApp').controller 'ActivateModalCtrl', (
   email
+  orgId
   $scope
   Restangular
   $modalInstance
@@ -20,7 +21,7 @@ angular.module('budweiserApp').controller 'ActivateModalCtrl', (
     resendEmail: () ->
       $scope.viewState.sending = true
       $scope.errors = null
-      Restangular.all('users').customPOST(email:$scope.email, 'sendActivationMail')
+      Restangular.all('users').customPOST(email:$scope.email, orgId: orgId, 'sendActivationMail')
       .then $modalInstance.close
       .finally ->
         $scope.viewState.sending = false

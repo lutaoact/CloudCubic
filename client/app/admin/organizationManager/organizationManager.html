@@ -48,6 +48,7 @@
                    ng-model="editingInfo.uniqueName"
                    placeholder="机构唯一标识"
                    required>
+            <div class="text-danger" ng-if="errors.uniqueName">{{ errors.uniqueName.message }}</div>
             <span class="text-muted">您的二级登录域名为：http://{{organization.uniqueName}}.cloud3edu.cn</span>
           </div>
         </div>
