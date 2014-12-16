@@ -71,21 +71,23 @@ exports.publicShow = (req, res, next) ->
   .catch next
   .done()
 
+
 exports.create = (req, res, next) ->
   data = req.body
   delete data._id
   data.owners = [req.user._id]
   data.orgId = req.user.orgId
 
-  tmpResult = {}
-  Course.createQ data
+  # 先建立forum，然后设置course的forumId
+  Forum.createQ {postBy: req.user._id, name: data.name}
+  .then (forum) ->
+    data.forumId = forum._id
+    Course.createQ data
   .then (course) ->
-    tmpResult.course = course
-    Forum.createQ {postBy: req.user._id, name: course.name}
-  .then () ->
-    res.json 201, tmpResult.course
+    res.json 201, course
   .catch next
   .done()
+
 
 exports.update = (req, res, next) ->
 
