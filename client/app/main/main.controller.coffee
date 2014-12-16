@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'MainCtrl', (
   $window
   $timeout
   Restangular
+  $q
 ) ->
 
   Page.setTitle '云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始'
@@ -16,7 +17,15 @@ angular.module('budweiserApp').controller 'MainCtrl', (
 
   Restangular.all('courses/public').getList()
   .then (result)->
+    classeQs = result.map (course)->
+      Restangular.all('classes').getList {courseId: course._id}
+      .then (classes)->
+        course.$classes = classes
+        course
+    $q.all(classeQs)
+  .then (result)->
     console.log result
+    $scope.courses = result
 
   resize = ()->
     $timeout ->
