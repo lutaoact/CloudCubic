@@ -13,6 +13,7 @@ angular.module('budweiserApp')
     children: '@'
     itemType: '@'
     activeItem: '='
+    onAddBtnClicked: '&'
     onCreateItem: '&'
     onDeleteItems: '&'
     onViewItem: '&'
@@ -56,7 +57,7 @@ angular.module('budweiserApp')
           $scope.onDeleteItems?($items:selectedItems)
 
     createNewItem: ->
-      $modal.open
+      $scope.onAddBtnClicked?() or $modal.open
         templateUrl: 'app/admin/newItemModal.html'
         controller: 'NewItemModalCtrl'
         size: 'sm'

@@ -7,6 +7,8 @@ angular.module('budweiserApp')
   $scope
   Classes
   Restangular
+  Courses
+  $modal
 ) ->
 
   viewFirstClasse = ->
@@ -23,6 +25,17 @@ angular.module('budweiserApp')
 
     onCreateClasse: (classe) ->
       $scope.classes.push classe
+
+    addClass: ()->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/newClasseModal.html'
+        controller: 'NewClasseModalCtrl'
+        size: 'md'
+        resolve:
+          Courses: -> Courses
+      .result.then (newClasse) ->
+        $scope.classes.push newClasse
+      true
 
     onDeleteClasses: (classes) ->
       angular.forEach classes, (c) ->
