@@ -61,6 +61,16 @@ exports.show = (req, res, next) ->
     res.send course
   .fail next
 
+exports.publicShow = (req, res, next) ->
+  courseId = req.params.id
+  Course.findById courseId
+  .populate 'lectureAssembly', 'name isPublic'
+  .execQ()
+  .then (course) ->
+    res.send course
+  .catch next
+  .done()
+
 exports.create = (req, res, next) ->
   data = req.body
   delete data._id
