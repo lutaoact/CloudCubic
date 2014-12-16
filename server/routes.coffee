@@ -11,6 +11,7 @@ Organization = _u.getModel "organization"
 
 errorHandler = (err, req, res, next) ->
   logger.error err
+  console.log 'haha'
   result =
     name: err?.name
     message: err?.message
@@ -21,24 +22,28 @@ orgIdGetter = (req, res, next) ->
   host = req.headers.host
   host = host.replace(/:\d+/, '') # remove :port
 
-  Q(if host isnt config.domainName
-    # 匹配出二级域名
-    regexp = new RegExp('^(.*)\\.\\b' + config.domainName + '$')
-    logger.info "host match regexp: ", regexp
-    matches = host.match regexp
-    logger.info 'current host: ', host
-    logger.info "host.match result:", matches
+  Q(
+    if host isnt config.domainName
+      # 匹配出二级域名
+      regexp = new RegExp('^(.*)\\.\\b' + config.domainName + '$')
+      logger.info "host match regexp: ", regexp
+      matches = host.match regexp
+      logger.info 'current host: ', host
+      logger.info "host.match result:", matches
 
-    if matches?.length is 2
-      Organization.findBy matches[1]
-    else
-      Organization.findByCustomDomain host
+
+      if matches?.length is 2
+        Organization.findBy matches[1]
+      else
+        Organization.findByCustomDomain host
   ).then (org) ->
-    if org?
+    if org? or host is config.domainName
       req.org = org
       next()
     else
       res.render '404'
+  .catch(next)
+  .done()
 
 module.exports = (app) ->
 

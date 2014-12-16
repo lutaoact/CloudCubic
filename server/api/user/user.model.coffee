@@ -135,6 +135,7 @@ setupUserSchema = (UserSchema) ->
     self = this
     this.constructor.findOne
       email: value
+      orgId: self.orgId
     , (err, user) ->
       throw err if err
       notTaken = !user or user.id == self.id
