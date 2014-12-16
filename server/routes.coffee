@@ -101,8 +101,8 @@ module.exports = (app) ->
     locals =
       webview: "#{req.query.webview?}"
       initUser: "null"
-      initNotify: "#{req.query.message}"
-      orgId: "#{if req.orgId then '\"' + req.orgId + '\"' else undefined}"
+      initNotify: "#{JSON.stringify(req.query.message)}"
+      orgId: "#{JSON.stringify(req.orgId)}"
 
     if not req.cookies.token?
       res.send(_u.render indexPath, locals)
