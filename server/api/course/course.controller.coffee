@@ -5,7 +5,7 @@
 # * GET     /courses/:id          ->  show
 # * PUT     /courses/:id          ->  update
 # * DELETE  /courses/:id          ->  destroy
-# 
+#
 
 "use strict"
 
@@ -41,6 +41,13 @@ exports.index = (req, res, next) ->
   # need to change our code all over the place to adapt to this pattern
   .fail next
 
+exports.publicIndex = (req, res, next) ->
+  Course.find orgId: req.orgId
+  .populate 'categoryId'
+  .execQ()
+  .then (courses) ->
+    res.send courses
+  .fail next
 
 exports.show = (req, res, next) ->
   courseId = req.params.id
