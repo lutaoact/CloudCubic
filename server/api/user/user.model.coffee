@@ -146,6 +146,11 @@ setupUserSchema = (UserSchema) ->
 
   UserSchema
   .pre 'save', (next) ->
+    if this.isNew
+      this.activationCode = generateActivationCode this.email
+    else
+      next()
+
     if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
       next new Error '用户名或者密码错误'
     else
