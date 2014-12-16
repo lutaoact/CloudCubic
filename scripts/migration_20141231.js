@@ -17,3 +17,22 @@ db.courses.find().forEach(function(course) {
   });
   print("\n");
 });
+
+//根据course的name字段，创建相同名称的forum
+//然后在dis_topics表中，删除courseId字段，并设置为相应的forumId的值
+db.courses.find().forEach(function(course) {
+  print("course.id: " + course._id + ", name: " + course.name)
+  admin = db.users.findOne({role: 'admin', orgId: course.orgId});
+  print("admin._id: " + admin._id);
+  var forum = {
+    postBy: admin._id,
+    name: course.name
+  };
+  print("forum for inserting forums");
+  printjson(forum);
+  db.forums.save(forum);
+  print("forum._id: " + forum._id);
+  db.dis_topics.find({courseId: course._id}).forEach(function(dis_topic) {
+    db.dis_topics.update({_id: dis_topic._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}});
+  });
+});
