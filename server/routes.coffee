@@ -31,7 +31,6 @@ orgGetter = (req, res, next) ->
       logger.info 'current host: ', host
       logger.info "host.match result:", matches
 
-
       if matches?.length is 2
         Organization.findBy matches[1]
       else

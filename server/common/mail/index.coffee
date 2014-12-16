@@ -61,4 +61,3 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
   htmlOutput = pwdActivationFn locals
 
   sendMail receiverEmail, htmlOutput, orgName+" -- 账户激活邮件", orgName
-

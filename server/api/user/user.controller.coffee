@@ -104,7 +104,9 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  UserUtils.check email: req.query.email
+  UserUtils.check
+    orgId: req.org?.id
+    email: req.query.email
   .then () ->
     res.send 200
   .catch next
@@ -282,7 +284,8 @@ exports.bulkImport = (req, res, next) ->
     # just add it to importedUsers list
     existingStudentPromises = _.map userList, (userItem) ->
       User.findQ
-        "email" : userItem.email
+        orgId : orgId
+        email : userItem.email
 
     Q.allSettled(existingStudentPromises)
   .then (results) ->
@@ -345,6 +348,7 @@ exports.forgotPassword = (req, res, next) ->
   .then (buf) ->
     token = buf.toString 'hex'
     conditions =
+      orgId: req.org?.id
       email: req.body.email.toLowerCase()
     fieldsToSet =
       resetPasswordToken: token,
@@ -363,6 +367,7 @@ exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
+    orgId: req.org?.id
     email: req.body.email?.toLowerCase?()
     resetPasswordToken: req.body.token
     resetPasswordExpires:
@@ -378,6 +383,7 @@ exports.resetPassword = (req, res, next) ->
 
 exports.sendActivationMail = (req, res, next) ->
   User.findOneQ
+    orgId: req.org?.id
     email: req.body.email
   .then (user) ->
     host = req.protocol+'://'+req.headers.host
@@ -389,6 +395,7 @@ exports.sendActivationMail = (req, res, next) ->
 
 exports.completeActivation = (req, res, next) ->
   User.findOneQ
+    orgId: req.org?.id
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
   .then (user) ->
