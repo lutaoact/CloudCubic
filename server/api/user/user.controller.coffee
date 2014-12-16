@@ -74,10 +74,11 @@ exports.create = (req, res, next) ->
 
   delete body._id
   body.orgId = req.user.orgId
-  body.host = req.protocol+'://'+req.headers.host
 
   User.createQ body
   .then (user) ->
+    host = req.protocol+'://'+req.headers.host
+    sendActivationMail user.email, user.activationCode, host, req.org?.name
     if req.user.role is 'admin'
       res.json user
     else
@@ -314,6 +315,8 @@ exports.bulkImport = (req, res, next) ->
     _.forEach results, (result) ->
       if result.state is 'fulfilled'
         user = result.value[0]
+        host = req.protocol+'://'+req.headers.host
+        sendActivationMail user.email, user.activationCode, host, req.org?.name
         console.log 'Imported user ' + user.name
         importReport.success.push user.name
         importedUsers.push user.id
@@ -350,7 +353,7 @@ exports.forgotPassword = (req, res, next) ->
   .then (user) ->
     return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if !user?
     resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
-    sendPwdResetMail user.name, user.email, resetLink
+    sendPwdResetMail user.name, user.email, resetLink, req.org?.name
   .done () ->
     res.send 200
   , next
@@ -378,7 +381,7 @@ exports.sendActivationMail = (req, res, next) ->
     email: req.body.email
   .then (user) ->
     host = req.protocol+'://'+req.headers.host
-    sendActivationMail user.email, user.activationCode, host
+    sendActivationMail user.email, user.activationCode, host, req.org?.name
     res.send 200
   .catch next
   .done()

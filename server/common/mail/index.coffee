@@ -11,14 +11,13 @@ pwdActivationTpl = require('fs').readFileSync(__dirname + '/views/pwdActivation.
 pwdActivationFn = jade.compile pwdActivationTpl, pretty: true
 
 config = require '../../config/environment'
-#host = config.host
 emailConfig = config.emailConfig
 transporter = nodemailer.createTransport(scTransport(emailConfig))
 
 
-sendMail = (receiverEmail, htmlOutput, subject) ->
+sendMail = (receiverEmail, htmlOutput, subject, orgName) ->
   mailOptions =
-    from: "学之方 <noreply@cloud3edu.cn>"
+    from: orgName+" <noreply@cloud3edu.cn>"
     to: receiverEmail
     subject: subject
     html: htmlOutput
@@ -27,17 +26,23 @@ sendMail = (receiverEmail, htmlOutput, subject) ->
     console.log(error || 'Message sent: ' + info)
 
 
-exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
+exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink, orgName) ->
+  if(orgName == null || orgName == undefined)
+    orgName = "学之方"
+
   locals =
     username: receiverName
     resetLink: resetLink
 
   htmlOutput = pwdResetFn locals
 
-  sendMail receiverEmail, htmlOutput, "学之方 -- 密码找回邮件"
+  sendMail receiverEmail, htmlOutput, orgName+" -- 密码找回邮件", orgName
 
 
-exports.sendActivationMail = (receiverEmail, activationCode, host) ->
+exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
+  if(orgName == null || orgName == undefined)
+    orgName = "学之方"
+
   activationLinkQS = querystring.stringify
     email: receiverEmail
     activation_code: activationCode
@@ -49,5 +54,5 @@ exports.sendActivationMail = (receiverEmail, activationCode, host) ->
 
   htmlOutput = pwdActivationFn locals
 
-  sendMail receiverEmail, htmlOutput, "学之方 -- 账户激活邮件"
+  sendMail receiverEmail, htmlOutput, orgName+" -- 账户激活邮件", orgName
 

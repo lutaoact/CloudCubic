@@ -37,7 +37,7 @@ orgIdGetter = (req, res, next) ->
     if org == null
       res.render '404'
     else
-      req.orgId = org?.id
+      req.org = org
       next()
 
 module.exports = (app) ->
