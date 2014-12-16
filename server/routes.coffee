@@ -23,9 +23,9 @@ orgIdGetter = (req, res, next) ->
 
   orgQ = Q('default')
   # subDomain
-  if (new RegExp('\\'+config.domainName+'$')).test(host)
+  if (new RegExp('\\b'+config.domainName+'$')).test(host)
     if host != config.domainName
-      matches = host.match(new RegExp('(.*)\.' + config.domainName));
+      matches = host.match(new RegExp('(.*)\.' + config.domainName))
       if matches?.length == 2
         orgQ = Organization.findBy matches[1]
   # customDomain
