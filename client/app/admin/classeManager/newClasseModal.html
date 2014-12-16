@@ -38,7 +38,6 @@
       <div class="col-sm-8">
         <input class="form-control"
                id="classe-price"
-               focus-me="nameInputFocus"
                placeholder="请输入价格"
                type="number"
                min="0"
@@ -54,8 +53,8 @@
         从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
           datepicker-popup="{{format}}"
           ng-model="classe.duration.from"
-          is-open="viewState.fromPopOpened"
-          ng-click="viewState.fromPopOpened = true;"
+          is-open="viewState.duration.fromPopOpened"
+          ng-click="viewState.duration.fromPopOpened = true;"
           show-button-bar="false"
           datepicker-options="dateOptions">
           {{classe.duration.from||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
@@ -64,9 +63,9 @@
         到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
           datepicker-popup="{{format}}"
           ng-model="classe.duration.to"
-          is-open="viewState.toPopOpened"
+          is-open="viewState.duration.toPopOpened"
           min-date="classe.duration.from"
-          ng-click="viewState.toPopOpened = true;"
+          ng-click="viewState.duration.toPopOpened = true;"
           show-button-bar="false"
           datepicker-options="dateOptions">
           {{classe.duration.to||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
@@ -80,8 +79,8 @@
         从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
           datepicker-popup="{{format}}"
           ng-model="classe.enrollment.from"
-          is-open="viewState.fromPopOpened"
-          ng-click="viewState.fromPopOpened = true;"
+          is-open="viewState.enrollment.fromPopOpened"
+          ng-click="viewState.enrollment.fromPopOpened = true;"
           show-button-bar="false"
           datepicker-options="dateOptions">
           {{classe.enrollment.from||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
@@ -90,9 +89,9 @@
         到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
           datepicker-popup="{{format}}"
           ng-model="classe.enrollment.to"
-          is-open="viewState.toPopOpened"
+          is-open="viewState.enrollment.toPopOpened"
           min-date="classe.enrollment.from"
-          ng-click="viewState.toPopOpened = true;"
+          ng-click="viewState.enrollment.toPopOpened = true;"
           show-button-bar="false"
           datepicker-options="dateOptions">
           {{classe.enrollment.to||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>

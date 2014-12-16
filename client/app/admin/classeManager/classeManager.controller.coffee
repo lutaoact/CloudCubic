@@ -23,9 +23,6 @@ angular.module('budweiserApp')
 
     selectedClasse: null
 
-    onCreateClasse: (classe) ->
-      $scope.classes.push classe
-
     addClass: ()->
       $modal.open
         templateUrl: 'app/admin/classeManager/newClasseModal.html'

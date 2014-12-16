@@ -12,14 +12,15 @@ angular.module('budweiserApp').controller 'NewClasseModalCtrl', (
     classe:
       name: ''
       price: 0
+      enrollment: {}
+      duration: {}
     courses: Courses
+    format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
 
     cancel: ->
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
-      console.log $scope.classe
-      return
       if !form.$valid then return
       $scope.errors = null
       Restangular.all('classes').post($scope.classe)
