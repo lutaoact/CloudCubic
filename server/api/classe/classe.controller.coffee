@@ -42,15 +42,8 @@ exports.showStudents = (req, res, next) ->
     res.send classe.students
   , next
 
-exports.create = (req, res, next) ->
-  body = req.body
-  body.orgId = req.user.orgId
-
-  Classe.createQ body
-  .then (classe) ->
-    logger.info classe
-    res.json 201, classe
-  , next
+pickedKeys = ["name", "courseId", "from", "to", "price"]
+exports.create = WrapRequest.wrapOrgCreate pickedKeys
 
 exports.update = (req, res, next) ->
   classeId = req.params.id

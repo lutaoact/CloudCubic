@@ -92,14 +92,16 @@ class WrapRequest
 #      .catch next
 #      .done()
 
-  wrapCommonCreate: (pickedKeys) ->
+  wrapOrgCreate: (pickedKeys) ->
     return (req, res, next) =>
+      logger.info "req.originalUrl: #{req.originalUrl}"
       data = _.pick req.body, pickedKeys
-      data.orgId = req.org?._id
+      data.orgId = req.user.orgId
+      logger.info "create data:", data
 
       @Model.createQ data
       .then (newDoc) ->
-        res.send newDoc
+        res.send 201, newDoc
       .catch next
       .done()
 
