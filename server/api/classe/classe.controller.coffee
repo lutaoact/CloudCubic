@@ -14,7 +14,7 @@
 Classe = _u.getModel "classe"
 WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
-exports.index = WrapRequest.wrapIndex()
+exports.index = WrapRequest.wrapOrgIndex()
 
 exports.show = (req, res, next) ->
   user = req.user

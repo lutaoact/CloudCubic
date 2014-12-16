@@ -15,6 +15,20 @@ class WrapRequest
   wrapIndex: () ->
     return (req, res, next) =>
       conditions = @buildConditions req.query
+      logger.info "index conditions:", conditions
+
+      @Model.findQ conditions
+      .then (docs) ->
+        res.send docs
+      .catch next
+      .done()
+
+  wrapOrgIndex: () ->
+    return (req, res, next) =>
+      conditions = @buildConditions req.query
+      conditions.orgId = req.org._id
+
+      logger.info "org index conditions:", conditions
 
       @Model.findQ conditions
       .then (docs) ->
