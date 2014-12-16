@@ -70,3 +70,16 @@ exports.multiDelete = (req, res, next) ->
   .then () ->
     res.send 204
   , next
+
+exports.enroll = (req, res, next) ->
+  classeId = req.params.id
+  user = req.user
+
+  Classe.findByIdQ classeId
+  .then (classe) ->
+    classe.students.addToSet user._id
+    do classe.saveQ
+  .then (classe) ->
+    res.send result[0]
+  .catch next
+  .done()

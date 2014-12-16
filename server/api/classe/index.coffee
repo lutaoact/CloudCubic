@@ -14,4 +14,6 @@ router.patch "/:id", auth.hasRole("admin"), controller.update
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post "/multiDelete", auth.hasRole("admin"), controller.multiDelete
 
+router.post "/:id/enroll", auth.isAuthenticated(), controller.enroll
+
 module.exports = router
