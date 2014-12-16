@@ -39,7 +39,5 @@ db.courses.find().forEach(function(course) {
   db.courses.update({_id: course._id}, {$set: {forumId: forum._id}});
 
   //给dis_topics设置forumId
-  db.dis_topics.find({courseId: course._id}).forEach(function(dis_topic) {
-    db.dis_topics.update({_id: dis_topic._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}});
-  });
+  db.dis_topics.update({courseId: course._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}}, {multi: true});
 });
