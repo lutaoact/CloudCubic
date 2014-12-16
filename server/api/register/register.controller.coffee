@@ -12,6 +12,7 @@ exports.createUser = (req, res, next) ->
     email   : body.email
     password: body.password
     name    : body.name
+    orgId   : req.orgId
 
   User.createQ user
   .then (result) ->

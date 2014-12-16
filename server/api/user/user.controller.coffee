@@ -50,14 +50,14 @@ exports.index = (req, res, next) ->
       _.forEach classes, (classe) ->
         _.forEach classe.students, (studentId) ->
           classStudents[studentId] = studentId
-        
+
       results = _.filter allStudents, (as) ->
-        not classStudents[as._id]? 
-      
+        not classStudents[as._id]?
+
       res.send results
     .catch next
     .done()
-      
+
   else
     User.findQ condition, '-salt -hashedPassword'
     .then (users) ->
@@ -244,7 +244,7 @@ exports.bulkImport = (req, res, next) ->
   importedUsers = []
 
   userList = []
-  
+
   AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
   .then (downloadUrl) ->
     request.get(downloadUrl).pipe stream
@@ -282,18 +282,18 @@ exports.bulkImport = (req, res, next) ->
     existingStudentPromises = _.map userList, (userItem) ->
       User.findQ
         "email" : userItem.email
-          
+
     Q.allSettled(existingStudentPromises)
   .then (results) ->
-    
+
     # filter out existing users from userList
     _.forEach results, (result) ->
       if (result.state is 'fulfilled') && (result.value.length > 0) && (type is 'student')
-        
+
         foundUser = result.value[0]
         importReport.success.push foundUser.name
         importedUsers.push foundUser.id
-        
+
         # remove this user from UserList
         # fix： 这里不能取 result 的 index，因为 result 的 length 不一定是 userList 的 length
         removeIndex = _.findIndex userList, email:foundUser.email
@@ -390,14 +390,14 @@ exports.completeActivation = (req, res, next) ->
     activationCode: req.query.activation_code
   .then (user) ->
     if not user?
-      return res.redirect "/index?message='activation-none'"
+      return res.redirect "/index?message=activation-none"
     req.user = user
     if user.status == 1
-      return res.redirect "/index?message='activation-used'"
+      return res.redirect "/index?message=activation-used"
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res, "/index?message='activation-success'"
+    setTokenCookie req, res, "/index?message=activation-success"
   .catch next
   .done()
 

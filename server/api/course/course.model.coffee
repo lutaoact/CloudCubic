@@ -12,6 +12,10 @@ exports.Course = BaseModel.subclass
       name:
         type: String
         required: true
+      orgId:
+        type: Schema.Types.ObjectId
+        ref: 'organization'
+        required: true
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"

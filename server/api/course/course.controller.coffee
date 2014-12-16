@@ -5,7 +5,7 @@
 # * GET     /courses/:id          ->  show
 # * PUT     /courses/:id          ->  update
 # * DELETE  /courses/:id          ->  destroy
-# 
+#
 
 "use strict"
 
@@ -16,6 +16,8 @@ KeyPoint = _u.getModel "key_point"
 ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
 LearnProgress = _u.getModel 'learn_progress'
+
+WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
 
@@ -41,6 +43,13 @@ exports.index = (req, res, next) ->
   # need to change our code all over the place to adapt to this pattern
   .fail next
 
+exports.publicIndex = (req, res, next) ->
+  Course.find orgId: req.orgId
+  .populate 'categoryId'
+  .execQ()
+  .then (courses) ->
+    res.send courses
+  .fail next
 
 exports.show = (req, res, next) ->
   courseId = req.params.id
@@ -52,8 +61,11 @@ exports.show = (req, res, next) ->
   .fail next
 
 exports.create = (req, res, next) ->
-  req.body.owners = [req.user.id]
-  Course.createQ req.body
+  data = req.body
+  data.owners = [req.user.id]
+  data.orgId = req.orgId
+
+  Course.createQ data
   .then (course) ->
     res.json 201, course
   .fail next
