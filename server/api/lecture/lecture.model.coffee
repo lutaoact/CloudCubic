@@ -46,5 +46,8 @@ exports.Lecture = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "question"
       ]
+      isPublic:
+        type: Boolean
+        default: false
 
     $super()
