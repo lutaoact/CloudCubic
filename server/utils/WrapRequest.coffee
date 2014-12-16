@@ -28,6 +28,7 @@ class WrapRequest
       conditions = @buildConditions req.query
       conditions.orgId = req.org._id
 
+      logger.info "req.originalUrl: #{req.originalUrl}"
       logger.info "org index conditions:", conditions
 
       @Model.findQ conditions
