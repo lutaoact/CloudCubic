@@ -24,6 +24,8 @@ db.courses.find().forEach(function(course) {
   print("course.id: " + course._id + ", name: " + course.name)
   admin = db.users.findOne({role: 'admin', orgId: course.orgId});
   print("admin._id: " + admin._id);
+
+  //新建forum
   var forum = {
     postBy: admin._id,
     name: course.name
@@ -32,6 +34,11 @@ db.courses.find().forEach(function(course) {
   printjson(forum);
   db.forums.save(forum);
   print("forum._id: " + forum._id);
+
+  //设置course的forumId
+  db.courses.update({_id: course._id}, {$set: {forumId: forum._id}});
+
+  //给dis_topics设置forumId
   db.dis_topics.find({courseId: course._id}).forEach(function(dis_topic) {
     db.dis_topics.update({_id: dis_topic._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}});
   });
