@@ -352,8 +352,8 @@ exports.forgotPassword = (req, res, next) ->
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
     return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if !user?
-    resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
-    sendPwdResetMail user.name, user.email, resetLink, req.org?.name
+    host = req.protocol+'://'+req.headers.host
+    sendPwdResetMail user.name, user.email, host, token, req.org?.name
   .done () ->
     res.send 200
   , next
