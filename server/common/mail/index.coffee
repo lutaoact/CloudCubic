@@ -26,15 +26,19 @@ sendMail = (receiverEmail, htmlOutput, subject, orgName) ->
     console.log(error || 'Message sent: ' + info)
 
 
-exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink, orgName) ->
+exports.sendPwdResetMail = (receiverName, receiverEmail, host, token, orgName) ->
   if(orgName == null || orgName == undefined)
     orgName = "学之方"
 
   locals =
     username: receiverName
-    resetLink: resetLink
+    resetLink: host + '/reset?email='+receiverEmail+'&token='+token
+    orgName: orgName
+    host: host
 
   htmlOutput = pwdResetFn locals
+
+  console.log htmlOutput
 
   sendMail receiverEmail, htmlOutput, orgName+" -- 密码找回邮件", orgName
 
@@ -46,6 +50,8 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
   activationLinkQS = querystring.stringify
     email: receiverEmail
     activation_code: activationCode
+    orgName: orgName
+    host: host
 
   activation_link = host+'/api/users/completeActivation?'+ activationLinkQS
   locals =
