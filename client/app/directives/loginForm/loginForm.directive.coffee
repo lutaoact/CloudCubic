@@ -8,16 +8,17 @@ angular.module('budweiserApp').directive 'loginForm', ->
   controller: (
     Msg
     Auth
+    $http
+    orgId
     $modal
     $scope
     $state
     notify
+    $timeout
     $location
     socketHandler
     $localStorage
     loginRedirector
-    $http
-    $timeout
   ) ->
 
     $localStorage.global ?= {}
@@ -69,6 +70,3 @@ angular.module('budweiserApp').directive 'loginForm', ->
       qqLogin: ()->
         $timeout ->
           weiboLoginWindow = window.open("/auth/qq", "_self", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400")
-
-
-

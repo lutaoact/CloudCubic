@@ -83,7 +83,7 @@ exports.User = BaseModel.subclass
 Virtuals
 ###
 setupUserSchema = (UserSchema) ->
-#  UserSchema.plugin createdModifiedPlugin
+  # login passord
   UserSchema
   .virtual 'password'
   .set (password) ->
@@ -170,7 +170,7 @@ setupUserSchema = (UserSchema) ->
 
     ###
       Encrypt password
-  
+
       @param {String} password
       @return {String}
       @api public
