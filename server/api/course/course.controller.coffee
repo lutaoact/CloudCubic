@@ -17,6 +17,8 @@ ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
 LearnProgress = _u.getModel 'learn_progress'
 
+WrapRequest = new (require '../../utils/WrapRequest')(Course)
+
 exports.index = (req, res, next) ->
 
   userId = req.user.id
@@ -59,8 +61,11 @@ exports.show = (req, res, next) ->
   .fail next
 
 exports.create = (req, res, next) ->
-  req.body.owners = [req.user.id]
-  Course.createQ req.body
+  data = req.body
+  data.owners = [req.user.id]
+  data.orgId = req.orgId
+
+  Course.createQ data
   .then (course) ->
     res.json 201, course
   .fail next
