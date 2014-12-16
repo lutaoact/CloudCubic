@@ -36,8 +36,10 @@ exports.Classe = BaseModel.subclass
         default: 0
       isOpen:
         type: Boolean
-        required: true
         default: true
+      deleteFlag:
+        type: Boolean
+        default: false
 
     @schema
     .path 'name'

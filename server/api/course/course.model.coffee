@@ -30,14 +30,11 @@ exports.Course = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "user"
       ]
-      classes: [
-        type: Schema.Types.ObjectId
-        ref: "classe"
-      ]
       public:
         type: Boolean
         default: false
       deleteFlag:
         type: Boolean
         default: false
+
     $super()
