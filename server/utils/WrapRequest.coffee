@@ -4,6 +4,22 @@ require '../common/init'
 class WrapRequest
   constructor: (@Model) ->
 
+  buildConditions: (query) ->
+    conditions = {}
+    conditions.courseId = query.courseId if query.courseId
+
+    return conditions
+
+  wrapIndex: () ->
+    return (req, res, next) =>
+      conditions = @buildConditions req.query
+
+      @Model.findQ conditions
+      .then (docs) ->
+        res.send docs
+      .catch next
+      .done()
+
 #  wrapIndex: () ->
 #    return (req, res, next) =>
 #      conditions = AdapterUtils.buildConditions req.query

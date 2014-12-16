@@ -7,3 +7,11 @@ db.courses.find().forEach(function(course) {
   print(category.orgId);
   db.courses.update({_id: course._id}, {$set: {orgId: category.orgId}});
 });
+
+//根据course中classes的值，给相应的classe加上courseId字段
+db.courses.find().forEach(function(course) {
+  db.classes.find({_id: {$in: course.classes}}).forEach(function(classe) {
+    print(classe.name);
+    db.classes.update({_id: classe._id}, {$set: {courseId: course._id}});
+  });
+});

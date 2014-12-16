@@ -12,14 +12,9 @@
 "use strict"
 
 Classe = _u.getModel "classe"
+WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
-exports.index = (req, res, next) ->
-  user = req.user
-  Classe.findQ
-    orgId: user.orgId
-  .then (classes) ->
-    res.send classes
-  , next
+exports.index = WrapRequest.wrapIndex()
 
 exports.show = (req, res, next) ->
   user = req.user
