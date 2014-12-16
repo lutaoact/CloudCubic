@@ -23,14 +23,15 @@ orgIdGetter = (req, res, next) ->
 
   Q(if host isnt config.domainName
     # 匹配出二级域名
-    regexp = new RegExp('^(.*)\.\b' + config.domainName + '$')
-    console.log regexp
+    regexp = new RegExp('^(.*)\\.\\b' + config.domainName + '$')
+    logger.info "host match regexp: ", regexp
     matches = host.match regexp
-    console.log matches
+    logger.info 'current host: ', host
+    logger.info "host.match result:", matches
+
     if matches?.length is 2
       Organization.findBy matches[1]
     else
-      console.log host
       Organization.findByCustomDomain host
   ).then (org) ->
     if org?
