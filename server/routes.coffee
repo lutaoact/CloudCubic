@@ -18,7 +18,7 @@ errorHandler = (err, req, res, next) ->
     errors: err?.errors
   res.json err.status || 500, result
 
-orgIdGetter = (req, res, next) ->
+orgGetter = (req, res, next) ->
   host = req.headers.host
   host = host.replace(/:\d+/, '') # remove :port
 
@@ -48,7 +48,7 @@ orgIdGetter = (req, res, next) ->
 module.exports = (app) ->
 
   # Insert routes below
-  app.use orgIdGetter
+  app.use orgGetter
   app.use '/api/users', require './api/user'
   app.use '/api/courses', require './api/course'
   app.use '/api/categories', require './api/category'
