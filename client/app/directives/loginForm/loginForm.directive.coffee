@@ -6,10 +6,10 @@ angular.module('budweiserApp').directive 'loginForm', ->
   replace: true
 
   controller: (
+    org
     Msg
     Auth
     $http
-    org
     $modal
     $scope
     $state
@@ -26,7 +26,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
     $localStorage.global.loginPath = $state.current.url
 
     angular.extend $scope,
-      orgId: orgId
+      org: org
       user: {}
       loginUsers: null
 
