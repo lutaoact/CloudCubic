@@ -13,7 +13,7 @@ Category = _u.getModel "category"
 Course = _u.getModel 'course'
 
 exports.index = (req, res, next) ->
-  Category.findQ orgId: req.user.orgId, deleteFlag: $ne: true
+  Category.findQ orgId: req.org._id, deleteFlag: $ne: true
   .then (categories) ->
     res.send categories
   , next

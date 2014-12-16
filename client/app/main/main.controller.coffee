@@ -26,7 +26,6 @@ angular.module('budweiserApp').controller 'MainCtrl', (
         course
     $q.all(classeQs)
   .then (result)->
-    console.log result
     $scope.courses = result
 
   resize = ()->
