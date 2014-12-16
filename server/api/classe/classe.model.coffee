@@ -19,10 +19,12 @@ exports.Classe = BaseModel.subclass
       courseId:
         type: ObjectId
         ref: 'course'
-      from:
-        type: Date
-      to:
-        type: Date
+      enrollment:
+        from: Date
+        to: Date
+      duration:
+        from: Date
+        to: Date
       students: [
         type: ObjectId
         ref: "user"

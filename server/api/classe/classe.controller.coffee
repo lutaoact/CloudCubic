@@ -42,7 +42,7 @@ exports.showStudents = (req, res, next) ->
     res.send classe.students
   , next
 
-pickedKeys = ["name", "courseId", "from", "to", "price"]
+pickedKeys = ["name", "courseId", "enrollment", "duration", "price"]
 exports.create = WrapRequest.wrapOrgCreate pickedKeys
 
 exports.update = (req, res, next) ->
