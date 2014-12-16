@@ -9,7 +9,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
     Msg
     Auth
     $http
-    orgId
+    org
     $modal
     $scope
     $state

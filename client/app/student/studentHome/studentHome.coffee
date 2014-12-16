@@ -7,10 +7,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     controller: 'StudentHomeCtrl'
     resolve:
       Courses: (Restangular)->
-        Restangular.all('courses').getList().then (courses)->
-          return courses
-        , ->
-          return []
+        Restangular.all('courses').getList()
       CurrentUser: (Auth)->
         Auth.getCurrentUser()
     abstract: true

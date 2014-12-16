@@ -89,3 +89,8 @@ JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/nod
 #### 错题本，错题统计
 
 #### 付费虚拟货币。学生用户在机构下面有余额，用余额购买课程。
+
+## Changelog
+### create new branch online_school
+### create migration script: migration_20141231.js (when deploy, should run this script)
+

@@ -62,7 +62,7 @@
       </div>
     </div>
   </div>
-  <a href="#features-header" class="btn know-more" du-smooth-scroll>
+  <a href="{{org?'#courses-section':'#features-header'}}" class="btn know-more" du-smooth-scroll>
     了解更多
     <br>
     <i class="fa fa-chevron-down"></i>
@@ -70,11 +70,24 @@
 
 </section>
 
-<feature-list title="云立方学院可以为您带来什么？" distance="{{distance}}"></feature-list>
+<section full-page ng-if="org" id="courses-section" class="home-section center-wrap">
+  <div class="center-content">
+    <div class="container">
+      <div class="col-md-3 col-sm-4" ng-repeat="course in courses">
+        <a ui-sref="student.courseDetail({courseId:course._id})">
+          <course-tile course="course"></course-tile>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<feature-list title="云立方学院可以为您带来什么？" ng-if="!org" distance="{{distance}}"></feature-list>
 
 <section full-page
   class="home-section text-center center-wrap"
   id="contacts"
+  ng-if="!org"
   src-key="'/assets/images/timetable_back.png'"
   source-attr="background-image">
   <div class="center-content">
