@@ -158,6 +158,7 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .post 'save', (doc) ->
     if this.needSendActivationMail
+      console.log this.host
       sendActivationMail this.email, this.activationCode
       this.needSendActivationMail = false
 

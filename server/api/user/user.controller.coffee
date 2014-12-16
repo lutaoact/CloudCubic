@@ -74,6 +74,7 @@ exports.create = (req, res, next) ->
 
   delete body._id
   body.orgId = req.user.orgId
+  body.host = req.protocol+'://'+req.headers.host
 
   User.createQ body
   .then (user) ->
@@ -376,7 +377,8 @@ exports.sendActivationMail = (req, res, next) ->
   User.findOneQ
     email: req.body.email
   .then (user) ->
-    sendActivationMail user.email, user.activationCode
+    host = req.protocol+'://'+req.headers.host
+    sendActivationMail user.email, user.activationCode, host
     res.send 200
   .catch next
   .done()

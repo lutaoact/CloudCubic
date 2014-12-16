@@ -11,7 +11,7 @@ pwdActivationTpl = require('fs').readFileSync(__dirname + '/views/pwdActivation.
 pwdActivationFn = jade.compile pwdActivationTpl, pretty: true
 
 config = require '../../config/environment'
-host = config.host
+#host = config.host
 emailConfig = config.emailConfig
 transporter = nodemailer.createTransport(scTransport(emailConfig))
 
@@ -37,7 +37,7 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
   sendMail receiverEmail, htmlOutput, "学之方 -- 密码找回邮件"
 
 
-exports.sendActivationMail = (receiverEmail, activationCode) ->
+exports.sendActivationMail = (receiverEmail, activationCode, host) ->
   activationLinkQS = querystring.stringify
     email: receiverEmail
     activation_code: activationCode
