@@ -2,6 +2,7 @@
 
 mongoose = require("mongoose")
 Schema = mongoose.Schema
+ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
@@ -13,21 +14,21 @@ exports.Course = BaseModel.subclass
         type: String
         required: true
       orgId:
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: 'organization'
         required: true
       categoryId:
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: "category"
         required: true
       thumbnail: String
       info: String
       lectureAssembly: [
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: "lecture"
       ]
       owners: [
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: "user"
       ]
       public:
