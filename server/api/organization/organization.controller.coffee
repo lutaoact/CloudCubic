@@ -35,8 +35,7 @@ exports.check = (req, res, next) ->
     res.send 200
   .catch next
   .done()
-
-
+  
 exports.show = (req, res, next) ->
   orgId = req.params.id
   Organization.findByIdQ orgId

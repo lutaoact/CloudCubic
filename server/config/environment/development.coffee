@@ -3,7 +3,7 @@
 # Development specific configuration
 # ==================================
 module.exports =
-  domainName: 'localhost'
+  host: 'http://localhost:9000'
 
   # MongoDB connection options
   mongo:

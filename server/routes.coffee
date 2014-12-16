@@ -20,12 +20,12 @@ errorHandler = (err, req, res, next) ->
 
 orgGetter = (req, res, next) ->
   host = req.headers.host
-  host = host.replace(/:\d+/, '') # remove :port
+  defaultHost = config.host.replace /^.*:\/\//, ''
 
   Q(
-    if host isnt config.domainName
+    if host isnt defaultHost
       # 匹配出二级域名
-      regexp = new RegExp('^(.*)\\.\\b' + config.domainName + '$')
+      regexp = new RegExp('^(.*)\\.\\b' + defaultHost + '$')
       logger.info "host match regexp: ", regexp
       matches = host.match regexp
       logger.info 'current host: ', host
@@ -36,7 +36,7 @@ orgGetter = (req, res, next) ->
       else
         Organization.findByCustomDomain host
   ).then (org) ->
-    if org? or host is config.domainName
+    if org? or host is defaultHost
       req.org = org
       next()
     else
