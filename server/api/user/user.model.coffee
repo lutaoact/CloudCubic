@@ -23,15 +23,15 @@ exports.User = BaseModel.subclass
       email :
         type : String
         lowercase : true
-        unique: true
+        required: true
+      orgId :
+        type : ObjectId
+        ref : 'organization'
         required: true
       info :
         type : String
       name :
         type : String
-      orgId :
-        type : ObjectId
-        ref : 'organization'
       hashedPassword :
         type : String
       provider :
@@ -58,6 +58,8 @@ exports.User = BaseModel.subclass
         type: String
       resetPasswordExpires :
         type: Date
+
+    @schema.index {email: 1, orgId: 1}, {unique: true}
 
     setupUserSchema @schema
 
