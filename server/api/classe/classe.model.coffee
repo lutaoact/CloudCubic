@@ -1,6 +1,7 @@
 "use strict"
 mongoose = require("mongoose")
 Schema = mongoose.Schema
+ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
@@ -12,13 +13,31 @@ exports.Classe = BaseModel.subclass
         type: String
         required: true
       orgId:
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: "organization"
+        required: true
+      courseId:
+        type: ObjectId
+        ref: 'course'
+        required: true
+      from:
+        type: Date
+        required: true
+      to:
+        type: Date
+        required: true
       students: [
-        type: Schema.Types.ObjectId
+        type: ObjectId
         ref: "user"
       ]
-      yearGrade: String
+      price:
+        type: Number
+        required: true
+        default: 0
+      isOpen:
+        type: Boolean
+        required: true
+        default: true
 
     @schema
     .path 'name'
