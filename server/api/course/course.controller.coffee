@@ -16,6 +16,7 @@ KeyPoint = _u.getModel "key_point"
 ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
 LearnProgress = _u.getModel 'learn_progress'
+Forum = _u.getModel 'forum'
 
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
@@ -62,13 +63,19 @@ exports.show = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   data = req.body
-  data.owners = [req.user.id]
-  data.orgId = req.org?._id
+  delete data._id
+  data.owners = [req.user._id]
+  data.orgId = req.user.orgId
 
+  tmpResult = {}
   Course.createQ data
   .then (course) ->
-    res.json 201, course
-  .fail next
+    tmpResult.course = course
+    Forum.createQ {postBy: req.user._id, name: course.name}
+  .then () ->
+    res.json 201, tmpResult.course
+  .catch next
+  .done()
 
 exports.update = (req, res, next) ->
 

@@ -6,8 +6,8 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.DisTopic = BaseModel.subclass
-  classname: 'DisTopic'
+exports.Forum = BaseModel.subclass
+  classname: 'Forum'
   initialize: ($super) ->
     @schema = new Schema
       postBy:
