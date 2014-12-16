@@ -14,13 +14,10 @@ exports.DisTopic = BaseModel.subclass
         type: ObjectId
         ref: 'user'
         required: true
-      courseId:
+      forumId:
         type: ObjectId
-        ref: 'course'
+        ref: 'forum'
         required: true
-      lectureId:
-        type: ObjectId
-        ref: 'lecture'
       title:
         type: String
         required: true
@@ -46,4 +43,5 @@ exports.DisTopic = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       ]
+
     $super()
