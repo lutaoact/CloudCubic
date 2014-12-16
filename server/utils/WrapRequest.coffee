@@ -8,6 +8,8 @@ class WrapRequest
     conditions = {}
     conditions.courseId = query.courseId if query.courseId
 
+    conditions.deleteFlag = {$ne: true}
+
     return conditions
 
   wrapIndex: () ->

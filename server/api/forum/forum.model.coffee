@@ -14,24 +14,20 @@ exports.DisTopic = BaseModel.subclass
         type: ObjectId
         ref: 'user'
         required: true
-      # 板块名称
-      name:
+      name: # 板块名称
         type: String
         required: true
-      # 板块logo
-      logo:
+      logo: # 板块logo
         type: String
-      # 板块描述
-      info:
+      info: # 板块描述
         type: String
-      # 帖子总数（定时任务产生）
-      postsCount:
+      postsCount: # 帖子总数（定时任务产生）
         type: Number
         required: true
         default: 0
-      # 新增帖子数（定时任务产生）
-      recentPostsCount:
+      recentPostsCount: # 新增帖子数（定时任务产生）
         type: Number
         required: true
         default: 0
+
     $super()

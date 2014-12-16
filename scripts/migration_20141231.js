@@ -10,8 +10,10 @@ db.courses.find().forEach(function(course) {
 
 //根据course中classes的值，给相应的classe加上courseId字段
 db.courses.find().forEach(function(course) {
+  print("course.id: " + course._id)
   db.classes.find({_id: {$in: course.classes}}).forEach(function(classe) {
-    print(classe.name);
+    print("\tclasse._id: " + classe._id + ", classe.name: " +  classe.name);
     db.classes.update({_id: classe._id}, {$set: {courseId: course._id}});
   });
+  print("\n");
 });
