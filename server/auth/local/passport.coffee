@@ -8,10 +8,10 @@ exports.setup = (User, config) ->
     passwordField : 'password' # this is the virtual field on the model
     passReqToCallback: true
   , (req, email, password, done) ->
-    logger.info 'passport verify: orgId: ' + req.orgId + ', email: ' + email + ', password: ' + password
+    logger.info 'passport verify: orgId: ' + req.org?._id + ', email: ' + email + ', password: ' + password
 
     conditions = email: email
-    conditions.orgId = req.orgId if req.orgId?
+    conditions.orgId = req.org?._id if req.org?._id?
 
     User.findOne conditions, (err, user) ->
       if err

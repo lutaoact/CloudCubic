@@ -44,7 +44,7 @@ exports.index = (req, res, next) ->
   .fail next
 
 exports.publicIndex = (req, res, next) ->
-  Course.find orgId: req.orgId
+  Course.find orgId: req.org?._id
   .populate 'categoryId'
   .execQ()
   .then (courses) ->
@@ -63,7 +63,7 @@ exports.show = (req, res, next) ->
 exports.create = (req, res, next) ->
   data = req.body
   data.owners = [req.user.id]
-  data.orgId = req.orgId
+  data.orgId = req.org?._id
 
   Course.createQ data
   .then (course) ->

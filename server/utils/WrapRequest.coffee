@@ -62,7 +62,7 @@ class WrapRequest
   wrapCommonCreate: (pickedKeys) ->
     return (req, res, next) =>
       data = _.pick req.body, pickedKeys
-      data.orgId = req.orgId
+      data.orgId = req.org?._id
 
       @Model.createQ data
       .then (newDoc) ->

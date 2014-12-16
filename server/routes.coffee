@@ -21,24 +21,23 @@ orgIdGetter = (req, res, next) ->
   host = req.headers.host
   host = host.replace(/:\d+/, '') # remove :port
 
-  orgQ = Q('default')
-  # subDomain
-  if (new RegExp('\\b'+config.domainName+'$')).test(host)
-    if host != config.domainName
-      matches = host.match(new RegExp('(.*)\.' + config.domainName))
-      if matches?.length == 2
-        orgQ = Organization.findBy matches[1]
-  # customDomain
-  else
-    orgQ = Organization.findByCustomDomain host
-
-  orgQ
-  .then (org)->
-    if org == null
-      res.render '404'
+  Q(if host isnt config.domainName
+    # 匹配出二级域名
+    regexp = new RegExp('^(.*)\.\b' + config.domainName + '$')
+    console.log regexp
+    matches = host.match regexp
+    console.log matches
+    if matches?.length is 2
+      Organization.findBy matches[1]
     else
+      console.log host
+      Organization.findByCustomDomain host
+  ).then (org) ->
+    if org?
       req.org = org
       next()
+    else
+      res.render '404'
 
 module.exports = (app) ->
 
@@ -95,14 +94,14 @@ module.exports = (app) ->
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
-    console.log req.orgId
+    console.log req.org?._id
     # if there is no cookie token, return index.html immediately
     indexPath = app.get('appPath') + '/index.html'
     locals =
       webview: "#{req.query.webview?}"
       initUser: "null"
       initNotify: "#{JSON.stringify(req.query.message)}"
-      orgId: "#{JSON.stringify(req.orgId)}"
+      orgId: "#{JSON.stringify(req.org?._id)}"
 
     if not req.cookies.token?
       res.send(_u.render indexPath, locals)
