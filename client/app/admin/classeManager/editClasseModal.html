@@ -1,6 +1,7 @@
 <div class="modal-header modal-header-black">
   <h4 class="modal-title">
-    开课班级
+    <span ng-if="!classe._id">添加开课班级</span>
+    <span ng-if="classe._id">编辑开课班级</span>
     <a class="close" ng-click="cancel()">&times;</a>
   </h4>
 </div>
