@@ -73,6 +73,7 @@ class CourseUtils extends BaseUtils
     .then (classes) ->
       classeIds = _.pluck classes, '_id'
       Course.find
+        # FIXME
         classes: $in: classeIds
       .populate 'owners', '_id name avatar'
       .execQ()

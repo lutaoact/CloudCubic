@@ -23,6 +23,7 @@ exports.questionStats = (req, res, next) ->
   if courseId
     studentsPromise = CourseUtils.getAuthedCourseById req.user, courseId
     .then (course) ->
+      # FIXME
       Classe.getAllStudentsInfo(course.classes)
   else if courseId
     studentsPromise = Classe.getAllStudentsInfo [classId]
@@ -42,4 +43,3 @@ exports.questionStats = (req, res, next) ->
     res.send 200, result
   .fail next
   .done()
-
