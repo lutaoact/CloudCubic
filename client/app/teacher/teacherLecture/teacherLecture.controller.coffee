@@ -66,7 +66,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         lecture.isFreeTry = newLecture.isFreeTry
         notify
-          message: if lecture.isFreeTry then '已设置为免费课时' else '已取消免费课时'
+          message: if lecture.isFreeTry then '已设置免费试用' else '已取消免费试用'
           classes:'alert-success'
 
     deleteLecture: ->
