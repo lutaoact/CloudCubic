@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentCourseListCtrl'
+angular.module('budweiserApp').controller 'StudentCourseHomeCtrl'
 , (
   User
   Auth
@@ -11,8 +11,15 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   Courses
   $modal
   $localStorage
+  Category
   CurrentUser
 ) ->
+
+  Category.find()
+  .then (categories)->
+    $scope.categories = categories
+    $scope.category = {name: '全部'}
+    $scope.categories.unshift $scope.category
 
   angular.extend $scope,
 

@@ -45,7 +45,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
           $scope.dayChangedHandle?(value)
 
       showAddBtn: ()->
-        Auth.getCurrentUser().role is 'teacher' or 'admin'
+        Auth.getCurrentUser().role is 'teacher' or Auth.getCurrentUser().role is 'admin'
 
       addSchedule: ()->
         $modal.open
@@ -261,4 +261,3 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         last: 90
 
   $scope.loadCourses()
-
