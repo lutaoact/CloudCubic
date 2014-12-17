@@ -73,11 +73,7 @@
 <section full-page ng-if="org" id="courses-section" class="home-section center-wrap">
   <div class="center-content">
     <div class="container">
-      <div class="col-md-3 col-sm-4" ng-repeat="course in courses">
-        <a ui-sref="course({courseId:course._id})">
-          <course-tile course="course"></course-tile>
-        </a>
-      </div>
+      <course-list></course-list>
     </div>
   </div>
 </section>
@@ -120,4 +116,3 @@
 <a href="#main" du-smooth-scroll class="back-to-top" du-scrollspy offset="120">
   <i class="fa fa-chevron-up"></i>
 </a>
-
