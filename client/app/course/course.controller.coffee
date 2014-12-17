@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
   $state
   Navbar
   Restangular
+  $location
 ) ->
   Restangular.all('courses').customGET("#{$state.params.courseId}/public")
   .then (course)->
@@ -20,3 +21,16 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
   angular.extend $scope,
     itemsPerPage: 10
     currentPage: 1
+
+    enroll: (classe)->
+      qs =
+        out_trade_no: 100021
+        subject: classe.name
+        total_fee: classe.price
+        body: classe.name
+        show_url: $location.absUrl()
+
+      console.log qs
+
+      Restangular.one('payments', 'create_direct_pay_by_user').get(qs)
+

@@ -10,7 +10,7 @@
     <div ng-repeat="classe in classes">
       {{classe.name}} <br>
       价格:￥{{classe.price}} <br>
-      <button>报名</button>
+      <button ng-click="enroll(classe)">报名</button>
     </div>
   </div>
 </div>
