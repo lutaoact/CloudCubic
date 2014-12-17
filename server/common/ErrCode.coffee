@@ -14,3 +14,5 @@ module.exports =
   DeleteAdmin: 10010
 
   GoAway: 10011
+  InvalidClasse: 10012
+  InvalidStudent: 10013

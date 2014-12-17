@@ -55,6 +55,17 @@ exports.Classe = BaseModel.subclass
 
     $super()
 
+  getOneById: (classeId) ->
+    return @findOneQ {_id: classeId, deleteFlag: {$ne: true}}
+    .then (classe) ->
+      unless classe
+        return Q.reject
+          status: 404
+          errCode: ErrCode.InvalidClasse
+          errMsg: '班级未建立或者已被删除'
+
+      return classe
+
   getAllStudents: (classeIds) ->
     @findQ _id: $in: classeIds
     .then (classes) ->
