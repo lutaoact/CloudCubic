@@ -34,7 +34,7 @@ exports.index = (req, res, next) ->
     when 'admin'
       # 管理员可以查看单个老师的课程列表
       if req.query.teacherId
-        CourseUtils.getTeacherCourses teacherId
+        CourseUtils.getTeacherCourses req.query.teacherId
       else
         CourseUtils.getAdminCourses user.orgId
   ).then (courses) ->
