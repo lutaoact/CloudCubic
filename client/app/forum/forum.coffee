@@ -7,21 +7,12 @@ angular.module('budweiserApp').config ($stateProvider) ->
     controller: 'ForumCtrl'
     resolve:
       Courses: (Restangular)->
-        Restangular.all('courses').getList().then (courses)->
+        Restangular.all('courses/public').getList().then (courses)->
           courses
         , (err)->
           # handle
           []
       CurrentUser: (Auth)->
         Auth.getCurrentUser()
-
-      AllKeypoints: (Restangular)->
-        Restangular.all('key_points').getList()
-        .then (data)->
-          data
-        , (err)->
-          # handle
-          console.log err
-          []
 
     abstract: true

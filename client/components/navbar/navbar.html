@@ -21,8 +21,11 @@
          collapse="viewState.isCollapsed"
          >
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="//www.cloud3edu.cn/blog" target="blank">博客</a>
+        <li ng-if="org">
+          <a ui-sref="forum.list">讨论</a>
+        </li>
+        <li ng-if="!org">
+          <a href="http://www.cloud3edu.cn/blog" target="blank">博客</a>
         </li>
         <li>
           <a href="/assets/html/docs/help.html" target="blank">帮助文档</a>
@@ -46,11 +49,11 @@
       </button>
       <a ng-click="goHome()" href
          class="navbar-brand">
-        <i ng-hide="getCurrentUser().orgId"
+        <i ng-hide="org"
            class="budon budon-logo"
            style="font-size: 36px;"></i>
-        <span ng-if="getCurrentUser().orgId">
-          {{getCurrentUser().orgId.name}}
+        <span ng-if="org">
+          {{org.name}}
         </span>
       </a>
     </div>

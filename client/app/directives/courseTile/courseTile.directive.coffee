@@ -7,3 +7,11 @@ angular.module('budweiserApp').directive 'courseTile', ->
   scope:
     course: '='
   link: (scope, element, attrs) ->
+
+.directive 'publicCourseTile', ->
+  templateUrl: 'app/directives/courseTile/publicCourseTile.html'
+  restrict: 'EA'
+  replace: true
+  scope:
+    course: '='
+  link: (scope, element, attrs) ->

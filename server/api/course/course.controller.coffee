@@ -42,7 +42,7 @@ exports.index = (req, res, next) ->
 
 exports.publicIndex = (req, res, next) ->
   Course.find orgId: req.org?._id
-  .populate 'categoryId'
+  .populate 'categoryId owners'
   .execQ()
   .then (courses) ->
     res.send courses
