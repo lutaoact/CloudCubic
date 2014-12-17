@@ -3,6 +3,10 @@
     <h3>{{course.name}} <br>
       <small>{{course.info}}</small>
     </h3>
+    <h4>课程大纲</h4>
+    <div ng-repeat="lecture in course.lectures" ng-class="{'text-muted':!lecture.isPublic}">
+      <h5>{{lecture.name}}</h5>
+    </div>
     <div ng-repeat="classe in classes">
       {{classe.name}} <br>
       价格:￥{{classe.price}} <br>
