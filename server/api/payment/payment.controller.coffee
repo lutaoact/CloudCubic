@@ -13,14 +13,13 @@ alipay
 
 exports.create_direct_pay_by_user = (req, res, next)->
   data =
-    out_trade_no:req.query.out_trade_no
-    subject:req.query.subject
-    total_fee:req.query.total_fee
+    out_trade_no: 100031 # TODO: generate unique out_trade_no
+    subject: req.query.subject
+    total_fee: req.query.total_fee
     body: req.query.body
-    show_url:req.query.show_url
+    show_url: req.query.show_url
 
-  console.log data
+  # TOD
+  # req.query.classId
 
   alipay.create_direct_pay_by_user(data, res);
-  console.log 'create_direct_pay_by_user'
-#  res.send "sucess"

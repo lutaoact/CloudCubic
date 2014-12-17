@@ -84,8 +84,8 @@ Alipay.prototype.create_direct_pay_by_user = function(data, res){
 		parameter[key] = data[key];
 	}
 	
-	var html_text = alipaySubmit.buildRequestForm(parameter,"get", "确认");
-	res.send(html_text);
+	var parameter = alipaySubmit.buildRequestPara(parameter);
+	res.send(parameter);
 }
 
 //即时到账批量退款有密接口
