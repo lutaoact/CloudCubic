@@ -155,8 +155,9 @@ function isEqual(aId, bId) {
 exports.isEqual = isEqual;
 
 function contains(ids, target) {
+  var targetStr = target.toString();
   for (var i = 0, l = ids.length; i < l; i++) {
-    if (ids[i].toString() === target.toString()) return true;
+    if (ids[i].toString() === targetStr) return true;
   }
   return false;
 }
