@@ -26,7 +26,7 @@ class WrapRequest
   wrapOrgIndex: () ->
     return (req, res, next) =>
       conditions = @buildConditions req.query
-      conditions.orgId = req.org._id
+      conditions.orgId = req.org?._id
 
       logger.info "req.originalUrl: #{req.originalUrl}"
       logger.info "org index conditions:", conditions
