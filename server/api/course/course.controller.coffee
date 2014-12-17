@@ -21,7 +21,6 @@ Forum = _u.getModel 'forum'
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
-
   user = req.user
   logger.info "user.role: #{user.role}"
   (switch user.role
