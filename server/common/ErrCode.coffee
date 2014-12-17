@@ -18,3 +18,4 @@ module.exports =
   InvalidStudent: 10013
 
   NoCourse: 10014
+  NoClasse: 10015
