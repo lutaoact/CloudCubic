@@ -23,3 +23,5 @@ dump.rdb
 npm-debug.log
 /server/test/**/*.js
 /server/utils/*.js
+!/server/common/alipay/*.js
+!/server/common/alipay/**/*.js
