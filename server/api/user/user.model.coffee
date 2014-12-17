@@ -81,6 +81,17 @@ exports.User = BaseModel.subclass
   getIdAndRold: (conditions) ->
     @findQ conditions, "_id role"
 
+  getStudentById: (studentId) ->
+    return @findOneQ _id: studentId, role: 'student'
+    .then (student) ->
+      unless student
+        return Q.reject
+          status: 404
+          errCode: ErrCode.InvalidStudent
+          errMsg: '不存在相应学生'
+
+      return student
+
 ###
 Virtuals
 ###

@@ -55,31 +55,29 @@ class CourseUtils extends BaseUtils
       return course
 
 
-  getTeacherCourses : (teacherId) ->
-    Course.find
-      owners : teacherId
-    .populate 'classes', '_id name orgId yearGrade'
+  # 管理员可以查看该机构的所有课程
+  getAdminCourses : (orgId) ->
+    return Course.find orgId: orgId
+    .populate 'classes', '_id name orgId'
     .populate 'owners', '_id name avatar'
     .execQ()
-    .then (courses) ->
-      return courses
-    , (err) ->
-      Q.reject err
 
+
+  getTeacherCourses : (teacherId) ->
+    return Course.find owners : teacherId
+    .populate 'classes', '_id name orgId'
+    .populate 'owners', '_id name avatar'
+    .execQ()
+
+  # 找出学生所在的所有班级，然后取出courseId字段（会有重复），进而获取课程列表
   getStudentCourses : (studentId) ->
-    Classe = _u.getModel 'classe'
-    Classe.findQ
-      students: studentId
+    Classe.findQ students: studentId
     .then (classes) ->
-      classeIds = _.pluck classes, '_id'
-      Course.find
-        classes: $in: classeIds
+      courseIds = _.pluck classes, 'courseId'
+
+      Course.find _id: $in: courseIds
       .populate 'owners', '_id name avatar'
       .execQ()
-    .then (courses) ->
-      return courses
-    , (err) ->
-      Q.reject err
 
   getStudentsNum: (user, courseId) ->
     if user.role is 'student'

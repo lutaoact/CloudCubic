@@ -31,7 +31,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       _.str.include(text, keyword)
 
     startTeaching: (course, lecture) ->
-      classe = _.find(course.classes, $active:true)
+      classe = _.find($scope.classes, {$active:true, courseId: course._id})
       $state.go 'teacher.teaching',
         courseId: course._id
         classeId: classe._id
@@ -77,20 +77,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     sortLecture: ->
       $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')
-
-    addClasse: (classe) ->
-      classeIds = _.pluck($scope.course.classes, '_id')
-      if !_.contains(classeIds, classe._id)
-        $scope.course.patch classes: _.union(classeIds, [classe._id])
-        .then (newCourse) ->
-          $scope.course.classes = newCourse.classes
-
-    removeClasse: (classe) ->
-      classeIds = _.pluck($scope.course.classes, '_id')
-      if _.contains(classeIds, classe._id)
-        $scope.course.patch classes:_.without(classeIds, classe._id)
-        .then (newCourse) ->
-          $scope.course.classes = newCourse.classes
 
   reloadLectures = (course) ->
     if !course._id? then return

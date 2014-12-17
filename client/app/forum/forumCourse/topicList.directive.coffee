@@ -106,4 +106,3 @@ angular.module('budweiserApp')
   , true
 
   $scope.loadCourse()
-

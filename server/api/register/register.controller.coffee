@@ -28,7 +28,6 @@ exports.createUser = (req, res, next) ->
 
 exports.createOrg = (req, res, next) ->
   body = req.body
-  logger.info req.originalUrl
   logger.info "body: ", body
 
   OrgUtils.check body.uniqueName

@@ -28,7 +28,6 @@ class WrapRequest
       conditions = @buildConditions req.query
       conditions.orgId = req.org?._id
 
-      logger.info "req.originalUrl: #{req.originalUrl}"
       logger.info "org index conditions:", conditions
 
       @Model.findQ conditions
@@ -94,7 +93,6 @@ class WrapRequest
 
   wrapOrgCreate: (pickedKeys) ->
     return (req, res, next) =>
-      logger.info "req.originalUrl: #{req.originalUrl}"
       data = _.pick req.body, pickedKeys
       data.orgId = req.user.orgId
       logger.info "create data:", data

@@ -17,17 +17,6 @@ angular.module('budweiserApp').controller 'MainCtrl', (
     org: org
   $scope.distance = 800
 
-  Restangular.all('courses/public').getList()
-  .then (result)->
-    classeQs = result.map (course)->
-      Restangular.all('classes').getList {courseId: course._id}
-      .then (classes)->
-        course.$classes = classes
-        course
-    $q.all(classeQs)
-  .then (result)->
-    $scope.courses = result
-
   resize = ()->
     $timeout ->
       $scope.distance = $window.innerHeight * 2 - 100
@@ -38,6 +27,3 @@ angular.module('budweiserApp').controller 'MainCtrl', (
 
   $scope.$on '$destroy', ->
     angular.element($window).unbind 'resize', resize
-
-
-

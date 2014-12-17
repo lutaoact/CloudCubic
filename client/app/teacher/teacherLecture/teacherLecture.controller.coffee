@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Navbar
   $filter
   Courses
+  Classes
   KeyPoints
   Restangular
   $sce
@@ -29,6 +30,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
+    classes: Classes
     me: CurrentUser
     videoLimitation: if CurrentUser.orgId.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     course: course

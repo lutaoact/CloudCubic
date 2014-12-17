@@ -149,6 +149,11 @@ function union() {
 }
 exports.union = union;
 
+function isEqual(aId, bId) {
+  return aId.toString() === bId.toString();
+}
+exports.isEqual = isEqual;
+
 var ejs = require('ejs');
 var fs = require('fs');
 function render(path, locals) {
