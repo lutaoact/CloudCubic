@@ -3,7 +3,7 @@
   position: relative;
   height: @height;
   width: @width;
-  margin:30px auto;
+  margin:0 auto 20px auto;
   border:none;
   border-radius: @book-radius;
   overflow: hidden;
@@ -52,7 +52,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 4;
-    .transition(all .2s ease-in-out);
   }
   &:hover{
     .caption{
@@ -68,4 +67,34 @@
 
 .course-tile{
   .book(205px, 200px);
+}
+
+.public-course-tile{
+  .book(205px, 215px);
+  hr{
+    margin-top: 0;
+    margin-bottom: 3px;
+  }
+  .caption{
+    .trial-btn{
+      background: @gray-lighter;
+      color: @base-color;
+      width: 88px;
+      height: 18px;
+      padding: 0;
+    }
+    .course-name{
+      height: 30px;
+      margin-bottom: 5px;
+      overflow: hidden;
+    }
+    .course-info, .text-muted{
+      font-size: 12px;
+    }
+    .text-muted{
+      margin-bottom: 3px;
+    }
+    height: 170px;
+    bottom: -70px;
+  }
 }

@@ -60,6 +60,15 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         else
           null
 
+    switchFreeTry: ->
+      lecture = $scope.lecture
+      lecture.patch(isFreeTry: !lecture.isFreeTry)
+      .then (newLecture) ->
+        lecture.isFreeTry = newLecture.isFreeTry
+        notify
+          message: if lecture.isFreeTry then '已设置免费试用' else '已取消免费试用'
+          classes:'alert-success'
+
     deleteLecture: ->
       lecture = $scope.lecture
       $modal.open
@@ -207,6 +216,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
+    console.log lecture
 
   # 删除未保存过的课时
   $scope.$on '$destroy', ->

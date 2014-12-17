@@ -46,7 +46,7 @@ exports.Lecture = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "question"
       ]
-      isPublic:
+      isFreeTry:
         type: Boolean
         default: false
 

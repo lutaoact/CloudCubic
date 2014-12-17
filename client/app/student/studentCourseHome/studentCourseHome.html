@@ -1,46 +1,69 @@
-<div class="row head-row">
+<div class="head-row">
   <div class="container">
-    <h4>购买的课程 <font class="text-muted">|</font> 共<b>120</b>个</h4>
+    <h4 class="row">购买的课程 <font class="text-muted">|</font> 共<b>120</b>个</h4>
   </div>
 </div>
 
 <section class="my-courses">
   <div class="container">
-    <div class="col-sm-4 no-padding">
-      <accordion close-others="false">
-        <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
-          <accordion-heading>
-            分类 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': viewState.categoryOpen, 'glyphicon-chevron-right': !viewState.categoryOpen}"></i>
-          </accordion-heading>
-          <div class="form-horizontal">
-            <div class="form-group">
-              <label class="col-xs-3 control-label">科目</label>
-              <div class="col-xs-9">
-                <select class="form-control " ng-model="category" ng-options="category.name for category in categories"></select>
+    <div class="row">
+      <div class="col-sm-4 no-padding">
+        <accordion close-others="false">
+          <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
+            <accordion-heading>
+              分类 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': viewState.categoryOpen, 'glyphicon-chevron-right': !viewState.categoryOpen}"></i>
+            </accordion-heading>
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="col-xs-3 control-label">科目</label>
+                <div class="col-xs-9">
+                  <select class="form-control " ng-model="category" ng-options="category.name for category in categories"></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-3 control-label">老师</label>
+                <div class="col-xs-9">
+                  <select class="form-control " ng-model="teacher" ng-options="teacher.name for teacher in teachers"></select>
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <label class="col-xs-3 control-label">老师</label>
-              <div class="col-xs-9">
-                <select class="form-control " ng-model="teacher" ng-options="teacher.name for teacher in teachers"></select>
-              </div>
-            </div>
-          </div>
-        </accordion-group>
-      </accordion>
-    </div>
-    <div class="col-sm-8 no-padding">
-      <div class="col-md-4 col-sm-6" ng-repeat="course in courses">
-        <a ui-sref="student.courseDetail({courseId:course._id})">
-          <course-tile course="course"></course-tile>
-        </a>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-sm-8 no-padding">
+        <div class="col-md-4 col-sm-6" ng-repeat="course in courses">
+          <a ui-sref="student.courseDetail({courseId:course._id})">
+            <course-tile course="course"></course-tile>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section>
-  <course-list></course-list>
+<div class="head-row">
+  <div class="container">
+    <div class="row">
+      <ul class="nav pull-left nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#">全部</a></li>
+        <li role="presentation"><a href="#">物理</a></li>
+        <li role="presentation"><a href="#">化学</a></li>
+      </ul>
+      <ul class="nav pull-right nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#">全部</a></li>
+        <li role="presentation"><a href="#">物理</a></li>
+        <li role="presentation"><a href="#">化学</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="public-courses">
+  <div class="container">
+    <div class="row">
+      <course-list></course-list>
+    </div>
+  </div>
 </section>
 
 <a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy offset="60">

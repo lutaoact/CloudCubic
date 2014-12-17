@@ -118,6 +118,18 @@
                 </li>
               </ul>
             </div>
+
+            <label for="isFreeTry-checkbox"
+                   ng-if="!editingInfo"
+                   class="pull-right">
+              <input type="checkbox"
+                     id="isFreeTry-checkbox"
+                     ng-checked="lecture.isFreeTry"
+                     ng-click="switchFreeTry()"
+                     class="bud checkbox-default">
+              设为免费试用
+            </label>
+
             <span ng-if="editingInfo">
               <button type="submit"
                       ng-disabled="deleting && saving"

@@ -7,7 +7,7 @@
         <a href="#lectures-{{course._id}}"
            du-smooth-scroll
            offset="60">
-          <label class="title hand-point">开班</label>
+          <label class="title hand-point">班级</label>
         </a>
       </div>
       <hr class="hr-title"/>
@@ -88,6 +88,7 @@
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
               {{lecture.name}}
             </label>
+            <small ng-if="lecture.isFreeTry" class="info text-muted">免费试用</small>
             <div class="pull-right">
               <button type="button"
                       tooltip="点住鼠标，上下拖动可以改变课时的顺序"

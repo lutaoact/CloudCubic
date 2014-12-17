@@ -36,7 +36,7 @@ exports.Course = BaseModel.subclass
         type: ObjectId
         ref: "user"
       ]
-      isPublic:
+      isPublish:
         type: Boolean
         default: false
       deleteFlag:

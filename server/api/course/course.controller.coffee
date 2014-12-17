@@ -27,10 +27,7 @@ exports.index = (req, res, next) ->
     when 'teacher'
       CourseUtils.getTeacherCourses user._id
     when 'student'
-      if req.query.public?
-        Course.findQ isPublic:true
-      else
-        CourseUtils.getStudentCourses user._id
+      CourseUtils.getStudentCourses user._id
     when 'admin'
       # 管理员可以查看单个老师的课程列表
       if req.query.teacherId
@@ -45,7 +42,7 @@ exports.index = (req, res, next) ->
 
 exports.publicIndex = (req, res, next) ->
   Course.find orgId: req.org?._id
-  .populate 'categoryId'
+  .populate 'categoryId owners'
   .execQ()
   .then (courses) ->
     res.send courses
@@ -63,7 +60,7 @@ exports.show = (req, res, next) ->
 exports.publicShow = (req, res, next) ->
   courseId = req.params.id
   Course.findById courseId
-  .populate 'lectureAssembly', 'name isPublic'
+  .populate 'lectureAssembly', 'name isFreeTry'
   .execQ()
   .then (course) ->
     res.send course
