@@ -18,7 +18,7 @@ errorHandler = (err, req, res, next) ->
   res.json err.status || 500, result
 
 orgGetter = (req, res, next) ->
-  logger.info "req.originalUrl: #{req.originalUrl}"
+  logger.info "req.method: #{req.method}, req.originalUrl: #{req.originalUrl}"
 
   host = req.headers.host
   defaultHost = config.host.replace /^.*:\/\//, ''
