@@ -22,27 +22,27 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
 
-  userId = req.user.id
-  role = req.user.role
-  (switch role
+  user = req.user
+  logger.info "user.role: #{user.role}"
+  (switch user.role
     when 'teacher'
-      logger.info 'teacher'
-      CourseUtils.getTeacherCourses userId
+      CourseUtils.getTeacherCourses user._id
     when 'student'
-      logger.info 'student'
       if req.query.public?
-        Course.findQ public:true
+        Course.findQ isPublic:true
       else
-        CourseUtils.getStudentCourses userId
+        CourseUtils.getStudentCourses user._id
     when 'admin'
-      logger.info 'admin'
-      teacherId = req.query.teacherId ? userId
-      CourseUtils.getTeacherCourses teacherId
+      # 管理员可以查看单个老师的课程列表
+      if req.query.teacherId
+        CourseUtils.getTeacherCourses teacherId
+      else
+        CourseUtils.getAdminCourses user.orgId
   ).then (courses) ->
+    logger.info "courses.length: #{courses.length}"
     res.send courses
-  # use Q's fail to make sure error from last then is also caught and passed to next
-  # need to change our code all over the place to adapt to this pattern
-  .fail next
+  .catch next
+  .done()
 
 exports.publicIndex = (req, res, next) ->
   Course.find orgId: req.org?._id
