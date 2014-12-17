@@ -1,18 +1,14 @@
 <div ng-show="selectedClasse"
      class="list-group form col-md-8 item-detail-group">
-  <form class="form list-group-item"
-        ng-submit="saveClasse(form)"
-        name="form"
-        id="item-name">
-    <input class="form-control"
-           name="name"
-           tooltip="点击即可编辑"
-           ng-model="editingInfo.name"
-           ng-blur="saveClasse(form)"
-           placeholder="请输入班级名称"
-           ng-disabled="!selectedClasse._id"
-           required>
-  </form>
+  <div class="list-group-item" id="item-name">
+    <a class="form-control"
+       href
+       tooltip="点击即可编辑"
+       ng-click="editClasse()">
+      {{selectedClasse.name}}
+      <i class="pull-right glyphicon glyphicon-pencil"></i>
+    </a>
+  </div>
 
   <div ui-view
        class="fadeIn"

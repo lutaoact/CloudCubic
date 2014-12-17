@@ -16,3 +16,5 @@ module.exports =
   GoAway: 10011
   InvalidClasse: 10012
   InvalidStudent: 10013
+
+  NoCourse: 10014

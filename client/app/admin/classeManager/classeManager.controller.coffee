@@ -25,14 +25,17 @@ angular.module('budweiserApp')
 
     addClass: ()->
       $modal.open
-        templateUrl: 'app/admin/classeManager/newClasseModal.html'
-        controller: 'NewClasseModalCtrl'
-        size: 'md'
+        templateUrl: 'app/admin/classeManager/editClasseModal.html'
+        controller: 'EditClasseModalCtrl'
         resolve:
           Courses: -> Courses
+          Classe: ->
+            name: ''
+            price: 0
+            enrollment: {}
+            duration: {}
       .result.then (newClasse) ->
         $scope.classes.push newClasse
-      true
 
     onDeleteClasses: (classes) ->
       angular.forEach classes, (c) ->

@@ -154,6 +154,15 @@ function isEqual(aId, bId) {
 }
 exports.isEqual = isEqual;
 
+function contains(ids, target) {
+  var targetStr = target.toString();
+  for (var i = 0, l = ids.length; i < l; i++) {
+    if (ids[i].toString() === targetStr) return true;
+  }
+  return false;
+}
+exports.contains = contains
+
 var ejs = require('ejs');
 var fs = require('fs');
 function render(path, locals) {

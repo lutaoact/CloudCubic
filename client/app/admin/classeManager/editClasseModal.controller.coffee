@@ -1,19 +1,18 @@
 'use scrict'
 
-angular.module('budweiserApp').controller 'NewClasseModalCtrl', (
+angular.module('budweiserApp')
+
+.controller 'EditClasseModalCtrl', (
   $scope
   Courses
+  Classe
   Restangular
   $modalInstance
 ) ->
 
   angular.extend $scope,
     errors: null
-    classe:
-      name: ''
-      price: 0
-      enrollment: {}
-      duration: {}
+    classe: Classe
     courses: Courses
     format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
 
@@ -23,7 +22,15 @@ angular.module('budweiserApp').controller 'NewClasseModalCtrl', (
     confirm: (form) ->
       if !form.$valid then return
       $scope.errors = null
-      Restangular.all('classes').post($scope.classe)
+      (
+        if $scope.classe._id?
+          Restangular.one('classes', $scope.classe._id).patch($scope.classe)
+        else
+          Restangular.all('classes').post($scope.classe)
+      )
       .then $modalInstance.close
       .catch (error) ->
         $scope.errors = error?.data?.errors
+        notify
+          message: '编辑开课班级信息失败'
+          classes: 'alert-danger'

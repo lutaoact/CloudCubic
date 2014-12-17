@@ -25,21 +25,24 @@ class CourseUtils extends BaseUtils
           errMsg : 'No course found or no permission to read it'
 
   checkStudent: (user, courseId) ->
-    Classe.findQ
-      students: user._id
+    Classe.findQ students: user._id
     .then (classes) ->
-      classeIds = _.pluck classes, '_id'
-      Course.findOneQ
-        _id: courseId
-        classes: $in: classeIds
+      courseIds = _.pluck classes, 'courseId'
+      unless _u.contains(courseIds, courseId)
+        return Q.reject
+          status : 403
+          errCode: ErrCode.CannotReadThisCourse
+          errMsg : '学生没有学习该课程'
+
+      Course.findByIdQ courseId
     .then (course) ->
       if course?
         return course
       else
         Q.reject
           status : 403
-          errCode: ErrCode.CannotReadThisCourse
-          errMsg : 'No course found or no permission to read it'
+          errCode: ErrCode.NoCourse
+          errMsg : '未找到相关课程'
 
   checkAdmin : (user, courseId) ->
     Course.findById courseId

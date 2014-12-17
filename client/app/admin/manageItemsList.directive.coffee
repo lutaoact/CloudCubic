@@ -36,9 +36,9 @@ angular.module('budweiserApp')
     selectedItems: []
     itemTitle:
       switch $scope.itemType
-        when 'classes'    then '班级'
+        when 'classes'    then '开课班级'
         when 'categories' then '专业'
-        else throw 'unknown itemType ' + $scope.itemType
+        else throw Error('unknown itemType ' + $scope.itemType)
 
     deleteItems: (selectedItems) ->
       $modal.open

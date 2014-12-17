@@ -174,7 +174,7 @@ angular.module 'budweiserApp', [
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     if initUser?
       Auth.getCurrentUser().$promise?.then (me) ->
-        $state.go(me.role+'.home') if !Auth.hasRole(toState.roleRequired) || !toState.roleRequired
+        $state.go(me.role+'.home') if !Auth.hasRole(toState.roleRequired)
     else
       loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 
