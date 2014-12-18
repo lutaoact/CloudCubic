@@ -51,6 +51,27 @@ class WrapRequest
 #      .catch next
 #      .done()
 #
+  wrapShow: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+
+      @Model.findById _id
+      .execQ()
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
+
+  wrapOrgShow: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+
+      @Model.findOne _id: _id, orgId: req.org?._id
+      .execQ()
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
 #  wrapCommonShow: () ->
 #    return (req, res, next) =>
 #      _id = req.params.id
@@ -124,6 +145,15 @@ class WrapRequest
 #      .catch next
 #      .done()
 #
+  wrapOrgDestroy: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+      @Model.updateQ {_id: _id}, {deleteFlag: true}
+      .then () ->
+        res.send 204
+      .catch next
+      .done()
+
   wrapDestroy: () ->
     return (req, res, next) =>
       _id = req.params.id
