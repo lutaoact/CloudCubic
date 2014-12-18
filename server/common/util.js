@@ -1,5 +1,7 @@
 var async = require('async');
 require('./initGlobal');
+var random = new (require('./mt').MersenneTwister)()
+var assert = require('assert');
 
 /*
  * @param  [String] key textMap中指定的key
@@ -170,3 +172,16 @@ function render(path, locals) {
   return ejs.render(fileString, locals);
 }
 exports.render = render;
+
+function buildTradeNo(userId) {
+  userIdStr = userId.toString();
+  var regexp = /[0-9a-f]{24}/;
+  if (!regexp.test(userIdStr)) {
+    throw new Error('not allowed format of userId');
+  }
+
+  var tradeNo = userIdStr + time().toString(16) + random.nextInt(10000);
+  assert.equal(tradeNo.length, 36);
+  return tradeNo;
+}
+exports.buildTradeNo = buildTradeNo
