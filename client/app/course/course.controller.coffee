@@ -30,7 +30,7 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
         body: classe.name
         show_url: $location.absUrl()
 
-      Restangular.one('payments', 'create_direct_pay_by_user').get(qs)
+      Restangular.one('orders', 'create_direct_pay_by_user').get(qs)
       .then (data)->
         url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         window.open url, "MsgWindow", "top=50, left=50, width=800, height=600"

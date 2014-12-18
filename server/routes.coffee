@@ -86,7 +86,7 @@ module.exports = (app) ->
   app.use '/api/user_lecture_notes', require './api/user_lecture_note'
   app.use '/api/areas', require './api/area'
   app.use '/api/admins', require './api/admin'
-  app.use '/api/payments', require './api/payment'
+  app.use '/api/orders', require './api/order'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404

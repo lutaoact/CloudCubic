@@ -13,7 +13,7 @@ alipay
 
 exports.create_direct_pay_by_user = (req, res, next)->
   data =
-    out_trade_no: 100031 # TODO: generate unique out_trade_no
+    out_trade_no: 'asdf' # TODO: generate unique out_trade_no
     subject: req.query.subject
     total_fee: req.query.total_fee
     body: req.query.body
