@@ -28,7 +28,9 @@ db.courses.find().forEach(function(course) {
   //新建forum
   var forum = {
     postBy: admin._id,
-    name: course.name
+    name: course.name,
+    orgId: admin.orgId,
+    deleteFlag: false,
   };
   print("forum for inserting forums");
   printjson(forum);
@@ -41,3 +43,6 @@ db.courses.find().forEach(function(course) {
   //给dis_topics设置forumId
   db.dis_topics.update({courseId: course._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}}, {multi: true});
 });
+
+// 删除所有未包含orgId的forum
+db.forums.remove({orgId: null})
