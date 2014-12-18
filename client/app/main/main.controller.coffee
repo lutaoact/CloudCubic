@@ -47,15 +47,15 @@ angular.module('budweiserApp')
       .result.then (newCourse) ->
         $scope.myCourses.push newCourse
 
+    loadMyCourses: ->
+      Restangular.all('courses').getList()
+      .then (courses) ->
+        $scope.myCourses = courses
+
   loadCategories = ->
     Restangular.all('categories').getList()
     .then (categories) ->
       $scope.categories = categories
-
-  loadMyCourses = ->
-    Restangular.all('courses').getList()
-    .then (courses) ->
-      $scope.myCourses = courses
 
   loadAllCourses = ->
     Restangular.all('courses/public').getList()
@@ -69,5 +69,5 @@ angular.module('budweiserApp')
     .then (result) ->
       $scope.allCourses = result
 
-  loadMyCourses() if Auth.isLoggedIn()
   loadAllCourses()
+  loadCategories()
