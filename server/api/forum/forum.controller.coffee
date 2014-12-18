@@ -1,92 +1,47 @@
 'use strict'
 
-DisTopic = _u.getModel 'forum'
-CourseUtils = _u.getUtils 'course'
-DisUtils = _u.getUtils 'dis'
-NoticeUtils = _u.getUtils 'notice'
-SocketUtils = _u.getUtils 'socket'
+Forum = _u.getModel 'forum'
+WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
-exports.index = (req, res, next) ->
-  user = req.user
-  courseId = req.query.courseId
-  from = ~~req.query.from #from参数转为整数
+exports.index = WrapRequest.wrapOrgIndex()
 
-  CourseUtils.getAuthedCourseById user, courseId
-  .then (course) ->
-    DisTopic.find
-      courseId: course._id
-    .populate 'postBy', '_id name avatar'
-    .sort created: -1
-    .limit Const.PageSize.DisTopic
-    .skip from
-    .execQ()
-  .then (disTopics) ->
-    res.send disTopics
-  , next
+exports.show = WrapRequest.wrapOrgShow()
 
-exports.show = (req, res, next) ->
-  DisTopic.findByIdAndUpdate req.params.id, {$addToSet: {viewers: req.user._id}}
-  .populate 'postBy', '_id name avatar'
-  .execQ()
-  .then (disTopic) ->
-    res.send disTopic
-  , next
-
+pickedKeys = ["name", "logo", "info"]
 exports.create = (req, res, next) ->
-  user     = req.user
-  courseId = req.query.courseId
-  body     = req.body
-  delete body._id
+    data = _.pick req.body, pickedKeys
+    data.postBy = req.user._id
+    data.orgId = req.user._id
+    logger.info "create data:", data
 
-  CourseUtils.getAuthedCourseById user, courseId
-  .then (course) ->
-    #don't post voteUpUsers field, it's illegal, I will override it
-    #新记录的voteUpUsers值应该为空数组，所以强制赋值
-    body.voteUpUsers = []
-    body.postBy      = user._id
-    body.courseId    = courseId
+    Forum.createQ data
+    .then (newDoc) ->
+      res.send 201, newDoc
+    .catch next
+    .done()
 
-    DisTopic.createQ body
-  .then (disTopic) ->
-    disTopic.populateQ 'postBy', '_id name avatar'
-  .then (disTopic) ->
-    logger.info disTopic
-    res.send 201, disTopic
-  , next
-
+pickedUpdatedKeys = ["name", "logo", "info"]
 exports.update = (req, res, next) ->
-  updateBody = {}
-  updateBody.title     = req.body.title     if req.body.title?
-  updateBody.content   = req.body.content   if req.body.content?
-  updateBody.lectureId = req.body.lectureId if req.body.lectureId?
+  _id  = req.params.id
+  user = req.user
 
-  DisTopic.findOneQ
-    _id : req.params.id
-    postBy : req.user.id
-  .then (disTopic) ->
-    updated = _.extend disTopic, updateBody
+  # 拣选出允许更新的字段
+  data = _.pick req.body, pickedUpdatedKeys
+
+  Forum.findOneQ {_id : _id, postBy : user._id}
+  .then (doc) ->
+    updated = _.extend doc, data
     do updated.saveQ
   .then (result) ->
-    logger.info result
-    newValue = result[0]
-    newValue.populateQ 'postBy', '_id name avatar'
-  .then (newDisTopic) ->
-    res.send newDisTopic
-  , next
+    res.send result[0]
+  .catch next
+  .done()
 
 exports.destroy = (req, res, next) ->
-  DisTopic.removeQ
-    _id: req.params.id
-    postBy : req.user.id
+  _id = req.params.id
+  userId = req.user.id
+  Forum.updateQ {_id: _id, postBy: userId}, {deleteFlag: true}
   .then () ->
     res.send 204
-  , next
-
-exports.vote = (req, res, next) ->
-  disTopicId = req.params.id
-  userId = req.user._id
-
-  DisUtils.vote DisTopic, disTopicId, userId
-  .then (dis) ->
-    res.send dis
-  , next
+  .catch next
+  .done()
