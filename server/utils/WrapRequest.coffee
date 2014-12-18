@@ -13,11 +13,23 @@ class WrapRequest
     return conditions
 
 
+  populateQuery: (mongoQuery, options) ->
+    for field, detailFields of options
+      if detailFields is ''
+        mongoQuery = mongoQuery.populate field
+      else
+        mongoQuery = mongoQuery.populate field, detailFields
+
+    return mongoQuery
+
+
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
     mongoQuery = @Model.find conditions
       .sort created: -1
       .limit options.limit ? Const.PageSize[@constructor.name]
       .skip options.from
+
+    mongoQuery = @populateQuery mongoQuery, @Model.populates.indexOrCreate
 
     Q.all [
       mongoQuery.execQ()

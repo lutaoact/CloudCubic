@@ -8,6 +8,10 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.DisTopic = BaseModel.subclass
   classname: 'DisTopic'
+  populates:
+    indexOrCreate:
+      postBy: 'name avatar'
+
   initialize: ($super) ->
     @schema = new Schema
       postBy:
