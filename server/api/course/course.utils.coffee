@@ -57,18 +57,14 @@ class CourseUtils extends BaseUtils
 
       return course
 
-
   # 管理员可以查看该机构的所有课程
   getAdminCourses : (orgId) ->
     return Course.find orgId: orgId
-    .populate 'classes', '_id name orgId'
     .populate 'owners', '_id name avatar'
     .execQ()
 
-
   getTeacherCourses : (teacherId) ->
     return Course.find owners : teacherId
-    .populate 'classes', '_id name orgId'
     .populate 'owners', '_id name avatar'
     .execQ()
 

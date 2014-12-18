@@ -52,7 +52,7 @@ exports.show = (req, res, next) ->
   courseId = req.params.id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    course.populateQ 'owners classes'
+    course.populateQ 'owners'
   .then (course) ->
     res.send course
   .fail next

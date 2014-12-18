@@ -22,4 +22,4 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
 
     deleteCallback: (course) ->
       Courses.splice(Courses.indexOf(course), 1)
-      $state.go('teacher.home')
+      $state.go('main')
