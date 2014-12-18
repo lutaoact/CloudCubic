@@ -26,3 +26,9 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
       Restangular.all('orders').post classes: [classe._id]
       .then (order)->
         $state.go 'order', orderId: order._id
+
+    enrollFreeClass: (classe)->
+      Restangular.all('classes').one(classe._id, 'enroll').post()
+      .then ()->
+        console.log 'enrolled!'
+        #TODO: redirect to course page
