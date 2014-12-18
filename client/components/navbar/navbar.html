@@ -48,9 +48,7 @@
       </button>
       <a ng-click="goHome()" href
          class="navbar-brand">
-        <i ng-hide="org"
-           class="budon budon-logo"
-           style="font-size: 36px;"></i>
+        <img ng-src="{{org.logo}}" alt="">
         <span ng-if="org">
           {{org.name}}
         </span>
