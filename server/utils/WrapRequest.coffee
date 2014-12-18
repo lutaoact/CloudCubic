@@ -23,7 +23,7 @@ class WrapRequest
       mongoQuery.execQ()
       @Model.countQ conditions
     ]
-    .then () ->
+    .then (data) ->
       res.send
         results: data[0]
         count: data[1]

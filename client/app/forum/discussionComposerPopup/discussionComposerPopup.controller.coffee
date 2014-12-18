@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
   $modalInstance
   Restangular
   $modal
+  $state
 ) ->
 
   angular.extend $scope,
@@ -28,7 +29,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         postType: '提问'
 
     create: ()->
-      Restangular.all('dis_topics').post @myTopic, {courseId: course._id}
+      Restangular.all('dis_topics').post @myTopic, {forumId: $state.params.forumId}
       .then (dis_topic)->
         $scope.imagesToInsert = undefined
         $modalInstance.close dis_topic
