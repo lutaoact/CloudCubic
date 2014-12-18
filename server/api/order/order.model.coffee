@@ -9,10 +9,11 @@ exports.Order = BaseModel.subclass
   classname: 'Order'
   initialize: ($super) ->
     @schema = new Schema
-      outTradeNo: #subdomain in cloud3edu
-        type : String
-        required : true
-        unique : true
+    # use _id instead of outTradeNo
+#      outTradeNo: #subdomain in cloud3edu
+#        type : String
+#        required : true
+#        unique : true
       tradeNo:
         type: String
       userId:
@@ -24,9 +25,11 @@ exports.Order = BaseModel.subclass
         ref: 'classe'
         required : true
       ]
+      totalFee:
+        type: Number
+        required : true
       status:  # unpaid, failed, success
         type : String
-        unique : true
         required: true
 
     $super()

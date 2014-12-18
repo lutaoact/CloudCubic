@@ -29,9 +29,38 @@ exports.create_direct_pay_by_user = (req, res, next)->
 exports.create = (req, res, next)->
   body = req.body
   body.userId = req.user._id
-  body.outTradeNo = _u.buildTradeNo body.userId
+  body.totalFee = 0.01
   body.status = 'unpaid'
   Order.createQ body
   .then (order) ->
     res.send 201, order
   , next
+
+
+exports.show = (req, res, next) ->
+  orderId = req.params.id
+  Order.findOneQ
+    _id: orderId
+    userId: req.user._id
+  .then (order) ->
+    res.send order
+  , next
+
+
+exports.pay = (req, res, next)->
+  orderId = req.params.id
+  Order.findOneQ
+    _id: orderId
+    userId: req.user._id
+  .then (order) ->
+    data =
+      out_trade_no: order._id
+      subject: 'hehe'
+      total_fee: order.totalFee
+      body: 'hehe'
+      show_url: 'http://abc.localhost:9000/'
+
+    # TOD
+    # req.query.classId
+
+    alipay.create_direct_pay_by_user(data, res);
