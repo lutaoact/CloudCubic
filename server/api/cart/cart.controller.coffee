@@ -33,3 +33,14 @@ exports.add = (req, res, next) ->
 
 
 exports.remove = (req, res, next) ->
+  user = req.user
+  classeIds = req.body.classeIds
+
+  Cart.getByUserId user._id
+  .then (doc) ->
+    doc.classes.pull.apply doc.classes, classeIds
+    do doc.saveQ
+  .then (result) ->
+    res.send result[0]
+  .catch next
+  .done()
