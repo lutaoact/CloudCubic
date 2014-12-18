@@ -29,7 +29,7 @@ class WrapRequest
       .limit options.limit ? Const.PageSize[@constructor.name]
       .skip options.from
 
-    mongoQuery = @populateQuery mongoQuery, @Model.populates.indexOrCreate
+    mongoQuery = @populateQuery mongoQuery, @Model.populates.index
 
     Q.all [
       mongoQuery.execQ()

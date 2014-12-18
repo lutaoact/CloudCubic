@@ -9,7 +9,11 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 exports.DisTopic = BaseModel.subclass
   classname: 'DisTopic'
   populates:
-    indexOrCreate:
+    index:
+      postBy: 'name avatar'
+    show:
+      postBy: 'name avatar'
+    create:
       postBy: 'name avatar'
 
   initialize: ($super) ->
