@@ -6,23 +6,19 @@ DisUtils = _u.getUtils 'dis'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 
-exports.index = (req, res, next) ->
-  user = req.user
-  courseId = req.query.courseId
-  from = ~~req.query.from #from参数转为整数
+WrapRequest = new (require '../../utils/WrapRequest')(DisTopic)
 
-  CourseUtils.getAuthedCourseById user, courseId
-  .then (course) ->
-    DisTopic.find
-      courseId: course._id
-    .populate 'postBy', '_id name avatar'
-    .sort created: -1
-    .limit Const.PageSize.DisTopic
-    .skip from
-    .execQ()
-  .then (disTopics) ->
-    res.send disTopics
-  , next
+exports.index = (req, res, next) ->
+  conditions = forumId: req.query.forumId
+  options = from: ~~req.query.from #from参数转为整数
+
+# 三行的版本看起来更刁，但由于耗费行数太多，不是我的风格，遂被放弃
+# 最后改用一行的版本，三行版本留在这里供大家参考
+#  params = Array::slice.call arguments, 0
+#  params.push.call params, conditions, options
+#  WrapRequest.wrapPageIndex.apply WrapRequest, params
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
+
 
 exports.show = (req, res, next) ->
   DisTopic.findByIdAndUpdate req.params.id, {$addToSet: {viewers: req.user._id}}

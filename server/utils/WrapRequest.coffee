@@ -12,6 +12,25 @@ class WrapRequest
 
     return conditions
 
+
+  wrapPageIndex: (req, res, next, conditions, options = {}) ->
+    mongoQuery = @Model.find conditions
+      .sort created: -1
+      .limit options.limit ? Const.PageSize[@constructor.name]
+      .skip options.from
+
+    Q.all [
+      mongoQuery.execQ()
+      @Model.countQ conditions
+    ]
+    .then () ->
+      res.send
+        results: data[0]
+        count: data[1]
+    .catch next
+    .done()
+
+
   wrapIndex: () ->
     return (req, res, next) =>
       conditions = @buildConditions req.query
