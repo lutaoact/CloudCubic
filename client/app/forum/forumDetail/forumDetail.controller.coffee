@@ -32,5 +32,6 @@ angular.module('budweiserApp').controller 'ForumDetailCtrl', (
 
     viewTopic: (topic)->
       $state.go 'forum.topic',
+        forumId: $scope.forum._id
         topicId: topic._id
 

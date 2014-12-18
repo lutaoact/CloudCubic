@@ -15,7 +15,7 @@
           <a class="thumbnail media recommended-topic"
             href=""
             ng-repeat="recommendedTopic in recommendedTopics"
-            ui-sref="forum.topic({topicId:recommendedTopic._id, courseId:course._id})">
+            ui-sref="forum.topic({topicId:recommendedTopic._id, forumId:recommendedTopic.forumId})">
             <div class="pull-left">
               <div class="media-object avatar-md"
                    source-attr="background-image"

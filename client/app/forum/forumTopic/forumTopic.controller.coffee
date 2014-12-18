@@ -6,36 +6,28 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   $scope
   $state
   Navbar
-  Courses
   CurrentUser
   Restangular
 ) ->
 
-  if not $state.params.courseId or not $state.params.topicId
+  if not $state.params.forumId or not $state.params.topicId
     return
 
-  if $state.params.topicId and $state.params.courseId is 'unknow'
+  if $state.params.topicId and $state.params.forumId is 'unknow'
     Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
         $state.go 'forum.topic',
-          courseId: topic.courseId
+          forumId: topic.forumId
           topicId: $state.params.topicId
     return
 
-  course = _.find Courses, _id:$state.params.courseId
   $scope.$on '$destroy', Navbar.resetTitle
-  Navbar.setTitle course.name,
-    if CurrentUser?.role == 'teacher'
-      "teacher.course({courseId:'#{$state.params.courseId}'})"
-    else
-      "student.courseDetail({courseId:'#{$state.params.courseId}'})"
 
   angular.extend $scope,
     loading: true
     topic: null
     me: CurrentUser
     stateParams: $state.params
-    course: course
 
     loadTopic: (replyId)->
       Restangular.one('dis_topics', $state.params.topicId).get()
@@ -52,7 +44,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     recommendedTopics: undefined
 
     loadRecommendedTopics: ()->
-      Restangular.all('dis_topics').getList(courseId: $state.params.courseId)
+      Restangular.all('dis_topics').getList(forumId: $state.params.forumId)
       .then (dis_topics)->
         $scope.recommendedTopics = dis_topics.slice 0,3
 
