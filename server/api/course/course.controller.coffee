@@ -75,7 +75,7 @@ exports.create = (req, res, next) ->
   data.orgId = req.user.orgId
 
   # 先建立forum，然后设置course的forumId
-  Forum.createQ {postBy: req.user._id, name: data.name}
+  Forum.createQ {postBy: req.user._id, name: data.name, orgId: req.user.orgId}
   .then (forum) ->
     data.forumId = forum._id
     Course.createQ data
