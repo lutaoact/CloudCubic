@@ -17,6 +17,10 @@ exports.Forum = BaseModel.subclass
       name: # 板块名称
         type: String
         required: true
+      orgId:
+        type: ObjectId
+        ref: 'organization'
+        required: true
       logo: # 板块logo
         type: String
       info: # 板块描述
@@ -29,5 +33,8 @@ exports.Forum = BaseModel.subclass
         type: Number
         required: true
         default: 0
+      deleteFlag:
+        type: Boolean
+        default: false
 
     $super()
