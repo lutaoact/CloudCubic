@@ -22,15 +22,18 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
     itemsPerPage: 10
     currentPage: 1
 
-    enroll: (classe)->
-      qs =
-        classId: classe._id
-        subject: classe.name
-        total_fee: classe.price
-        body: classe.name
-        show_url: $location.absUrl()
+#    payOrder: (classe)->
+#      qs =
+#        classId: classe._id
+#        subject: classe.name
+#        total_fee: classe.price
+#        body: classe.name
+#        show_url: $location.absUrl()
+#
+#      Restangular.one('orders', 'create_direct_pay_by_user').get(qs)
+#      .then (data)->
+#        url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+#        window.open url, "MsgWindow", "top=50, left=50, width=800, height=600"
 
-      Restangular.one('orders', 'create_direct_pay_by_user').get(qs)
-      .then (data)->
-        url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-        window.open url, "MsgWindow", "top=50, left=50, width=800, height=600"
+    makeOrder: (classe)->
+      Restangular.all('orders').post classes: [classe._id]

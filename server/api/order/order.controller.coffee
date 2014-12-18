@@ -1,5 +1,7 @@
 "use strict"
 
+Order = _u.getModel "order"
+
 alipay = require('./alipay_config').alipay;
 
 alipay
@@ -23,3 +25,13 @@ exports.create_direct_pay_by_user = (req, res, next)->
   # req.query.classId
 
   alipay.create_direct_pay_by_user(data, res);
+
+exports.create = (req, res, next)->
+  body = req.body
+  body.userId = req.user._id
+  body.outTradeNo = _u.buildTradeNo body.userId
+  body.status = 'unpaid'
+  Order.createQ body
+  .then (order) ->
+    res.send 201, order
+  , next
