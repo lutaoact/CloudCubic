@@ -11,7 +11,6 @@ angular.module('budweiserApp')
     topics: '='
     onTopicClick: '&'
     onTagClick: '&'
-    lectureId: '@'
 
 .controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state)->
   angular.extend $scope,
@@ -22,21 +21,6 @@ angular.module('budweiserApp')
     me: Auth.getCurrentUser()
 
     queryTags: undefined
-
-    loadCourse: ()->
-      Restangular.one('courses',$state.params.courseId).get()
-      .then (course)->
-        # course.categoryId 可能被 populate
-        categoryId = course.categoryId?._id ? course.categoryId
-        Restangular.all('key_points').getList(categoryId: categoryId)
-        .then (keypoints)->
-          $scope.keypoints = keypoints
-
-        Restangular.all('lectures').getList(courseId: course._id)
-        .then (lectures) ->
-          $scope.lectures = lectures
-
-        $scope.course = course
 
     topicsFilter: (item)->
       switch $scope.viewState.filterMethod
@@ -82,11 +66,7 @@ angular.module('budweiserApp')
         templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
         controller: 'DiscussionComposerPopupCtrl'
         resolve:
-          keypoints: -> $scope.keypoints
           topics: -> $scope.topics
-          course: -> $scope.course
-          lectures: -> $scope.lectures
-          lectureId: -> $scope.lectureId
         backdrop: 'static'
         keyboard: false
 
@@ -104,5 +84,3 @@ angular.module('budweiserApp')
       $scope.queryTags = _.compact $scope.queryTags
       $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
   , true
-
-  $scope.loadCourse()

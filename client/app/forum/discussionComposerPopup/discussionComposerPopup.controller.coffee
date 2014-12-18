@@ -5,21 +5,10 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
   $scope
   $modalInstance
   Restangular
-  keypoints
-  course
-  lectures
-  topics
-  lectureId
   $modal
 ) ->
 
   angular.extend $scope,
-
-    lectures: lectures
-
-    keypoints: keypoints
-
-    lectureId: lectureId
 
     close: ->
       if @myTopic.title or @myTopic.content
@@ -34,7 +23,6 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       else
         $modalInstance.dismiss('close')
 
-
     myTopic:
       metadata:
         postType: '提问'
@@ -47,38 +35,9 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
 
     viewState: {}
 
-    addLectureAsTag: (lecture)->
-      $scope.myTopic.metadata ?= {}
-      $scope.myTopic.metadata.tags ?= []
-      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is lecture._id
-      if hasTag
-        return
-      else
-        $scope.myTopic.metadata.tags.push
-          type: 'lecture'
-          srcId: lecture._id
-          name: lecture.name
-
-    addKeypointAsTag: (keypoint)->
-      $scope.myTopic.metadata ?= {}
-      $scope.myTopic.metadata.tags ?= []
-      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is keypoint._id
-      if hasTag
-        return
-      else
-        $scope.myTopic.metadata.tags.push
-          type: 'keypoint'
-          srcId: keypoint._id
-          name: keypoint.name
-
     deleteTag: (tag)->
       $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
 
-  if lectureId
-    $scope.viewState.$lecture = ($scope.lectures.filter (lecture)->
-      lecture._id is lectureId
-    )[0]
-    $scope.addLectureAsTag($scope.viewState.$lecture)
 
 
 
