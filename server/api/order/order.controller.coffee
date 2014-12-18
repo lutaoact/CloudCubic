@@ -11,7 +11,33 @@ alipay
 .on 'create_direct_pay_by_user_trade_finished', (out_trade_no, trade_no)->
   console.log('create_direct_pay_by_user_trade_finished')
 .on 'create_direct_pay_by_user_trade_success', (out_trade_no, trade_no)->
-  console.log('create_direct_pay_by_user_trade_success')
+  order = null
+  Order.findOneQ _id: out_trade_no
+  .then (result)->
+    order = result
+    order.status = 'succeed'
+    order.tradeNo = trade_no
+    order.saveQ()
+  .then ()->
+    Q.all _.map order.classes, (classe)->
+      Classe.getOneById classe
+  .then (classes)->
+    Q.all _.map classes, (classe)->
+      classe.students.addToSet order.userId
+      classe.saveQ()
+  .then ()->
+    console.log 'added to class'
+  .fail (error)->
+    console.log error
+  .done()
+
+
+exports.index = (req, res, next)->
+  userId = req.user._id
+  Order.findQ  userId: userId
+  .then (orders) ->
+    return res.send orders
+  , next
 
 
 exports.create = (req, res, next)->
@@ -54,6 +80,5 @@ exports.pay = (req, res, next)->
       body: '课程订单'
       show_url: req.protocol+'://'+req.headers.host+'/order/'+orderId
 
-    console.log data
-
     alipay.create_direct_pay_by_user(data, res);
+  , next

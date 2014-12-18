@@ -6,6 +6,7 @@ auth = require("../../auth/auth.service")
 
 router = express.Router()
 
+router.get '/', auth.isAuthenticated(), controller.index
 router.post '/', auth.isAuthenticated(), controller.create
 router.get '/:id', auth.isAuthenticated(), controller.show
 router.get '/:id/pay', auth.isAuthenticated(), controller.pay

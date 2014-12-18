@@ -10,7 +10,6 @@ angular.module('budweiserApp').controller 'OrderCtrl', (
 ) ->
   Restangular.all('orders').customGET($state.params.orderId)
   .then (order)->
-    console.log order
     $scope.order = order
 
   angular.extend $scope,

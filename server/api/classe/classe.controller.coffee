@@ -71,21 +71,21 @@ exports.multiDelete = (req, res, next) ->
     res.send 204
   , next
 
-exports.enroll = (req, res, next) ->
-  classeId = req.params.id
-  user = req.user
-
-  Classe.findOneQ _id: classeId, orgId: user.orgId
-  .then (classe) ->
-    unless classe
-      return Q.reject
-        status: 403
-        errCode: ErrCode.NoClasse
-        errMsg: '课程不存在或者不属于当前登录用户的机构'
-
-    classe.students.addToSet user._id
-    do classe.saveQ
-  .then (classe) ->
-    res.send result[0]
-  .catch next
-  .done()
+#exports.enroll = (req, res, next) ->
+#  classeId = req.params.id
+#  user = req.user
+#
+#  Classe.findOneQ _id: classeId, orgId: user.orgId
+#  .then (classe) ->
+#    unless classe
+#      return Q.reject
+#        status: 403
+#        errCode: ErrCode.NoClasse
+#        errMsg: '课程不存在或者不属于当前登录用户的机构'
+#
+#    classe.students.addToSet user._id
+#    do classe.saveQ
+#  .then (classe) ->
+#    res.send result[0]
+#  .catch next
+#  .done()

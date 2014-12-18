@@ -28,7 +28,7 @@ exports.Order = BaseModel.subclass
       totalFee:
         type: Number
         required : true
-      status:  # unpaid, failed, success
+      status:  # unpaid, failed, succeed
         type : String
         required: true
 
