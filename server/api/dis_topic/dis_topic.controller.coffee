@@ -30,25 +30,22 @@ exports.show = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   user     = req.user
-  courseId = req.query.courseId
+  forumId = req.query.forumId
   body     = req.body
   delete body._id
 
-  CourseUtils.getAuthedCourseById user, courseId
-  .then (course) ->
-    #don't post voteUpUsers field, it's illegal, I will override it
-    #新记录的voteUpUsers值应该为空数组，所以强制赋值
-    body.voteUpUsers = []
-    body.postBy      = user._id
-    body.courseId    = courseId
+  body.voteUpUsers = []
+  body.postBy      = user._id
+  body.forumId    = forumId
 
-    DisTopic.createQ body
+  DisTopic.createQ body
   .then (disTopic) ->
     disTopic.populateQ 'postBy', '_id name avatar'
   .then (disTopic) ->
     logger.info disTopic
     res.send 201, disTopic
-  , next
+  .catch next
+  .done()
 
 exports.update = (req, res, next) ->
   updateBody = {}
