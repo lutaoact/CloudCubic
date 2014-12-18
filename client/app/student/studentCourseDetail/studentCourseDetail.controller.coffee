@@ -2,6 +2,7 @@
 
 angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
   $q
+  Auth
   $scope
   $state
   Navbar
@@ -24,26 +25,23 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
     currentPage: 1
     course: course
 
-    loadLectures: ()->
-      if $state.params.courseId
-        Restangular.all('lectures').getList({courseId: $state.params.courseId})
-        .then (lectures)->
-          $scope.course.$lectures = lectures
-          $scope.course.$lectures
-      else
-        $q([])
+    loadLectures: ->
+      if !$state.params.courseId then return
+      Restangular.all('lectures').getList({courseId: $state.params.courseId})
+      .then (lectures)->
+        console.log 'loadLectures', lectures
+        $scope.course.$lectures = lectures
+        $scope.course.$lectures
 
-    loadProgress: ()->
+    loadProgress: ->
       $scope.viewedLectureIndex = 1
-      if $state.params.courseId
-        Restangular.all('progresses').getList({courseId: $state.params.courseId})
-        .then (progress)->
-          progress?.forEach (lectureId)->
-            viewedLecture = _.find $scope.course.$lectures, _id: lectureId
-            viewedLecture?.$viewed = true
-            $scope.viewedLectureIndex = $scope.course.$lectures.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.$lectures.indexOf(viewedLecture) + 1
-      else
-        $q(null)
+      if !$state.params.courseId or !Auth.isLoggedIn() then return
+      Restangular.all('progresses').getList({courseId: $state.params.courseId})
+      .then (progress)->
+        progress?.forEach (lectureId)->
+          viewedLecture = _.find $scope.course.$lectures, _id: lectureId
+          viewedLecture?.$viewed = true
+          $scope.viewedLectureIndex = $scope.course.$lectures.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.$lectures.indexOf(viewedLecture) + 1
 
     gotoLecture: ()->
       if !$scope.course.$lectures?.length

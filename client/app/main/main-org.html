@@ -49,7 +49,7 @@
     </div>
     <div class="row">
       <div class="col-md-3 col-sm-4" ng-repeat="course in allCourses">
-        <a ui-sref="course({courseId:course._id})">
+        <a ui-sref="student.courseDetail({courseId:course._id})">
           <public-course-tile course="course"></public-course-tile>
         </a>
       </div>

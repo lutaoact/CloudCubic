@@ -5,5 +5,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/courses/:courseId'
     templateUrl: 'app/student/studentCourseDetail/studentCourseDetail.html'
     controller: 'StudentCourseDetailCtrl'
-    roleRequired: 'student'
-

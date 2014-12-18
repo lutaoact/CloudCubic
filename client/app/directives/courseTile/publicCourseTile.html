@@ -10,19 +10,17 @@
     </h5>
     <hr>
     <div class="text-muted">
-      <span>{{course.lectureAssembly.length||0}}课时</span>
+      <span>{{course.lectureAssembly.length || 0}}课时</span>
       <span>|</span>
-      <span ng-if="!course.classes.lenght">即将推出</span>
-      <span ng-if="course.classes.lenght">{{course.classes[0].duration.from|date:'yyyy.MM.dd'}}-{{course.classes[0].duration.to|date:'yyyy.MM.dd'}}</span>
+      <span ng-if="!course.$classes.lenght">即将推出</span>
+      <span ng-if="course.$classes.lenght">{{course.$classes[0].duration.from|date:'yyyy.MM.dd'}}-{{course.$classes[0].duration.to|date:'yyyy.MM.dd'}}</span>
     </div>
     <a class="btn btn-xs trial-btn"><i class="fa fa-play"></i>免费试听</a>
-    <a class="btn btn-default btn-xs" ng-if="course.classes.lenght"><i class="fa fa-play"></i>course.classes[0].price</a>
+    <a class="btn btn-default btn-xs" ng-if="course.$classes.lenght"><i class="fa fa-play"></i>course.$classes[0].price</a>
 
     <div class="text-muted">
-      <span>
-        <i class="fa fa-user"></i>
-        {{course.owners[0].name}}
-      </span>
+      <i class="fa fa-user"></i>
+      {{course.owners[0].name}}
     </div>
     <button class="btn btn-xs col-xs-12 btn-danger rounded">
       报名
