@@ -1,5 +1,5 @@
 require '../common/init'
-#AdapterUtils = _u.getUtils 'adapter'
+AdapterUtils = _u.getUtils 'adapter'
 
 class WrapRequest
   constructor: (@Model) ->
@@ -143,27 +143,27 @@ class WrapRequest
       .catch next
       .done()
 
-#
-#  wrapUpdate: (pickedUpdatedKeys) ->
-#    return (req, res, next) =>
-#      _id = req.params.id
-#      user = req.user
-#
-#      #拣选出允许更新的字段
-#      data = _.pick req.body, pickedUpdatedKeys
-#
-#      modelName = @Model.constructor.name
-#      @Model.getByIdAndUser _id, user._id
-#      .then (doc) ->
-#        updated = _.extend doc, data
-#        do updated.saveQ
-#      .then (result) ->
-#        result[0].populateQ fieldMap[modelName].field, fieldMap[modelName].populate
-#      .then (doc) ->
-#        res.send doc
-#      .catch next
-#      .done()
-#
+
+  wrapUpdate: (pickedUpdatedKeys) ->
+    return (req, res, next) =>
+      _id = req.params.id
+      user = req.user
+
+      #拣选出允许更新的字段
+      data = _.pick req.body, pickedUpdatedKeys
+
+      modelName = @Model.constructor.name
+      @Model.getByIdAndUser _id, user._id
+      .then (doc) ->
+        updated = _.extend doc, data
+        do updated.saveQ
+      .then (result) ->
+        result[0].populateQ fieldMap[modelName].field, fieldMap[modelName].populate
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
+
   wrapOrgDestroy: () ->
     return (req, res, next) =>
       _id = req.params.id
@@ -182,15 +182,15 @@ class WrapRequest
       .catch next
       .done()
 
-#  wrapLike: () ->
-#    return (req, res, next) =>
-#      _id = req.params.id
-#      user = req.user
-#      AdapterUtils.like @Model, _id, user._id
-#      .then (doc) ->
-#        res.send doc
-#      .catch next
-#      .done()
+  wrapLike: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+      user = req.user
+      AdapterUtils.like @Model, _id, user._id
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
 
 
 module.exports = WrapRequest
