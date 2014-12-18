@@ -9,12 +9,15 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 exports.DisTopic = BaseModel.subclass
   classname: 'DisTopic'
   populates:
-    index:
-      postBy: 'name avatar'
-    show:
-      postBy: 'name avatar'
-    create:
-      postBy: 'name avatar'
+    index: [
+      path: 'postBy', select: 'name avatar'
+    ]
+    show: [
+      path: 'postBy', select: 'name avatar'
+    ]
+    create: [
+      path: 'postBy', select: 'name avatar'
+    ]
 
   initialize: ($super) ->
     @schema = new Schema

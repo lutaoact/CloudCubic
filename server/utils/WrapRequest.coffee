@@ -14,11 +14,8 @@ class WrapRequest
 
 
   populateQuery: (mongoQuery, options) ->
-    for field, detailFields of options
-      if detailFields is ''
-        mongoQuery = mongoQuery.populate field
-      else
-        mongoQuery = mongoQuery.populate field, detailFields
+    for option in options
+      mongoQuery = mongoQuery.populate option
 
     return mongoQuery
 
