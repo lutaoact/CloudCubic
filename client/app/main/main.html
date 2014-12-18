@@ -1,2 +1,7 @@
-<div ng-if="!org" ng-include="'app/main/main-default.html'" ng-controller="DefaultMainCtrl"></div>
-<div ng-if="org"  ng-include="'app/main/main-org.html'"     ng-controller="OrgMainCtrl"></div>
+<div ng-if="!org"
+     ng-include="'app/main/main-default.html'"
+     ng-controller="DefaultMainCtrl"></div>
+<div ng-if="org"
+     class="main-org"
+     ng-include="'app/main/main-org.html'"
+     ng-controller="OrgMainCtrl"></div>

@@ -1,9 +1,9 @@
 <div class="bud navbar navbar-default main-nav"
-     ng-class="[$state.current.navClasses, ($state.current.roleRequired?'auth':'login')]"
+     ng-class="[$state.current.navClasses, org?'org-nav':'home-nav']"
      ng-controller="NavbarCtrl">
 
   <div class="container"
-       ng-if="!$state.current.roleRequired">
+       ng-if="!org">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
               ng-click="switchMenu(!viewState.isCollapsed)"
@@ -18,8 +18,7 @@
     </div>
 
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         >
+         collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="org">
           <a ui-sref="forum.list">讨论</a>
@@ -37,7 +36,7 @@
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed"
-       ng-if="$state.current.roleRequired">
+       ng-if="org">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
@@ -77,10 +76,12 @@
              ui-sref="{{item.link}}"
              ng-bind-html="item.title"></a>
         </li>
+
         <li ng-if="getCurrentUser().role == 'admin'">
-          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">切换到教师</a>
+          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="main">切换到教师</a>
           <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
         </li>
+
         <li ng-if="isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"

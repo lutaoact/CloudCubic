@@ -6,5 +6,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: ''
     templateUrl: 'app/teacher/teacherHome/teacherHome.html'
     controller: 'TeacherHomeCtrl'
-    navClasses: 'home'
     roleRequired: 'teacher'

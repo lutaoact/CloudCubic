@@ -13,6 +13,7 @@ angular.module 'budweiserApp'
     title = null
 
 .controller 'NavbarCtrl', (
+  org
   Msg
   Auth
   $scope
@@ -26,7 +27,7 @@ angular.module 'budweiserApp'
 ) ->
 
   angular.extend $scope,
-
+    org: org
     $state: $state
     viewState:
       isCollapsed: true
@@ -47,13 +48,10 @@ angular.module 'budweiserApp'
     goHome: ->
       currentUser = $scope.getCurrentUser()
       homeStateName =
-        if currentUser?.role is 'admin'
-          if $state.includes 'admin'
-            'admin.home'
-          else
-            'teacher.home'
+        if currentUser?.role is 'admin' && $state.includes 'admin'
+          'admin.home'
         else
-          currentUser?.role + '.home'
+          'main'
       $state.go homeStateName
 
     isActive: (state) ->
@@ -110,4 +108,3 @@ angular.module 'budweiserApp'
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
-

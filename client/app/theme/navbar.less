@@ -212,27 +212,18 @@
 }
 
 .bud.navbar{
-  &.auth {
+  &.org-nav {
     .navbar-fixed-top;
     .bud-navbar(@base-color, #FFFFFF);
     .navbar-brand {
       color: #FFF;
     }
   }
-  &.home {
-    .bud-navbar(#FFFFFF,@gray);
-  }
   &.hide {
     display: none;
   }
 }
 
-.main-nav{
-  height: @navbar-height;
-  .avatar-md{
-    margin:12.5px;
-  }
-}
 .nav-loading{
   position: relative;
   overflow: hidden;
