@@ -30,9 +30,11 @@
   .navbar-brand{
     z-index: 2;
     color: @base-color;
-    padding: @navbar-padding-vertical @navbar-padding-horizontal;
-    height: @navbar-height;
-    line-height: @line-height;
+    padding: 10px;
+    img {
+      height: 100%;
+      max-width: 150px;
+    }
   }
 
   .navbar-nav{
@@ -215,9 +217,6 @@
   &.org-nav {
     .navbar-fixed-top;
     .bud-navbar(@base-color, #FFFFFF);
-    .navbar-brand {
-      color: #FFF;
-    }
   }
   &.hide {
     display: none;

@@ -6,4 +6,5 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/forum/forumCourse/forumCourse.html'
     controller: 'ForumCourseCtrl'
     roleRequired: 'user'
+    navClasses: 'home-nav'
 
