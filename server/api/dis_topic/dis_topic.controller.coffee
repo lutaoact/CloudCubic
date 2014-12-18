@@ -20,13 +20,16 @@ exports.index = (req, res, next) ->
   WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
+# 每看一次，viewersNum增加1
 exports.show = (req, res, next) ->
-  DisTopic.findByIdAndUpdate req.params.id, {$addToSet: {viewers: req.user._id}}
-  .populate 'postBy', '_id name avatar'
-  .execQ()
+  mongoQuery = DisTopic.findByIdAndUpdate req.params.id, {$inc: {viewersNum: 1}}
+  mongoQuery = WrapRequest.populateQuery mongoQuery, DisTopic.populates.show
+
+  mongoQuery.execQ()
   .then (disTopic) ->
     res.send disTopic
-  , next
+  .catch next
+  .done()
 
 exports.create = (req, res, next) ->
   user     = req.user
