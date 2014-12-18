@@ -2,7 +2,7 @@
 
 angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider.state 'forum.list',
-    url: '/'
+    url: ''
     templateUrl: 'app/forum/forumList/forumList.html'
     controller: 'ForumListCtrl'
 
