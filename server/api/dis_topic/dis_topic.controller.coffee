@@ -15,7 +15,7 @@ exports.index = (req, res, next) ->
 # 三行的版本看起来更刁，但由于耗费行数太多，不是我的风格，遂被放弃
 # 最后改用一行的版本，三行版本留在这里供大家参考
 #  params = Array::slice.call arguments, 0
-#  params.push.call params, conditions, options
+#  params.push conditions, options
 #  WrapRequest.wrapPageIndex.apply WrapRequest, params
   WrapRequest.wrapPageIndex req, res, next, conditions, options
 
@@ -30,13 +30,13 @@ exports.show = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   user     = req.user
-  forumId = req.query.forumId
+  forumId  = req.query.forumId
   body     = req.body
   delete body._id
 
   body.voteUpUsers = []
   body.postBy      = user._id
-  body.forumId    = forumId
+  body.forumId     = forumId
 
   DisTopic.createQ body
   .then (disTopic) ->
