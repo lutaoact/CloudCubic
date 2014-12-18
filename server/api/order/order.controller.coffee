@@ -1,6 +1,7 @@
 "use strict"
 
 Order = _u.getModel "order"
+Classe = _u.getModel "classe"
 
 alipay = require('./alipay_config').alipay;
 
@@ -13,25 +14,18 @@ alipay
   console.log('create_direct_pay_by_user_trade_success')
 
 
-exports.create_direct_pay_by_user = (req, res, next)->
-  data =
-    out_trade_no: 'asdf' # TODO: generate unique out_trade_no
-    subject: req.query.subject
-    total_fee: req.query.total_fee
-    body: req.query.body
-    show_url: req.query.show_url
-
-  # TOD
-  # req.query.classId
-
-  alipay.create_direct_pay_by_user(data, res);
-
 exports.create = (req, res, next)->
   body = req.body
   body.userId = req.user._id
-  body.totalFee = 0.01
   body.status = 'unpaid'
-  Order.createQ body
+
+  Q.all _.map body.classes, (classe)->
+    Classe.getOneById classe
+  .then (classes)->
+    body.totalFee = _.reduce classes, (sum, classe)->
+      return sum + classe['price']
+    , 0
+    Order.createQ body
   .then (order) ->
     res.send 201, order
   , next
@@ -55,12 +49,11 @@ exports.pay = (req, res, next)->
   .then (order) ->
     data =
       out_trade_no: order._id
-      subject: 'hehe'
+      subject: '课程订单'
       total_fee: order.totalFee
-      body: 'hehe'
-      show_url: 'http://abc.localhost:9000/'
+      body: '课程订单'
+      show_url: req.protocol+'://'+req.headers.host+'/order/'+orderId
 
-    # TOD
-    # req.query.classId
+    console.log data
 
     alipay.create_direct_pay_by_user(data, res);
