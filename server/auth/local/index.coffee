@@ -18,7 +18,7 @@ router.post '/', (req, res, next) ->
         token: token
       else
         host = user.orgId.customDomain ? user.orgId.uniqueName + '.' + req.headers.host
-        targetUrl: req.protocol + '://' + host + '?access_token=' + token
+        targetUrl: req.protocol + '://' + host + '/index?access_token=' + token
     )
   )(req, res, next)
 

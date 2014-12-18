@@ -1,9 +1,9 @@
 <div class="bud navbar navbar-default main-nav"
-     ng-class="[$state.current.navClasses, ($state.current.roleRequired?'auth':'login')]"
+     ng-class="[$state.current.navClasses, org?'org-nav':'home-nav']"
      ng-controller="NavbarCtrl">
 
   <div class="container"
-       ng-if="!$state.current.roleRequired">
+       ng-if="!org">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
               ng-click="switchMenu(!viewState.isCollapsed)"
@@ -18,8 +18,7 @@
     </div>
 
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         >
+         collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="org">
           <a ui-sref="forum.list">讨论</a>
@@ -37,7 +36,7 @@
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed"
-       ng-if="$state.current.roleRequired">
+       ng-if="org">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
@@ -60,9 +59,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         >
-
+         collapse="viewState.isCollapsed">
       <ul class="bud nav navbar-nav navbar-right">
         <li ng-if="getTitle()"
             class="nav-title"
@@ -71,21 +68,31 @@
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
-        <li ng-repeat="item in additionalMenu"
-            ng-class="{active: isActive(item.link)}">
-          <a class="text-center"
-             ui-sref="{{item.link}}"
-             ng-bind-html="item.title"></a>
+        <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
+          <a href ui-sref="teacher.questionLibrary({courseId:$state.params.courseId})">题库</a>
         </li>
-        <li ng-if="getCurrentUser().role == 'admin'">
-          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">切换到教师</a>
+        <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
+          <a href ui-sref="teacher.courseStats.all({courseId:$state.params.courseId})">统计</a>
+        </li>
+        <li ng-if="displayCourseMenu() && !Auth.hasRole('teacher')">
+          <a href ui-sref="student.courseStats({courseId:$state.params.courseId})">统计</a>
+        </li>
+        <li>
+          <a href ui-sref="forum.list">讨论</a>
+        </li>
+        <li ng-if="Auth.hasRole('admin')">
+          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="main">切换到教师</a>
           <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
         </li>
-        <li ng-if="isLoggedIn()"
+
+        <li ng-if="!Auth.isLoggedIn()">
+          <a href login-window>登录</a>
+        </li>
+        <li ng-if="Auth.isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
-             src-key="getCurrentUser().avatar"
+             src-key="Auth.getCurrentUser().avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image"
              >

@@ -13,6 +13,7 @@ angular.module 'budweiserApp'
     title = null
 
 .controller 'NavbarCtrl', (
+  org
   Msg
   Auth
   $scope
@@ -26,15 +27,14 @@ angular.module 'budweiserApp'
 ) ->
 
   angular.extend $scope,
-
+    org: org
     $state: $state
     viewState:
       isCollapsed: true
+    Auth: Auth
     messages: Msg.messages
     getTitle: Navbar.getTitle
     getVisible: Navbar.getVisible
-    isLoggedIn: Auth.isLoggedIn
-    getCurrentUser: Auth.getCurrentUser
 
     switchMenu: (val) ->
       $scope.viewState.isCollapsed = val
@@ -45,15 +45,12 @@ angular.module 'budweiserApp'
       $state.go($localStorage.global?.loginState or 'main')
 
     goHome: ->
-      currentUser = $scope.getCurrentUser()
+      currentUser = Auth.getCurrentUser()
       homeStateName =
-        if currentUser?.role is 'admin'
-          if $state.includes 'admin'
-            'admin.home'
-          else
-            'teacher.home'
+        if currentUser?.role is 'admin' && $state.includes 'admin'
+          'admin.home'
         else
-          currentUser?.role + '.home'
+          'main'
       $state.go homeStateName
 
     isActive: (state) ->
@@ -72,7 +69,7 @@ angular.module 'budweiserApp'
       $event?.stopPropagation()
       noticeId = message.raw._id
       Restangular.all('notices/read').post ids:[noticeId]
-      .then ()->
+      .then ->
         $scope.messages.splice $scope.messages.indexOf(message), 1
 
     openCalendar: ()->
@@ -80,34 +77,9 @@ angular.module 'budweiserApp'
         templateUrl: 'app/calendar/calendar-popup.html'
         controller: 'CalendarPopupCtrl'
 
-  generateAdditionalMenu = ->
-    $scope.switchMenu(true)
-    mkMenu = (title, link) ->
-      title: title
-      link: link
-    $scope.additionalMenu =
-      if $state.params.courseId && $state.current.name.indexOf('admin') != 0
-        switch $scope.getCurrentUser()?.role
-          when 'teacher', 'admin'
-            [
-              mkMenu '题库', "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
-              mkMenu '统计', "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
-              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
-            ]
-          when 'student'
-            [
-              mkMenu '统计', "student.courseStats({courseId:'#{$state.params.courseId}'})"
-              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
-            ]
-          else
-            []
-      else
-        []
-
-  generateAdditionalMenu()
-  $scope.$on '$stateChangeSuccess', generateAdditionalMenu
+    displayCourseMenu: ->
+      $state.params.courseId && $state.current.name.indexOf('admin') != 0
 
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
-

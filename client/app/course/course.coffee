@@ -5,4 +5,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/course/:courseId'
     templateUrl: 'app/course/course.html'
     controller: 'CourseCtrl'
-    navClasses: 'home-nav'
