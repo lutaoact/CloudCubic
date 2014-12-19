@@ -19,3 +19,5 @@ module.exports =
 
   NoCourse: 10014
   NoClasse: 10015
+  NotFreeClasse: 10016
+  ClassAlreadyPaid: 10017

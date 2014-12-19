@@ -12,6 +12,7 @@ alipay
 .on 'create_direct_pay_by_user_trade_finished', (out_trade_no, trade_no)->
   console.log('create_direct_pay_by_user_trade_finished')
 .on 'create_direct_pay_by_user_trade_success', (out_trade_no, trade_no)->
+  # TODO: validate previous unpaid orders
   order = null
   Order.findOneQ _id: out_trade_no
   .then (result)->
@@ -71,10 +72,25 @@ exports.show = (req, res, next) ->
 
 exports.pay = (req, res, next)->
   orderId = req.params.id
+  userId = req.user._id
+  order = null
+
   Order.findOneQ
     _id: orderId
-    userId: req.user._id
-  .then (order) ->
+    userId: userId
+  .then (result) ->
+    order = result
+    Classe.getAllStudents order.classes
+  .then (students)->
+    if _u.contains students, userId
+      order.status = 'invalid'
+      order.saveQ()
+      .then ->
+        return Q.reject
+          status: 403
+          errCode: ErrCode.ClassAlreadyPaid
+          errMsg: '该订单已包含已付款课程'
+  .then ->
     data =
       out_trade_no: order._id
       subject: '课程订单'

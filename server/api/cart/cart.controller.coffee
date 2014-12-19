@@ -15,8 +15,13 @@ exports.show = (req, res, next) ->
   user = req.user
   Cart.findOneQ userId: user._id
   .then (doc) ->
+    if doc == null
+      return null
     populateCart doc
   .then (doc) ->
+    if doc == null
+      res.send []
+      return
     res.send doc.classes
   .catch next
   .done()

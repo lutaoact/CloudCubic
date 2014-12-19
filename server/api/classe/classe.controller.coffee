@@ -88,7 +88,7 @@ exports.enroll = (req, res, next) ->
     if classe.price != 0
       return Q.reject
         status: 403
-        errCode: ErrCode.NoClasse
+        errCode: ErrCode.NotFreeClasse
         errMsg: '该课程收费'
 
     classe.students.addToSet user._id
