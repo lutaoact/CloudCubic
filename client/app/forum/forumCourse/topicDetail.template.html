@@ -128,10 +128,10 @@
               <small>
                 <i
                   class="fa fa-heart vote"
-                  ng-class="{'active':reply.voteUpUsers.indexOf(me._id)>=0}"
+                  ng-class="{'active':reply.likedUsers.indexOf(me._id)>=0}"
                   ng-click="toggleVote(reply)">
                 </i>
-                {{reply.voteUpUsers.length||0}}
+                {{reply.likedUsers.length||0}}
               </small>
               <a href ng-show="reply.postBy._id == me._id" class="pull-right" ng-click="deleteReply(topic, reply)"><i class="fa fa-times"></i></a>
             </h5>
