@@ -15,7 +15,7 @@
   <div class="row body">
     <div class="col-md-3 col-sm-4"
          ng-repeat="course in allCourses | filter:{categoryId: search.categoryId || '!!'}">
-      <a ui-sref="studentCourseDetails({courseId:course._id})">
+      <a ui-sref="student.courseDetail({courseId:course._id})">
         <public-course-tile course="course"></public-course-tile>
       </a>
     </div>
