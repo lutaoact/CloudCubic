@@ -90,8 +90,6 @@
     }
   },
   "resolutions": {
-    "angular": "1.2.20",
-    "textAngular": "v1.3.0-pre5",
-    "moment": "~2.8.3"
+    "angular": "1.2.20"
   }
 }

@@ -172,6 +172,7 @@ angular.module 'budweiserApp', [
   $rootScope.Page = Page
   $rootScope.webview = webview
   $rootScope.org = org
+  $rootScope.getMe = Auth.getCurrentUser
 
   #set the default configuration options for angular-notify
   notify.config

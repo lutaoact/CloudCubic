@@ -11,8 +11,6 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  console.log 'OrgMainCtrl', $scope.org
-
   angular.extend $scope,
     Auth: Auth
     myCourses: null
@@ -20,7 +18,10 @@ angular.module('budweiserApp')
     categories: null
     itemsPerPage: 6
     currentMyCoursesPage: 1
-    maxSize: 4
+    maxSize: 3
+    viewState:
+      myCoursesFilters:
+        category: null
 
     createNewCourse: ->
       $modal.open
@@ -42,17 +43,4 @@ angular.module('budweiserApp')
     .then (categories) ->
       $scope.categories = categories
 
-  loadAllCourses = ->
-    Restangular.all('courses/public').getList()
-    .then (result) ->
-      classeQs = result.map (course) ->
-        Restangular.all('classes').getList {courseId: course._id}
-        .then (classes) ->
-          course.$classes = classes
-          course
-      $q.all(classeQs)
-    .then (result) ->
-      $scope.allCourses = result
-
-  loadAllCourses()
   loadCategories()

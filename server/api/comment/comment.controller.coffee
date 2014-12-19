@@ -5,7 +5,9 @@ AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
-exports.index = WrapRequest.wrapIndex()
+exports.index = (req, res, next) ->
+  conditions = {}
+  WrapRequest.wrapIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
   user = req.user

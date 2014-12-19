@@ -14,20 +14,17 @@
 Classe = _u.getModel "classe"
 WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
-exports.index = WrapRequest.wrapOrgIndex()
+exports.index = (req, res, next) ->
+  conditions = orgId: req.org?._id
+  conditions.courseId = req.query.courseId if req.query.courseId
+
+  WrapRequest.wrapIndex req, res, next, conditions
+
 
 exports.show = (req, res, next) ->
-  user = req.user
-  classeId = req.params.id
-  Classe.findOneQ
-    _id: classeId
-    orgId: user.orgId
-  .then (classe) ->
-    logger.info classe
-    res.send classe
-  , (err) ->
-    console.log err
-    next err
+  conditions = _id: req.params.id, orgId: req.user.orgId
+  WrapRequest.wrapShow req, res, next, conditions
+
 
 exports.showStudents = (req, res, next) ->
   user = req.user

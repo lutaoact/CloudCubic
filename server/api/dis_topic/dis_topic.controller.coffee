@@ -22,14 +22,8 @@ exports.index = (req, res, next) ->
 
 # 每看一次，viewersNum增加1
 exports.show = (req, res, next) ->
-  mongoQuery = DisTopic.findByIdAndUpdate req.params.id, {$inc: {viewersNum: 1}}
-  mongoQuery = WrapRequest.populateQuery mongoQuery, DisTopic.populates.show
-
-  mongoQuery.execQ()
-  .then (disTopic) ->
-    res.send disTopic
-  .catch next
-  .done()
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions, {$inc: {viewersNum: 1}}
 
 exports.create = (req, res, next) ->
   user     = req.user
