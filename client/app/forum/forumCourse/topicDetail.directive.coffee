@@ -22,7 +22,7 @@ angular.module('budweiserApp')
     replyTo: (topic, reply)->
       # validate
       @replying = true
-      reply.type = Consot.commentType.dis_topic
+      reply.type = Const.CommentType.DisTopic
       reply.belongTo = topic._id
       Restangular.all('comments').post reply
       .then (dis_reply)->
@@ -79,12 +79,6 @@ angular.module('budweiserApp')
           item._id is raw.data.disReply._id
         if myReplie?.length
           myReplie[0].voteUpUsers = raw.data.disReply.voteUpUsers
-      # when Const.NoticeType.Comment
-      #   if raw.data.disTopic._id is $scope.topic._id
-      #     console.log 'in'
-      #     Restangular.all('dis_replies').getList({disTopicId: $scope.topic._id})
-      #     .then (replies)->
-      #       $scope.topic.$replies = replies
 
   $scope.$watch 'activeReply', (value)->
     if value
