@@ -33,6 +33,8 @@ db.courses.find().forEach(function(course) {
     name: course.name,
     orgId: admin.orgId,
     deleteFlag: false,
+    created: course.created,
+    modified: course.modified,
   };
   print("forum for inserting forums");
   printjson(forum);
@@ -55,18 +57,17 @@ db.dis_topics.find().forEach(function(disTopic) {
 });
 
 
-db.dis_replies.find().forEach(function(dis_replie){
+db.dis_replies.find().forEach(function(dis_reply){
   var comment = {
-    author: dis_replie.postBy,
-    content: dis_replie.content,
+    author: dis_reply.postBy,
+    content: dis_reply.content,
     type: 1,
-    belongTo: dis_replie.disTopicId,
-    likeUsers: dis_replie.voteUpUsers,
-    tags: dis_replie.metadata.tags,
+    belongTo: dis_reply.disTopicId,
+    likeUsers: dis_reply.voteUpUsers,
+    tags: [],
     deleteFlag: false,
-    created: dis_replie.created,
-    modified: dis_replie.modified,
-    "__v":dis_replie.__v
+    created: dis_reply.created,
+    modified: dis_reply.modified,
   };
-  db.comment.save(comment);
+  db.comments.save(comment);
 })

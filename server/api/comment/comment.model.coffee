@@ -23,9 +23,9 @@ exports.Comment = BaseModel.subclass
         ref: 'user'
         required: true
       type:
-        type: Number # 1.Article 2.Course
+        type: Number
         required: true
-      belongTo: # article或者course的id
+      belongTo:
         type: ObjectId
         required: true
       likeUsers: [

@@ -33,6 +33,8 @@ exports.create = (req, res, next) ->
 pickedUpdatedKeys = ['content', 'tags']
 exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
 
-exports.destroy = WrapRequest.wrapDestroy()
+exports.destroy = (req, res, next) ->
+  conditions = _id: req.params.id, author: req.user._id
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.like = WrapRequest.wrapLike()
