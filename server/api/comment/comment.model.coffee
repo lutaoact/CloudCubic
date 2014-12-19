@@ -8,6 +8,11 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Comment = BaseModel.subclass
   classname: 'Comment'
+  populates:
+    index: [
+      path: 'author', select: 'name avatar'
+    ]
+
   initialize: ($super) ->
     @schema = new Schema
       content:

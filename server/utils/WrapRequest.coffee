@@ -110,14 +110,6 @@ class WrapRequest
       .catch next
       .done()
 
-  wrapOrgDestroy: () ->
-    return (req, res, next) =>
-      _id = req.params.id
-      @Model.updateQ {_id: _id}, {deleteFlag: true}
-      .then () ->
-        res.send 204
-      .catch next
-      .done()
 
   wrapDestroy: () ->
     return (req, res, next) =>
