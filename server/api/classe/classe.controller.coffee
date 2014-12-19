@@ -14,7 +14,12 @@
 Classe = _u.getModel "classe"
 WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
-exports.index = WrapRequest.wrapOrgIndex()
+exports.index = (req, res, next) ->
+  conditions = orgId: req.org?._id
+  conditions.courseId = req.query.courseId if req.query.courseId
+
+  WrapRequest.wrapIndex req, res, next, conditions
+
 
 exports.show = (req, res, next) ->
   user = req.user

@@ -3,7 +3,10 @@
 Forum = _u.getModel 'forum'
 WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
-exports.index = WrapRequest.wrapOrgIndex()
+exports.index = (req, res, next) ->
+  conditions = orgId: req.org?._id
+  WrapRequest.wrapIndex req, res, next, conditions
+
 
 exports.show = WrapRequest.wrapOrgShow()
 
