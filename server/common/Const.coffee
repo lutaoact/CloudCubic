@@ -36,7 +36,7 @@ Const =
     Teacher: 4
 
   CommentRef:
-    1: 'article'
+    1: 'dis_topic'
     2: 'course'
     3: 'lecture'
     4: 'user'

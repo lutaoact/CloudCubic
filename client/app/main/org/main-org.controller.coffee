@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   $modal
   $scope
   Restangular
+  Category
 ) ->
 
   angular.extend $scope,
@@ -37,10 +38,17 @@ angular.module('budweiserApp')
       Restangular.all('courses').getList()
       .then (courses) ->
         $scope.myCourses = courses
+        $q.all(_.uniq(_.pluck($scope.myCourses, 'categoryId')).map (id)->
+          Category.find(id)
+        )
+        .then (categories)->
+          $scope.myCategories = [{name:'全部'}].concat categories
+          $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
 
   loadCategories = ->
-    Restangular.all('categories').getList()
+    Category.find()
     .then (categories) ->
       $scope.categories = categories
+      $scope.$categories = [{name:'全部'}].concat categories
 
   loadCategories()

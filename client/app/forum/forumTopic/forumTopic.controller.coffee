@@ -36,7 +36,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
         # $state.params.replyId will not change on reloading if reloadOnSearch is set false and only the query param changed.
         # In this case, get replyId from navbar controller using broadcast ..
         $scope.topic.$currentReplyId = if replyId then replyId else $state.params.replyId
-        Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
+        Restangular.all('comments').getList({belongTo: $state.params.topicId, type: Const.CommentType?.DisTopic})
       .then (replies)->
         replies.forEach (reply)->
         $scope.topic.$replies = replies

@@ -51,5 +51,22 @@ db.forums.remove({orgId: null})
 
 //设置dis_topics的viewersNum字段，让其值等于viewers字段的元素个数
 db.dis_topics.find().forEach(function(disTopic) {
-  db.dis_topics.update({_id: disTopic._id}, {$set: {viewersNum: disTopic.viewers.length}});
+  db.dis_topics.update({_id: disTopic._id}, {$set: {viewersNum: disTopic.viewers.length, commentsNum: disTopic.repliesNum}});
 });
+
+
+db.dis_replies.find().forEach(function(dis_replie){
+  var comment = {
+    author: dis_replie.postBy,
+    content: dis_replie.content,
+    type: 1,
+    belongTo: dis_replie.disTopicId,
+    likeUsers: dis_replie.voteUpUsers,
+    tags: dis_replie.metadata.tags,
+    deleteFlag: false,
+    created: dis_replie.created,
+    modified: dis_replie.modified,
+    "__v":dis_replie.__v
+  };
+  db.comment.save(comment);
+})
