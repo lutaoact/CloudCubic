@@ -35,6 +35,7 @@ angular.module 'budweiserApp'
     messages: Msg.messages
     getTitle: Navbar.getTitle
     getVisible: Navbar.getVisible
+    cartItems: []
 
     switchMenu: (val) ->
       $scope.viewState.isCollapsed = val
@@ -83,3 +84,20 @@ angular.module 'budweiserApp'
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
+
+  $scope.$on 'addedToCart', (event, data)->
+    console.log data
+    $scope.cartItems = data
+
+  getCartItem = ()->
+    Restangular.all('carts').getList()
+    .then (result)->
+      $scope.cartItems = result
+
+  getCartItem()
+
+  $rootScope.$on 'loginSuccess', ()->
+    getCartItem()
+
+  $rootScope.$on 'logoutSuccess', ()->
+    $scope.cartItems = []

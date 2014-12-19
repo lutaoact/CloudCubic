@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
   Navbar
   Courses
   Category
+  $rootScope
   Restangular
 ) ->
 
@@ -61,6 +62,11 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
         $state.go 'student.lectureDetail',
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
+
+    addToCart: (classe)->
+      Restangular.all('carts/add').post classes: [classe._id]
+      .then (result)->
+        $rootScope.$broadcast 'addedToCart', result
 
     makeOrder: (classe)->
       Restangular.all('orders').post classes: [classe._id]

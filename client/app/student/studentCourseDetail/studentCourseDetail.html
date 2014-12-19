@@ -4,7 +4,7 @@
       {{classe.name}} <br>
       价格:￥{{classe.price}} <br>
       <div ng-hide="classe.price==0">
-        <button>加入购物车</button>
+        <button ng-click="addToCart(classe)">加入购物车</button>
         <button ng-click="makeOrder(classe)">直接购买</button>
       </div>
       <div ng-show="classe.price==0">

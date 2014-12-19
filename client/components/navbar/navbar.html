@@ -84,7 +84,20 @@
           <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="main">切换到教师</a>
           <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
         </li>
-
+        <li dropdown ng-show="cartItems.length > 0">
+          <a class="dropdown-toggle">
+            购物车
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="classe in cartItems">
+              <a>{{classe.courseId.name}} 价格：{{classe.price}}</a>
+            </li>
+            <li>
+              <a href>支付
+              </a>
+            </li>
+          </ul>
+        </li>
         <li ng-if="!Auth.isLoggedIn()">
           <a href login-window>登录</a>
         </li>

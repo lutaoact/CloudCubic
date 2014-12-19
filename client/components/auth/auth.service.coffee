@@ -55,6 +55,7 @@ angular.module('budweiserApp').factory 'Auth', (
   logout: ->
     $cookieStore.remove 'token'
     currentUser = {}
+    $rootScope.$emit 'logoutSuccess'
     return
 
   ###
