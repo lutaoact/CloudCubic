@@ -93,17 +93,5 @@
 </section>
 
 <section>
-  <div class="container">
-    <div class="section-header"
-         id="course-list-header">
-      <h3>所有课程</h3>
-    </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-4" ng-repeat="course in allCourses">
-        <a ui-sref="student.courseDetail({courseId:course._id})">
-          <public-course-tile course="course"></public-course-tile>
-        </a>
-      </div>
-    </div>
-  </div>
+  <course-list></course-list>
 </section>

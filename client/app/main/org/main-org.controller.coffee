@@ -11,8 +11,6 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  console.log 'OrgMainCtrl', $scope.org
-
   angular.extend $scope,
     Auth: Auth
     myCourses: null
@@ -45,17 +43,4 @@ angular.module('budweiserApp')
     .then (categories) ->
       $scope.categories = categories
 
-  loadAllCourses = ->
-    Restangular.all('courses/public').getList()
-    .then (result) ->
-      classeQs = result.map (course) ->
-        Restangular.all('classes').getList {courseId: course._id}
-        .then (classes) ->
-          course.$classes = classes
-          course
-      $q.all(classeQs)
-    .then (result) ->
-      $scope.allCourses = result
-
-  loadAllCourses()
   loadCategories()
