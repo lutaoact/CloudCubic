@@ -29,6 +29,18 @@ Const =
     QuizAnswer: 'quiz_answer'
     Error: 'error'
 
+  CommentType:
+    DisTopic: 1
+    Course: 2
+    Lecture: 3
+    Teacher: 4
+
+  CommentRef:
+    1: 'article'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+
   NoticeRef:
     1: 'disTopic'
     2: 'disReply'
