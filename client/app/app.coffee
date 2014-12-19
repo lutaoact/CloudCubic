@@ -178,11 +178,14 @@ angular.module 'budweiserApp', [
     startTop: 30
     duration: 4000
 
+  getHomeState = (user) ->
+    if Auth.hasRole('admin') then user.role + '.home' else 'main'
+
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     if initUser?
       Auth.getCurrentUser().$promise?.then (me) ->
-        $state.go(me.role+'.home') if !Auth.hasRole(toState.roleRequired)
+        $state.go(getHomeState me) if !Auth.hasRole(toState.roleRequired)
     else
       loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 
@@ -194,7 +197,7 @@ angular.module 'budweiserApp', [
     Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
-      $state.go(user.role+'.home') if goHome
+      $state.go(getHomeState user) if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->
