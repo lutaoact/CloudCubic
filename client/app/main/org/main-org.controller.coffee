@@ -18,6 +18,9 @@ angular.module('budweiserApp')
     myCourses: null
     allCourses: null
     categories: null
+    itemsPerPage: 6
+    currentMyCoursesPage: 1
+    maxSize: 4
 
     createNewCourse: ->
       $modal.open
