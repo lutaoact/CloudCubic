@@ -8,7 +8,10 @@ exports.index = (req, res, next) ->
   WrapRequest.wrapIndex req, res, next, conditions
 
 
-exports.show = WrapRequest.wrapOrgShow()
+exports.show = (req, res, next) ->
+  conditions = _id: req.params.id, orgId: req.org?._id
+  WrapRequest.wrapShow req, res, next, conditions
+
 
 pickedKeys = ["name", "logo", "info"]
 exports.create = (req, res, next) ->

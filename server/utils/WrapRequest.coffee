@@ -13,7 +13,7 @@ class WrapRequest
     return conditions
 
 
-  populateQuery: (mongoQuery, options) ->
+  populateQuery: (mongoQuery, options = []) ->
     for option in options
       mongoQuery = mongoQuery.populate option
 
@@ -21,12 +21,14 @@ class WrapRequest
 
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
+    logger.info 'page show conditions:', conditions
+    logger.info 'page show options:', options
     mongoQuery = @Model.find conditions
       .sort created: -1
       .limit options.limit ? Const.PageSize[@constructor.name]
       .skip options.from
 
-    mongoQuery = @populateQuery mongoQuery, @Model.populates.index
+    mongoQuery = @populateQuery mongoQuery, @Model.populates?.index
 
     Q.all [
       mongoQuery.execQ()
@@ -50,71 +52,22 @@ class WrapRequest
     .done()
 
 
-#  wrapIndex: () ->
-#    return (req, res, next) =>
-#      conditions = AdapterUtils.buildConditions req.query
-#      options =
-#        from : ~~req.query.from #from参数转为整数
-#        limit: ~~req.query.limit
-#
-#      AdapterUtils.getCountAndPageInfo @Model, conditions, options
-#      .then (data) ->
-#        res.send
-#          results: data[0]
-#          count: data[1]
-#      .catch next
-#      .done()
-#
-  wrapShow: () ->
-    return (req, res, next) =>
-      _id = req.params.id
+  wrapShow: (req, res, next, conditions, update) ->
+    logger.info 'show conditions:', conditions
+    mongoQuery = (
+      if _.isEmpty update
+        @Model.findOne conditions
+      else
+        @Model.findOneAndUpdate conditions, update
+    )
+    mongoQuery = @populateQuery mongoQuery, @Model.populates?.show
 
-      @Model.findById _id
-      .execQ()
-      .then (doc) ->
-        res.send doc
-      .catch next
-      .done()
+    mongoQuery.execQ()
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
 
-  wrapOrgShow: () ->
-    return (req, res, next) =>
-      _id = req.params.id
-
-      @Model.findOne _id: _id, orgId: req.org?._id
-      .execQ()
-      .then (doc) ->
-        res.send doc
-      .catch next
-      .done()
-#  wrapCommonShow: () ->
-#    return (req, res, next) =>
-#      _id = req.params.id
-#
-#      modelName = @Model.constructor.name
-#      @Model.findById _id
-#      .populate fieldMap[modelName].field, fieldMap[modelName].populate
-#      .execQ()
-#      .then (doc) ->
-#        res.send doc
-#      .catch next
-#      .done()
-#
-#  wrapShow: () ->
-#    return (req, res, next) =>
-#      _id = req.params.id
-#
-#      modelName = @Model.constructor.name
-#      @Model.findByIdQ _id
-#      .then (doc) ->
-#        doc.viewersNum += 1 #每次调用API，相当于查看一次
-#        do doc.saveQ
-#      .then (result) ->
-#        result[0].populateQ fieldMap[modelName].field, fieldMap[modelName].populate
-#      .then (doc) ->
-#        res.send doc
-#      .catch next
-#      .done()
-#
 #  wrapCreate: (pickedKeys) ->
 #    return (req, res, next) =>
 #      data = _.pick req.body, pickedKeys
