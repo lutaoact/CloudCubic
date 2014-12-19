@@ -23,7 +23,7 @@ angular.module('budweiserApp')
 
   Restangular.all('courses/public').getList()
   .then (result)->
-    classeQs = result.map (course)->
+    classeQs = result.map (course) ->
       Restangular.all('classes').getList {courseId: course._id}
       .then (classes)->
         course.$classes = classes

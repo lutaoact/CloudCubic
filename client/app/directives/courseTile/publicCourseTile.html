@@ -5,25 +5,41 @@
        suffix="-tile">
   </div>
   <div class="caption">
+    <div class="clearfix owner">
+      <div class="avatar-xs pull-left"
+           source-attr="background-image"
+           src-key="course.owners[0].avatar"
+           suffix="?imageView2/1/w/64/h/64">
+      </div>
+      <span class="name text-muted small">{{course.owners[0].name}}</span>
+    </div>
     <h5 class="course-name">
       {{course.name}}<br>
     </h5>
     <hr>
-    <div class="text-muted">
-      <span>{{course.lectureAssembly.length || 0}}课时</span>
-      <span>|</span>
-      <span ng-if="!course.$classes.lenght">即将推出</span>
-      <span ng-if="course.$classes.lenght">{{course.$classes[0].duration.from|date:'yyyy.MM.dd'}}-{{course.$classes[0].duration.to|date:'yyyy.MM.dd'}}</span>
+    <div class="lecture-info text-muted small">
+      <div class="lecture-num">{{course.lectureAssembly.length || 0}} 课时</div>
+      <span ng-if="!course.$classes.length">即将推出</span>
+      <span ng-if="course.$classes.length">
+        {{course.$classes[0].duration.from|date:'yyyy.MM.dd'}}-{{course.$classes[0].duration.to|date:'yyyy.MM.dd'}}
+      </span>
     </div>
-    <a class="btn btn-xs trial-btn"><i class="fa fa-play"></i>免费试听</a>
-    <a class="btn btn-default btn-xs" ng-if="course.$classes.lenght"><i class="fa fa-play"></i>course.$classes[0].price</a>
 
-    <div class="text-muted">
-      <i class="fa fa-user"></i>
-      {{course.owners[0].name}}
-    </div>
-    <button class="btn btn-xs col-xs-12 btn-danger rounded">
-      报名
-    </button>
+    <span class="yuan"
+          ng-if="course.$classes.length">
+      ¥ {{course.$classes[0].price.toFixed(2)}}
+    </span>
+    <span class="yuan"
+          ng-if="!course.$classes.length">
+      即将推出
+    </span>
+    <span class="pull-right">
+      <button class="btn btn-xs btn-default rounded">
+        <i class="fa fa-play"></i> 试听
+      </button>
+      <button class="btn btn-xs btn-danger rounded">
+        <i class="fa fa-shopping-cart"></i> 购买
+      </button>
+    </span>
   </div>
 </div>
