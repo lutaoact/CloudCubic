@@ -10,7 +10,7 @@ exports.Comment = BaseModel.subclass
   classname: 'Comment'
   populates:
     index: [
-      path: 'author', select: 'name avatar'
+      path: 'postBy', select: 'name avatar'
     ]
 
   initialize: ($super) ->
@@ -18,7 +18,7 @@ exports.Comment = BaseModel.subclass
       content:
         type: String
         required: true
-      author:
+      postBy:
         type: ObjectId
         ref: 'user'
         required: true
