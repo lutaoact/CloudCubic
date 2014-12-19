@@ -49,7 +49,7 @@ exports.create = (req, res, next) ->
     DisReply.createQ body
   .then (disReply) ->
     tmpResult.disReply = disReply
-    tmpResult.disTopic.updateQ {$inc: {repliesNum: 1}}
+    tmpResult.disTopic.updateQ {$inc: {commentsNum: 1}}
   .then (disTopic) ->
     tmpResult.disReply.populateQ 'postBy', 'name avatar'
   .then (disReply) ->
@@ -92,7 +92,7 @@ exports.destroy = (req, res, next) ->
     postBy : req.user.id
   .then (disReply) ->
     tmpResult.disReply = disReply
-    DisTopic.updateQ {_id: disReply.disTopicId}, {$inc: {repliesNum: -1}}
+    DisTopic.updateQ {_id: disReply.disTopicId}, {$inc: {commentsNum: -1}}
   .then () ->
     do tmpResult.disReply.removeQ
   .then () ->

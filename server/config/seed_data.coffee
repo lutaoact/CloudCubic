@@ -243,7 +243,7 @@ module.exports =
     lectureId: _s.sprintf lectureId, 0
     title: 'first dis topic'
     content: 'this is the first dis topic'
-    repliesNum: 2
+    commentsNum: 2
     voteUpUsers: [
       _s.sprintf userId, 3
       _s.sprintf userId, 4
@@ -255,7 +255,7 @@ module.exports =
     lectureId: _s.sprintf lectureId, 0
     title: 'second dis topic'
     content: 'this is the second dis topic'
-    repliesNum: 0
+    commentsNum: 0
     voteUpUsers: [
       _s.sprintf userId, 3
     ]

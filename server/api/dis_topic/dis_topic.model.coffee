@@ -42,7 +42,7 @@ exports.DisTopic = BaseModel.subclass
 #        tags: [
 #          type: String
 #        ]
-      repliesNum:
+      commentsNum:
         type: Number
         default: 0
       viewersNum:
