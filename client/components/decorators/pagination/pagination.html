@@ -1,0 +1,12 @@
+<ul class="pagination" ng-init="viewState.pageNum = page||1">
+  <li ng-if="directionLinks" ng-class="{disabled: noPrevious()}"><a href ng-click="selectPage(page - 1);viewState.pageNum=page"><i class="fa fa-chevron-left"></i></a></li>
+  <li ng-if="page>maxSize">
+    <a href="" ng-click="selectPage(1);viewState.pageNum=1">1</a>
+  </li>
+  <li ng-repeat="page in pages track by $index" ng-class="{active: page.active}"><a href ng-click="selectPage(page.number);viewState.pageNum=page.number">{{page.text}}</a></li>
+  <li ng-if="page<=totalPages-maxSize">
+    <a href="" ng-click="selectPage(totalPages);viewState.pageNum=totalPages">{{totalPages}}</a>
+  </li>
+  <li><span class="text-muted">转 <input type="text" class="form-control page-input" ng-model="viewState.pageNum" ng-blur="selectPage(viewState.pageNum)"> 页</span></li>
+  <li ng-if="directionLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(page + 1);viewState.pageNum=page"><i class="fa fa-chevron-right"></i></a></li>
+</ul>

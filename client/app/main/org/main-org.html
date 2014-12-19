@@ -4,13 +4,21 @@
          id="course-list">
   <div class="head-row">
     <div class="container">
-      <h4 class="row">购买的课程 <font class="text-muted">|</font> 共<b>{{myCourses.length||0}}</b>个</h4>
+      <div class="pull-left">
+        <div class="avatar-md pull-left" src-key="getMe().avatar" source-attr="background-image">
+        </div>
+        {{getMe().name}}
+      </div>
+      <div class="pull-right my-course-count">
+        <div class="text-muted">我的课程</div>
+        <h3>{{myCourses.length||0}}</h3>
+      </div>
     </div>
   </div>
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <div class="row">
+        <div class="row" style="margin-right: 0;">
           <accordion close-others="false">
             <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
               <accordion-heading>
@@ -35,16 +43,15 @@
         </div>
       </div>
       <div class="col-sm-8">
-        <div class="row">
-          <div class="col-md-4 col-sm-6 text-center"
-               ng-if="Auth.hasRole('teacher')">
-            <button type="button"
-                    class="btn btn-default new-course-btn"
-                    ng-click="createNewCourse()">
-              <i class="fa fa-file-text-o fa-3x"></i>
-              <label>添加新课程</label>
-              <i class="plus">+</i>
-            </button>
+        <div class="row my-courses">
+          <div class="col-md-12 text-center">
+            <h4>{{viewState.myCoursesFilters.category||'全部'}}
+              <div class="pull-right">
+                <a href=""  ng-if="Auth.hasRole('teacher')" class="btn btn-xs" ng-click="createNewCourse()">
+                  <i class="fa fa-plus"></i>&nbsp;添加新课程
+                </a>
+              </div>
+            </h4>
           </div>
           <div class="col-md-4 col-sm-6" ng-repeat="course in myCourses | orderBy:'created':true|paging:itemsPerPage:currentMyCoursesPage">
             <a ng-if="Auth.hasRole('teacher')"
@@ -56,23 +63,23 @@
               <course-tile course="course"></course-tile>
             </a>
           </div>
-          <div class="col-md-12 text-center">
-            <pagination
-              ng-hide="myCourses.length <= itemsPerPage"
-              total-items="myCourses.length"
-              ng-model="currentMyCoursesPage"
-              items-per-page="itemsPerPage"
-              class="pagination-sm"
-              boundary-links="true"
-              rotate="false"
-              max-size="maxSize"
-              previous-text="&lsaquo;"
-              next-text="&rsaquo;"
-              first-text="&laquo;"
-              last-text="&raquo;"
-              num-pages="numPages">
-            </pagination>
-          </div>
+        </div>
+        <div class="row pagination-row text-center" ng-hide="myCourses.length <= itemsPerPage">
+          <pagination
+            total-items="myCourses.length"
+            ng-model="currentMyCoursesPage"
+            items-per-page="itemsPerPage"
+            class="pagination-sm bud"
+            boundary-links="true"
+            rotate="false"
+            max-size="maxSize"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;"
+            num-pages="numPages">
+            共 {{myCourses.length}} 页
+          </pagination>
         </div>
       </div>
     </div>
