@@ -18,9 +18,9 @@ angular.module('budweiserApp')
     myCourses: null
     allCourses: null
     categories: null
-    itemsPerPage: 2
+    itemsPerPage: 6
     currentMyCoursesPage: 1
-    maxSize: 4
+    maxSize: 3
     viewState:
       myCoursesFilters:
         category: null
