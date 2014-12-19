@@ -39,7 +39,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
         $scope.currentTopic = topic
-        Restangular.all('dis_replies').getList({disTopicId: topic._id})
+        Restangular.all('comments').getList({belongTo: topic._id, type: Const.commentType?.dis_topic})
       .then (replies)->
         replies.forEach (reply)->
         $scope.currentTopic.$replies = replies

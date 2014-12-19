@@ -22,7 +22,9 @@ angular.module('budweiserApp')
     replyTo: (topic, reply)->
       # validate
       @replying = true
-      topic.$replies.post reply, {disTopicId: topic._id}
+      reply.type = Consot.commentType.dis_topic
+      reply.belongTo = topic._id
+      Restangular.all('comments').post reply
       .then (dis_reply)->
         topic.$replies.splice 0, 0, dis_reply
         $scope.initMyReply()
