@@ -93,8 +93,10 @@
               <a>{{classe.courseId.name}} 价格：{{classe.price}}</a>
             </li>
             <li>
-              <a href>支付
-              </a>
+              <a href ng-click="makeCartOrder()">支付</a>
+            </li>
+            <li>
+              <a href ng-click="clearCart()">清空购物车</a>
             </li>
           </ul>
         </li>

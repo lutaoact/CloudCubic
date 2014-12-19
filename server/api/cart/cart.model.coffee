@@ -24,3 +24,9 @@ exports.Cart = BaseModel.subclass
 
   getByUserId: (userId) ->
     return @findOneQ userId: userId
+
+  clearByUserId: (userId) ->
+    @findOneQ userId: userId
+    .then (cart)->
+      cart?.classes = []
+      cart.saveQ()

@@ -2,6 +2,7 @@
 
 Order = _u.getModel "order"
 Classe = _u.getModel "classe"
+Cart = _u.getModel "cart"
 
 alipay = require('./alipay_config').alipay;
 
@@ -26,6 +27,7 @@ alipay
       classe.students.addToSet order.userId
       classe.saveQ()
   .then ()->
+    Cart.clearByUserId(order.userId)
     console.log 'added to class'
   .fail (error)->
     console.log error
