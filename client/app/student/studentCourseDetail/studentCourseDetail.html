@@ -1,3 +1,20 @@
+<div class="course margin-top">
+  <div class="container">
+    <div ng-repeat="classe in classes">
+      {{classe.name}} <br>
+      价格:￥{{classe.price}} <br>
+      <div ng-hide="classe.price==0">
+        <button>加入购物车</button>
+        <button ng-click="makeOrder(classe)">直接购买</button>
+      </div>
+      <div ng-show="classe.price==0">
+        本免费课程！
+        <button ng-click="enrollFreeClass(classe)">参加课程</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- lecture list -->
 <section class="course-detail lecture-list" id="lecture-list">
   <div class="container">
@@ -72,5 +89,3 @@
   </div>
 
 </section>
-
-

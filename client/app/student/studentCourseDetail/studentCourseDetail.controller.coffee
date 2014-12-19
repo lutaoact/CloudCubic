@@ -62,5 +62,20 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
 
+    makeOrder: (classe)->
+      Restangular.all('orders').post classes: [classe._id]
+      .then (order)->
+        $state.go 'order', orderId: order._id
+
+    enrollFreeClass: (classe)->
+      Restangular.all('classes').one(classe._id, 'enroll').post()
+      .then ->
+        console.log 'enrolled!'
+        #TODO: redirect to course page
+
+  Restangular.all('classes').getList(courseId: $state.params.courseId)
+  .then (classes)->
+    $scope.classes = classes
+
   $scope.loadLectures()
   .then $scope.loadProgress
