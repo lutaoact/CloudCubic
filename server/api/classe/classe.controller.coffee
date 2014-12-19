@@ -40,7 +40,11 @@ exports.showStudents = (req, res, next) ->
   , next
 
 pickedKeys = ["name", "courseId", "enrollment", "duration", "price"]
-exports.create = WrapRequest.wrapOrgCreate pickedKeys
+exports.create = (req, res, next) ->
+  data = _.pick req.body, pickedKeys
+  data.orgId = req.user.orgId
+  WrapRequest.wrapCreate req, res, next, data
+
 
 exports.update = (req, res, next) ->
   classeId = req.params.id
