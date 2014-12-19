@@ -7,6 +7,13 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Classe = BaseModel.subclass
   classname: 'Classe'
+  populates:
+    create: [
+      path: 'orgId'
+    ,
+      path: 'courseId'
+    ]
+
   initialize: ($super) ->
     @schema = new Schema
       name:

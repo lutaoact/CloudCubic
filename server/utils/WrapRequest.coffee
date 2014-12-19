@@ -19,6 +19,16 @@ class WrapRequest
 
     return mongoQuery
 
+  # 因为doc的populate对象没有execQ方法，所以必须在最后一步调用populateQ方法
+  # 所以出此下策，若有更好的方法，请重构此函数
+  populateDoc: (mongoDoc, options = []) ->
+    for option, i in options
+      if i is options.length - 1
+        return mongoDoc.populateQ option
+      else
+        mongoDoc = mongoDoc.populate option
+    logger.error '正常情况，永远不会执行到这行代码'
+
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
     logger.info 'page show conditions:', conditions
@@ -68,28 +78,16 @@ class WrapRequest
     .catch next
     .done()
 
-#  wrapCreate: (pickedKeys) ->
-#    return (req, res, next) =>
-#      data = _.pick req.body, pickedKeys
-#      data[fieldMap[@Model.constructor.name].field] = req.user._id
-#
-#      @Model.createQ data
-#      .then (newDoc) ->
-#        res.send newDoc
-#      .catch next
-#      .done()
 
-  wrapOrgCreate: (pickedKeys) ->
-    return (req, res, next) =>
-      data = _.pick req.body, pickedKeys
-      data.orgId = req.user.orgId
-      logger.info "create data:", data
-
-      @Model.createQ data
-      .then (newDoc) ->
-        res.send 201, newDoc
-      .catch next
-      .done()
+  wrapCreate: (req, res, next, data) ->
+    logger.info 'create data:', data
+    @Model.createQ data
+    .then (newDoc) =>
+      @populateDoc newDoc, @Model.populates?.create
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
 
 
   wrapUpdate: (pickedUpdatedKeys) ->
