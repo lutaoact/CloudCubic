@@ -51,5 +51,5 @@ db.forums.remove({orgId: null})
 
 //设置dis_topics的viewersNum字段，让其值等于viewers字段的元素个数
 db.dis_topics.find().forEach(function(disTopic) {
-  db.dis_topics.update({_id: disTopic._id}, {$set: {viewersNum: disTopic.viewers.length}});
+  db.dis_topics.update({_id: disTopic._id}, {$set: {viewersNum: disTopic.viewers.length, commentsNum: disTopic.repliesNum}});
 });
