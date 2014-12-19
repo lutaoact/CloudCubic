@@ -7,7 +7,14 @@
       <div class="pull-left">
         <div class="avatar-md pull-left" src-key="getMe().avatar" source-attr="background-image">
         </div>
-        {{getMe().name}}
+        <div class="pull-left">
+          <h4>
+          {{getMe().name}}
+          </h4>
+          <span class="text-muted" style="font-size: 12px;" ng-if="org.location.name">
+            <i class="fa fa-map-marker"></i>{{org.location.name}}
+          </span>
+        </div>
       </div>
       <div class="pull-right my-course-count">
         <div class="text-muted">我的课程</div>
@@ -19,22 +26,22 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="row" style="margin-right: 0;">
-          <accordion close-others="false">
+          <accordion class="bud" close-others="false">
             <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
               <accordion-heading>
-                分类 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': viewState.categoryOpen, 'glyphicon-chevron-right': !viewState.categoryOpen}"></i>
+                分类 <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.categoryOpen, 'fa-chevron-right': !viewState.categoryOpen}"></i>
               </accordion-heading>
               <div class="form-horizontal">
                 <div class="form-group">
                   <label class="col-xs-3 control-label">科目</label>
                   <div class="col-xs-9">
-                    <select class="form-control " ng-model="category" ng-options="category.name for category in categories"></select>
+                    <select class="form-control " ng-model="viewState.myCoursesFilters.category" ng-options="category.name for category in myCategories"></select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-xs-3 control-label">老师</label>
                   <div class="col-xs-9">
-                    <select class="form-control " ng-model="teacher" ng-options="teacher.name for teacher in teachers"></select>
+                    <select class="form-control " ng-model="viewState.myCoursesFilters.teacher" ng-options="teacher.name for teacher in $teachers"></select>
                   </div>
                 </div>
               </div>
@@ -45,7 +52,7 @@
       <div class="col-sm-8">
         <div class="row my-courses">
           <div class="col-md-12 text-center">
-            <h4>{{viewState.myCoursesFilters.category||'全部'}}
+            <h4>{{viewState.myCoursesFilters.category.name||'全部'}}
               <div class="pull-right">
                 <a href=""  ng-if="Auth.hasRole('teacher')" class="btn btn-xs" ng-click="createNewCourse()">
                   <i class="fa fa-plus"></i>&nbsp;添加新课程
@@ -53,7 +60,7 @@
               </div>
             </h4>
           </div>
-          <div class="col-md-4 col-sm-6" ng-repeat="course in myCourses | orderBy:'created':true|paging:itemsPerPage:currentMyCoursesPage">
+          <div class="col-md-4 col-sm-6" ng-repeat="course in viewState.filteredMyCourses = ( myCourses | orderBy:'created':true|filter:viewState.myCoursesFilters.category._id)|paging:itemsPerPage:currentMyCoursesPage">
             <a ng-if="Auth.hasRole('teacher')"
                ui-sref="teacher.course({courseId:course._id})">
               <course-tile course="course"></course-tile>
@@ -66,7 +73,7 @@
         </div>
         <div class="row pagination-row text-center" ng-hide="myCourses.length <= itemsPerPage">
           <pagination
-            total-items="myCourses.length"
+            total-items="viewState.filteredMyCourses.length"
             ng-model="currentMyCoursesPage"
             items-per-page="itemsPerPage"
             class="pagination-sm bud"
@@ -78,7 +85,6 @@
             first-text="&laquo;"
             last-text="&raquo;"
             num-pages="numPages">
-            共 {{myCourses.length}} 页
           </pagination>
         </div>
       </div>
