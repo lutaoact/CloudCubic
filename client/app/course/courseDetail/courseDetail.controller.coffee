@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
+angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   $q
   Auth
   $scope
@@ -14,7 +14,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
 
   course = _.find Courses, _id:$state.params.courseId
 
-  Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+  Navbar.setTitle course.name, "course.detail({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
   Category.find course.categoryId
@@ -53,13 +53,13 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
         # GOTO that course
         # TODO: last viewed should not be the last viewed item :(
         lastViewed = viewedLectures[viewedLectures.length - 1]
-        $state.go 'student.lectureDetail',
+        $state.go 'course.lectureDetail',
           courseId: $state.params.courseId
           lectureId: lastViewed._id
 
       else
         # Start from first lecture
-        $state.go 'student.lectureDetail',
+        $state.go 'course.lectureDetail',
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
 
