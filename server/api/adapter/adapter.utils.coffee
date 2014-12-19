@@ -19,7 +19,7 @@ class AdapterUtils extends BaseUtils
 
   buildConditions: (query) ->
     conditions = {}
-    conditions.author = query.author if query.author
+    conditions.postBy = query.postBy if query.postBy
     conditions.creator = query.creator if query.creator
     conditions.type = query.type if query.type
     conditions.belongTo = query.belongTo if query.belongTo

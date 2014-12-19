@@ -111,14 +111,18 @@ class WrapRequest
       .done()
 
 
-  wrapDestroy: () ->
-    return (req, res, next) =>
-      _id = req.params.id
-      @Model.updateQ {_id: _id}, {deleteFlag: true}
-      .then () ->
-        res.send 204
-      .catch next
-      .done()
+  wrapDestroy: (req, res, next, conditions) ->
+    logger.info 'destroy conditions:', conditions
+
+    (if @Model.schema.paths.deleteFlag
+      @Model.updateQ conditions, {deleteFlag: true}
+    else
+      @Model.removeQ conditions
+    ).then () ->
+      res.send 204
+    .catch next
+    .done()
+
 
   wrapLike: () ->
     return (req, res, next) =>

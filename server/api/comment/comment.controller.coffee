@@ -14,7 +14,7 @@ exports.create = (req, res, next) ->
   body = req.body
   data =
     content : body.content
-    author  : user._id
+    postBy  : user._id
     type    : body.type
     belongTo: body.belongTo
     tags    : body.tags
@@ -33,6 +33,8 @@ exports.create = (req, res, next) ->
 pickedUpdatedKeys = ['content', 'tags']
 exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
 
-exports.destroy = WrapRequest.wrapDestroy()
+exports.destroy = (req, res, next) ->
+  conditions = _id: req.params.id, postBy: req.user._id
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.like = WrapRequest.wrapLike()

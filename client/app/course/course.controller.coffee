@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentCtrl', (
+angular.module('budweiserApp').controller 'CourseCtrl', (
   $scope
   webview
 )->

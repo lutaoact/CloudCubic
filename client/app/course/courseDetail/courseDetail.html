@@ -59,7 +59,7 @@
       <!-- todo: disable-animation="true" animation looks strange -->
       <a class="bud list-group-item lecture row fade-repeat"
         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-        ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        ui-sref="course.lectureDetail({courseId:course._id,lectureId:lecture._id})">
         <div class="col-xs-1 text-center number">
           {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
           <i class="fa fa-check primary" ng-show="lecture.$viewed"></i>

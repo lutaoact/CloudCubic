@@ -40,9 +40,9 @@ exports.create = (req, res, next) ->
     tmpResult.disTopic = disTopic
     CourseUtils.getAuthedCourseById user, disTopic.courseId
   .then (course) ->
-    #don't post voteUpUsers field, it's illegal, I will override it
+    #don't post likeUsers field, it's illegal, I will override it
     #新的disReply这个字段值应该为空，所以强制赋为空数组
-    body.voteUpUsers = []
+    body.likeUsers = []
     body.postBy      = user._id
     body.disTopicId  = disTopicId
 

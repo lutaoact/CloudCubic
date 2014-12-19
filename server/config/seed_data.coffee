@@ -244,7 +244,7 @@ module.exports =
     title: 'first dis topic'
     content: 'this is the first dis topic'
     commentsNum: 2
-    voteUpUsers: [
+    likeUsers: [
       _s.sprintf userId, 3
       _s.sprintf userId, 4
     ]
@@ -256,7 +256,7 @@ module.exports =
     title: 'second dis topic'
     content: 'this is the second dis topic'
     commentsNum: 0
-    voteUpUsers: [
+    likeUsers: [
       _s.sprintf userId, 3
     ]
   ]
@@ -265,7 +265,7 @@ module.exports =
     postBy: _s.sprintf userId, 3
     disTopicId: _s.sprintf disTopicId, 0
     content: 'this is the first dis reply'
-    voteUpUsers: [
+    likeUsers: [
       _s.sprintf userId, 3
       _s.sprintf userId, 4
     ]
@@ -274,7 +274,7 @@ module.exports =
     postBy: _s.sprintf userId, 4
     disTopicId: _s.sprintf disTopicId, 0
     content: 'this is the second dis reply'
-    voteUpUsers: [
+    likeUsers: [
       _s.sprintf userId, 3
     ]
   ]

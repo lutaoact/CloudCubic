@@ -61,7 +61,9 @@ exports.update = (req, res, next) ->
     res.send newClasse
   , next
 
-exports.destroy = WrapRequest.wrapDestroy()
+exports.destroy = (req, res, next) ->
+  conditions = _id: req.params.id, orgId: req.org?._id
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
@@ -82,7 +84,7 @@ exports.enroll = (req, res, next) ->
       return Q.reject
         status: 403
         errCode: ErrCode.NoClasse
-        errMsg: '课程不存在或者不属于当前登录用户的机构'
+        errMsg: '班级不存在或者不属于当前登录用户的机构'
 
     console.log classe.price
     if classe.price != 0

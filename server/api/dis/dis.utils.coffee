@@ -13,10 +13,10 @@ class DisUtils extends BaseUtils
     DisModel.findByIdQ disId
     .then (dis) ->
       tmpResult.dis = dis
-      if dis.voteUpUsers.indexOf(userId) > -1
-        dis.voteUpUsers.pull userId
+      if dis.likeUsers.indexOf(userId) > -1
+        dis.likeUsers.pull userId
       else
-        dis.voteUpUsers.addToSet userId
+        dis.likeUsers.addToSet userId
         if dis.postBy.toString() isnt userId.toString()
           NoticeUtils["add#{type}VoteUpNotice"](
             dis.postBy

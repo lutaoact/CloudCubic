@@ -28,7 +28,7 @@ exports.DisReply = BaseModel.subclass
 #        tags: [
 #          type: String
 #        ]
-      voteUpUsers: [
+      likeUsers: [
         type: ObjectId
         ref: 'user'
       ]

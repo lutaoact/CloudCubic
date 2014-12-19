@@ -8,7 +8,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         event.preventDefault()
         fn scope, {$event:event}
 
-.controller 'StudentLectureDetailCtrl'
+.controller 'LectureDetailCtrl'
 , (
   $scope
   $state
@@ -25,7 +25,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
   course = _.find Courses, _id:$state.params.courseId
 
-  Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+  Navbar.setTitle course.name, "course.detail({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
   # TODO: remove this line. Fix in videogular
@@ -151,4 +151,3 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $document.ready ->
     #$document.scrollToElement(ele, 60, 2000)
     $document.scrollTo(0, 80, 2000)
-

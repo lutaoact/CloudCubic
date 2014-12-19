@@ -147,7 +147,7 @@
 </section>
 
 <section class="quiz-and-homework">
-  <div student-lecture-answers lecture="lecture" course="course">
+  <div lecture-answers lecture="lecture" course="course">
   </div>
 </section>
 
@@ -156,6 +156,5 @@
 </div>
 
 <div class="mask fade-show-hide" ng-show="viewState.showNotes" ng-click="viewState.showNotes = false"></div>
-  <div ng-if="viewState.notesPanelnitialized" ng-include="'app/student/notes/lectureNotes.html'" ng-controller="LectureNotesCtrl" ng-show="viewState.showNotes" class="sider">
+  <div ng-if="viewState.notesPanelnitialized" ng-include="'app/course/lectureNotes/lectureNotes.html'" ng-controller="LectureNotesCtrl" ng-show="viewState.showNotes" class="sider">
 </div>
-

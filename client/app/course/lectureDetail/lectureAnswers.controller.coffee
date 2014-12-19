@@ -2,16 +2,16 @@
 
 angular.module('budweiserApp')
 
-.directive 'studentLectureAnswers', ->
+.directive 'lectureAnswers', ->
   restrict: 'EA'
   replace: true
-  controller: 'StudentLectureAnswersCtrl'
-  templateUrl: 'app/student/studentLectureDetail/studentLectureAnswers.html'
+  controller: 'LectureAnswersCtrl'
+  templateUrl: 'app/course/lectureDetail/lectureAnswers.html'
   scope:
     lecture: '='
     course: '='
 
-.controller 'StudentLectureAnswersCtrl', (
+.controller 'LectureAnswersCtrl', (
   $scope
   Restangular
   configs
