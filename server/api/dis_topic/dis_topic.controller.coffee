@@ -31,7 +31,7 @@ exports.create = (req, res, next) ->
   body     = req.body
   delete body._id
 
-  body.voteUpUsers = []
+  body.likeUsers = []
   body.postBy      = user._id
   body.forumId     = forumId
 
