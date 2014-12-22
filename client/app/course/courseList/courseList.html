@@ -1,5 +1,24 @@
-<div class="course course-list">
-
-  course list...
-
+<div class="container course-list-tile">
+  <div class="row header">
+    <div class="col-md-12">
+      <h4 class="title">
+        <a href ng-click="search.categoryId = null">所有课程</a>
+      </h4>
+      <div class="btn-group">
+        <label class="btn btn-toggle"
+               ng-repeat="category in categories"
+               ng-model="search.categoryId"
+               uncheckable
+               btn-radio="category._id">{{category.name}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row body">
+    <div class="col-md-3 col-sm-4"
+         ng-repeat="course in allCourses | filter:{categoryId: search.categoryId || '!!'}">
+      <a ui-sref="courseDetail({courseId:course._id})">
+        <public-course-tile course="course"></public-course-tile>
+      </a>
+    </div>
+  </div>
 </div>

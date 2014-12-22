@@ -1,7 +1,9 @@
-<div class="container all-course-list">
+<div class="container course-list-tile">
   <div class="row header">
     <div class="col-md-12">
-      <h4 class="title">精品课程</h4>
+      <h4 class="title">
+        <a href ng-click="search.categoryId = null">精品课程</a>
+      </h4>
       <div class="btn-group">
         <label class="btn btn-toggle"
                ng-repeat="category in categories"
