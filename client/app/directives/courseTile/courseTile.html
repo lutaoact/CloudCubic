@@ -5,23 +5,31 @@
        suffix="-tile">
   </div>
   <div class="caption">
-    <h5 class="course-name">
-      {{course.name}}<br>
-    </h5>
-    <div class="clearfix">
+    <div class="clearfix owner">
       <div class="avatar-xs pull-left"
            source-attr="background-image"
            src-key="course.owners[0].avatar"
            suffix="?imageView2/1/w/64/h/64">
       </div>
-      <h5 class="pull-left">
-        <small>
-          {{course.owners[0].name}}
-        </small>
-      </h5>
+      <span class="name text-muted small">{{course.owners[0].name}}</span>
     </div>
-    <div class="course-info">
-      {{course.info}}
+    <h5 class="course-name">
+      {{course.name}}<br>
+    </h5>
+    <hr>
+    <div class="lecture-info text-muted small">
+      <span ng-if="!percentageCalculated">进度计算中...</span>
+      <span class="thermometer" ng-if="percentageCalculated">
+        <span class="thermometer-inner" ng-style="{'width':percentage+'%'}"></span>
+      </span>
+      <span ng-if="percentageCalculated">
+        {{percentage}}%
+      </span>
+      <span ng-if="percentageCalculated" class="pull-right">
+        <a href="" class="btn btn-danger btn-xs rounded continue-btn" ng-click="continueStudying()">
+          {{percentage==0?'开始':percentage==100?'重学':'继续'}}
+        </a>
+      </span>
     </div>
   </div>
 </div>
