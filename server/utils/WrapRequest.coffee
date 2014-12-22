@@ -55,7 +55,11 @@ class WrapRequest
   wrapIndex: (req, res, next, conditions) ->
     conditions.deleteFlag = {$ne: true}
     logger.info 'index conditions:', conditions
-    @Model.findQ conditions
+
+    mongoQuery = @Model.find conditions
+    mongoQuery = @populateQuery mongoQuery, @Model.populates?.index
+
+    mongoQuery.execQ()
     .then (docs) ->
       res.send docs
     .catch next

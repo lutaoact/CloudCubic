@@ -19,7 +19,7 @@ exports.index = (req, res, next) ->
   conditions.courseId = req.query.courseId if req.query.courseId
   conditions.students = req.query.studentId if req.query.studentId
 
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 
 exports.show = (req, res, next) ->
