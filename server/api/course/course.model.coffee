@@ -8,6 +8,19 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Course = BaseModel.subclass
   classname: 'Course'
+  populates:
+    index: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'owners', select: 'name avatar'
+    ]
+    show: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'owners', select: 'name avatar'
+    ,
+      path: 'lectureAssembly'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       name:
