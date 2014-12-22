@@ -22,7 +22,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
   conditions = {orgId: req.org?._id}
-  conditions.owners = req.query.userId if req.query.userId
+  conditions.owners = req.query.owner if req.query.owner
   conditions.categoryId = {$in: req.query.categoryIds} if req.query.categoryIds
 
   options = limit: req.query.limit, from: req.query.from

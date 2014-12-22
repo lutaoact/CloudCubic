@@ -9,12 +9,12 @@ exports.Classe = BaseModel.subclass
   classname: 'Classe'
   populates:
     index: [
-      path: 'orgId'
+      path: 'orgId', select: 'name'
     ,
       path: 'courseId'
     ]
     create: [
-      path: 'orgId'
+      path: 'orgId', select: 'name'
     ,
       path: 'courseId'
     ]

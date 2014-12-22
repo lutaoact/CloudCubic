@@ -35,18 +35,29 @@ angular.module('budweiserApp')
         $scope.myCourses.push newCourse
 
     loadMyCourses: ->
-      Restangular
-      .all('courses')
-      .getList(userId: Auth.getCurrentUser()._id)
-      .then (courses) ->
-        console.log 'my courses', courses
-        $scope.myCourses = courses
+      resetFilterData = ->
         $q.all(_.uniq(_.pluck($scope.myCourses, 'categoryId')).map (id)->
           Category.find(id)
         )
         .then (categories)->
           $scope.myCategories = [{name:'全部'}].concat categories
           $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
+
+      if Auth.hasRole('teacher')
+        Restangular
+        .all('courses')
+        .getList(owner: Auth.getCurrentUser()._id)
+        .then (courses) ->
+          console.log 'my courses', courses
+          $scope.myCourses = courses
+          resetFilterData()
+      else
+        Restangular
+        .all('classes')
+        .getList(studentId: Auth.getCurrentUser()._id)
+        .then (classes) ->
+          $scope.myCourses = _.map classes, (c) -> c.courseId
+          resetFilterData()
 
   loadCategories = ->
     Category
