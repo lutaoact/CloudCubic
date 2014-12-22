@@ -1,0 +1,19 @@
+<div ng-class="{'margin-top': !webview}">
+  <div class="container">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">订单历史</div>
+      <!--<div class="panel-body">-->
+        <!--<p>...</p>-->
+      <!--</div>-->
+
+      <ul class="list-group">
+        <a ng-repeat="order in orders" class="list-group-item" ui-sref="order({orderId:order._id})">
+          {{order.classes[0].name}}
+          {{order.status}}
+          {{order.created}}
+        </a>
+      </ul>
+    </div>
+  </div>
+</div>

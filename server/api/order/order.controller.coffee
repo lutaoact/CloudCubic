@@ -40,6 +40,10 @@ exports.index = (req, res, next)->
   userId = req.user._id
   Order.findQ  userId: userId
   .then (orders) ->
+    Q.all(_.map orders, (order)->
+      populateClasses order
+    )
+  .then (orders) ->
     return res.send orders
   , next
 
