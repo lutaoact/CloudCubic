@@ -34,6 +34,9 @@ angular.module('budweiserApp')
       .result.then (newCourse) ->
         $scope.myCourses.push newCourse
 
+    addSchedule: ($event)->
+      $event.stopPropagation()
+
     loadMyCourses: ->
       resetFilterData = ->
         $q.all(_.uniq(_.pluck($scope.myCourses, 'categoryId')).map (id)->

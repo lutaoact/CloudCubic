@@ -1,23 +1,11 @@
 <div class="calendar-block">
-  <div class="calendar-block-left">
-    <div class="title">
-      <h4 ng-if="selectedDate.isSame(today,'day')">今天</h4>
-      <h5>{{selectedDate._d|date:'MM月dd日'}}</h5>
-    </div>
-    <div class="schedule clearfix" ng-repeat="event in coursesOfCurrentDate" ng-click="gotoCourse(event)">
-      <div class="dot pull-left" ng-style="{'background-color':event.color}"></div>
-      <h5 class="pull-left">
-        {{event.title}}
-        <br>
-        <small>
-          {{event.startTime._d|date:'HH:mm'}} - {{event.endTime._d|date:'HH:mm'}}
-        </small>
-      </h5>
-    </div>
-
-  </div>
-  <div class="calendar-block-right">
+  <div class="calendar-block-up">
     <div class="clearfix calendar-header">
+      <a href="" class="btn btn-xs" ng-if="Auth.hasRole('teacher')" ng-click="addSchedule()">
+        <i class="fa fa-plus">
+
+        </i>
+      </a>
       <div class="pull-right">
         <a ng-click="prevClick()"><i class="fa fa-caret-left"></i></a>
         <span class="title month">{{selectedDate._d | date:'MM月'}}</span>
@@ -39,6 +27,18 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="calendar-block-down">
+    <div class="schedule clearfix" ng-repeat="event in coursesOfCurrentDate" ng-click="gotoCourse(event)">
+      <div class="dot pull-left" ng-style="{'background-color':event.color}"></div>
+      <h5 class="pull-left">
+        {{event.title}}
+        <br>
+        <small>
+          {{event.startTime._d|date:'HH:mm'}} - {{event.endTime._d|date:'HH:mm'}}
+        </small>
+      </h5>
     </div>
   </div>
 </div>

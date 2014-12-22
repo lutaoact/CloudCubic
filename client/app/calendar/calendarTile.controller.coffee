@@ -1,17 +1,20 @@
 'use strict'
 
 angular.module('budweiserApp')
-.controller 'CalendarPopupCtrl',
+.controller 'CalendarTileCtrl',
 (
   $scope
   Restangular
   $state
   $filter
-  $modalInstance
+  Auth
+  $modal
 ) ->
+  useIso = true
 
-  weeksOfMonth = (date, useIsoweek) ->
+  weeksOfMonth = (date) ->
     selectedDay = date
+    useIsoweek = useIso
     monthFirstDate = angular.copy(selectedDay).startOf('month')
     monthLastDate = angular.copy(selectedDay).endOf('month')
     if useIsoweek
@@ -37,57 +40,72 @@ angular.module('budweiserApp')
       weeks.push week
     return weeks
 
+
   angular.extend $scope,
     selectedDate: moment()
 
     today: moment()
 
+    Auth: Auth
+
     coursesOfCurrentDate: []
 
-    dayNames: ['周日','周一','周二','周三','周四','周五','周六']
+    dayNames: if !useIso then ['日','一','二','三','四','五','六'] else ['一','二','三','四','五','六','日']
 
-    weeks: weeksOfMonth(moment(), false)
+    weeks: weeksOfMonth(moment())
 
     dayClick: (weekDay, $event)->
       $scope.selectedDate = weekDay.day
       $scope.coursesOfCurrentDate = weekDay.events
 
       if !weekDay.isInCurrentMonth
-        $scope.weeks = weeksOfMonth($scope.selectedDate, false)
+        $scope.weeks = weeksOfMonth($scope.selectedDate)
         bindSchedules()
 
     prevClick: ()->
       $scope.selectedDate = moment($scope.selectedDate).add('months', -1)
-      $scope.weeks = weeksOfMonth($scope.selectedDate, false)
+      $scope.weeks = weeksOfMonth($scope.selectedDate)
       bindSchedules()
 
     nextClick: ()->
       $scope.selectedDate = moment($scope.selectedDate).add('months', 1)
-      $scope.weeks = weeksOfMonth($scope.selectedDate, false)
+      $scope.weeks = weeksOfMonth($scope.selectedDate)
       bindSchedules()
 
     gotoCourse: (event)->
-
       if $state.includes 'student'
         $state.go 'courseDetail', courseId: event.$course._id
       else if $state.includes 'teacher'
         $state.go 'teacher.course', courseId: event.$course._id
       else
         console.log event
-      $modalInstance.dismiss('close')
+
+    addSchedule: ()->
+      $modal.open
+        templateUrl: 'app/directives/timetable/schedulePopup.html'
+        controller: 'SchedulePopupCtrl'
+      .result.then (schedules)->
+        $scope.schedules.concat schedules
+        bindSchedules()
+
+    removeEvent: ($event, event)->
+      $event.stopPropagation()
+      console.log event
+      event.schedule.remove()
+      .then ->
+        event.$container.splice event.$container.indexOf(event), 1
 
   Restangular.all('schedules').getList()
   .then (schedules)->
     # Compose this week then set handle
     $scope.schedules = schedules
-
     bindSchedules()
 
   eventsOfDay = (day)->
     events = []
     if $scope.schedules?
       $scope.schedules.forEach (schedule)->
-        if moment(schedule.start).isAfter day or moment(schedule.until).isBefore day
+        if moment(schedule.start).isAfter(day) or moment(schedule.until).isBefore(day)
           return
         else
           event = {}

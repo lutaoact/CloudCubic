@@ -46,6 +46,12 @@
                 </div>
               </div>
             </accordion-group>
+            <accordion-group is-open="viewState.calendarOpen" ng-init="viewState.calendarOpen=true">
+              <accordion-heading>
+                课程表 <i class="fa fa-calendar"></i> <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.calendarOpen, 'fa-chevron-right': !viewState.calendarOpen}"></i>
+              </accordion-heading>
+              <calendar-tile></calendar-tile>
+            </accordion-group>
           </accordion>
         </div>
       </div>

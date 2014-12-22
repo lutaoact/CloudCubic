@@ -34,5 +34,4 @@ angular.module('budweiserApp')
         course
     $q.all(classeQs)
   .then (result)->
-    console.log 'course list tile', result
     $scope.allCourses = result
