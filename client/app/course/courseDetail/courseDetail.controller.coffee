@@ -6,25 +6,15 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   $scope
   $state
   Navbar
-  Courses
   Category
   $rootScope
   Restangular
 ) ->
 
-  course = _.find Courses, _id:$state.params.courseId
-
-  Navbar.setTitle course.name, "course.detail({courseId:'#{$state.params.courseId}'})"
-  $scope.$on '$destroy', Navbar.resetTitle
-
-  Category.find course.categoryId
-  .then (category) ->
-    course.$category = category
-
   angular.extend $scope,
     itemsPerPage: 10
     currentPage: 1
-    course: course
+    course: null
 
     loadLectures: ->
       if !$state.params.courseId then return
@@ -53,13 +43,13 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         # GOTO that course
         # TODO: last viewed should not be the last viewed item :(
         lastViewed = viewedLectures[viewedLectures.length - 1]
-        $state.go 'course.lectureDetail',
+        $state.go 'lectureDetail',
           courseId: $state.params.courseId
           lectureId: lastViewed._id
 
       else
         # Start from first lecture
-        $state.go 'course.lectureDetail',
+        $state.go 'lectureDetail',
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
 
@@ -83,5 +73,14 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   .then (classes)->
     $scope.classes = classes
 
-  $scope.loadLectures()
-  .then $scope.loadProgress
+  $scope.$on '$destroy', Navbar.resetTitle
+
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    Navbar.setTitle course.name, "courseDetail({courseId:'#{$state.params.courseId}'})"
+    Category.find course.categoryId
+    .then (category) ->
+      course.$category = category
+    $scope.course = course
+    $scope.loadLectures()
+    .then $scope.loadProgress

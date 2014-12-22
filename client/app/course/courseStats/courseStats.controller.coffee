@@ -5,18 +5,17 @@ angular.module('budweiserApp').controller 'CourseStatsCtrl', (
   Navbar
   $state
   $scope
-  Courses
-  chartUtils
-  $timeout
   $window
+  $timeout
+  chartUtils
+  Restangular
 ) ->
 
-  course = _.find Courses, _id:$state.params.courseId
-
-  Navbar.setTitle course.name, "course.detail({courseId:'#{$state.params.courseId}'})"
-  $scope.$on '$destroy', Navbar.resetTitle
-
-  chartUtils.genStatsOnScope $scope, $state.params.courseId
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    Navbar.setTitle course.name, "courseDetail({courseId:'#{$state.params.courseId}'})"
+    $scope.$on '$destroy', Navbar.resetTitle
+    chartUtils.genStatsOnScope $scope, $state.params.courseId
 
   angular.extend $scope,
     student: Auth.getCurrentUser()

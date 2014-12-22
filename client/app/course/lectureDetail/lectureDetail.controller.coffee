@@ -8,63 +8,24 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         event.preventDefault()
         fn scope, {$event:event}
 
-.controller 'LectureDetailCtrl'
-, (
+.controller 'LectureDetailCtrl' , (
+  $sce
+  Auth
   $scope
   $state
   notify
   Navbar
-  Courses
   $timeout
   $document
-  CurrentUser
   Restangular
   $localStorage
-  $sce
 ) ->
 
-  course = _.find Courses, _id:$state.params.courseId
-
-  Navbar.setTitle course.name, "course.detail({courseId:'#{$state.params.courseId}'})"
-  $scope.$on '$destroy', Navbar.resetTitle
-
-  # TODO: remove this line. Fix in videogular
-  $scope.$on '$destroy', ()->
-    # clear video
-    angular.element('video').attr 'src', ''
-
-    #clear silder
-    angular.element('body').removeClass 'sider-open'
-
-  loadLecture = ()->
-    Restangular.one('lectures', $state.params.lectureId).get()
-    .then (lecture)->
-      $scope.lecture = lecture
-      $scope.viewState.isVideo = lecture.media or lecture.externalMedia or !lecture.files
-      if lecture.media
-        $scope.viewState.videos = [
-          src: $sce.trustAsResourceUrl(lecture.media)
-          type: 'video/mp4'
-        ]
-      if lecture.externalMedia
-        lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
-      # If student stay over 5 seconds. Send view lecture event.
-      handleViewEvent = $timeout ->
-        Restangular.all('activities').post
-          eventType: Const.Student.ViewLecture
-          data:
-            lectureId: $scope.lecture._id
-            courseId: $scope.course._id
-      , 5000
-      $scope.$on '$destroy', ()->
-        $timeout.cancel handleViewEvent
-      $scope.lecture
-
   angular.extend $scope,
-    course: course
+    me: Auth.getCurrentUser()
+    course: null
     lecture: null
     selectedFile: null
-    me: CurrentUser
 
     viewState:
       isVideo: true
@@ -144,6 +105,45 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     .sort (a,b)->
       a.timestamp >= b.timestamp
     )?[0]
+
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    $scope.course = course
+    Navbar.setTitle course.name, "courseDetail({courseId:'#{$state.params.courseId}'})"
+
+  # TODO: remove this line. Fix in videogular
+  $scope.$on '$destroy', ()->
+    Navbar.resetTitle()
+
+    # clear video
+    angular.element('video').attr 'src', ''
+
+    #clear silder
+    angular.element('body').removeClass 'sider-open'
+
+  loadLecture = ()->
+    Restangular.one('lectures', $state.params.lectureId).get()
+    .then (lecture)->
+      $scope.lecture = lecture
+      $scope.viewState.isVideo = lecture.media or lecture.externalMedia or !lecture.files
+      if lecture.media
+        $scope.viewState.videos = [
+          src: $sce.trustAsResourceUrl(lecture.media)
+          type: 'video/mp4'
+        ]
+      if lecture.externalMedia
+        lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
+      # If student stay over 5 seconds. Send view lecture event.
+      handleViewEvent = $timeout ->
+        Restangular.all('activities').post
+          eventType: Const.Student.ViewLecture
+          data:
+            lectureId: $scope.lecture._id
+            courseId: $scope.course._id
+      , 5000
+      $scope.$on '$destroy', ()->
+        $timeout.cancel handleViewEvent
+      $scope.lecture
 
   loadLecture()
 

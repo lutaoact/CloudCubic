@@ -1,4 +1,4 @@
-<div class="course margin-top">
+<div class="course">
   <div class="container">
     <div ng-repeat="classe in classes">
       {{classe.name}} <br>
@@ -16,7 +16,7 @@
 </div>
 
 <!-- lecture list -->
-<section class="course-detail lecture-list" id="lecture-list">
+<section class="course course-detail lecture-list" id="lecture-list">
   <div class="container">
     <div class="course-info row">
       <div class="course-info-left">
@@ -59,7 +59,7 @@
       <!-- todo: disable-animation="true" animation looks strange -->
       <a class="bud list-group-item lecture row fade-repeat"
         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-        ui-sref="course.lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
         <div class="col-xs-1 text-center number">
           {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
           <i class="fa fa-check primary" ng-show="lecture.$viewed"></i>

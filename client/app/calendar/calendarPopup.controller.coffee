@@ -69,7 +69,7 @@ angular.module('budweiserApp')
     gotoCourse: (event)->
 
       if $state.includes 'student'
-        $state.go 'course.detail', courseId: event.$course._id
+        $state.go 'courseDetail', courseId: event.$course._id
       else if $state.includes 'teacher'
         $state.go 'teacher.course', courseId: event.$course._id
       else
