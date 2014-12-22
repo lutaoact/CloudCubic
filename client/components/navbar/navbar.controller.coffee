@@ -35,7 +35,6 @@ angular.module 'budweiserApp'
     messages: Msg.messages
     getTitle: Navbar.getTitle
     getVisible: Navbar.getVisible
-    cartItems: []
 
     switchMenu: (val) ->
       $scope.viewState.isCollapsed = val
@@ -81,40 +80,8 @@ angular.module 'budweiserApp'
     displayCourseMenu: ->
       $state.params.courseId && $state.current.name.indexOf('admin') != 0
 
-    clearCart: ->
-      classes = []
-      _.map $scope.cartItems, (classe)->
-        classes.push classe._id
-      Restangular.all('carts/remove').post classes: classes
-      .then (result)->
-        $scope.cartItems = result
-
-    makeCartOrder: ->
-      classes = []
-      _.map $scope.cartItems, (classe)->
-        classes.push classe._id
-      Restangular.all('orders').post classes: classes
-      .then (order)->
-        $state.go 'order', orderId: order._id
-
 
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  $scope.$on 'addedToCart', (event, data)->
-    console.log data
-    $scope.cartItems = data
-
-  getCartItem = ()->
-    Restangular.all('carts').getList()
-    .then (result)->
-      $scope.cartItems = result
-
-  getCartItem()
-
-  $rootScope.$on 'loginSuccess', ()->
-    getCartItem()
-
-  $rootScope.$on 'logoutSuccess', ()->
-    $scope.cartItems = []

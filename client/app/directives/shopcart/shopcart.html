@@ -1,3 +1,16 @@
-<a>
-  买买买
-</a>
+<li dropdown>
+  <a class="dropdown-toggle">
+    购物车
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li ng-repeat="classe in cartItems">
+      <a>{{classe.courseId.name}} 价格：{{classe.price}}</a>
+    </li>
+    <li>
+      <a href ng-click="makeCartOrder()">支付</a>
+    </li>
+    <li>
+      <a href ng-click="clearCart()">清空购物车</a>
+    </li>
+  </ul>
+</li>
