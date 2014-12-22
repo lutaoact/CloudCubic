@@ -18,7 +18,8 @@ SocketUtils = _u.getUtils 'socket'
 request = require 'request'
 getMediaService = require('../../common/azureMS').getMediaService
 
-
+# TODO @lutao
+# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
   CourseUtils.getAuthedCourseById req.user, courseId
@@ -32,6 +33,8 @@ exports.index = (req, res, next) ->
     return res.send course.lectureAssembly
   , next
 
+# TODO @lutao
+# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
 exports.show = (req, res, next) ->
   lectureId = req.params.id
   LectureUtils.getAuthedLectureById req.user, lectureId

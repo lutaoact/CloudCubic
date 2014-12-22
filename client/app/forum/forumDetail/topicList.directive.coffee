@@ -6,7 +6,7 @@ angular.module('budweiserApp')
   restrict: 'E'
   replace: true
   controller: 'TopicListCtrl'
-  templateUrl: 'app/forum/forumCourse/topicList.template.html'
+  templateUrl: 'app/forum/forumDetail/topicList.template.html'
   scope:
     topics: '='
     onTopicClick: '&'

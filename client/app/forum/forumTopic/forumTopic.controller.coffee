@@ -37,9 +37,9 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
         # In this case, get replyId from navbar controller using broadcast ..
         $scope.topic.$currentReplyId = if replyId then replyId else $state.params.replyId
         Restangular.all('comments').getList({belongTo: $state.params.topicId, type: Const.CommentType?.DisTopic})
-      .then (replies)->
-        replies.forEach (reply)->
-        $scope.topic.$replies = replies
+      .then (comments)->
+        comments.forEach (comment)->
+        $scope.topic.$comments = comments
 
     recommendedTopics: undefined
 

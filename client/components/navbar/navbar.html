@@ -63,9 +63,11 @@
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
-        <li><a href="/">主页</a></li>
-        <li>
-          <a href="">课程</a>
+        <li ng-class="{active: isActive('main')}">
+          <a href ui-sref='main'>主页</a>
+        </li>
+        <li ng-class="{active: isActive('courseList')}">
+          <a href ui-sref='courseList'>所有课程</a>
         </li>
         <li>
           <a href ui-sref="forum.list">讨论</a>

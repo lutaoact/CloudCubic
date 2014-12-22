@@ -2,15 +2,13 @@
 
 angular.module('budweiserApp')
 
-.directive 'courseList', ->
+.directive 'courseListTile', ->
   restrict: 'E'
   replace: true
-  controller: 'CourseListCtrl'
-  templateUrl: 'app/main/course-list/course-list.html'
+  controller: 'CourseListTileCtrl'
+  templateUrl: 'app/main/org/courseListTile.html'
 
-.controller 'CourseListCtrl', ($scope, Restangular, $q)->
-
-  console.log 'courseList...'
+.controller 'CourseListTileCtrl', ($scope, Restangular, $q)->
 
   angular.extend $scope,
     categories: null
@@ -22,7 +20,7 @@ angular.module('budweiserApp')
     $scope.categories = categories
 
   Restangular.all('courses/public').getList()
-  .then (result)->
+  .then (result) ->
     classeQs = result.map (course) ->
       Restangular.all('classes').getList {courseId: course._id}
       .then (classes)->
@@ -30,5 +28,5 @@ angular.module('budweiserApp')
         course
     $q.all(classeQs)
   .then (result)->
-    console.log 'allCourses', result
+    console.log 'course list tile', result
     $scope.allCourses = result
