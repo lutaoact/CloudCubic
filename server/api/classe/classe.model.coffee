@@ -8,6 +8,11 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 exports.Classe = BaseModel.subclass
   classname: 'Classe'
   populates:
+    index: [
+      path: 'orgId'
+    ,
+      path: 'courseId'
+    ]
     create: [
       path: 'orgId'
     ,

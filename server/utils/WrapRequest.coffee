@@ -34,7 +34,7 @@ class WrapRequest
     logger.info 'page show conditions:', conditions
     logger.info 'page show options:', options
     mongoQuery = @Model.find conditions
-      .sort created: -1
+      .sort options.sort ? {created: -1}
       .limit ~~options.limit ? Const.PageSize[@constructor.name]
       .skip ~~options.from
 
