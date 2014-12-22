@@ -26,9 +26,12 @@
         {{percentage}}%
       </span>
       <span ng-if="percentageCalculated" class="pull-right">
-        <a href="" class="btn btn-danger btn-xs rounded continue-btn" ng-click="continueStudying()">
-          {{percentage==0?'开始':percentage==100?'重学':'继续'}}
+        <a href="" ng-if="course.lectureAssembly.length" class="btn btn-danger btn-xs rounded continue-btn" ng-click="continueStudying($event)">
+          {{percentage==0?'开始':'继续'}}
         </a>
+        <span class="text-muted" ng-if="!course.lectureAssembly.length">
+          未开始
+        </span>
       </span>
     </div>
   </div>
