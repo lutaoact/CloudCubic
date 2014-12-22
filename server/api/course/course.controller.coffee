@@ -21,24 +21,14 @@ Forum = _u.getModel 'forum'
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
-  user = req.user
-  logger.info "user.role: #{user.role}"
-  (switch user.role
-    when 'teacher'
-      CourseUtils.getTeacherCourses user._id
-    when 'student'
-      CourseUtils.getStudentCourses user._id
-    when 'admin'
-      # 管理员可以查看单个老师的课程列表
-      if req.query.teacherId
-        CourseUtils.getTeacherCourses req.query.teacherId
-      else
-        CourseUtils.getAdminCourses user.orgId
-  ).then (courses) ->
-    logger.info "courses.length: #{courses.length}"
-    res.send courses
-  .catch next
-  .done()
+  conditions = {orgId: req.org?._id}
+  conditions.owners = req.query.userId if req.query.userId
+  conditions.categoryId = {$in: req.query.categoryIds} if req.query.categoryIds
+
+  options = limit: req.query.limit, from: req.query.from
+
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
+
 
 # TODO @lutao
 # 1.请加上分页 logic (急) limit, from, orderBy: '-created'
@@ -52,13 +42,6 @@ exports.index = (req, res, next) ->
 # 4.分页过滤，排序的时候，现在的
 # filter  有： # owner，category
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
-exports.publicIndex = (req, res, next) ->
-  Course.find orgId: req.org?._id
-  .populate 'categoryId owners'
-  .execQ()
-  .then (courses) ->
-    res.send courses
-  .fail next
 
 # TODO @lutao
 # 现在的 course 是公开的，所有人都可以看到，这样的话和下面的 publicShow 重复了，求合体
