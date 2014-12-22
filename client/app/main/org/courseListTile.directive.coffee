@@ -15,14 +15,20 @@ angular.module('budweiserApp')
     allCourses: null
     search: {}
 
-  Restangular.all('categories').getList()
+  Restangular
+  .all('categories')
+  .getList()
   .then (categories) ->
     $scope.categories = categories
 
-  Restangular.all('courses/public').getList()
+  Restangular
+  .all('courses')
+  .getList()
   .then (result) ->
     classeQs = result.map (course) ->
-      Restangular.all('classes').getList {courseId: course._id}
+      Restangular
+      .all('classes')
+      .getList courseId: course._id
       .then (classes)->
         course.$classes = classes
         course

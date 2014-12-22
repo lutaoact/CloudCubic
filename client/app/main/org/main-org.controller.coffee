@@ -8,8 +8,8 @@ angular.module('budweiserApp')
   Auth
   $modal
   $scope
-  Restangular
   Category
+  Restangular
 ) ->
 
   angular.extend $scope,
@@ -35,8 +35,11 @@ angular.module('budweiserApp')
         $scope.myCourses.push newCourse
 
     loadMyCourses: ->
-      Restangular.all('courses').getList()
+      Restangular
+      .all('courses')
+      .getList(userId: Auth.getCurrentUser()._id)
       .then (courses) ->
+        console.log 'my courses', courses
         $scope.myCourses = courses
         $q.all(_.uniq(_.pluck($scope.myCourses, 'categoryId')).map (id)->
           Category.find(id)
@@ -46,7 +49,8 @@ angular.module('budweiserApp')
           $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
 
   loadCategories = ->
-    Category.find()
+    Category
+    .find()
     .then (categories) ->
       $scope.categories = categories
       $scope.$categories = [{name:'全部'}].concat categories

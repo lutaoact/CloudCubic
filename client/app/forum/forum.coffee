@@ -7,7 +7,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     controller: 'ForumCtrl'
     resolve:
       Courses: (Restangular)->
-        Restangular.all('courses/public').getList().then (courses)->
+        Restangular.all('courses').getList().then (courses)->
           courses
         , (err)->
           # handle
