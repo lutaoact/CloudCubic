@@ -6,7 +6,7 @@ angular.module('budweiserApp')
   restrict: 'E'
   replace: true
   controller: 'TopicDetailCtrl'
-  templateUrl: 'app/forum/forumCourse/topicDetail.template.html'
+  templateUrl: 'app/forum/forumTopic/topicDetail.template.html'
   scope:
     topic: '='
     activeReply: '@'
@@ -25,11 +25,11 @@ angular.module('budweiserApp')
       reply.type = Const.CommentType.DisTopic
       reply.belongTo = topic._id
       Restangular.all('comments').post reply
-      .then (dis_reply)->
-        topic.$replies.splice 0, 0, dis_reply
+      .then (comment)->
+        topic.$comments.splice 0, 0, comment
         $scope.initMyReply()
         $scope.replying = false
-        $scope.activeReply = dis_reply._id
+        $scope.activeReply = comment._id
 
     initMyReply: ()->
       @newReply = {} if !@newReply
@@ -56,7 +56,7 @@ angular.module('budweiserApp')
       .result.then ->
         reply.remove()
         .then ()->
-          topic.$replies.splice topic.$replies.indexOf(reply), 1
+          topic.$comments.splice topic.$comments.indexOf(reply), 1
 
     repliesFilter: (item)->
       switch $scope.viewState.filterMethod
@@ -75,7 +75,7 @@ angular.module('budweiserApp')
         if raw.data.disTopic._id is $scope.topic._id
           $scope.topic.voteUpUsers = raw.data.disTopic.voteUpUsers
       when Const.NoticeType.ReplyVoteUp
-        myReplie = $scope.topic.$replies.filter (item)->
+        myReplie = $scope.topic.$comments.filter (item)->
           item._id is raw.data.disReply._id
         if myReplie?.length
           myReplie[0].voteUpUsers = raw.data.disReply.voteUpUsers
