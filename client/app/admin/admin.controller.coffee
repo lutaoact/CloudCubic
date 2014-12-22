@@ -2,11 +2,9 @@
 
 angular.module('budweiserApp').controller 'AdminCtrl', (
   $scope
-  webview
 ) ->
 
   angular.extend $scope,
-    webview: webview
     menus: [
       stateName:'admin.home'
       className: 'budon budon-organization'
@@ -24,4 +22,3 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       className: 'budon budon-category'
       label: '专业管理'
     ]
-

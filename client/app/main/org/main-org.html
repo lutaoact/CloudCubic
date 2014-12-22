@@ -1,4 +1,4 @@
-<section class="course-list margin-top"
+<section class="course-list"
          ng-if="Auth.hasRole('student')"
          ng-init="loadMyCourses()"
          id="course-list">
@@ -94,7 +94,7 @@
 
 <section ng-if="!Auth.isLoggedIn()"
          style="min-height: 100px; padding-top: 20px"
-         class="margin-top text-center">
+         class="text-center">
   <h3>Banner... </h3>
 </section>
 

@@ -3,12 +3,10 @@
 angular.module('budweiserApp').controller 'SettingsCtrl', (
   Auth
   $scope
-  webview
   $location
 ) ->
 
   angular.extend $scope,
-    webview: webview
     me: Auth.getCurrentUser()
 
     menu: [
