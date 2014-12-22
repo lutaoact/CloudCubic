@@ -43,27 +43,9 @@ exports.index = (req, res, next) ->
 # filter  有： # owner，category
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
 
-# TODO @lutao
-# 现在的 course 是公开的，所有人都可以看到，这样的话和下面的 publicShow 重复了，求合体
-# index.coffee router 里面的权限可以去掉
 exports.show = (req, res, next) ->
-  courseId = req.params.id
-  CourseUtils.getAuthedCourseById req.user, courseId
-  .then (course) ->
-    course.populateQ 'owners'
-  .then (course) ->
-    res.send course
-  .fail next
-
-exports.publicShow = (req, res, next) ->
-  courseId = req.params.id
-  Course.findById courseId
-  .populate 'lectureAssembly', 'name isFreeTry'
-  .execQ()
-  .then (course) ->
-    res.send course
-  .catch next
-  .done()
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
 
 
 exports.create = (req, res, next) ->
