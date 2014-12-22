@@ -1,6 +1,14 @@
 <div ng-class="{'margin-top': !webview}">
   <div class="container">
     订单号：{{order._id}}
+
+    <ul>
+      <li ng-repeat="classe in order.classes">
+        {{classe.courseId.name}}  {{classe.price}}
+      </li>
+    </ul>
+
+    总价格：{{order.totalFee}}
     <button ng-click="pay()">支付</button>
   </div>
 </div>

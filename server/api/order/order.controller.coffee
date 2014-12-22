@@ -3,6 +3,7 @@
 Order = _u.getModel "order"
 Classe = _u.getModel "classe"
 Cart = _u.getModel "cart"
+populateClasses = require '../../utils/populateClasses'
 
 alipay = require('./alipay_config').alipay;
 
@@ -65,6 +66,8 @@ exports.show = (req, res, next) ->
   Order.findOneQ
     _id: orderId
     userId: req.user._id
+  .then (order) ->
+    populateClasses order
   .then (order) ->
     res.send order
   , next

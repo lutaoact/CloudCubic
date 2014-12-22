@@ -2,14 +2,15 @@
 
 Cart = _u.getModel 'cart'
 
-populateCart = (cart)->
-  cart.populateQ 'classes'
-  .then (doc) ->
-    Q.all _.map doc.classes, (classe)->
-      classe.populateQ 'courseId'
-  .then () ->
-    return cart
+#populateClasses = (doc)->
+#  doc.populateQ 'classes'
+#  .then (tmp) ->
+#    Q.all _.map tmp.classes, (classe)->
+#      classe.populateQ 'courseId'
+#  .then () ->
+#    return doc
 
+populateClasses = require '../../utils/populateClasses'
 
 exports.show = (req, res, next) ->
   user = req.user
@@ -17,7 +18,7 @@ exports.show = (req, res, next) ->
   .then (doc) ->
     if doc == null
       return null
-    populateCart doc
+    populateClasses doc
   .then (doc) ->
     if doc == null
       res.send []
@@ -42,7 +43,7 @@ exports.add = (req, res, next) ->
       data = userId: user._id, classes: classes
       Cart.createQ data
   .then (doc) ->
-    populateCart doc
+    populateClasses doc
   .then (doc)->
     res.send doc.classes
   .catch next
@@ -58,7 +59,7 @@ exports.remove = (req, res, next) ->
     doc.classes.pull.apply doc.classes, classes
     do doc.saveQ
   .then (result) ->
-    populateCart result[0]
+    populateClasses result[0]
   .then (doc)->
     res.send doc.classes
   .catch next
