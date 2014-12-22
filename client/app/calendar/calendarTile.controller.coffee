@@ -10,6 +10,7 @@ angular.module('budweiserApp')
   Auth
   $modal
 ) ->
+  # Use iso in chinese
   useIso = true
 
   weeksOfMonth = (date) ->
@@ -105,18 +106,21 @@ angular.module('budweiserApp')
     events = []
     if $scope.schedules?
       $scope.schedules.forEach (schedule)->
-        if moment(schedule.start).isAfter(day) or moment(schedule.until).isBefore(day)
+        console.log schedule
+        if moment(schedule.start).diff(day,'days') > 0 or moment(schedule.until).diff(day,'days') < 0
           return
-        else
+        else if moment(schedule.start).weekday() is day.weekday()
           event = {}
           event.title = schedule.course.name
           event.$course = schedule.course
           event.color = $filter('genColor')(schedule.course._id)
-          event.startTime = moment(schedule.start).weeks(day.weeks())
+          event.startTime = moment(schedule.start).set('month',day.get('month')).set('date',day.get('date'))
           event.currentWeek = day.diff(moment(schedule.start),'weeks') + 1
           event.weeks = moment(schedule.until).diff(moment(schedule.start),'weeks') + 1
-          event.endTime = moment(schedule.end).weeks(day.weeks())
+          event.endTime = moment(schedule.end).set('month',day.get('month')).set('date',day.get('date'))
           events.push event
+        else
+          return
 
     return events
 
