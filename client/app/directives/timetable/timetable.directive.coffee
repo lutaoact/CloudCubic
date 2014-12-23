@@ -51,8 +51,6 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         $modal.open
           templateUrl: 'app/directives/timetable/schedulePopup.html'
           controller: 'SchedulePopupCtrl'
-          resolve:
-            courses: $scope.courses
         .result.then (schedules)->
           $scope.schedules.concat schedules
           console.log $scope.schedules
@@ -156,15 +154,21 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       Restangular.all('courses').getList()
       .then (courses)->
         $scope.courses = courses
+      .then (courses)->
+        $q.all(courses.map (course)->
+          Restangular.all('classes').getList({couresId: course._id})
+          .then (classes)->
+            course.classes = classes
+        )
+      .then (classesArrays)->
+        $scope.viewState.isBusy = false
 
     courses: undefined
 
     viewState:
       course: undefined
       classe: undefined
-
-    isBusy: ()->
-      !$scope.courses
+      isBusy: true
 
     resetClasse: ()->
       # reset

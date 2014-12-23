@@ -18,7 +18,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
           console.debug 'get classes error', error
           []
       Courses: (Restangular) ->
-        Restangular.all('courses/public').getList()
+        Restangular.all('courses').getList()
 
   .state 'admin.classeManager.detail',
     url: '/:classeId'

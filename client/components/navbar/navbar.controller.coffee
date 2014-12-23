@@ -72,11 +72,6 @@ angular.module 'budweiserApp'
       .then ->
         $scope.messages.splice $scope.messages.indexOf(message), 1
 
-    openCalendar: ()->
-      $modal.open
-        templateUrl: 'app/calendar/calendar-popup.html'
-        controller: 'CalendarPopupCtrl'
-
     displayCourseMenu: ->
       $state.params.courseId && $state.current.name.indexOf('admin') != 0
 

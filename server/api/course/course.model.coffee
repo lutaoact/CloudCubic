@@ -14,6 +14,11 @@ exports.Course = BaseModel.subclass
     ,
       path: 'owners', select: 'name avatar'
     ]
+    create: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'owners', select: 'name avatar'
+    ]
     show: [
       path: 'categoryId', select: 'name'
     ,
@@ -57,3 +62,14 @@ exports.Course = BaseModel.subclass
         default: false
 
     $super()
+
+  getById: (courseId) ->
+    return @findByIdQ courseId
+      .then (course) ->
+        unless course
+          return Q.reject
+            status: 404
+            errCode: ErrCode.NoCourse
+            errMsg: '没有找到该课程'
+
+        return course

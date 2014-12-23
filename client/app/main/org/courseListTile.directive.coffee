@@ -15,18 +15,24 @@ angular.module('budweiserApp')
     allCourses: null
     search: {}
 
-  Restangular.all('categories').getList()
+  Restangular
+  .all('categories')
+  .getList()
   .then (categories) ->
     $scope.categories = categories
 
-  Restangular.all('courses/public').getList()
-  .then (result) ->
-    classeQs = result.map (course) ->
-      Restangular.all('classes').getList {courseId: course._id}
-      .then (classes)->
-        course.$classes = classes
-        course
-    $q.all(classeQs)
-  .then (result)->
-    console.log 'course list tile', result
-    $scope.allCourses = result
+  $scope.$watch 'search.categoryId', (categoryId) ->
+    Restangular
+    .all('courses')
+    .getList(limit:4, categoryIds:categoryId)
+    .then (result) ->
+      classeQs = result.map (course) ->
+        Restangular
+        .all('classes')
+        .getList courseId: course._id
+        .then (classes)->
+          course.$classes = classes
+          course
+      $q.all(classeQs)
+    .then (result)->
+      $scope.allCourses = result

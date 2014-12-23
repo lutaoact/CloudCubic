@@ -29,9 +29,9 @@ orgGetter = (req, res, next) ->
     if host isnt defaultHost
       # 匹配出二级域名
       regexp = new RegExp('^(.*)\\.\\b' + defaultHost + '$')
-      logger.info "host match regexp: ", regexp
+      logger.info "host match regexp:", regexp
       matches = host.match regexp
-      logger.info 'current host: ', host
+      logger.info 'current host:', host
       logger.info "host.match result:", matches
 
       if matches?.length is 2

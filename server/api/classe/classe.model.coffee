@@ -8,10 +8,15 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 exports.Classe = BaseModel.subclass
   classname: 'Classe'
   populates:
-    create: [
-      path: 'orgId'
+    index: [
+      path: 'orgId', select: 'name'
     ,
-      path: 'courseId'
+      path: 'courseId', select: 'name'
+    ]
+    create: [
+      path: 'orgId', select: 'name'
+    ,
+      path: 'courseId', select: 'name'
     ]
 
   initialize: ($super) ->

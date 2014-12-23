@@ -18,41 +18,24 @@ SocketUtils = _u.getUtils 'socket'
 request = require 'request'
 getMediaService = require('../../common/azureMS').getMediaService
 
-# TODO @lutao
-# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
+WrapRequest = new (require '../../utils/WrapRequest')(Lecture)
+
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
-  CourseUtils.getAuthedCourseById req.user, courseId
-  .then (course) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      course.populateQ 'lectureAssembly', '-media'
-#    else
-      course.populateQ 'lectureAssembly'
-  .then (course) ->
-    return res.send course.lectureAssembly
-  , next
 
-# TODO @lutao
-# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
+  Course.getById courseId
+  .then (course) ->
+    conditions = {_id: {$in: course.lectureAssembly}}
+    options =
+      limit: req.query.limit
+      from: req.query.from
+      sort: req.query.sort
+    WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+
 exports.show = (req, res, next) ->
-  lectureId = req.params.id
-  LectureUtils.getAuthedLectureById req.user, lectureId
-  .then (lecture) ->
-    options = [
-      path: 'keyPoints.kp'
-    ,
-      path: 'homeworks'
-    ,
-      path: 'quizzes'
-    ]
-    lecture.populateQ options
-  .then (lecture) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      lecture.select '-media'
-    res.send lecture
-  , next
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
 
 
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.

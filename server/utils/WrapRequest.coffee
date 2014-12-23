@@ -31,10 +31,19 @@ class WrapRequest
 
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
-    logger.info 'page show conditions:', conditions
-    logger.info 'page show options:', options
+    logger.info 'page index conditions:', conditions
+    logger.info 'page index options:', options
+
+    # 若有sort参数传递，则解析结果，否则直接使用默认排序{created: -1}
+    if options.sort?
+      try
+        options.sort = JSON.parse(options.sort)
+      catch err
+        logger.error err
+        options.sort = null
+
     mongoQuery = @Model.find conditions
-      .sort created: -1
+      .sort options.sort ? {created: -1}
       .limit ~~options.limit ? Const.PageSize[@constructor.name]
       .skip ~~options.from
 
@@ -55,7 +64,11 @@ class WrapRequest
   wrapIndex: (req, res, next, conditions) ->
     conditions.deleteFlag = {$ne: true}
     logger.info 'index conditions:', conditions
-    @Model.findQ conditions
+
+    mongoQuery = @Model.find conditions
+    mongoQuery = @populateQuery mongoQuery, @Model.populates?.index
+
+    mongoQuery.execQ()
     .then (docs) ->
       res.send docs
     .catch next

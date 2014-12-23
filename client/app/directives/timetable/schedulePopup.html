@@ -6,7 +6,7 @@
 
   <div class="clearfix title-row row">
     <div class="form-group col-xs-6">
-      <ui-select ng-model="viewState.course" ng-disabled="isBusy()" on-select="resetClasse($item)">
+      <ui-select ng-model="viewState.course" ng-disabled="viewState.isBusy" on-select="resetClasse($item)">
         <ui-select-match placeholder="选择课程">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="option as option in courses |filter: $select.search" >
           <div ng-bind-html="option.name | highlight: $select.search" class="tag-option" ></div>
@@ -14,7 +14,7 @@
       </ui-select>
     </div>
     <div class="form-group col-xs-6">
-      <ui-select ng-model="viewState.classe" ng-disabled="isBusy()||!viewState.course">
+      <ui-select ng-model="viewState.classe" ng-disabled="viewState.isBusy||!viewState.course">
         <ui-select-match placeholder="选择班级">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="option as option in viewState.course.classes | filter: $select.search">
           <div ng-bind-html="option.name | highlight: $select.search"></div>

@@ -17,8 +17,9 @@ WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
   conditions.courseId = req.query.courseId if req.query.courseId
+  conditions.students = req.query.studentId if req.query.studentId
 
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 
 exports.show = (req, res, next) ->

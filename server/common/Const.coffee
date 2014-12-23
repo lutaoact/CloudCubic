@@ -50,7 +50,7 @@ Const =
   PageSize:
     DisTopic: 10
     DisReply: 36
-    Lecture: 10
+    Lecture: 30
     Course: 10
     Question: 300
 
