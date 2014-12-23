@@ -31,16 +31,6 @@ exports.index = (req, res, next) ->
 
 
 # TODO @lutao
-# 1.请加上分页 logic (急) limit, from, orderBy: '-created'
-# 2.populate 的方式用你之前重构的框架吧
-#
-# 3.前端现在有两个地方调用 course.index 方法：
-#   a.显示我的课程的时候
-#   b.显示所有课程的时候
-#   这样，publicIIndex 和 index 是不是可以考虑合并一下，用 owner=true 作为一种 condition 区分自己的和别人的
-#
-# 4.分页过滤，排序的时候，现在的
-# filter  有： # owner，category
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
 
 exports.show = (req, res, next) ->
