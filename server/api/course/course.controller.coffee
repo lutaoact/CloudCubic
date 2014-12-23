@@ -24,7 +24,7 @@ exports.index = (req, res, next) ->
   conditions = {orgId: req.org?._id}
   conditions.owners = req.query.owner if req.query.owner
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
-  conditions._id = {$in: _.flatten([req.query.categoryIds])} if req.query.ids
+  conditions._id = {$in: _.flatten([req.query.ids])} if req.query.ids
 
   options = limit: req.query.limit, from: req.query.from
 
