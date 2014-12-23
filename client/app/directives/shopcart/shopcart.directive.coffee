@@ -10,6 +10,11 @@ angular.module('budweiserApp').directive 'shopcart', ->
     Restangular
   )->
     angular.extend $scope,
+      removeCartItem: (classe)->
+        Restangular.all('carts/remove').post classes: [classe._id]
+        .then (result)->
+          $scope.cartItems = result
+
       clearCart: ->
         classes = []
         _.map $scope.cartItems, (classe)->
@@ -25,6 +30,14 @@ angular.module('budweiserApp').directive 'shopcart', ->
         Restangular.all('orders').post classes: classes
         .then (order)->
           $state.go 'order', orderId: order._id
+
+      totalPrice: ->
+        if $scope.cartItems == null
+          return 0
+        _.reduce $scope.cartItems, (sum, classe)->
+          return sum + classe['price']
+        , 0
+
 
     $scope.$on 'addedToCart', (event, data)->
       console.log data

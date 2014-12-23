@@ -1,16 +1,29 @@
-<li dropdown>
+<li dropdown class="shop-cart">
   <a class="dropdown-toggle">
-    购物车
+    <i class="fa fa-shopping-cart"></i>
   </a>
-  <ul class="dropdown-menu" role="menu">
+  <ul class="dropdown-menu shop-cart-menu" role="menu">
+    <div class="shop-cart-header">共<span class="item-total">{{cartItems.length}}个</span>课程在购物车中
+      <a class="pull-right clear-shop-cart text-muted" href ng-click="clearCart()">清空</a>
+    </div>
     <li ng-repeat="classe in cartItems">
-      <a>{{classe.courseId.name}} 价格：{{classe.price}}</a>
+
+      <div class="media" ui-sref="courseDetail({courseId: classe.courseId._id})">
+        <a class="pull-left">
+          <img class="media-object" src="{{classe.courseId.thumbnail}}">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">{{classe.courseId.name}}</h4>
+          价格：{{classe.price}}
+          <a class="close pull-right clear-shop-cart remove-item" href ng-click="removeCartItem(classe)">&times;</a>
+        </div>
+
+      </div>
+
     </li>
-    <li>
-      <a href ng-click="makeCartOrder()">支付</a>
-    </li>
-    <li>
-      <a href ng-click="clearCart()">清空购物车</a>
-    </li>
+    <div class="shop-cart-bottom">
+      <span class="price">￥{{totalPrice()}}</span>
+      <button type="button" class="pull-right btn btn-xs btn-danger btn-buy rounded" ng-click="makeCartOrder()">购买</button>
+    </div>
   </ul>
 </li>
