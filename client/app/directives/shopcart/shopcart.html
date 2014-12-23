@@ -8,13 +8,13 @@
     </div>
     <li ng-repeat="classe in cartItems">
 
-      <div class="media" ui-sref="courseDetail({courseId: classe.courseId._id})">
+      <div class="media">
         <a class="pull-left">
           <img class="media-object" src="{{classe.courseId.thumbnail}}">
         </a>
         <div class="media-body">
-          <h4 class="media-heading">{{classe.courseId.name}}</h4>
-          价格：{{classe.price}}
+          <h5 class="media-heading" ui-sref="courseDetail({courseId: classe.courseId._id})">{{classe.courseId.name}}</h5>
+          <span class="class-price">￥{{classe.price}}</span>
           <a class="close pull-right clear-shop-cart remove-item" href ng-click="removeCartItem(classe)">&times;</a>
         </div>
 
@@ -22,7 +22,7 @@
 
     </li>
     <div class="shop-cart-bottom">
-      <span class="price">￥{{totalPrice()}}</span>
+      <span class="total-price">￥{{totalPrice()}}</span>
       <button type="button" class="pull-right btn btn-xs btn-danger btn-buy rounded" ng-click="makeCartOrder()">购买</button>
     </div>
   </ul>

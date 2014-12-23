@@ -1,17 +1,27 @@
 .shop-cart{
   .shop-cart-menu{
+    padding-bottom: 0px;
+    min-width: 275px;
+    color:black;
+    img{
+      width:68px;
+      height:45px;
+    }
     li{
       padding: 6px 0px;
       margin: 0px 12px;
       border-bottom: 1px dashed @gray-lighter;
     }
-    padding-bottom: 0px;
-    min-width: 275px;
-    img{
-      width:68px;
-      height:45px;
+    .media-heading{
+      cursor: pointer;
+      &:hover{
+        color: @base-color;
+      }
     }
-    color:black;
+    .class-price{
+      color:#F4845B;
+      font-size:12px;
+    }
     .shop-cart-header{
       border-bottom: 1px dashed @gray-lighter;
       padding: 4px 0;
@@ -28,12 +38,12 @@
     .remove-item{
       border-left: 1px solid @gray-lighter;
       padding-left: 12px;
-      margin-top: -14px;
+      margin-top: -10px;
     }
     .shop-cart-bottom{
       padding: 10px;
       background-color: #ebebeb;
-      .price{
+      .total-price {
         color:#F4845B;
         font-size:16px;
         line-height:22px;
