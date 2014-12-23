@@ -21,4 +21,22 @@
       </a>
     </div>
   </div>
+  <div class="row pagination-row text-center"
+       style="margin-left: 0;"
+       ng-hide="allCourses.$count <= itemsPerPage">
+    <pagination
+      total-items="allCourses.$count"
+      ng-model="currentPage"
+      items-per-page="itemsPerPage"
+      class="pagination-sm bud"
+      boundary-links="true"
+      rotate="false"
+      max-size="maxSize"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      num-pages="numPages">
+    </pagination>
+  </div>
 </div>

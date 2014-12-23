@@ -12,6 +12,9 @@ angular.module('budweiserApp')
     categories: null
     allCourses: null
     search: {}
+    maxSize      : 5
+    currentPage  : 1
+    itemsPerPage : 8
 
   Restangular
   .all('categories')
@@ -19,16 +22,19 @@ angular.module('budweiserApp')
   .then (categories) ->
     $scope.categories = categories
 
-  Restangular.all('courses').getList()
-  .then (result)->
-    classeQs = result.map (course) ->
-      Restangular
-      .all('classes')
-      .getList courseId: course._id
-      .then (classes)->
-        course.$classes = classes
-        course
-    $q.all(classeQs)
-  .then (result)->
-    console.log 'course list view', result
-    $scope.allCourses = result
+  $scope.$watchCollection '[search.categoryId, currentPage]', ->
+    Restangular
+    .all('courses')
+    .getList(
+      from        : ($scope.currentPage - 1) * $scope.itemsPerPage
+      limit       : $scope.itemsPerPage
+      categoryIds : $scope.search.categoryId
+    )
+    .then (courses) ->
+      $scope.allCourses = courses
+      angular.forEach courses, (course) ->
+        Restangular
+        .all('classes')
+        .getList courseId: course._id
+        .then (classes)->
+          course.$classes = classes

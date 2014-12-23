@@ -23,8 +23,8 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 exports.index = (req, res, next) ->
   conditions = {orgId: req.org?._id}
   conditions.owners = req.query.owner if req.query.owner
-  conditions.categoryId = {$in: req.query.categoryIds} if req.query.categoryIds
-  conditions._id = {$in: req.query.ids} if req.query.ids
+  conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
+  conditions._id = {$in: _.flatten([req.query.categoryIds])} if req.query.ids
 
   options = limit: req.query.limit, from: req.query.from
 
@@ -33,7 +33,6 @@ exports.index = (req, res, next) ->
 
 # TODO @lutao
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
-
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
@@ -41,19 +40,14 @@ exports.show = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   data = req.body
-  delete data._id
-  data.owners = [req.user._id]
-  data.orgId = req.user.orgId
-
-  # 先建立forum，然后设置course的forumId
+  # 先建立forum，然后设置 course 的 forumId
   Forum.createQ {postBy: req.user._id, name: data.name, orgId: req.user.orgId}
   .then (forum) ->
+    delete data._id
+    data.owners  = [req.user._id]
+    data.orgId   = req.user.orgId
     data.forumId = forum._id
-    Course.createQ data
-  .then (course) ->
-    res.json 201, course
-  .catch next
-  .done()
+    WrapRequest.wrapCreate req, res, next, data
 
 
 exports.update = (req, res, next) ->

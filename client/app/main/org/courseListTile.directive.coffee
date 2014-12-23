@@ -21,17 +21,18 @@ angular.module('budweiserApp')
   .then (categories) ->
     $scope.categories = categories
 
-  Restangular
-  .all('courses')
-  .getList()
-  .then (result) ->
-    classeQs = result.map (course) ->
-      Restangular
-      .all('classes')
-      .getList courseId: course._id
-      .then (classes)->
-        course.$classes = classes
-        course
-    $q.all(classeQs)
-  .then (result)->
-    $scope.allCourses = result
+  $scope.$watch 'search.categoryId', (categoryId) ->
+    Restangular
+    .all('courses')
+    .getList(limit:4, categoryIds:categoryId)
+    .then (result) ->
+      classeQs = result.map (course) ->
+        Restangular
+        .all('classes')
+        .getList courseId: course._id
+        .then (classes)->
+          course.$classes = classes
+          course
+      $q.all(classeQs)
+    .then (result)->
+      $scope.allCourses = result
