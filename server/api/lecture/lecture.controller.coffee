@@ -33,26 +33,9 @@ exports.index = (req, res, next) ->
     WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
-# TODO @lutao
-# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
 exports.show = (req, res, next) ->
-  lectureId = req.params.id
-  LectureUtils.getAuthedLectureById req.user, lectureId
-  .then (lecture) ->
-    options = [
-      path: 'keyPoints.kp'
-    ,
-      path: 'homeworks'
-    ,
-      path: 'quizzes'
-    ]
-    lecture.populateQ options
-  .then (lecture) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      lecture.select '-media'
-    res.send lecture
-  , next
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
 
 
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
