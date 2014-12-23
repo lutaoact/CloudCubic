@@ -46,7 +46,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
               x: $scope.viewState.originSize.width / $scope.viewState.size.width * $scope.viewState.start.x
               y: $scope.viewState.originSize.height / $scope.viewState.size.height * $scope.viewState.start.y
             suffix += "/crop/!" + ~~cropSize.width + 'x' + ~~cropSize.height + 'a' + ~~cropOffset.x + 'a' + ~~cropOffset.y
-          if options.maxWidth
+          if options.maxWidth and options.maxWidth < (cropSize?.width || $scope.viewState.originSize.width)
             suffix += '/thumbnail/' + ~~options.maxWidth + 'x'
 
           result = "#{key}" + suffix

@@ -215,4 +215,44 @@
       </div>
     </div>
   </tab>
+
+  <tab heading="定制化">
+    <div class="row admin-ui-view customized">
+      <div class="col-md-12 custom-banner">
+        <div class="col-md-6">
+          <h5>横幅 <small>您的品牌展示</small></h5>
+          <div class="banner-edit" ng-repeat="banner in organization.banners">
+            <div class="banner-thumb" src-key="banner.image" source-attr="background-image">
+            </div>
+            <input type="text" class="form-control" placeholder="标语" ng-model="banner.text">
+            <a href="" class="btn btn-xs btn-remove" ng-click="removeBanner(banner)"><i class="fa fa-times"></i></a>
+          </div>
+          <uploader class="btn btn-xs rounded" limit="{{imageSizeLimitation}}"
+                    on-complete="onBannerUpload($data)"
+                    accept-type="image"
+                    crop="true"
+                    crop-ratio="2.5"
+                    max-width="1920"
+                    >
+            上传图片
+          </uploader>
+          <br>
+          <a href="" ng-click="saveCustom()" class="btn btn-danger btn-xs rounded">保存</a>
+        </div>
+        <div class="col-md-6">
+          预览
+          <carousel disable-animation>
+            <slide ng-repeat="banner in organization.banners" active="banner.active">
+              <div class="banner" src-key="banner.image" source-attr="background-image">
+                <div class="carousel-caption">
+                  <h4>{{banner.text}}</h4>
+                </div>
+              </div>
+            </slide>
+          </carousel>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </tab>
 </tabset>

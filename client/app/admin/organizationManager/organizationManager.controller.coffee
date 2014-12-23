@@ -41,6 +41,16 @@ angular.module('budweiserApp')
           message: 'Logo 修改成功'
           classes: 'alert-success'
 
+    onBannerUpload: (key) ->
+      banner =
+        image: key
+        text: ''
+      $scope.organization.banners ?= []
+      $scope.organization.banners.push banner
+
+    removeBanner: (banner) ->
+      $scope.organization.banners.splice($scope.organization.banners.indexOf(banner),1)
+
     saveOrg: (form)->
       if !form.$valid then return
       $scope.saving = true
@@ -53,6 +63,13 @@ angular.module('budweiserApp')
       .catch (error) ->
         $scope.errors = error?.data?.errors
         $scope.saving = false
+
+    saveCustom: ()->
+      Restangular.one('organizations', $scope.organization._id).patch banners: $scope.organization.banners
+      .then ->
+        notify
+          message: '修改成功'
+          classes: 'alert-success'
 
   Auth.getCurrentUser().$promise.then (me) ->
     Restangular.one('organizations', me.orgId._id).get()

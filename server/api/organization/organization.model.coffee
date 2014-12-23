@@ -30,6 +30,12 @@ exports.Organization = BaseModel.subclass
       customDomain:
         type : String
         unique : true
+      banners: [
+        {
+          image: String
+          text: String
+        }
+      ]
 
     setupOrgSchema @schema
 
