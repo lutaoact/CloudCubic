@@ -1,46 +1,73 @@
-.shop-cart{
-  .shop-cart-menu{
-    padding-bottom: 0px;
-    min-width: 275px;
-    color:black;
-    img{
-      width:68px;
-      height:45px;
+.shop-cart {
+  .shop-cart-menu {
+    margin: 0px;
+    padding: 0px;
+    width: 275px;
+    color: black;
+
+    .shop-cart-header {
+      @header-line-height: 40px;
+      border-bottom: 1px dashed @gray-lighter;
+      padding: 0 10px;
+      line-height: @header-line-height;
+      .item-total {
+        color: #EF505E;
+        font-size: 15px;
+      }
+      .text-muted {
+        width: 35px;
+        &:before {
+          content: '';
+          position: relative;
+          border-left: 1px solid #EDEDED;
+          padding-right: 3px;
+          padding-left: 3px;
+        }
+      }
     }
-    li{
+
+    .shop-cart-item + .shop-cart-item {
+      border-top: 1px dashed @gray-lighter;
+    }
+    .shop-cart-item {
+      height: 60px;
       padding: 6px 0px;
       margin: 0px 12px;
-      border-bottom: 1px dashed @gray-lighter;
-    }
-    .media-heading{
-      cursor: pointer;
-      &:hover{
-        color: @base-color;
+
+      .item-image {
+        width: 70px;
+        height: 48px;
+        margin-right: 2px;
+        vertical-align: top;
+      }
+
+      .item-body {
+        display: inline-block;
+        width: calc(~'100% - 76px');
+        .course-name {
+          margin: 0;
+          height: 30px;
+          width: 145px;
+          cursor: pointer;
+          overflow: hidden;
+          font-weight: normal;
+          &:hover {
+            color: @base-color;
+          }
+        }
+        .class-price {
+          color: #F4845B;
+          font-size: 12px;
+        }
+        .close {
+          border-left: 1px solid #c7c7c7;
+          padding-left: 8px;
+          margin-top: -15px;
+        }
       }
     }
-    .class-price{
-      color:#F4845B;
-      font-size:12px;
-    }
-    .shop-cart-header{
-      border-bottom: 1px dashed @gray-lighter;
-      padding: 4px 0;
-      margin-left: 12px;
-      .clear-shop-cart{
-        border-left: 1px solid @gray-lighter;
-        padding: 0 15px;
-      }
-      .item-total{
-        color: #EF505E;
-        font-size:15px;
-      }
-    }
-    .remove-item{
-      border-left: 1px solid @gray-lighter;
-      padding-left: 12px;
-      margin-top: -10px;
-    }
-    .shop-cart-bottom{
+
+    .shop-cart-footer {
       padding: 10px;
       background-color: #ebebeb;
       .total-price {
@@ -48,7 +75,7 @@
         font-size:16px;
         line-height:22px;
       }
-      .btn-buy{
+      .btn-buy {
         padding: 0px 12px;
         font-size: 12px;
         line-height: 20px;
@@ -56,4 +83,3 @@
     }
   }
 }
-

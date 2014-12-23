@@ -2,28 +2,41 @@
   <a class="dropdown-toggle">
     <i class="fa fa-shopping-cart"></i>
   </a>
+
   <ul class="dropdown-menu shop-cart-menu" role="menu">
-    <div class="shop-cart-header">共<span class="item-total">{{cartItems.length}}个</span>课程在购物车中
-      <a class="pull-right clear-shop-cart text-muted" href ng-click="clearCart()">清空</a>
+
+    <div class="shop-cart-header">
+      共<span class="item-total">{{cartItems.length}}个</span>课程在购物车中
+      <a class="pull-right text-muted small"
+         href
+         ng-click="clearCart()">
+         清空
+      </a>
     </div>
-    <li ng-repeat="classe in cartItems">
 
-      <div class="media">
-        <a class="pull-left">
-          <img class="media-object" src="{{classe.courseId.thumbnail}}">
-        </a>
-        <div class="media-body">
-          <h5 class="media-heading" ui-sref="courseDetail({courseId: classe.courseId._id})">{{classe.courseId.name}}</h5>
-          <span class="class-price">￥{{classe.price}}</span>
-          <a class="close pull-right clear-shop-cart remove-item" href ng-click="removeCartItem(classe)">&times;</a>
-        </div>
-
+    <li ng-repeat="classe in cartItems"
+        class="shop-cart-item">
+      <img class="item-image" src="{{classe.courseId.thumbnail}}">
+      <div class="item-body">
+        <h5 class="course-name"
+            ui-sref="courseDetail({courseId: classe.courseId._id})">
+            {{classe.courseId.name}}
+        </h5>
+        <span class="class-price">￥{{classe.price}}</span>
+        <a class="close pull-right"
+           href
+           ng-click="removeCartItem(classe)">&times;</a>
       </div>
-
     </li>
-    <div class="shop-cart-bottom">
+
+    <div class="shop-cart-footer">
       <span class="total-price">￥{{totalPrice()}}</span>
-      <button type="button" class="pull-right btn btn-xs btn-danger btn-buy rounded" ng-click="makeCartOrder()">购买</button>
+      <button type="button"
+              class="pull-right btn btn-xs btn-danger btn-buy rounded"
+              ng-click="makeCartOrder()">
+              购买
+      </button>
     </div>
+
   </ul>
 </li>
