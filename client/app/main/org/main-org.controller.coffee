@@ -51,7 +51,7 @@ angular.module('budweiserApp')
         .all('courses')
         .getList(owner: Auth.getCurrentUser()._id)
         .then (courses) ->
-          console.log 'my courses', courses
+          console.log 'teacher courses', courses
           $scope.myCourses = courses
           resetFilterData()
       else
@@ -59,8 +59,14 @@ angular.module('budweiserApp')
         .all('classes')
         .getList(studentId: Auth.getCurrentUser()._id)
         .then (classes) ->
-          $scope.myCourses = _.map classes, (c) -> c.courseId
-          resetFilterData()
+          courseIds = _.map classes, (c) -> c.courseId._id
+          Restangular
+          .all('courses')
+          .getList(ids: courseIds)
+          .then (courses) ->
+            console.log 'student courses', courses
+            $scope.myCourses = courses
+            resetFilterData()
 
   loadCategories = ->
     Category
