@@ -1,23 +1,17 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'courseTile', (Restangular)->
+angular.module('budweiserApp').directive 'courseTile', ()->
   templateUrl: 'app/directives/courseTile/courseTile.html'
   restrict: 'EA'
   replace: true
   scope:
     course: '='
-  link: (scope, element, attrs) ->
-    scope.$watch 'course', (value)->
-      if value
-        Restangular.all('progresses').getList({courseId: value._id})
-        .then (progress)->
-          scope.percentageCalculated = true
-          scope.progress = progress
-          scope.percentage = ~~(100.0 * progress?.length / value.lectureAssembly.length)
-  controller: ($scope, $state)->
+
+  controller: ($scope, $state, Restangular, Auth)->
+    $scope.Auth = Auth
     $scope.continueStudying = ($event)->
       $event.stopPropagation()
-      if !$scope.progress?.length and $scope.lectureAssembly.length
+      if !$scope.progress?.length and $scope.course.lectureAssembly.length
         $state.go 'lectureDetail',
           courseId: $scope.course._id
           lectureId: $scope.course.lectureAssembly[0]
@@ -31,6 +25,20 @@ angular.module('budweiserApp').directive 'courseTile', (Restangular)->
         $state.go 'lectureDetail',
           courseId: $scope.course._id
           lectureId: lastViewed
+
+    $scope.togglePublish = ($event)->
+      $event.stopPropagation()
+      Restangular.one('courses', $scope.course._id).patch isPublished: !$scope.course.isPublished
+      .then ->
+        $scope.course.isPublished = !$scope.course.isPublished
+
+    $scope.$watch 'course', (value)->
+      if value and Auth.hasRole('student') and !Auth.hasRole('teacher')
+        Restangular.all('progresses').getList({courseId: value._id})
+        .then (progress)->
+          $scope.percentageCalculated = true
+          $scope.progress = progress
+          $scope.percentage = ~~(100.0 * _.intersection(progress, value.lectureAssembly)?.length / value.lectureAssembly.length)
 
 
 .directive 'publicCourseTile', ->

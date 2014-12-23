@@ -91,7 +91,6 @@ angular.module('budweiserApp')
 
     removeEvent: ($event, event)->
       $event.stopPropagation()
-      console.log event
       event.schedule.remove()
       .then ->
         event.$container.splice event.$container.indexOf(event), 1
@@ -106,7 +105,6 @@ angular.module('budweiserApp')
     events = []
     if $scope.schedules?
       $scope.schedules.forEach (schedule)->
-        console.log schedule
         if moment(schedule.start).diff(day,'days') > 0 or moment(schedule.until).diff(day,'days') < 0
           return
         else if moment(schedule.start).weekday() is day.weekday()

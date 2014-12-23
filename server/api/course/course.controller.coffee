@@ -26,6 +26,12 @@ exports.index = (req, res, next) ->
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
   conditions._id = {$in: _.flatten([req.query.ids])} if req.query.ids
 
+  conditions.isPublished = true
+  console.log req.user
+  if req.user?.id is req.query.owner
+    # 如果老师自己查看则去除限制
+    delete conditions.isPublished
+
   options = limit: req.query.limit, from: req.query.from
 
   WrapRequest.wrapPageIndex req, res, next, conditions, options

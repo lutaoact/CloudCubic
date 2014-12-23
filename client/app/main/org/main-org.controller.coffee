@@ -58,7 +58,6 @@ angular.module('budweiserApp')
         .all('courses')
         .getList(owner: Auth.getCurrentUser()._id)
         .then (courses) ->
-          console.log 'teacher courses', courses
           $scope.myCourses = courses
           resetFilterData()
       else
@@ -71,7 +70,6 @@ angular.module('budweiserApp')
           .all('courses')
           .getList(ids: courseIds)
           .then (courses) ->
-            console.log 'student courses', courses
             $scope.myCourses = courses
             resetFilterData()
 

@@ -17,7 +17,7 @@
       {{course.name}}<br>
     </h5>
     <hr>
-    <div class="lecture-info text-muted small">
+    <div class="lecture-info text-muted small" ng-if="!Auth.hasRole('teacher')">
       <span ng-if="!percentageCalculated">进度计算中...</span>
       <span class="thermometer" ng-if="percentageCalculated">
         <span class="thermometer-inner" ng-style="{'width':percentage+'%'}"></span>
@@ -32,6 +32,17 @@
         <span class="text-muted" ng-if="!course.lectureAssembly.length">
           未开始
         </span>
+      </span>
+    </div>
+    <div class="lecture-info text-muted small" ng-if="Auth.hasRole('teacher')">
+      <span class="pull-right">
+        <a href="" class="btn btn-xs rounded" ng-class="{'btn-danger':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
+          {{course.isPublished?'取消发布':'发布'}}
+        </a>
+        <span class="text-muted">|</span>
+        <a href="" class="btn btn-xs" ng-click="">
+          <i class="fa fa-gear"></i>
+        </a>
       </span>
     </div>
   </div>

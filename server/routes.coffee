@@ -31,8 +31,6 @@ orgGetter = (req, res, next) ->
       regexp = new RegExp('^(.*)\\.\\b' + defaultHost + '$')
       logger.info "host match regexp:", regexp
       matches = host.match regexp
-      logger.info 'current host:', host
-      logger.info "host.match result:", matches
 
       if matches?.length is 2
         Organization.findBy matches[1]
