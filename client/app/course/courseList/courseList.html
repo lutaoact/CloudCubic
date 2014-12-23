@@ -1,42 +1,55 @@
-<div class="container course-list-tile">
-  <div class="row header">
-    <div class="col-md-12">
-      <h4 class="title">
-        <a href ng-click="search.categoryId = null">所有课程</a>
-      </h4>
-      <div class="btn-group">
-        <label class="btn btn-toggle"
-               ng-repeat="category in categories"
-               ng-model="search.categoryId"
-               uncheckable
-               btn-radio="category._id">{{category.name}}</label>
+<div class="course-list-view">
+  <div class="head-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 header">
+          <h4 class="title">
+            <a href ng-click="search.categoryId = null">所有课程分类</a>
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 categories">
+          <span class="category-label">学科</span>
+          <div class="btn-group">
+            <label class="btn btn-toggle"
+                   ng-repeat="category in categories"
+                   ng-model="search.categoryId"
+                   uncheckable
+                   btn-radio="category._id">{{category.name}}</label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row body">
-    <div class="col-md-3 col-sm-4"
-         ng-repeat="course in allCourses | filter:{categoryId: search.categoryId || '!!'}">
-      <a ui-sref="courseDetail({courseId:course._id})">
-        <public-course-tile course="course"></public-course-tile>
-      </a>
+  <div class="container">
+    <div class="row info-row">
+      共<span class="total-num">{{allCourses.$count}}</span>个
     </div>
-  </div>
-  <div class="row pagination-row text-center"
-       style="margin-left: 0;"
-       ng-hide="allCourses.$count <= itemsPerPage">
-    <pagination
-      total-items="allCourses.$count"
-      ng-model="currentPage"
-      items-per-page="itemsPerPage"
-      class="pagination-sm bud"
-      boundary-links="true"
-      rotate="false"
-      max-size="maxSize"
-      previous-text="&lsaquo;"
-      next-text="&rsaquo;"
-      first-text="&laquo;"
-      last-text="&raquo;"
-      num-pages="numPages">
-    </pagination>
+    <div class="row courses-row">
+      <div class="col-md-3 col-sm-4"
+           ng-repeat="course in allCourses | filter:{categoryId: search.categoryId || '!!'}">
+        <a ui-sref="courseDetail({courseId:course._id})">
+          <public-course-tile course="course"></public-course-tile>
+        </a>
+      </div>
+    </div>
+    <div class="row pagination-row text-center"
+         ng-hide="allCourses.$count <= itemsPerPage">
+      <pagination
+        total-items="allCourses.$count"
+        ng-model="currentPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
+    </div>
   </div>
 </div>

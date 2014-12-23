@@ -1,0 +1,78 @@
+.course-list-view {
+  background: #EBEBEB;
+  padding-bottom: 30px;
+  .head-row {
+    background: white;
+    padding: 10px 0;
+    .header {
+      padding: 10px 1px;
+      border-bottom: 1px solid #B2B3B4;
+      &:before {
+        content: '';
+        border-bottom: 1px solid #676767;
+        width: 115px;
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+      }
+      .title {
+        margin: 5px 0;
+        a {
+          color: #0F1116;
+          text-decoration: none;
+        }
+      }
+    }
+    .categories {
+      padding: 10px 0;
+      .category-label {
+        line-height: 28px;
+      }
+      .btn-group {
+        vertical-align: top;
+        margin-left: 50px;
+        .btn + .btn {
+          margin-left: 10px;
+        }
+        .btn-toggle {
+          color: #8D8F92;
+          border-radius: 4px !important;
+          padding: 3px 12px;
+          box-shadow: none;
+          &:hover {
+            color: white;
+            background: @base-color + 15;
+          }
+          &:active ,
+          &.active {
+            color: white;
+            background: @base-color;
+          }
+        }
+      }
+    }
+  }
+  .info-row {
+    background: white;
+    margin-top: 15px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    .total-num {
+      color: @base-color;
+    }
+  }
+  .courses-row {
+    margin-top: 15px;
+    background: white;
+    padding-top: 20px;
+  }
+  .pagination-row {
+    margin-top: 15px;
+    background: #FFF;
+    height: 35px;
+    .pagination {
+      margin-top: 5px;
+    }
+  }
+}
