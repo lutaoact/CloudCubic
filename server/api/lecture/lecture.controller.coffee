@@ -18,16 +18,19 @@ SocketUtils = _u.getUtils 'socket'
 request = require 'request'
 getMediaService = require('../../common/azureMS').getMediaService
 
+WrapRequest = new (require '../../utils/WrapRequest')(Lecture)
+
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
 
   Course.getById courseId
   .then (course) ->
-    course.populateQ 'lectureAssembly'
-  .then (course) ->
-    res.send course.lectureAssembly
-  .catch next
-  .done()
+    conditions = {_id: {$in: course.lectureAssembly}}
+    options =
+      limit: req.query.limit
+      from: req.query.from
+      sort: req.query.sort
+    WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
 # TODO @lutao

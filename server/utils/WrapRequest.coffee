@@ -31,8 +31,17 @@ class WrapRequest
 
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
-    logger.info 'page show conditions:', conditions
-    logger.info 'page show options:', options
+    logger.info 'page index conditions:', conditions
+    logger.info 'page index options:', options
+
+    # 若有sort参数传递，则解析结果，否则直接使用默认排序{created: -1}
+    if options.sort?
+      try
+        options.sort = JSON.parse(options.sort)
+      catch err
+        logger.error err
+        options.sort = null
+
     mongoQuery = @Model.find conditions
       .sort options.sort ? {created: -1}
       .limit ~~options.limit ? Const.PageSize[@constructor.name]
