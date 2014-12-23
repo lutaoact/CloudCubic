@@ -7,6 +7,14 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Lecture = BaseModel.subclass
   classname: 'Lecture'
+  populates:
+    show: [
+      path: 'keyPoints.kp'
+    ,
+      path: 'homeworks'
+    ,
+      path: 'quizzes'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       name:
@@ -23,11 +31,6 @@ exports.Lecture = BaseModel.subclass
         ]
         fileWidth: Number
         fileHeight: Number
-      ]
-      # todo: remove
-      slides: [
-        thumb: String
-        raw: String
       ]
       media: String
       encodedMedia: String

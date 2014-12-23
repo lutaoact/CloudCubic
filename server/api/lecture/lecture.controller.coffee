@@ -18,20 +18,17 @@ SocketUtils = _u.getUtils 'socket'
 request = require 'request'
 getMediaService = require('../../common/azureMS').getMediaService
 
-# TODO @lutao
-# 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
-  CourseUtils.getAuthedCourseById req.user, courseId
+
+  Course.getById courseId
   .then (course) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      course.populateQ 'lectureAssembly', '-media'
-#    else
-      course.populateQ 'lectureAssembly'
+    course.populateQ 'lectureAssembly'
   .then (course) ->
-    return res.send course.lectureAssembly
-  , next
+    res.send course.lectureAssembly
+  .catch next
+  .done()
+
 
 # TODO @lutao
 # 现在课时是公开的，权限可以去掉，只是 update、create 的时候需要判断权限
