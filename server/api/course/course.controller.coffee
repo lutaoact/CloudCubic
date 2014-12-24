@@ -83,3 +83,8 @@ exports.destroy = (req, res, next) ->
   .then () ->
     res.send 204
   .fail next
+
+
+exports.publish = (req, res, next) ->
+  conditions = {_id: req.params.id, orgId: req.user.orgId}
+  conditions.owners = req.user._id if req.user.role is 'teacher'

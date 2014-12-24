@@ -31,7 +31,10 @@ exports.create = (req, res, next) ->
   .done()
 
 pickedUpdatedKeys = ['content', 'tags']
-exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
+exports.update = (req, res, next) ->
+  conditions = _id: req.params.id, postBy: req.user._id
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
+
 
 exports.destroy = (req, res, next) ->
   conditions = _id: req.params.id, postBy: req.user._id

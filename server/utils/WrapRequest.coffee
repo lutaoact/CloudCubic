@@ -103,25 +103,19 @@ class WrapRequest
     .done()
 
 
-  wrapUpdate: (pickedUpdatedKeys) ->
-    return (req, res, next) =>
-      _id = req.params.id
-      user = req.user
+  wrapUpdate: (req, res, next, conditions, pickedUpdatedKeys) ->
+    data = _.pick req.body, pickedUpdatedKeys
 
-      #拣选出允许更新的字段
-      data = _.pick req.body, pickedUpdatedKeys
-
-      modelName = @Model.constructor.name
-      @Model.getByIdAndUser _id, user._id
-      .then (doc) ->
-        updated = _.extend doc, data
-        do updated.saveQ
-      .then (result) ->
-        result[0].populateQ fieldMap[modelName].field, fieldMap[modelName].populate
-      .then (doc) ->
-        res.send doc
-      .catch next
-      .done()
+    @Model.findOneQ conditions
+    .then (doc) ->
+      updated = _.extend doc, data
+      do updated.saveQ
+    .then (result) =>
+      @populateDoc result[0], @Model.populates?.update
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
 
 
   wrapDestroy: (req, res, next, conditions) ->
