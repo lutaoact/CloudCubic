@@ -31,9 +31,11 @@ exports.Classe = BaseModel.subclass
       courseId:
         type: ObjectId
         ref: 'course'
+      # 报名时间段
       enrollment:
         from: Date
         to: Date
+      # 上课时间段
       duration:
         from: Date
         to: Date

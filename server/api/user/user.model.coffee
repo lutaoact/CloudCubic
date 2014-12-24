@@ -32,6 +32,8 @@ exports.User = BaseModel.subclass
         type : String
       name :
         type : String
+      title:
+        type : String
       hashedPassword :
         type : String
       provider :

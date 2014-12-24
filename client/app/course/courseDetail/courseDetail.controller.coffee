@@ -5,7 +5,6 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   Auth
   $scope
   $state
-  Navbar
   Category
   $rootScope
   Restangular
@@ -14,15 +13,8 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   angular.extend $scope,
     itemsPerPage: 10
     currentPage: 1
+    selectedClasse: null
     course: null
-
-    loadLectures: ->
-      if !$state.params.courseId then return
-      Restangular.all('lectures').getList({courseId: $state.params.courseId})
-      .then (lectures)->
-        console.log 'loadLectures', lectures
-        $scope.course.$lectures = lectures
-        $scope.course.$lectures
 
     loadProgress: ->
       $scope.viewedLectureIndex = 1
@@ -69,18 +61,15 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         console.log 'enrolled!'
         #TODO: redirect to course page
 
+  # 获取该课程的基本信息
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    course.$lectures = course.lectureAssembly
+    $scope.course = course
+    $scope.loadProgress()
+
+  # 获取该课程的已开班级信息
   Restangular.all('classes').getList(courseId: $state.params.courseId)
   .then (classes)->
     $scope.classes = classes
-
-  $scope.$on '$destroy', Navbar.resetTitle
-
-  Restangular.one('courses', $state.params.courseId).get()
-  .then (course) ->
-    Navbar.setTitle course.name, "courseDetail({courseId:'#{$state.params.courseId}'})"
-    Category.find course.categoryId
-    .then (category) ->
-      course.$category = category
-    $scope.course = course
-    $scope.loadLectures()
-    .then $scope.loadProgress
+    $scope.selectedClasse = classes[0]

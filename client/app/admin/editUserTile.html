@@ -58,9 +58,18 @@
                  ng-model="editingInfo.name">
         </div>
       </div>
-      <div class="form-group"
-           ng-if="canRemark">
-        <label for="inputInfo" class="col-xs-4 control-label">备注</label>
+      <div class="form-group">
+        <label for="inputTitle" class="col-xs-4 control-label">头衔</label>
+        <div class="col-xs-8">
+          <input type="text"
+                 class="form-control"
+                 id="inputTitle"
+                 placeholder="请输入您的头衔"
+                 ng-model="editingInfo.title">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputInfo" class="col-xs-4 control-label">简介</label>
         <div class="col-xs-8">
           <textarea type="text"
                     class="form-control"

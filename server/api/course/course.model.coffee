@@ -22,9 +22,9 @@ exports.Course = BaseModel.subclass
     show: [
       path: 'categoryId', select: 'name'
     ,
-      path: 'owners', select: 'name avatar'
+      path: 'owners', select: 'name avatar title info'
     ,
-      path: 'lectureAssembly'
+      path: 'lectureAssembly', select: 'name isFreeTry info'
     ]
   initialize: ($super) ->
     @schema = new Schema

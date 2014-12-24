@@ -3,14 +3,23 @@
     .course-info{
       height: 400px;
       position: relative;
+      background: white;
       .box-shadow(2px 2px 2px rgba(0,0,0,0.3));
+      .course-title{
+        margin: 0;
+        padding: 0px 40px;
+        line-height: 60px;
+        font-size: 20px;
+        font-weight: normal;
+        .text-overflow();
+      }
       .course-info-left{
         position: absolute;
-        top:0;
-        right: 0;
+        top: 0px;
         bottom: 0;
         left: 0;
-        right: 260px;
+        padding: 60px 0px 20px 40px;
+        right: 450px;
         .course-thumbnail{
           width: 100%;
           height: 100%;
@@ -20,45 +29,118 @@
         }
       }
       .course-info-right{
-        padding: 20px 16px;
+        padding: 60px 40px 20px 20px;
         position: absolute;
-        top:0;
+        top: 0;
         right: 0;
         bottom: 0;
-        width: 260px;
-        background: #FFFFFF;
-        .course-title{
-          background: #000000;
-          color:#FFFFFF;
-          display: block;
-          .text-overflow();
-          padding: 9px 22px;
-        }
-        .course-summary{
-          margin-top: 30px;
-          height: 115px;
-          overflow: auto;
-          &:before{
-            content: '简介';
-            display: table;
-            font-size: 12px;
-            color: #FFFFFF;
-            margin-bottom: 15px;
-            background: @base-color;
+        width: 450px;
+        .classe-select {
+          margin-bottom: 25px;
+          .classe-label {
+            font-size: 16px;
+            color: @base-color;
+          }
+          select {
+            font-size: 16px;
+            border: 1px solid #F0F0F0;
+            background: white;
           }
         }
-        .learn-progress{
-          border: 18px solid @gray-lighter;
-          width: 183px;
-          height: 5px;
-          background: @gray-light;
-          box-sizing: content-box;
-          margin-top: 50px;
-          .learn-progress-inner-bar{
-            background: @gray;
+        .owner {
+          .avatar-lg {
+            box-shadow: none;
+            margin-right: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+          }
+          .owner-name-title {
+            display: inline-block;
+            width: 100px;
+            vertical-align: top;
+            .owner-name {
+              display: block;
+              line-height: 30px;
+            }
+            .owner-title {
+              display: block;
+              font-size: 12px;
+            }
+          }
+          .owner-info {
+            font-size: 13px;
+            display: inline-block;
+            width: 200px;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+            padding-left: 20px;
+            padding-top: 5px;
+            &:before {
+              content: '';
+              position: absolute;
+              border-left: 1px dashed #B3B2B2;
+              height: 40px;
+              left: 0;
+            }
+          }
+        }
+        .classe-info {
+          .classe-time {
+            font-size: 13px;
+            color: #4d4d4d;
+            i + i {
+              padding-left: 26px;
+            }
+          }
+          .classe-duration {
+            margin: 15px 0;
+            padding: 12px 10px 12px 30px;
+            width: 357px;
+            height: 62px;
+            border: 2px solid @base-color;
+            .classe-col {
+              font-size: 13px;
+              display: inline-block;
+              width: 25%;
+              position: relative;
+              span {
+                font-size: 14px;
+                color: black;
+                display: block;
+              }
+            }
+            .classe-col + .classe-col {
+              width: 36%;
+              &:before {
+                content: '';
+                position: absolute;
+                border-left: 1px dashed #D3D3D3;
+                height: 30px;
+                top: 5px;
+                left: -23px;
+              }
+            }
+          }
+        }
+        .learn-progress {
+          margin-top: 70px;
+          .progress {
+            border: 18px solid @gray-lighter;
+            width: 183px;
             height: 5px;
+            background: @gray-light;
+            box-sizing: content-box;
+            margin: 0;
+            display: inline-block;
+            overflow: visible;
+            .learn-progress-inner-bar{
+              background: @gray;
+              height: 5px;
+            }
           }
-          .tip{
+          .tip {
             position: relative;
             margin: auto;
             text-align: center;
@@ -68,7 +150,7 @@
             color: #FFF;
             font-size: 14px;
             padding: 5px 0;
-            &:after{
+            &:after {
               content: ' ';
               border-left: @tooltip-arrow-width solid transparent;
               border-right: @tooltip-arrow-width solid transparent;
@@ -79,12 +161,16 @@
             }
           }
         }
-        .btn-lg{
-          width: 219px;
-          height: 40px;
+        .learn-btn {
+          display: inline-block;
+          vertical-align: top;
+          .btn {
+            width: 160px;
+            height: 40px;
+          }
         }
       }
-      &:before{
+      &:before {
         content: '';
         position: absolute;
         bottom: -10px;
