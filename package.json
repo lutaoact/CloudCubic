@@ -48,6 +48,7 @@
     "stack-trace": "^0.0.9",
     "static-favicon": "~1.0.1",
     "underscore.string": "^2.3.3",
+    "wechat": "^1.2.1",
     "xmldom": "0.1.13"
   },
   "devDependencies": {
