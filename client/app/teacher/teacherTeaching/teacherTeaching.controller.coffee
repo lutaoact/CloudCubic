@@ -78,9 +78,9 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
-  Restangular.all('classes').getList courseId: $state.params.classeId
-  .then (classes) ->
-    $scope.classes = classes
+  Restangular.one('classes', $state.params.classeId).get()
+  .then (classe) ->
+    $scope.classe = classe
   Restangular.one('lectures', $state.params.lectureId).get()
   .then (lecture) ->
     $scope.lecture = lecture
