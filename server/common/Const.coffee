@@ -53,6 +53,7 @@ Const =
     Lecture: 30
     Course: 10
     Question: 300
+    Order: 10
 
   QuestionType:
     Choice: 1

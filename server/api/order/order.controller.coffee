@@ -37,14 +37,28 @@ alipay
 
 
 exports.index = (req, res, next)->
-  userId = req.user._id
-  Order.findQ  userId: userId
+  conditions = userId: req.user._id
+
+  limit = req.query.limit ? Const.PageSize['Order']
+  from = req.query.from ? 0
+
+  ordersPromise = Order.find conditions
+  .limit limit
+  .skip from
+  .execQ()
   .then (orders) ->
     Q.all(_.map orders, (order)->
       populateClasses order
     )
-  .then (orders) ->
-    return res.send orders
+
+  Q.all [
+    ordersPromise
+    Order.countQ conditions
+  ]
+  .spread (orders, count) ->
+    return res.send
+      results: orders
+      count: count
   , next
 
 
@@ -123,3 +137,15 @@ exports.delete = (req, res, next)->
   .fail next
   .done()
 
+exports.count = (req, res, next)->
+  userId = req.user._id
+  Q.all [
+    Order.countQ {userId: userId}
+    Order.countQ {userId: userId, status: 'unpaid'}
+  ]
+  .spread (totalCount, unpaidCount) ->
+    res.send
+      totalCount: totalCount
+      unpaidCount: unpaidCount
+  .fail next
+  .done()
