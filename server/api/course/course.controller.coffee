@@ -66,6 +66,7 @@ exports.update = (req, res, next) ->
     updated = _.extend course, req.body
     updated.markModified 'lectureAssembly'
     updated.markModified 'classes'
+    # TODO WrapRequest.wrapUpdate
     updated.save (err) ->
       next err if err
     course.populateQ 'owners classes'

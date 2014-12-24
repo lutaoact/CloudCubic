@@ -184,47 +184,94 @@
 
     &.lecture-list{
       padding-bottom: 50px;
-      @list-item-height: 150px;
+      @list-item-height: 75px;
       background: #EBEBEB;
       .list-group{
         margin-top: -1px;
       }
-      .list-group-item{
-        height: 150px;
+      .list-group-header {
+        height: 55px;
+        background: white;
+        line-height: 50px;
+        margin-top: 10px;
+        padding: 0 20px;
+        border-bottom: 1px solid #CFCACA;
+        .course-label {
+          font-weight: normal;
+          font-size: 17px;
+          line-height: 55px;
+        }
+        .btn-group {
+          margin-top: -5px;
+          margin-left: 20px;
+          .btn + .btn {
+            margin-left: 10px;
+          }
+          .btn-toggle {
+            color: #8D8F92;
+            border-radius: 4px !important;
+            padding: 3px 12px;
+            box-shadow: none;
+            &:hover {
+              color: white;
+              background: @base-color + 15;
+            }
+            &:active ,
+            &.active {
+              color: white;
+              background: @base-color;
+            }
+          }
+        }
+      }
+      .list-group-item {
+        height: @list-item-height;
         overflow: hidden;
-        margin: 2px 0;
+        margin: 5px 0;
         border: none;
-        padding: 40px;
-        .title{
-
+        padding: 10px 20px;
+        .lecture-index {
+          display: inline-block;
+          font-size: 20px;
+          line-height: 50px;
+          width: 35px;
         }
-        .info{
-          .text-overflow();
-        }
-        .number{
-          font-size: @pt2px*30px;
-          line-height: 35px;
-        }
-        .arrow-right{
-          font-size: @pt2px*30px;
-          line-height: 70px;
-          padding: 0;
-        }
-        @media screen and (max-width: @screen-xs-min) {
-          padding: 0;
-          height: 100px;
-          .col-xs-9,
-          .col-xs-1{
-            padding: 0;
+        .lecture-name {
+          display: inline-block;
+          width: ~'calc(100% - 100px)';
+          vertical-align: top;
+          .title {
+            font-size: 15px;
+            line-height: 35px;
           }
-          .number{
-            font-size: @pt2px*20px;
-            line-height: 100px;
+          .info {
+            .text-overflow();
           }
-          .arrow-right{
-            font-size: @pt2px*20px;
-            line-height: 100px;
-            float: right;
+        }
+        .lecture-tip {
+          i {
+            font-size: 17px;
+          }
+          color: @base-color;
+          width: 50px;
+          display: inline-block;
+          font-size: 14px;
+          line-height: 55px;
+        }
+        &.desc {
+          min-height: 200px;
+          padding: 20px;
+        }
+        &.lecture {
+          &:hover {
+            background: @base-color;
+            color: white;
+            .lecture-index,
+            .lecture-tip,
+            .title,
+            .info {
+              color: white;
+            }
           }
         }
       }

@@ -95,25 +95,51 @@
     </div>
 
     <div class="bud list-group">
-      <!-- todo: disable-animation="true" animation looks strange -->
-      <a class="bud list-group-item lecture row fade-repeat"
-        ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-        ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
-        <div class="col-xs-1 text-center number">
-          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
-          <i class="fa fa-check primary" ng-show="lecture.$viewed"></i>
+      <div class="list-group-header">
+        <span class="course-label">课程信息</span>
+        <div class="btn-group">
+          <label class="btn btn-toggle"
+                 ng-model="courseTab.type"
+                 uncheckable
+                 btn-radio="'lecture'">课时列表</label>
+          <label class="btn btn-toggle"
+                 ng-model="courseTab.type"
+                 uncheckable
+                 btn-radio="'desc'">课程简介</label>
         </div>
-        <div class="col-xs-9">
-          <h3 class="title">{{lecture.name}}</h3>
-          <div class="info">
+      </div>
+
+      <div class="list-group-item desc"
+           ng-show="courseTab.type=='desc'">
+        {{course.info}}
+        <h3 ng-if="!course.info.length" class="text-center text-muted">暂无简介</h3>
+      </div>
+
+      <div class="list-group-item desc"
+           ng-if="courseTab.type=='lecture' && !course.$lectures.length">
+        <h3 class="text-center text-muted">暂无课时</h3>
+      </div>
+
+      <a class="list-group-item lecture"
+         ng-show="courseTab.type=='lecture'"
+         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
+         ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        <div class="text-center lecture-index text-muted">
+          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
+        </div>
+        <div class="lecture-name">
+          <span class="title">{{lecture.name}}</span>
+          <div class="info text-muted">
             {{lecture.info}}
           </div>
         </div>
-        <div class="col-xs-1 text-center arrow-right">
-          <i class="fa fa-star-o" ng-show="lecture.starred"></i>
+        <div class="lecture-tip"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) == -1 && lecture.isFreeTry">
+          <i class="fa fa-play-circle-o"></i> 试听
         </div>
-        <div class="col-xs-1 text-center arrow-right">
-          <i class="fa fa-chevron-right"></i>
+        <div class="lecture-tip"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) != -1 && lecture.$viewed">
+          <i class="fa fa-check-circle"></i> 完成
         </div>
       </a>
     </div>

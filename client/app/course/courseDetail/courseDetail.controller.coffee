@@ -16,6 +16,8 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
     currentPage: 1
     selectedClasse: null
     course: null
+    courseTab:
+      type: 'lecture'
 
     loadProgress: ->
       $scope.viewedLectureIndex = 1
