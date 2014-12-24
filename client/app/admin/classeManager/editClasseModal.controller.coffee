@@ -34,3 +34,7 @@ angular.module('budweiserApp')
         notify
           message: '编辑开课班级信息失败'
           classes: 'alert-danger'
+
+  if Courses.length is 1
+    $scope.classe ?= {}
+    $scope.classe.courseId = Courses[0]._id

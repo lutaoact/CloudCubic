@@ -1,39 +1,106 @@
 <div>
-  <section class="teacher-course">
+  <section class="teacher-course" ng-class="{'editing':viewState.editingInfo}">
     <div class="container">
       <div class="row">
         <div class="col-md-12 course-actions-bar clearfix">
           <h4 class="pull-left">我的课程</h4>
           <div class="pull-right" style="margin-top: 5px;">
-            <a href="" class="btn btn-sm rounded" ng-class="{'btn-danger':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
+            <a href="" class="btn btn-sm rounded" ng-class="{'btn-primary':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
               {{course.isPublished?'取消发布':'发布'}}
             </a>
             <span class="text-muted">|</span>
-            <span dropdown class="setting-btn" style="position: relative;">
+            <a href="" class="btn btn-sm rounded btn-danger" ng-if="viewState.editingInfo" ng-click="saveCourseInfo()">
+              保存
+            </a>
+            <span ng-if="!viewState.editingInfo" dropdown class="setting-btn" style="position: relative;">
               <a href="" class="btn btn-sm" dropdown-toggle>
                 <i class="fa fa-gear"></i>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="">编辑</a></li>
+                <li><a href="" ng-click="viewState.editingInfo = true">编辑</a></li>
                 <li><a href="" ng-click="removeCourse()">删除</a></li>
               </ul>
             </span>
-
           </div>
         </div>
 
-        <div class="col-md-12 course-card" ng-init="viewState.displayView='info'">
-          <teacher-course-form course="course"
-                               delete-callback="deleteCallback($course)"
-                               categories="categories"></teacher-course-form>
+        <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
+          <h4 class="course-title" ng-if="!viewState.editingInfo" tooltip="{{course.name}}" tooltip-placement="bottom">
+            {{course.name}}
+          </h4>
+          <input style="z-index: 1000;margin: 10px 40px;position: absolute;width: 30%;" ng-if="viewState.editingInfo" type="text" class="form-control" ng-model="course.name">
+          <div class="course-info-left">
+            <div class="course-thumbnail"
+              src-key="course.thumbnail"
+              source-attr="background-image">
+            </div>
+          </div>
+          <div class="course-info-right">
+            <div class="form-group">
+              <a href="" class="btn btn-sm rounded btn-primary" ng-click="addClass()">添加班级</a>
+            </div>
+            <div class="classe-select">
+              <span class="classe-label">切换班级：</span>
+              <select ng-model="selectedClasse"
+                      class="form-control"
+                      ng-disabled="viewState.editingInfo"
+                      ng-options="classe.name for classe in classes">
+              </select>
+            </div>
+
+            <div class="classe-select" ng-if="!viewState.editingInfo">
+              <span class="classe-label">科目：</span> <span>{{course.categoryId.name}}</span>
+            </div>
+
+            <div class="classe-select" ng-if="viewState.editingInfo">
+              <span class="classe-label">科目：</span>
+              <select ng-model="course.$category"
+                      class="form-control"
+                      ng-disabled="!viewState.editingInfo"
+                      ng-options="category.name for category in categories">
+              </select>
+            </div>
+
+            <div class="classe-info">
+              <div class="dl-dd-dt">
+                <table>
+                  <tr>
+                    <th>总课时</th>
+                    <th>上课时间</th>
+                    <th>结束时间</th>
+                  </tr>
+                  <tr>
+                    <td>{{course.$lectures.length}}</td>
+                    <td>{{selectedClasse.duration.from | date: 'yyyy.MM.dd'}}</td>
+                    <td>{{selectedClasse.duration.to | date: 'yyyy.MM.dd'}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="owner">
+              <div class="avatar-lg pull-left"
+                   source-attr="background-image"
+                   src-key="course.owners[0].avatar"
+                   suffix="?imageView2/1/w/64/h/64">
+              </div>
+              <div class="owner-name-title">
+                <span class="owner-name">{{course.owners[0].name||'某老师'}}</span>
+                <span class="owner-title">{{course.owners[0].title}}</span>
+              </div>
+              <div class="owner-info text-muted">
+                {{course.owners[0].info}}
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <div class="col-md-12">
           <div class="course-stuff">
             <ul class="nav nav-pills" role="tablist">
               <li role="presentation" ng-class="{'active':viewState.displayView=='info'}"><a href="" ng-click="viewState.displayView='info'">课程信息</a></li>
-              <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课程列表</a></li>
-              <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论</a></li>
+              <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课时列表</a></li>
+              <!-- <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论</a></li> -->
             </ul>
 
             <hr>
@@ -41,16 +108,21 @@
             <div ng-show="viewState.displayView=='info'">
               <div class="course-desc">
                 <h4>
-                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程详细内容
-                  <button class="btn btn-danger btn-sm pull-right rounded" ng-click="saveCourseDesc()">保存</button>
+                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程概要
                 </h4>
+                <input type="text" class="form-control" ng-model="course.info" ng-disabled="!viewState.editingInfo">
 
-                <text-angular class="bud" ng-model="course.description"></text-angular>
+                <h4>
+                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程详细内容
+                </h4>
+                <div class="blog" ng-if="!viewState.editingInfo" compile-html="course.description">
+                </div>
+                <text-angular class="bud" ng-model="course.description" ng-if="viewState.editingInfo"></text-angular>
               </div>
             </div>
 
             <teacher-course-lectures course="course" ng-show="viewState.displayView=='lectures'"
-                                     classes="classes"></teacher-course-lectures>
+                                     classe="selectedClasse"></teacher-course-lectures>
           </div>
         </div>
       </div>

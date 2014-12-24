@@ -7,7 +7,7 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
   templateUrl: 'app/teacher/teacherCourse/teacherCourseLectures.html'
   scope:
     course: '='
-    classes: '='
+    classe: '='
 
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope
@@ -31,7 +31,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       _.str.include(text, keyword)
 
     startTeaching: (course, lecture) ->
-      classe = _.find($scope.classes, {$active:true, courseId: course._id})
+      classe = $scope.classe
       $state.go 'teacher.teaching',
         courseId: course._id
         classeId: classe._id
