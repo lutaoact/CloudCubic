@@ -2,10 +2,25 @@
   <section class="teacher-course">
     <div class="container">
       <div class="row">
+        <div class="col-md-12 course-actions-bar">
+          <h4 class="pull-left">我的课程</h4>
+          <div class="pull-right" style="margin-top: 5px;">
+            <a href="" class="btn btn-sm rounded" ng-class="{'btn-danger':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
+              {{course.isPublished?'取消发布':'发布'}}
+            </a>
+            <span class="text-muted">|</span>
+            <a href="" class="btn btn-sm" ng-click="">
+              <i class="fa fa-gear"></i>
+            </a>
+          </div>
+        </div>
         <div class="col-md-12 list-group-item course-card">
           <teacher-course-form course="course"
                                delete-callback="deleteCallback($course)"
                                categories="categories"></teacher-course-form>
+          <tabset>
+
+          </tabset>
           <teacher-course-lectures course="course"
                                    classes="classes"></teacher-course-lectures>
         </div>

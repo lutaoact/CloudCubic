@@ -89,4 +89,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     progress = $scope.progressMap[$scope.activeProgressKey]
     $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
-  reloadLectures($scope.course)
+  $scope.$watch 'course', (value) ->
+    if value
+      reloadLectures($scope.course)

@@ -58,7 +58,7 @@ angular.module('budweiserApp')
       if input?
         $scope.keyPoints.post
           name: input
-          categoryId: $scope.categoryId
+          categoryId: $scope.categoryId._id||$scope.categoryId
         .then (newKp) ->
           $scope.keyPoints.push newKp
           keyPoint.kp = newKp

@@ -10,12 +10,12 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     imageSizeLimitation: configs.imageSizeLimitation
     keyPoints: keyPoints
     selectedKeyPoints:[]
-    categoryId: categoryId
+    categoryId: categoryId._id||categoryId
     images: []
     question:
       body: ''
       detailSolution: ''
-      categoryId: categoryId
+      categoryId: @categoryId
       choices: [{},{}]
 
     addKeyPoint: (keyPoint, input) ->
@@ -25,7 +25,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       if input?
         keyPoints.post
           name: input
-          categoryId: categoryId
+          categoryId: @categoryId
         .then (keyPoint) ->
           keyPoints.push keyPoint
           $scope.selectedKeyPoints.push angular.copy(keyPoint)
