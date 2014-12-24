@@ -2,7 +2,7 @@
   <section class="teacher-course">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 course-actions-bar">
+        <div class="col-md-12 course-actions-bar clearfix">
           <h4 class="pull-left">我的课程</h4>
           <div class="pull-right" style="margin-top: 5px;">
             <a href="" class="btn btn-sm rounded" ng-class="{'btn-danger':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
@@ -14,15 +14,37 @@
             </a>
           </div>
         </div>
-        <div class="col-md-12 list-group-item course-card">
+
+        <div class="col-md-12 course-card" ng-init="viewState.displayView='info'">
           <teacher-course-form course="course"
                                delete-callback="deleteCallback($course)"
                                categories="categories"></teacher-course-form>
-          <tabset>
+        </div>
 
-          </tabset>
-          <teacher-course-lectures course="course"
-                                   classes="classes"></teacher-course-lectures>
+        <div class="col-md-12">
+          <div class="course-stuff">
+            <ul class="nav nav-pills" role="tablist">
+              <li role="presentation" ng-class="{'active':viewState.displayView=='info'}"><a href="" ng-click="viewState.displayView='info'">课程信息</a></li>
+              <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课程列表</a></li>
+              <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论</a></li>
+            </ul>
+
+            <hr>
+
+            <div ng-show="viewState.displayView=='info'">
+              <div class="course-desc">
+                <h4>
+                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程详细内容
+                  <button class="btn btn-danger btn-sm pull-right rounded" ng-click="saveCourseDesc()">保存</button>
+                </h4>
+
+                <text-angular class="bud" ng-model="course.description"></text-angular>
+              </div>
+            </div>
+
+            <teacher-course-lectures course="course" ng-show="viewState.displayView=='lectures'"
+                                     classes="classes"></teacher-course-lectures>
+          </div>
         </div>
       </div>
     </div>
