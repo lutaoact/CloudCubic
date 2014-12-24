@@ -9,9 +9,16 @@
               {{course.isPublished?'取消发布':'发布'}}
             </a>
             <span class="text-muted">|</span>
-            <a href="" class="btn btn-sm" ng-click="">
-              <i class="fa fa-gear"></i>
-            </a>
+            <span dropdown class="setting-btn" style="position: relative;">
+              <a href="" class="btn btn-sm" dropdown-toggle>
+                <i class="fa fa-gear"></i>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="">编辑</a></li>
+                <li><a href="" ng-click="removeCourse()">删除</a></li>
+              </ul>
+            </span>
+
           </div>
         </div>
 

@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   Category
   Restangular
   notify
+  $modal
 ) ->
 
   $scope.$on '$destroy', Navbar.resetTitle
@@ -30,6 +31,18 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         notify
           message:'已保存'
           classes: 'alert-success'
+
+    removeCourse: ()->
+      course = $scope.course
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课程'
+          message: -> "确认要删除《#{course.name}》？"
+      .result.then ->
+        course.remove().then ->
+          $scope.deleteCallback?($course:course)
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
