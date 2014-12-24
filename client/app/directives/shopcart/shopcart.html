@@ -35,6 +35,7 @@
     <div class="shop-cart-footer">
       <span class="total-price">￥{{totalPrice()}}</span>
       <button type="button"
+              ng-disabled="cartItems.length==0"
               class="pull-right btn btn-xs btn-danger btn-buy rounded"
               ng-click="makeCartOrder()">
               购买
