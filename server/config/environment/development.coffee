@@ -5,6 +5,8 @@
 module.exports =
   host: 'http://localhost:9000'
 
+  wechatToken: 'woaixuezhifang'
+
   # MongoDB connection options
   mongo:
     uri: 'mongodb://localhost/budweiser-dev'

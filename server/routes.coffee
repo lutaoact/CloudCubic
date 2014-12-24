@@ -77,6 +77,7 @@ module.exports = (app) ->
   app.use '/api/offline_works', require './api/offline_work'
   app.use '/api/demo', require './api/demo'
   app.use '/auth', require './auth'
+  app.use '/wechat', require './api/wechat'
   app.use '/api/bind', require './api/bind'
   app.use '/api/register', require './api/register'
   app.use '/api/devices', require './api/device'
