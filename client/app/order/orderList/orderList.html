@@ -1,26 +1,66 @@
-<div ng-class="{'margin-top': !webview}">
-  <div class="container">
-    <div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">订单历史</div>
-      <!--<div class="panel-body">-->
-        <!--<p>...</p>-->
-      <!--</div>-->
+<div ng-class="{'margin-top': !webview}" class="order-list-view">
 
-      <ul class="list-group">
-        <li ng-repeat="order in orders" class="list-group-item">
-          <a ui-sref="order({orderId:order._id})">
-            {{order.classes[0].name}}
-            {{order.status}}
-            {{order.created}}
-          </a>
-          <a class="close pull-right"
-             ng-hide="order.status=='succeed'"
-             href
-             ng-click="deleteOrder(order)">&times;
-          </a>
-        </li>
-      </ul>
+  <div class="head-row">
+    <div class="container">
+      <div class="pull-left">
+        <div class="avatar-md pull-left" src-key="getMe().avatar" source-attr="background-image">
+        </div>
+        <div class="pull-left">
+          <h4>
+            {{getMe().name}}
+          </h4>
+          <span class="text-muted" style="font-size: 12px;" ng-if="org.location.name">
+            <i class="fa fa-map-marker"></i>{{org.location.name}}
+          </span>
+        </div>
+      </div>
+      <div class="pull-right order-count">
+        <div class="item-order-count" ng-class="{active: status==null}" ng-click="changeStatus()">
+          <div class="text-muted">所有订单</div>
+          <h3>{{count.totalCount||0}}</h3>
+        </div>
+        <div class="item-order-count" ng-class="{active: status=='unpaid'}" ng-click="changeStatus('unpaid')">
+          <div class="text-muted">等待付款</div>
+          <h3>{{count.unpaidCount||0}}</h3>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="container">
+    <div class="row orders-row">
+      <div class="col-md-3 col-sm-4"
+           ng-repeat="order in orders">
+        <a ui-sref="order({orderId:order._id})">
+          {{order.classes[0].name}}
+          {{order.status}}
+          {{order.created}}
+        </a>
+        <a class="close pull-right"
+           ng-hide="order.status=='succeed'"
+           href
+           ng-click="deleteOrder(order)">&times;
+        </a>
+      </div>
+    </div>
+
+    <div class="row pagination-row text-center"
+         ng-hide="orders.$count <= itemsPerPage">
+      <pagination
+        total-items="orders.$count"
+        ng-model="currentPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
+    </div>
+
   </div>
 </div>

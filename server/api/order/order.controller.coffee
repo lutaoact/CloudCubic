@@ -38,6 +38,7 @@ alipay
 
 exports.index = (req, res, next)->
   conditions = userId: req.user._id
+  conditions.status = req.query.status if req.query.status
 
   limit = req.query.limit ? Const.PageSize['Order']
   from = req.query.from ? 0
