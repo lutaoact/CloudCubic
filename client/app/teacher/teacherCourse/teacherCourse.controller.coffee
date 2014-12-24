@@ -19,7 +19,6 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
-    console.log course
     $scope.course = course
     Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 

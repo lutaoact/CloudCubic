@@ -41,16 +41,18 @@ angular.module('budweiserApp').directive 'studentList', ->
         $scope.selectedStudent = student
         $scope.onStudentSelect()?(student)
 
-    $scope.loadStudents()
-
-    $scope.$watch 'allStudentsDict', (value)->
-     if value and $state.params.studentId
-       $scope.selectedStudent = value[$state.params.studentId]
-
     updateStudentsStatus = ()->
       if $scope.allStudentsDict? and $scope.studentsStatus
         $scope.studentsStatus.forEach (studentStatus)->
           $scope.allStudentsDict[studentStatus.id].$className = studentStatus.className
+
+    $scope.$watch 'classes', (value) ->
+      if value
+        $scope.loadStudents()
+
+    $scope.$watch 'allStudentsDict', (value)->
+     if value and $state.params.studentId
+       $scope.selectedStudent = value[$state.params.studentId]
 
     $scope.$watch 'studentsStatus', (value)->
       updateStudentsStatus()
