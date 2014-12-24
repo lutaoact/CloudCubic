@@ -9,7 +9,12 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
   notify
 ) ->
 
-#  angular.extend $scope,
+  angular.extend $scope,
+    deleteOrder: (order)->
+      order.remove()
+      .then ->
+        _.remove $scope.orders, (_order)->
+          _order == order
 
   Restangular.all('orders').getList()
   .then (orders)->

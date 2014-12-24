@@ -8,11 +8,18 @@
       <!--</div>-->
 
       <ul class="list-group">
-        <a ng-repeat="order in orders" class="list-group-item" ui-sref="order({orderId:order._id})">
-          {{order.classes[0].name}}
-          {{order.status}}
-          {{order.created}}
-        </a>
+        <li ng-repeat="order in orders" class="list-group-item">
+          <a ui-sref="order({orderId:order._id})">
+            {{order.classes[0].name}}
+            {{order.status}}
+            {{order.created}}
+          </a>
+          <a class="close pull-right"
+             ng-hide="order.status=='succeed'"
+             href
+             ng-click="deleteOrder(order)">&times;
+          </a>
+        </li>
       </ul>
     </div>
   </div>

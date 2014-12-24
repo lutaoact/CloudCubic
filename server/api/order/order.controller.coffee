@@ -107,3 +107,19 @@ exports.pay = (req, res, next)->
 
     alipay.create_direct_pay_by_user(data, res);
   , next
+
+
+exports.delete = (req, res, next)->
+  orderId = req.params.id
+  userId = req.user._id
+
+  Order.findOneAndRemoveQ
+    _id: orderId
+    userId: userId
+    status:
+      $ne: "succeed"
+  .then ->
+    res.send 204
+  .fail next
+  .done()
+

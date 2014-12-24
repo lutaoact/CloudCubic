@@ -10,6 +10,7 @@ router.get '/', auth.isAuthenticated(), controller.index
 router.post '/', auth.isAuthenticated(), controller.create
 router.get '/:id', auth.isAuthenticated(), controller.show
 router.get '/:id/pay', auth.isAuthenticated(), controller.pay
+router.delete '/:id', auth.isAuthenticated(), controller.delete
 
 alipay = require('./alipay_config').alipay;
 alipay.route(router);
