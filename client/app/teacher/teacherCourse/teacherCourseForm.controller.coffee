@@ -53,12 +53,13 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
       $scope.saving = true
       course = $scope.course
       editingInfo = $scope.editingInfo
+      editingInfo.categoryId = editingInfo.categoryId._id
       course.patch(editingInfo)
       .then (newCourse) ->
         course.__v = newCourse.__v
         $scope.editingInfo = null
         $scope.saving = false
-        angular.extend course, editingInfo
+        angular.extend course, newCourse
         Navbar.setTitle course.name, "teacher.course({courseId:'#{course._id}'})"
         notify
           message:'课程信息已保存'

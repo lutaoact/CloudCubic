@@ -11,10 +11,13 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 ) ->
 
   angular.extend $scope,
+    Auth: Auth
     itemsPerPage: 10
     currentPage: 1
     selectedClasse: null
     course: null
+    courseTab:
+      type: 'lecture'
 
     loadProgress: ->
       $scope.viewedLectureIndex = 1

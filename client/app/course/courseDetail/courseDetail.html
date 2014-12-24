@@ -1,20 +1,3 @@
-<div class="course">
-  <div class="container">
-    <div ng-repeat="classe in classes">
-      {{classe.name}} <br>
-      价格:￥{{classe.price}} <br>
-      <div ng-hide="classe.price==0">
-        <button ng-click="addToCart(classe)">加入购物车</button>
-        <button ng-click="makeOrder(classe)">直接购买</button>
-      </div>
-      <div ng-show="classe.price==0">
-        本免费课程！
-        <button ng-click="enrollFreeClass(classe)">参加课程</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- lecture list -->
 <section class="course course-detail lecture-list" id="lecture-list">
   <div class="container">
@@ -35,29 +18,18 @@
                   ng-options="classe.name for classe in classes">
           </select>
         </div>
-        <div class="classe-info">
-          <div class="classe-time">
-            <i class="fa fa-calendar"></i>
-            每周一、三、五
-            <i class="fa fa-clock-o"></i>
-            13:30 - 18:00分
-            <i class="fa fa-check-circle-o"></i>
-            一年有效期
+        <div class="classe-duration text-muted">
+          <div class="classe-col">
+            总课时
+            <span>{{course.$lectures.length}}</span>
           </div>
-
-          <div class="classe-duration text-muted">
-            <div class="classe-col">
-              总课时
-              <span>{{course.$lectures.length}}</span>
-            </div>
-            <div class="classe-col">
-              上课时间
-              <span>{{selectedClasse.duration.from | date: 'yyyy.MM.dd'}}</span>
-            </div>
-            <div class="classe-col">
-              结束时间
-              <span>{{selectedClasse.duration.to | date: 'yyyy.MM.dd'}}</span>
-            </div>
+          <div class="classe-col">
+            上课时间
+            <span>{{selectedClasse.duration.from | date: 'yyyy.MM.dd'}}</span>
+          </div>
+          <div class="classe-col">
+            结束时间
+            <span>{{selectedClasse.duration.to | date: 'yyyy.MM.dd'}}</span>
           </div>
         </div>
         <div class="owner">
@@ -74,7 +46,36 @@
             {{course.owners[0].info}}
           </div>
         </div>
-        <div class="learn-progress">
+        <div class="buy-buttons"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) == -1">
+          <span class="yuan" ng-if="selectedClasse.price > 0">
+            ¥ {{selectedClasse.price.toFixed(2)}}
+          </span>
+          <span class="yuan" ng-if="selectedClasse.price == 0">
+            免费课程
+          </span>
+          <span class="pull-right"
+                ng-if="selectedClasse.price > 0">
+            <button class="btn btn-md btn-link rounded"
+                    ng-click="addToCart(selectedClasse)">
+              加入购物车
+            </button>
+            <button class="btn btn-md btn-danger rounded"
+                    ng-click="makeOrder(selectedClasse)">
+              <i class="fa fa-shopping-cart"></i> 购买
+            </button>
+          </span>
+          <span class="pull-right"
+                ng-if="selectedClasse.price == 0">
+            <button class="btn btn-md btn-danger rounded"
+                    ng-click="enrollFreeClass(selectedClasse)">
+              参加课程
+            </button>
+          </span>
+
+        </div>
+        <div class="learn-progress"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) >= 0">
           <div class="progress">
             <div class="learn-progress-inner-bar"
                 ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}">
@@ -84,7 +85,8 @@
             </div>
           </div>
           <div class="learn-btn">
-            <a class="btn btn-danger btn-lg" ng-click="gotoLecture()" ng-show="course.$lectures">
+            <a class="btn btn-danger btn-lg"
+               ng-click="gotoLecture()">
               {{viewedLectureIndex?'继续学习':'开始学习'}}
             </a>
           </div>
@@ -93,25 +95,51 @@
     </div>
 
     <div class="bud list-group">
-      <!-- todo: disable-animation="true" animation looks strange -->
-      <a class="bud list-group-item lecture row fade-repeat"
-        ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-        ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
-        <div class="col-xs-1 text-center number">
-          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
-          <i class="fa fa-check primary" ng-show="lecture.$viewed"></i>
+      <div class="list-group-header">
+        <span class="course-label">课程信息</span>
+        <div class="btn-group">
+          <label class="btn btn-toggle"
+                 ng-model="courseTab.type"
+                 uncheckable
+                 btn-radio="'lecture'">课时列表</label>
+          <label class="btn btn-toggle"
+                 ng-model="courseTab.type"
+                 uncheckable
+                 btn-radio="'desc'">课程简介</label>
         </div>
-        <div class="col-xs-9">
-          <h3 class="title">{{lecture.name}}</h3>
-          <div class="info">
+      </div>
+
+      <div class="list-group-item desc"
+           ng-show="courseTab.type=='desc'">
+        {{course.info}}
+        <h3 ng-if="!course.info.length" class="text-center text-muted">暂无简介</h3>
+      </div>
+
+      <div class="list-group-item desc"
+           ng-if="courseTab.type=='lecture' && !course.$lectures.length">
+        <h3 class="text-center text-muted">暂无课时</h3>
+      </div>
+
+      <a class="list-group-item lecture"
+         ng-show="courseTab.type=='lecture'"
+         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
+         ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        <div class="text-center lecture-index text-muted">
+          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
+        </div>
+        <div class="lecture-name">
+          <span class="title">{{lecture.name}}</span>
+          <div class="info text-muted">
             {{lecture.info}}
           </div>
         </div>
-        <div class="col-xs-1 text-center arrow-right">
-          <i class="fa fa-star-o" ng-show="lecture.starred"></i>
+        <div class="lecture-tip"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) == -1 && lecture.isFreeTry">
+          <i class="fa fa-play-circle-o"></i> 试听
         </div>
-        <div class="col-xs-1 text-center arrow-right">
-          <i class="fa fa-chevron-right"></i>
+        <div class="lecture-tip"
+             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) != -1 && lecture.$viewed">
+          <i class="fa fa-check-circle"></i> 完成
         </div>
       </a>
     </div>

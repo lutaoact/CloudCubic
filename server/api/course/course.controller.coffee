@@ -66,6 +66,7 @@ exports.update = (req, res, next) ->
     updated = _.extend course, req.body
     updated.markModified 'lectureAssembly'
     updated.markModified 'classes'
+    # TODO WrapRequest.wrapUpdate
     updated.save (err) ->
       next err if err
     course.populateQ 'owners classes'
@@ -83,3 +84,8 @@ exports.destroy = (req, res, next) ->
   .then () ->
     res.send 204
   .fail next
+
+
+exports.publish = (req, res, next) ->
+  conditions = {_id: req.params.id, orgId: req.user.orgId}
+  conditions.owners = req.user._id if req.user.role is 'teacher'
