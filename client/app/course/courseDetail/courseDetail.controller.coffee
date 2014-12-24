@@ -11,6 +11,7 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 ) ->
 
   angular.extend $scope,
+    Auth: Auth
     itemsPerPage: 10
     currentPage: 1
     selectedClasse: null

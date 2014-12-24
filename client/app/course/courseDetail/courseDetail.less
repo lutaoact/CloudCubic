@@ -1,7 +1,7 @@
 .course {
   &.course-detail{
     .course-info{
-      height: 400px;
+      height: 350px;
       position: relative;
       background: white;
       .box-shadow(2px 2px 2px rgba(0,0,0,0.3));
@@ -19,7 +19,7 @@
         bottom: 0;
         left: 0;
         padding: 60px 0px 20px 40px;
-        right: 450px;
+        right: 440px;
         .course-thumbnail{
           width: 100%;
           height: 100%;
@@ -29,12 +29,12 @@
         }
       }
       .course-info-right{
-        padding: 60px 40px 20px 20px;
+        padding: 60px 40px 20px 30px;
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
-        width: 450px;
+        width: 440px;
         .classe-select {
           margin-bottom: 25px;
           .classe-label {
@@ -72,7 +72,7 @@
             font-size: 13px;
             display: inline-block;
             width: 200px;
-            height: 40px;
+            height: 60px;
             overflow: hidden;
             position: relative;
             padding-left: 20px;
@@ -81,51 +81,49 @@
               content: '';
               position: absolute;
               border-left: 1px dashed #B3B2B2;
-              height: 40px;
+              height: 50px;
               left: 0;
             }
           }
         }
-        .classe-info {
-          .classe-time {
+        .classe-duration {
+          margin: 15px 0;
+          padding: 12px 10px 12px 30px;
+          width: 100%;
+          height: 62px;
+          border: 2px solid @base-color;
+          .classe-col {
             font-size: 13px;
-            color: #4d4d4d;
-            i + i {
-              padding-left: 26px;
+            display: inline-block;
+            width: 25%;
+            position: relative;
+            span {
+              font-size: 14px;
+              color: black;
+              display: block;
             }
           }
-          .classe-duration {
-            margin: 15px 0;
-            padding: 12px 10px 12px 30px;
-            width: 357px;
-            height: 62px;
-            border: 2px solid @base-color;
-            .classe-col {
-              font-size: 13px;
-              display: inline-block;
-              width: 25%;
-              position: relative;
-              span {
-                font-size: 14px;
-                color: black;
-                display: block;
-              }
-            }
-            .classe-col + .classe-col {
-              width: 36%;
-              &:before {
-                content: '';
-                position: absolute;
-                border-left: 1px dashed #D3D3D3;
-                height: 30px;
-                top: 5px;
-                left: -23px;
-              }
+          .classe-col + .classe-col {
+            width: 36%;
+            &:before {
+              content: '';
+              position: absolute;
+              border-left: 1px dashed #D3D3D3;
+              height: 30px;
+              top: 5px;
+              left: -23px;
             }
           }
         }
+        .buy-buttons {
+          margin-top: 30px;
+          .yuan {
+            color: #F5855B;
+            font-size: 22px;
+          }
+        }
         .learn-progress {
-          margin-top: 70px;
+          margin-top: 30px;
           .progress {
             border: 18px solid @gray-lighter;
             width: 183px;
@@ -135,7 +133,7 @@
             margin: 0;
             display: inline-block;
             overflow: visible;
-            .learn-progress-inner-bar{
+            .learn-progress-inner-bar {
               background: @gray;
               height: 5px;
             }
@@ -160,13 +158,14 @@
               left: 46px;
             }
           }
-        }
-        .learn-btn {
-          display: inline-block;
-          vertical-align: top;
-          .btn {
-            width: 160px;
-            height: 40px;
+          .learn-btn {
+            display: inline-block;
+            vertical-align: top;
+            width: ~'calc(100% - 223px)';
+            .btn {
+              width: 100%;
+              height: 40px;
+            }
           }
         }
       }
