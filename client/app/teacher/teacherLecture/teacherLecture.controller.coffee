@@ -8,21 +8,22 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   notify
   Navbar
   $filter
-  Courses
-  Classes
   KeyPoints
   Restangular
   $sce
   configs
-  CurrentUser
+  $rootScope
 ) ->
 
-  course = _.find Courses, _id :$state.params.courseId
-  Restangular.all('classes').getList(courseId: $state.params.courseId)
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    $scope.course = course
+    Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
+
+  Restangular.all('classes').getList courseId: $state.params.classeId
   .then (classes) ->
     $scope.classes = classes
 
-  Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
   # TODO: remove this line. Fix in videogular
@@ -30,10 +31,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    classes: Classes
-    me: CurrentUser
-    videoLimitation: if CurrentUser.orgId.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
-    course: course
+    videoLimitation: if $rootScope.org.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     keyPoints: KeyPoints
     mediaApi: null
     saving: false
@@ -216,7 +214,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
-    console.log lecture
 
   # 删除未保存过的课时
   $scope.$on '$destroy', ->
