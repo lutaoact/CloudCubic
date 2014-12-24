@@ -28,7 +28,7 @@ exports.index = (req, res, next) ->
 
   conditions.isPublished = true
   console.log req.user
-  if req.user?.id is req.query.owner
+  if req.query.owner? and req.user?.id is req.query.owner
     # 如果老师自己查看则去除限制
     delete conditions.isPublished
 

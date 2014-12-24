@@ -70,4 +70,9 @@ db.dis_replies.find().forEach(function(dis_reply){
     modified: dis_reply.modified,
   };
   db.comments.save(comment);
-})
+});
+
+//courses数据迁移：将course的isPublished设置为 true
+db.courses.find().forEach(function(course) {
+  db.courses.update({_id: course._id}, {$set: {isPublished: true}});
+});
