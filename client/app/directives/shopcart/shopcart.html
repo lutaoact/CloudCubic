@@ -1,8 +1,11 @@
 <li dropdown class="shop-cart">
   <a class="dropdown-toggle">
-    <i class="fa fa-shopping-cart"></i>
+    <i class="fa fa-shopping-cart shop-cart-icon"></i>
   </a>
-
+  <span class="badge item-count"
+          ng-show="cartItems.length">
+  {{cartItems.length||'0'}}
+  </span>
   <ul class="dropdown-menu shop-cart-menu" role="menu">
 
     <div class="shop-cart-header">
@@ -37,6 +40,5 @@
               购买
       </button>
     </div>
-
   </ul>
 </li>
