@@ -17,6 +17,12 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       Courses.splice(Courses.indexOf(course), 1)
       $state.go('main')
 
+    togglePublish: ($event)->
+      $event.stopPropagation()
+      Restangular.one('courses', $scope.course._id).patch isPublished: !$scope.course.isPublished
+      .then ->
+        $scope.course.isPublished = !$scope.course.isPublished
+
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
