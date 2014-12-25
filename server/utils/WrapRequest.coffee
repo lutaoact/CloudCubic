@@ -104,7 +104,11 @@ class WrapRequest
 
 
   wrapUpdate: (req, res, next, conditions, pickedUpdatedKeys) ->
-    data = _.pick req.body, pickedUpdatedKeys
+    data = {}
+    if pickedUpdatedKeys.omit
+      data = _.omit req.body pickedUpdatedKeys.omit
+    else
+      data = _.pick req.body, pickedUpdatedKeys
 
     @Model.findOneQ conditions
     .then (doc) ->
@@ -112,6 +116,16 @@ class WrapRequest
       do updated.saveQ
     .then (result) =>
       @populateDoc result[0], @Model.populates?.update
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
+
+
+  wrapChangeStatus: (req, res, next, conditions, update) ->
+    logger.info 'change status conditions:', conditions
+    logger.info 'change status update:', update
+    @Model.findOneAndUpdateQ conditions, update
     .then (doc) ->
       res.send doc
     .catch next

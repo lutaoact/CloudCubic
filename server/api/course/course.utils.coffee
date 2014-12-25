@@ -12,9 +12,11 @@ class CourseUtils extends BaseUtils
       when 'admin'   then return @checkAdmin   user, courseId
 
   checkTeacher: (user, courseId) ->
-    Course.findOneQ
+    Course.findOne
       _id: courseId
       owners: user._id
+    .populate 'categoryId', 'orgId'
+    .execQ()
     .then (course) ->
       if course?
         return course
@@ -34,7 +36,9 @@ class CourseUtils extends BaseUtils
           errCode: ErrCode.CannotReadThisCourse
           errMsg : '学生没有学习该课程'
 
-      Course.findByIdQ courseId
+      Course.findById courseId
+            .populate 'categoryId', 'orgId'
+            .execQ()
     .then (course) ->
       if course?
         return course
@@ -84,7 +88,7 @@ class CourseUtils extends BaseUtils
 
     @getAuthedCourseById user, courseId
     .then (course) ->
-      Classe.findQ _id: $in: course.classes
+      Classe.findQ courseId: courseId
     .then (classes) ->
       return (_u.union.apply _u, (_.pluck classes, 'students')).length
 

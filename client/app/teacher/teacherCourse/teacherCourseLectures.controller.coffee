@@ -38,7 +38,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         lectureId: lecture._id
 
     selectClasse: (classe) ->
-      if !classe.$active then return
       $scope.activeProgressKey = classe._id
       if $scope.progressMap[$scope.activeProgressKey]?
         setFirstUndoLecture()
@@ -83,12 +82,18 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     # load course
     Restangular.all('lectures').getList(courseId:course._id)
     .then (lectures) ->
-      course.$lectures = lectures
+      course.$lectures = course.lectureAssembly
 
   setFirstUndoLecture = ->
     progress = $scope.progressMap[$scope.activeProgressKey]
     $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
   $scope.$watch 'course', (value) ->
-    if value
+    if value and $scope.classe
       reloadLectures($scope.course)
+      $scope.selectClasse value
+
+  $scope.$watch 'classe', (value)->
+    if value and $scope.course
+      reloadLectures($scope.course)
+      $scope.selectClasse value
