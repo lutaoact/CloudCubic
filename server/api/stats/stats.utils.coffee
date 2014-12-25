@@ -28,8 +28,6 @@ class StatsUtils extends BaseUtils
       finalKPStats = @buildFinalKPStats tmpResult.studentsNum, statsArray
       #logger.info JSON.stringify finalKPStats, null, 4
       return finalKPStats
-    , (err) ->
-      Q.reject err
 
 
   buildFinalKPStats: (studentsNum, statsArray) ->
@@ -87,7 +85,6 @@ class StatsUtils extends BaseUtils
       tmpResult.myQKAMap = _.indexBy myQKAs, 'questionId'
 
       resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
-      do Q.resolve
     .then () ->
       condition = lectureId: lectureId
       condition.userId = user._id if user.role is 'student'
