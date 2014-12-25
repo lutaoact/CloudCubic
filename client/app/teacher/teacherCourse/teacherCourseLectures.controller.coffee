@@ -92,3 +92,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope.$watch 'course', (value) ->
     if value
       reloadLectures($scope.course)
+
+  $scope.$watch 'classe', (value)->
+    if value
+      $scope.selectClasse value

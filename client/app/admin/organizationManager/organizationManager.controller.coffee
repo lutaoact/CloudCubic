@@ -71,6 +71,8 @@ angular.module('budweiserApp')
           message: '修改成功'
           classes: 'alert-success'
 
+    myInterval: 5000
+
   Auth.getCurrentUser().$promise.then (me) ->
     Restangular.one('organizations', me.orgId._id).get()
     .then (org) ->

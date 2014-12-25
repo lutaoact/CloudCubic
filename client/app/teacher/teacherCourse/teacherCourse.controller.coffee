@@ -74,7 +74,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
             enrollment: {}
             duration: {}
       .result.then (newClasse) ->
-        $scope.courses.classes.push newClasse
+        $scope.classes.push newClasse
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->

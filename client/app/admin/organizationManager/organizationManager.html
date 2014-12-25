@@ -241,7 +241,7 @@
         </div>
         <div class="col-md-6">
           预览
-          <carousel disable-animation>
+          <carousel interval="myInterval" disable-animation>
             <slide ng-repeat="banner in organization.banners" active="banner.active">
               <div class="banner" src-key="banner.image" source-attr="background-image">
                 <div class="carousel-caption">
