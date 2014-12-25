@@ -28,22 +28,9 @@
   </div>
 
   <div class="container">
-    <div class="row orders-row">
-      <div class="col-md-3 col-sm-4"
-           ng-repeat="order in orders">
-        <a ui-sref="order({orderId:order._id})">
-          {{order.classes[0].name}}
-          {{order.status}}
-          {{order.created}}
-        </a>
-        <a class="close pull-right"
-           ng-hide="order.status=='succeed'"
-           href
-           ng-click="deleteOrder(order)">&times;
-        </a>
-      </div>
+    <div ng-repeat="order in orders">
+      <order-detail order="order" on-order-deleted="orderDeleted"></order-detail>
     </div>
-
     <div class="row pagination-row text-center"
          ng-hide="orders.$count <= itemsPerPage">
       <pagination

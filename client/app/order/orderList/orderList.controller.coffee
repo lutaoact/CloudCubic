@@ -14,14 +14,13 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
     maxSize      : 5
     currentPage  : 1
     itemsPerPage : 6
-    deleteOrder  : (order)->
-      order.remove()
-      .then ->
-        _.remove $scope.orders, (_order)->
-          _order == order
+
     changeStatus : (status)->
-      console.log status
       $scope.status = status
+
+    orderDeleted : (order)->
+      _.remove $scope.orders, (_order)->
+        _order == order
 
   $scope.$watchCollection '[status, currentPage]', ->
     Restangular.all('orders').getList(

@@ -44,6 +44,7 @@ exports.index = (req, res, next)->
   from = req.query.from ? 0
 
   ordersPromise = Order.find conditions
+  .sort {created: -1}
   .limit limit
   .skip from
   .execQ()
