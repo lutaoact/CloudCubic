@@ -1,11 +1,39 @@
-<section>
+<section class="forum-list">
+
+  <div class="header-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 header">
+          <div class="col-md-5">
+            <div class="pull-left title">所有讨论组</div>
+            <ul class="nav nav-pills pull-left" role="tablist">
+              <li role="presentation" ng-class="{'active':viewState.orderBy=='created'}"><a href="" ng-click="viewState.orderBy='created'">最新</a></li>
+              <li role="presentation" ng-class="{'active':viewState.orderBy=='heat'}"><a href="" ng-click="viewState.orderBy='heat'">最热</a></li>
+              <li role="presentation" ng-class="{'active':viewState.orderBy=='postsCount'}"><a href="" ng-click="viewState.orderBy='postsCount'">评论最多</a></li>
+            </ul>
+          </div>
+          <div class="search col-md-5">
+            <div class="bud input-group">
+              <div class="input-group-addon"><i class="fa fa-search"></i></div>
+              <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
+              <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
+            </div>
+          </div>
+          <div class="col-md-2 actions">
+            <a href="" class="btn btn-danger btn-sm">
+              <i class="fa fa-plus"></i>&nbsp;新讨论组
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
-      <h4>所有板块</h4>
-    </div>
-    <div class="row">
-      <div class="col-md-4 thumbnail" ui-sref="forum.detail({forumId:forum._id})" ng-repeat="forum in forums">
-        <h4>{{forum.name}}</h4>
+      <div class="col-md-4" ng-repeat="forum in forums">
+        <forum-tile forum="forum" ui-sref="forum.detail({forumId:forum._id})">
+        </forum-tile>
       </div>
     </div>
   </div>

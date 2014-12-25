@@ -12,4 +12,3 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
   Restangular.all('forums').getList()
   .then (forums)->
     $scope.forums = forums
-
