@@ -48,6 +48,8 @@ exports.create = (req, res, next) ->
     data.orgId   = req.user.orgId
     data.forumId = forum._id
     WrapRequest.wrapCreate req, res, next, data
+  .catch next
+  .done()
 
 
 pickedUpdatedKeys = omit: ['_id', 'orgId', 'isPublished', 'deleteFlag']
