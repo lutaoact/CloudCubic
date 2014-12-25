@@ -1,14 +1,58 @@
-<div>
+<div ng-class="{'margin-top': !webview}" class="order-view">
   <div class="container">
-    订单号：{{order._id}}
+      <div class="order-header">
+        <div class="order-header-content">
+          <div class="title"><span class="rmb">￥</span>结算台</div>
+          <div class="zhifubao">支付宝</div><span class="text-muted">合作商户</span>
+        </div>
+      </div>
 
-    <ul>
-      <li ng-repeat="classe in order.classes">
-        {{classe.courseId.name}}  {{classe.price}}
-      </li>
-    </ul>
+      <div class="order-detail">
+        <div class="order-num">
+          {{order.created | date: 'yyyy-MM-dd'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="text-muted">订单号：</span>{{order._id}}
+        </div>
+        <div ng-repeat="classe in order.classes"
+             ui-sref="courseDetail({courseId: classe.courseId._id})"
+             class="order-classe row">
 
-    总价格：{{order.totalFee}}
-    <button ng-click="pay()">支付</button>
+          <div class="col-md-3 col-img">
+            <img class="item-image" src="{{classe.courseId.thumbnail}}">
+          </div>
+          <div class="col-md-4">
+            <div class="course-name">{{classe.courseId.name}}</div>
+            <div class="classe-duration text-muted">
+              <div class="classe-col">
+                总课时
+                <span>{{classe.courseId.lectureAssembly.length}}</span>
+              </div>
+              <div class="classe-col">
+                上课时间
+                <span>{{classe.duration.from | date: 'yyyy.MM.dd'}}</span>
+              </div>
+              <div class="classe-col">
+                结束时间
+                <span>{{classe.duration.to | date: 'yyyy.MM.dd'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="class-name text-muted">{{classe.name}}</div>
+          </div>
+          <div class="col-md-2">
+            <div class="class-price">￥{{classe.price}}</div>
+          </div>
+
+        </div>
+
+        <div class="order-footer row">
+          <div class="col-md-4 col-md-offset-6">
+            <span class="total-price">{{order.classes.length}}</span>&nbsp;个课程&nbsp;/&nbsp;共计：<span class="total-price">￥{{order.totalFee}}</span>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="pay()" class="btn btn-danger btn-sm rounded btn-buy">支付宝结算</button>
+          </div>
+        </div>
+      </div>
+  </div>
   </div>
 </div>
