@@ -20,7 +20,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     $scope.course = course
     Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
-  Restangular.all('classes').getList courseId: $state.params.classeId
+  Restangular.all('classes').getList courseId: $state.params.courseId
   .then (classes) ->
     $scope.classes = classes
 
