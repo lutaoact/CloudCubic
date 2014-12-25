@@ -6,6 +6,7 @@ angular.module('budweiserApp')
   $scope
   Courses
   Classe
+  notify
   Restangular
   $modalInstance
 ) ->
