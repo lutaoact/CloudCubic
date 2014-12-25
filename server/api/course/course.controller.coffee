@@ -9,13 +9,7 @@
 
 "use strict"
 
-_ = require("lodash")
 Course = _u.getModel "course"
-Lecture = _u.getModel "lecture"
-KeyPoint = _u.getModel "key_point"
-ObjectId = require("mongoose").Types.ObjectId
-CourseUtils = _u.getUtils 'course'
-LearnProgress = _u.getModel 'learn_progress'
 Forum = _u.getModel 'forum'
 
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
@@ -54,6 +48,7 @@ exports.create = (req, res, next) ->
     data.orgId   = req.user.orgId
     data.forumId = forum._id
     WrapRequest.wrapCreate req, res, next, data
+
 
 pickedUpdatedKeys = omit: ['_id', 'orgId', 'isPublished', 'deleteFlag']
 exports.update = (req, res, next) ->
