@@ -118,6 +118,16 @@ class WrapRequest
     .done()
 
 
+  wrapChangeStatus: (req, res, next, conditions, update) ->
+    logger.info 'change status conditions:', conditions
+    logger.info 'change status update:', update
+    @Model.findOneAndUpdateQ conditions, update
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
+
+
   wrapDestroy: (req, res, next, conditions) ->
     logger.info 'destroy conditions:', conditions
 

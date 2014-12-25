@@ -89,3 +89,4 @@ exports.destroy = (req, res, next) ->
 exports.publish = (req, res, next) ->
   conditions = {_id: req.params.id, orgId: req.user.orgId}
   conditions.owners = req.user._id if req.user.role is 'teacher'
+  WrapRequest.wrapChangeStatus req, res, next, conditions, {isPublished: true}
