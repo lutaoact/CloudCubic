@@ -17,7 +17,11 @@ module.exports =
   InvalidClasse: 10012
   InvalidStudent: 10013
 
-  NoCourse: 10014
-  NoClasse: 10015
-  NotFreeClasse: 10016
-  ClassAlreadyPaid: 10017
+  NoCourse: 10020
+  NoClasse: 10025
+  NoLecture: 10026
+
+  NotFreeClasse: 10030
+  NotFreeLecture: 10035
+
+  ClassAlreadyPaid: 10040

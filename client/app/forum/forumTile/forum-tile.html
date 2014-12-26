@@ -1,14 +1,16 @@
 <div class="forum-tile" >
-  <div class="forum-logo pull-left" src-key="forum.logo" source-attr="backgound-image">
+  <div class="forum-logo pull-left" src-key="forum.logo" source-attr="background-image">
   </div>
   <div class="forum-body">
-    <h5 class="forum-title" ui-sref="forum.detail({forumId:forum._id})">
-      {{forum.name}}
-    </h5>
+    <a href="" ui-sref="forum.detail({forumId:forum._id})">
+      <h5 class="forum-title" >
+        {{forum.name}}
+      </h5>
+    </a>
     <table>
       <tr>
         <th>{{forum.postsCount}}</th>
-        <th>{{forum.subscribtionsCount}}</th>
+        <th>{{forum.subscribtionsCount||0}}</th>
       </tr>
       <tr>
         <td>帖子</td>

@@ -20,11 +20,9 @@ exports.index = (req, res, next) ->
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
   conditions._id = {$in: _.flatten([req.query.ids])} if req.query.ids
 
-  conditions.isPublished = true
-  console.log req.user
-  if req.query.owner? and req.user?.id is req.query.owner
-    # 如果老师自己查看则去除限制
-    delete conditions.isPublished
+  # unless passed in owner and owner is logged-in user, we need to check isPublished
+  unless req.query.owner? and req.user?.id is req.query.owner
+    conditions.isPublished = true
 
   options = limit: req.query.limit, from: req.query.from
 

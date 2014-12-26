@@ -35,7 +35,23 @@ exports.index = (req, res, next) ->
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
-  WrapRequest.wrapShow req, res, next, conditions
+  Lecture.findOneQ conditions, null, {lean: true}
+  .then (lecture) ->
+    console.log lecture
+    if lecture.isFreeTry
+      return lecture
+
+    unless req.user
+      return Q.reject
+        status: 403
+        errCode: ErrCode.NotFreeLecture
+        errMsg: '未登录用户无法查看非免费课时'
+
+    LectureUtils.checkAuthForLecture req.user, lecture
+  .then (lecture) ->
+    res.send lecture
+  .catch next
+  .done()
 
 
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.

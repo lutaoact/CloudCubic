@@ -39,6 +39,7 @@ angular.module 'budweiserApp', [
   $httpProvider.interceptors.push 'authInterceptor'
   $httpProvider.interceptors.push 'urlInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'
+  $httpProvider.interceptors.push 'objectIdInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
 
 .config ($compileProvider) ->
@@ -66,6 +67,15 @@ angular.module 'budweiserApp', [
   request: (config) ->
     if config.method is 'PATCH'
       config.method = 'PUT'
+    config
+
+# Override patch to put
+.factory 'objectIdInterceptor', ($location) ->
+  request: (config) ->
+    if config.data
+      for own key, value of config.data
+        if key.endsWith('Id') and value instanceof Object
+          config.data[key] = value._id
     config
 
 .factory 'loginRedirector', ($location, $localStorage) ->

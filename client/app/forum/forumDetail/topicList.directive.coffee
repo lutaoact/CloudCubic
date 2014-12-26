@@ -71,7 +71,7 @@ angular.module('budweiserApp')
         keyboard: false
 
       .result.then (dis_topic)->
-        dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.commentsNum * 10 + dis_topic.voteUpUsers.length * 10
+        dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.commentsNum * 10 + dis_topic.likeUsers.length * 10
         $scope.topics.splice 0, 0, dis_topic
 
   $scope.$watch 'topics', (value)->
@@ -80,7 +80,7 @@ angular.module('budweiserApp')
       $scope.queryTags = []
       $scope.topics.forEach (topic)->
         $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
-        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.voteUpUsers.length * 10
+        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
       $scope.queryTags = _.compact $scope.queryTags
       $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
   , true

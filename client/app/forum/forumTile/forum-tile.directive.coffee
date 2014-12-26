@@ -19,7 +19,6 @@ angular.module('budweiserApp').directive 'forumTile', ()->
             forum: ->
               forum
         .result.then (newForum) ->
-          console.log newForum
 
       deleteCallback: (forum) ->
         $scope.$emit 'forum.deleted', forum

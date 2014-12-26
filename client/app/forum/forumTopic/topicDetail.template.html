@@ -32,7 +32,7 @@
               <i class="fa fa-comments"></i>
               {{topic.commentsNum||0}}
               <i class="fa fa-heart"></i>
-              {{topic.voteUpUsers.length||0}}
+              {{topic.likeUsers.length||0}}
             </span>
           </div>
         </div>
@@ -49,12 +49,12 @@
         <div class="blog" compile-html="topic.content" >
         </div>
         <div class="article-voteup text-center"
-          ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
+          ng-class="{'active':topic.likeUsers.indexOf(me._id)>=0}"
           ng-click="toggleLike(topic)">
           <i class="fa fa-heart">
           </i>
           <hr>
-          {{topic.voteUpUsers.length||0}}
+          {{topic.likeUsers.length||0}}
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
           </a>
           <a href class="btn btn-nav text-muted"
             ng-class="{'active':viewState.orderBy != '-created'}"
-            ng-click="viewState.orderBy = ['-voteUpUsers.length', '-created']">
+            ng-click="viewState.orderBy = ['-likeUsers.length', '-created']">
             最热回复
           </a>
         </div>
