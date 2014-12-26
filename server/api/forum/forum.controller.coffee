@@ -13,11 +13,11 @@ exports.show = (req, res, next) ->
   WrapRequest.wrapShow req, res, next, conditions
 
 
-pickedKeys = ["name", "logo", "info"]
+pickedKeys = ["name", "logo", "info", "categoryId"]
 exports.create = (req, res, next) ->
     data = _.pick req.body, pickedKeys
     data.postBy = req.user._id
-    data.orgId = req.user._id
+    data.orgId = req.user.orgId
     logger.info "create data:", data
 
     Forum.createQ data
@@ -26,7 +26,7 @@ exports.create = (req, res, next) ->
     .catch next
     .done()
 
-pickedUpdatedKeys = ["name", "logo", "info"]
+pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]
 exports.update = (req, res, next) ->
   _id  = req.params.id
   user = req.user

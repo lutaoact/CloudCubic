@@ -4,23 +4,25 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 header">
-          <div class="col-md-5">
+          <div class="col-md-5 clearfix">
             <div class="pull-left title">所有讨论组</div>
-            <ul class="nav nav-pills pull-left" role="tablist">
-              <li role="presentation" ng-class="{'active':viewState.orderBy=='created'}"><a href="" ng-click="viewState.orderBy='created'">最新</a></li>
-              <li role="presentation" ng-class="{'active':viewState.orderBy=='heat'}"><a href="" ng-click="viewState.orderBy='heat'">最热</a></li>
+            <ul class="nav nav-pills pull-left" role="tablist" ng-init="viewState.orderBy='-created'">
+              <li role="presentation" ng-class="{'active':viewState.orderBy=='-created'}"><a href="" ng-click="viewState.orderBy='-created'">最新</a></li>
+              <li role="presentation" ng-class="{'active':viewState.orderBy=='recentPostsCount'}"><a href="" ng-click="viewState.orderBy='recentPostsCount'">最热</a></li>
               <li role="presentation" ng-class="{'active':viewState.orderBy=='postsCount'}"><a href="" ng-click="viewState.orderBy='postsCount'">评论最多</a></li>
             </ul>
           </div>
-          <div class="search col-md-5">
-            <div class="bud input-group">
-              <div class="input-group-addon"><i class="fa fa-search"></i></div>
-              <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
-              <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
+          <div class="col-md-5 clearfix">
+            <div class="search">
+              <div class="bud input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
+                <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
+              </div>
             </div>
           </div>
-          <div class="col-md-2 actions">
-            <a href="" class="btn btn-danger btn-sm">
+          <div class="col-md-2 actions clearfix">
+            <a href="" class="btn btn-danger btn-sm" ng-click="createForum()">
               <i class="fa fa-plus"></i>&nbsp;新讨论组
             </a>
           </div>
@@ -31,11 +33,27 @@
 
   <div class="container">
     <div class="col-md-3">
-
+      <div class="row">
+        <accordion class="bud" close-others="false">
+          <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
+            <accordion-heading>
+              分类 <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.categoryOpen, 'fa-chevron-right': !viewState.categoryOpen}"></i>
+            </accordion-heading>
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="col-xs-3 control-label">科目</label>
+                <div class="col-xs-9">
+                  <select class="form-control " ng-model="viewState.forumsFilters.category" ng-options="category.name for category in forumCategories"></select>
+                </div>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
     </div>
     <div class="col-md-9">
       <div class="row all-forums">
-        <div class="col-md-4" ng-repeat="forum in forums">
+        <div class="col-md-4" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:viewState.forumsFilters.category._id)|paging:itemsPerPage:currentForumPage">
           <forum-tile forum="forum" >
           </forum-tile>
         </div>
@@ -43,8 +61,8 @@
       <div class="row pagination-row text-center"
          ng-hide="forums.$count <= itemsPerPage">
       <pagination
-        total-items="forums.$count"
-        ng-model="currentPage"
+        total-items="viewState.filteredForums.length"
+        ng-model="currentForumPage"
         items-per-page="itemsPerPage"
         class="pagination-sm bud"
         boundary-links="true"

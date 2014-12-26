@@ -8,6 +8,27 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Forum = BaseModel.subclass
   classname: 'Forum'
+  populates:
+    index: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'postBy', select: 'name avatar'
+    ]
+    create: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'postBy', select: 'name avatar'
+    ]
+    update: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'postBy', select: 'name avatar'
+    ]
+    show: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'postBy', select: 'name avatar'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       postBy:
@@ -21,6 +42,9 @@ exports.Forum = BaseModel.subclass
         type: ObjectId
         ref: 'organization'
         required: true
+      categoryId:
+        type: ObjectId
+        ref: 'category'
       logo: # 板块logo
         type: String
       info: # 板块描述

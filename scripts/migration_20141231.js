@@ -33,6 +33,8 @@ db.courses.find().forEach(function(course) {
     postBy: admin._id,
     name: course.name,
     orgId: admin.orgId,
+    categoryId: course.categoryId,
+    logo: course.thumbnail,
     deleteFlag: false,
     created: course.created,
     modified: course.modified,

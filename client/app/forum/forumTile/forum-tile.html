@@ -20,7 +20,20 @@
     <span class="base-color">
       {{forum.categoryId.name||'其他'}}
     </span>
-    <a href="" class="pull-right btn follow-btn">
+    <span dropdown class="pull-right" style="font-size: 0;position: relative;">
+      <a href="" class="btn action-btn" dropdown-toggle ng-if="getMe()._id==forum.postBy._id" title="编辑" >
+        <i class="fa fa-gear"></i>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="" ng-click="editForum(forum)">编辑</a>
+        </li>
+        <li>
+          <a href="" ng-click="deleteForum(forum)">删除</a>
+        </li>
+      </ul>
+    </span>
+    <a href="" class="pull-right btn action-btn" title="关注">
       <i class="fa fa-plus"></i>
     </a>
   </div>
