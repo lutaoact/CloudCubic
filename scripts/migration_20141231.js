@@ -19,6 +19,7 @@ db.courses.find().forEach(function(course) {
     print("\n");
   }
 });
+db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
 
 //根据course的name字段，创建相同名称的forum
 //然后在dis_topics表中，删除courseId字段，并设置为相应的forumId的值
