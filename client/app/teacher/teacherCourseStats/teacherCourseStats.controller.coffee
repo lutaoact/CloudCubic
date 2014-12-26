@@ -4,19 +4,23 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   $scope
   $state
   Navbar
-  Courses
   $window
   $timeout
+  Restangular
 ) ->
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course)->
+    $scope.course = course
+    Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
-  course = _.find Courses, _id:$state.params.courseId
+  Restangular.all('classes').getList courseId: $state.params.courseId
+  .then (classes) ->
+    $scope.classes = classes
 
-  Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
-    course: course
-    classes: course.classes
+
     viewState: {}
 
     triggerResize: ()->

@@ -20,8 +20,9 @@ exports.index = (req, res, next) ->
 
   if req.query.keyPointIds?
     keyPointIds = JSON.parse req.query.keyPointIds
-    conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
-  if req.query.keyword?
+    if keyPointIds?.length
+      conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
+  if req.query.keyword
     keyword = req.query.keyword
     #对可能出现的正则元字符进行转义
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')

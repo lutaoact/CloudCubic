@@ -43,7 +43,7 @@ angular.module('budweiserApp')
         backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints
-          categoryId: -> $scope.categoryId
+          categoryId: -> $scope.categoryId._id||$scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
