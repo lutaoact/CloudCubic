@@ -73,6 +73,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
             price: 0
             enrollment: {}
             duration: {}
+            $course: $scope.course
       .result.then (newClasse) ->
         $scope.classes.push newClasse
 

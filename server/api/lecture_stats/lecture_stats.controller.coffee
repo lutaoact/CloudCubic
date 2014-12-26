@@ -15,24 +15,25 @@ findIndex = _u.findIndex
 exports.questionStats = (req, res, next) ->
   lectureId = req.query.lectureId
   courseId = req.query.courseId
-  classId = req.query.classId
+  classeId = req.query.classeId
   questionId = req.query.questionId
+  type = req.query.type
   logger.info "Get stats for lecture #{lectureId}"
 
   studentsPromise = null
   if courseId
     studentsPromise = CourseUtils.getAuthedCourseById req.user, courseId
     .then (course) ->
-      # FIXME
-      Classe.getAllStudentsInfo(course.classes)
-  else if courseId
-    studentsPromise = Classe.getAllStudentsInfo [classId]
+      Classe.getStudentIdsByCourseId courseId
+  else if classeId
+    studentsPromise = Classe.getStudentIdsByClasseIds [classeId]
   else
-    return next("need classId or courseId")
+    return next("need classeId or courseId")
 
   user = req.user
   Q.all [studentsPromise, LectureUtils.getAuthedLectureById user, lectureId]
   .spread (students, lecture) ->
+    logger.info 'students:', students
     if findIndex(lecture.quizzes, questionId) >= 0
       StatsUtils.getQuizStats lectureId, questionId, students
     else if findIndex(lecture.homeworks, questionId) >=0

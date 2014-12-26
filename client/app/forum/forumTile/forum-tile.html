@@ -1,19 +1,40 @@
 <div class="forum-tile" >
-  <div class="forum-logo" src-key="forum.logo" source-attr="backgound-image">
+  <div class="forum-logo pull-left" src-key="forum.logo" source-attr="backgound-image">
   </div>
   <div class="forum-body">
-    <h5 class="forum-title">
+    <h5 class="forum-title" ui-sref="forum.detail({forumId:forum._id})">
       {{forum.name}}
     </h5>
     <table>
       <tr>
         <th>{{forum.postsCount}}</th>
-        <!-- <th>{{forum.subscribtionsCount}}</th> -->
+        <th>{{forum.subscribtionsCount}}</th>
       </tr>
       <tr>
         <td>帖子</td>
-        <!-- <td>关注</td> -->
+        <td>关注</td>
       </tr>
     </table>
+  </div>
+  <div class="forum-tool-bar clearfix ">
+    <span class="base-color">
+      {{forum.categoryId.name||'其他'}}
+    </span>
+    <span dropdown class="pull-right" style="font-size: 0;position: relative;">
+      <a href="" class="btn action-btn" dropdown-toggle ng-if="getMe()._id==forum.postBy._id" title="编辑" >
+        <i class="fa fa-gear"></i>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="" ng-click="editForum(forum)">编辑</a>
+        </li>
+        <li>
+          <a href="" ng-click="deleteForum(forum)">删除</a>
+        </li>
+      </ul>
+    </span>
+    <a href="" class="pull-right btn action-btn" title="关注">
+      <i class="fa fa-plus"></i>
+    </a>
   </div>
 </div>

@@ -86,7 +86,7 @@ angular.module('budweiserApp')
         backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints
-          categoryId: -> $scope.categoryId
+          categoryId: -> $scope.categoryId._id||$scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then $scope.pageChange
@@ -105,7 +105,7 @@ angular.module('budweiserApp')
       Restangular.one('questions').get(
         from: (if loadMore then $scope.questions.length else 0)
         limit: ($scope.pageSize + if loadMore then 0 else 1)
-        categoryId: $scope.categoryId
+        categoryId: $scope.categoryId._id||$scope.categoryId
         keyword: $scope.keyword
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
       ).then (res) ->
@@ -121,5 +121,7 @@ angular.module('budweiserApp')
             questions
         $scope.totalItems = totalNum #$scope.questions.length
 
-  $scope.searchQuestions()
+  $scope.$watch 'categoryId', (value)->
+    if value
+      $scope.searchQuestions()
 

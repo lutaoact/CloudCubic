@@ -87,8 +87,28 @@ exports.Classe = BaseModel.subclass
         return studentIds.concat classe.students
       , []
 
+  buildStudentIds: (classes) ->
+    allIds = _.reduce classes, (studentIds, classe) ->
+      return studentIds.concat classe.students
+    , []
+    return _.uniq allIds, (id) ->
+      return id.toString()
+
+
+  getStudentIdsByCourseId: (courseId) ->
+    return @findQ courseId: courseId
+      .then (classes) =>
+        console.log _.pluck classes, '_id'
+        return @buildStudentIds classes
+
+  getStudentIdsByClasseIds: (classeIds) ->
+    return @findQ _id: $in: classeIds
+      .then (classes) =>
+        return @buildStudentIds classes
+
   # return [id & name]
   getAllStudentsInfo: (classeIds) ->
+    logger.info classeIds
     @find _id: $in: classeIds
     .populate('students', '_id email name')
     .execQ()

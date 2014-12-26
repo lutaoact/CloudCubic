@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     question:
       body: ''
       detailSolution: ''
-      categoryId: @categoryId
+      categoryId: categoryId._id||categoryId
       choices: [{},{}]
 
     addKeyPoint: (keyPoint, input) ->
@@ -25,7 +25,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       if input?
         keyPoints.post
           name: input
-          categoryId: @categoryId
+          categoryId: categoryId._id||categoryId
         .then (keyPoint) ->
           keyPoints.push keyPoint
           $scope.selectedKeyPoints.push angular.copy(keyPoint)
