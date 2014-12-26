@@ -1,19 +1,27 @@
 <div class="forum-tile" >
-  <div class="forum-logo" src-key="forum.logo" source-attr="backgound-image">
+  <div class="forum-logo pull-left" src-key="forum.logo" source-attr="backgound-image">
   </div>
   <div class="forum-body">
-    <h5 class="forum-title">
+    <h5 class="forum-title" ui-sref="forum.detail({forumId:forum._id})">
       {{forum.name}}
     </h5>
     <table>
       <tr>
         <th>{{forum.postsCount}}</th>
-        <!-- <th>{{forum.subscribtionsCount}}</th> -->
+        <th>{{forum.subscribtionsCount}}</th>
       </tr>
       <tr>
         <td>帖子</td>
-        <!-- <td>关注</td> -->
+        <td>关注</td>
       </tr>
     </table>
+  </div>
+  <div class="forum-tool-bar clearfix ">
+    <span class="base-color">
+      {{forum.categoryId.name||'其他'}}
+    </span>
+    <a href="" class="pull-right btn follow-btn">
+      <i class="fa fa-plus"></i>
+    </a>
   </div>
 </div>

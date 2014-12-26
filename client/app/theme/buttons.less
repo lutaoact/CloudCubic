@@ -74,4 +74,21 @@
   }
 }
 
+.circle-btn(@size, @padding){
+  border: none;
+  font-size: @size - @padding * 2;
+  line-height: @size - @padding * 2;
+  text-align: center;
+  width: @size;
+  height: @size;
+  border-radius: @size;
+  cursor: pointer;
+  color: #FFF;
+  background: @gray;
+  padding: @padding;
+  &:hover{
+    background: @base-color;
+  }
+}
+
 

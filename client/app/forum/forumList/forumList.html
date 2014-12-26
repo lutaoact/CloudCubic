@@ -30,11 +30,29 @@
   </div>
 
   <div class="container">
-    <div class="row">
-      <div class="col-md-4" ng-repeat="forum in forums">
-        <forum-tile forum="forum" ui-sref="forum.detail({forumId:forum._id})">
-        </forum-tile>
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-9">
+      <div class="row all-forums">
+        <div class="col-md-4" ng-repeat="forum in forums">
+          <forum-tile forum="forum" >
+          </forum-tile>
+        </div>
       </div>
+      <div class="row pagination-row text-center"
+         ng-hide="forums.$count <= itemsPerPage">
+      <pagination
+        total-items="forums.$count"
+        ng-model="currentPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        num-pages="numPages">
+      </pagination>
+    </div>
     </div>
   </div>
 </section>
