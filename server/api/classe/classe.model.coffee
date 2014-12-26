@@ -98,7 +98,6 @@ exports.Classe = BaseModel.subclass
   getStudentIdsByCourseId: (courseId) ->
     return @findQ courseId: courseId
       .then (classes) =>
-        console.log _.pluck classes, '_id'
         return @buildStudentIds classes
 
   getStudentIdsByClasseIds: (classeIds) ->
