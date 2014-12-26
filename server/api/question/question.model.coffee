@@ -7,6 +7,10 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Question = BaseModel.subclass
   classname: 'Question'
+  populates:
+    index: [
+      path: 'keyPoints', select: 'name'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       orgId:

@@ -5,6 +5,8 @@ Classe = _u.getModel 'classe'
 QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
+WrapRequest = new (require '../../utils/WrapRequest')(Question)
+
 ################################################################
 ## 题库检索条件：
 ## 1. user.orgId && deleteFlag非true
@@ -19,9 +21,12 @@ exports.index = (req, res, next) ->
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?
-    keyPointIds = JSON.parse req.query.keyPointIds
-    if keyPointIds?.length
+    try
+      keyPointIds = JSON.parse req.query.keyPointIds
       conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
+    catch err
+      logger.error err
+
   if req.query.keyword
     keyword = req.query.keyword
     #对可能出现的正则元字符进行转义
@@ -32,25 +37,9 @@ exports.index = (req, res, next) ->
       'choices.text': regex
     ]
 
-  logger.info conditions
+  options = limit: req.query.limit, from: req.query.from
 
-  from = ~~req.query.from #from参数转为整数
-  limit = ~~(req.query.limit ? Const.PageSize.Question)
-
-  countPromise = Question.countQ conditions
-  queryPromise = Question.find conditions
-                .sort 'created'
-                .skip from
-                .limit limit
-                .populate 'keyPoints', 'name'
-                .execQ()
-
-  Q.all [countPromise, queryPromise]
-  .then (data)->
-    res.send
-      totalNum: data[0]
-      questions: data[1]
-  , next
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
 exports.show = (req, res, next) ->
