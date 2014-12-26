@@ -2,6 +2,7 @@
 
 User = _u.getModel 'user'
 Organization = _u.getModel 'organization'
+OrgAlipay = _u.getModel 'org_alipay'
 UserUtils = _u.getUtils 'user'
 OrgUtils  = _u.getUtils 'organization'
 sendActivationMail = require('../../common/mail').sendActivationMail
@@ -49,12 +50,21 @@ exports.createOrg = (req, res, next) ->
       orgId   : org._id
       role    : 'admin'
 
-    User.createQ admin
-  .then (result) ->
+    alipayInfo =
+      orgId : org._id
+      email : body.orgAlipayEmail
+      PID   : body.orgAlipayPID
+      key   : body.orgAlipayKey
+
+    Q.all [
+      User.createQ admin
+      OrgAlipay.createQ alipayInfo
+    ]
+  .spread (user, orgAlipay) ->
     host = req.protocol+'://'+req.headers.host
-    sendActivationMail result.email, result.activationCode, host, req.org?.name
+    sendActivationMail user.email, user.activationCode, host, req.org?.name
     res.send
-      email   : result.email
-      role    : result.role
+      email   : user.email
+      role    : user.role
   .catch next
   .done()

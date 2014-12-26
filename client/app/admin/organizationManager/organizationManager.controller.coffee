@@ -149,3 +149,10 @@ angular.module('budweiserApp')
       $timeout ->
         outer.remove()
       , 800
+
+    saveOrgAlipay: ()->
+      Restangular.one('org_alipays','me').patch $scope.orgAlipay
+
+  Restangular.one('org_alipays','me').get()
+  .then (data)->
+    $scope.orgAlipay = data

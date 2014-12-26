@@ -255,4 +255,66 @@
       <hr>
     </div>
   </tab>
+
+
+  <tab heading="支付宝信息">
+    <div class="row admin-ui-view">
+      <form id="org-alipay-form"
+            class="form-horizontal col-md-10 col-md-offset-1"
+            role="form"
+            name="orgForm">
+        <hr/>
+
+        <div class="form-group">
+          <label for="organization-alipayEmail"
+                 class="col-sm-3 control-label">支付宝Email</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayEmail"
+                   name="name"
+                   ng-model="orgAlipay.email"
+                   placeholder="支付宝Email"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-alipayPID"
+                 class="col-sm-3 control-label">支付宝(PID)</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayPID"
+                   name="name"
+                   ng-model="orgAlipay.PID"
+                   placeholder="支付宝(PID)"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-alipayKey"
+                 class="col-sm-3 control-label">支付宝(Key)</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayKey"
+                   name="name"
+                   ng-model="orgAlipay.key"
+                   placeholder="支付宝(Key)"
+                   required>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group text-center">
+          <button type="submit"
+                  class="btn btn-danger rounded save-btn"
+                  ng-click="saveOrgAlipay(orgForm)">
+              <span >已保存</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </tab>
 </tabset>
