@@ -18,36 +18,16 @@ exports.create = (req, res, next) ->
     data = _.pick req.body, pickedKeys
     data.postBy = req.user._id
     data.orgId = req.user.orgId
-    logger.info "create data:", data
 
-    Forum.createQ data
-    .then (newDoc) ->
-      res.send 201, newDoc
-    .catch next
-    .done()
+    WrapRequest.wrapCreate req, res, next, data
+
 
 pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]
 exports.update = (req, res, next) ->
-  _id  = req.params.id
-  user = req.user
+  conditions = {_id : req.params.id, postBy : req.user._id}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
-  # 拣选出允许更新的字段
-  data = _.pick req.body, pickedUpdatedKeys
-
-  Forum.findOneQ {_id : _id, postBy : user._id}
-  .then (doc) ->
-    updated = _.extend doc, data
-    do updated.saveQ
-  .then (result) ->
-    res.send result[0]
-  .catch next
-  .done()
 
 exports.destroy = (req, res, next) ->
-  _id = req.params.id
-  userId = req.user.id
-  Forum.updateQ {_id: _id, postBy: userId}, {deleteFlag: true}
-  .then () ->
-    res.send 204
-  .catch next
-  .done()
+  conditions = {_id : req.params.id, postBy : req.user._id}
+  WrapRequest.wrapDestroy req, res, next, conditions
