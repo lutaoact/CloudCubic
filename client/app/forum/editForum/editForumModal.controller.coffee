@@ -9,16 +9,27 @@ angular.module('budweiserApp')
   Restangular
   $modalInstance
   forum
+  configs
 ) ->
   Category.find()
   .then (categories)->
     $scope.categories = categories
-    $scope.categories.push {name:'其他'}
+    other = {name:'其他'}
+    $scope.categories.push other
+    if forum.categoryId
+      forum.categoryId = _.find $scope.categories, (category)->
+        category._id is forum.categoryId._id
+    else
+      forum.categoryId = other
 
   angular.extend $scope,
     errors: null
     format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
     forum: forum
+    imageSizeLimitation: configs.imageSizeLimitation
+    onLogoUpload: ($data)->
+      forum.logo = $data
+
     cancel: ->
       $modalInstance.dismiss('cancel')
 
@@ -39,4 +50,4 @@ angular.module('budweiserApp')
           forums: 'alert-danger'
 
   if $scope.forum.$category
-    $scope.forum.categoryId = $scope.forum.$category._id
+    $scope.forum.categoryId = $scope.forum.$category

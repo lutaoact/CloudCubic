@@ -28,13 +28,36 @@
         class="form-control"
         id="forum-category"
         ng-model="forum.categoryId"
-        ng-options="category._id as category.name for category in categories" >
+        ng-options="category.name for category in categories" >
       </select>
     </div>
   </div>
 
+  <div class="form-group" ng-if="!forum.$category">
+    <label class="control-label col-sm-3">类别</label>
+    <div class="col-sm-8">
+      <uploader
+        limit="{{imageSizeLimitation}}"
+        on-complete="onLogoUpload($data)"
+        accept-type="image"
+        crop="true"
+        crop-ratio="1.75"
+        max-width="600">
+        <div class="logo" ng-if="forum.logo" src-key="forum.logo" source-attr="background-image">
+        </div>
+        <div class="drag-uploder" ng-if="!forum.logo">
+          <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
+          <div class="btn btn-xs btn-danger rounded">
+            <i class="fa fa-image"></i>
+            上传图片
+          </div>
+        </div>
+      </uploader>
+    </div>
+  </div>
+
   <div class="form-group">
-    <label class="control-label col-sm-3">讨论组描述</label>
+    <label class="control-label col-sm-3">讨论组简介</label>
     <div class="col-sm-8">
       <input class="form-control"
              id="forum-info"

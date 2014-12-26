@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="col-md-2 actions clearfix">
-            <a href="" class="btn btn-danger btn-sm" ng-click="createForum()">
+            <a href="" class="btn btn-danger btn-sm rounded" ng-click="createForum()">
               <i class="fa fa-plus"></i>&nbsp;新讨论组
             </a>
           </div>
@@ -53,7 +53,7 @@
     </div>
     <div class="col-md-9">
       <div class="row all-forums">
-        <div class="col-md-4" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:viewState.forumsFilters.category._id)|paging:itemsPerPage:currentForumPage">
+        <div class="col-md-4" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:categoryFilter)|paging:itemsPerPage:currentForumPage">
           <forum-tile forum="forum" >
           </forum-tile>
         </div>

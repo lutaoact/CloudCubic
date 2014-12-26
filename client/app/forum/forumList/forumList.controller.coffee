@@ -13,9 +13,9 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
 
   generateCategories = ()->
 
-    $q.all(_.uniq(_.pluck($scope.forums, 'categoryId')).map (categoryId)->
-      if categoryId?._id
-        Category.find(categoryId._id)
+    $q.all(_.uniq(_.pluck(_.pluck($scope.forums, 'categoryId').filter((x)-> x?),'_id')).map (id)->
+      if id
+        Category.find(id)
       else
         null
     )
@@ -37,6 +37,14 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
     viewState:
       forumsFilters:
         category: null
+
+    categoryFilter: (item)->
+      if !$scope.viewState.forumsFilters.category._id?
+        true
+      else if $scope.viewState.forumsFilters.category._id is ''
+        !item.categoryId?
+      else
+        item.categoryId?._id is $scope.viewState.forumsFilters.category._id
 
     createForum: ()->
       $modal.open

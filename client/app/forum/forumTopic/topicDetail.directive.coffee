@@ -39,12 +39,12 @@ angular.module('budweiserApp')
     toggleLike: (topic)->
       topic.one('vote').post()
       .then (res)->
-        topic.voteUpUsers = res.voteUpUsers
+        topic.likeUsers = res.likeUsers
 
     toggleVote: (reply)->
       reply.one('vote').post()
       .then (res)->
-        reply.voteUpUsers = res.voteUpUsers
+        reply.likeUsers = res.likeUsers
 
     deleteReply: (topic, reply)->
       $modal.open
@@ -73,12 +73,12 @@ angular.module('budweiserApp')
     switch raw.type
       when Const.NoticeType.TopicVoteUp
         if raw.data.disTopic._id is $scope.topic._id
-          $scope.topic.voteUpUsers = raw.data.disTopic.voteUpUsers
+          $scope.topic.likeUsers = raw.data.disTopic.likeUsers
       when Const.NoticeType.ReplyVoteUp
         myReplie = $scope.topic.$comments.filter (item)->
           item._id is raw.data.disReply._id
         if myReplie?.length
-          myReplie[0].voteUpUsers = raw.data.disReply.voteUpUsers
+          myReplie[0].likeUsers = raw.data.disReply.likeUsers
 
   $scope.$watch 'activeReply', (value)->
     if value
