@@ -66,7 +66,7 @@
               </div>
             </h4>
           </div>
-          <div class="col-md-4 col-sm-6" ng-repeat="course in viewState.filteredMyCourses = ( myCourses | orderBy:'created':true|filter:viewState.myCoursesFilters.category._id)|paging:itemsPerPage:currentMyCoursesPage">
+          <div class="col-md-4 col-sm-6" ng-repeat="course in viewState.filteredMyCourses = ( myCourses | orderBy:'-created':true|filter:viewState.myCoursesFilters.category._id)|paging:itemsPerPage:currentMyCoursesPage">
             <a ng-if="Auth.hasRole('teacher')"
                ui-sref="teacher.course({courseId:course._id})">
               <course-tile course="course"></course-tile>

@@ -30,7 +30,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       .then (topics)->
         # pull out the tags in content
         topics.forEach (topic)->
-          topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.voteUpUsers.length * 10
+          topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
         $scope.topics = $filter('filter')(topics, $state.params.lectureId)
 
     viewTopic: (topic)->

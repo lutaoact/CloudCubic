@@ -16,5 +16,24 @@ class LectureUtils extends BaseUtils
       CourseUtils.getAuthedCourseById user, mCourse._id
     .then (course) ->
       Lecture.findByIdQ lectureId
+    .then (lecture) ->
+      unless lecture
+        return Q.reject
+          status: 404
+          errCode: ErrCode.NoLecture
+          errMsg: '课时不存在'
+
+      return lecture
+
+
+  checkAuthForLecture: (user, lecture) ->
+    Course.findOneQ
+      lectureAssembly: lecture._id
+    .then (course) ->
+      mCourse = course
+      CourseUtils.getAuthedCourseById user, mCourse._id
+    .then () ->
+      return lecture
+
 
 exports.LectureUtils = LectureUtils
