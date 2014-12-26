@@ -1,0 +1,19 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      网上支付提示
+      <a class="close" ng-click="cancel()">&times;</a>
+    </h4>
+  </div>
+  <div class="text-center payment-modal-body">
+    <span class="text-muted">
+      支付完成前，请不要关闭此支付验证窗口。</br>
+      支付完成后，请根据您的支付情况点击下面按钮。
+    </span>
+
+    <div class="confirm-row">
+      <button class="btn btn-sm rounded" ng-click="payFailed()">支付遇到问题</button>
+      <button class="btn btn-sm btn-danger rounded" ng-click="paySucceed()">支付成功</button>
+    </div>
+  </div>
+</div>

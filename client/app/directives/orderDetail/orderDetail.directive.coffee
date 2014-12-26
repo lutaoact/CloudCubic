@@ -9,6 +9,7 @@ angular.module('budweiserApp').directive 'orderDetail', ->
     $scope,
     $state,
     notify,
+    $modal,
     $rootScope,
     Restangular
   )->
@@ -16,11 +17,18 @@ angular.module('budweiserApp').directive 'orderDetail', ->
       pay: ()->
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
-          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-          window.open url, "MsgWindow", "top=50, left=50, width=800, height=600"
+          $modal.open
+            templateUrl: 'app/directives/orderDetail/paymentConfirmModal.html'
+            controller: 'PaymentConfirmModalCtrl'
+            windowClass: 'center-modal'
+            size: 'sm'
+            resolve:
+              order: -> $scope.order
+#          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+#          window.open url
         .catch (err)->
           console.log err
-          if err.data.errCode = '10017'
+          if err.data?.errCode == '10017'
             notify
               message: "该订单已实效"
               classes: 'alert-failed'
