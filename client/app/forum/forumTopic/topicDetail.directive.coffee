@@ -14,7 +14,7 @@ angular.module('budweiserApp')
 .controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
   angular.extend $scope,
 
-    me: Auth.getCurrentUser()
+    me: Auth.getCurrentUser
 
     newReply: {}
     replying: false
@@ -42,7 +42,8 @@ angular.module('budweiserApp')
         topic.likeUsers = res.likeUsers
 
     toggleVote: (reply)->
-      reply.one('vote').post()
+      console.log reply
+      reply.one('like').post()
       .then (res)->
         reply.likeUsers = res.likeUsers
 

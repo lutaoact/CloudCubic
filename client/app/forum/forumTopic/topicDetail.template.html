@@ -49,7 +49,7 @@
         <div class="blog" compile-html="topic.content" >
         </div>
         <div class="article-voteup text-center"
-          ng-class="{'active':topic.likeUsers.indexOf(me._id)>=0}"
+          ng-class="{'active':topic.likeUsers.indexOf(me()._id)>=0}"
           ng-click="toggleLike(topic)">
           <i class="fa fa-heart">
           </i>
@@ -65,7 +65,7 @@
           <div class="media-object avatar-md"
                source-attr="background-image"
                src="http://placehold.it/32x32"
-               src-key="me.avatar"
+               src-key="me().avatar"
                suffix="?imageView2/1/w/64/h/64">
           </div>
         </div>
@@ -128,12 +128,12 @@
               <small>
                 <i
                   class="fa fa-heart vote"
-                  ng-class="{'active':reply.likedUsers.indexOf(me._id)>=0}"
-                  ng-click="toggleVote(reply)">
+                  ng-class="{'active':reply.likeUsers.indexOf(me()._id)>=0}"
+                  login-window login-success="toggleVote(reply)">
                 </i>
-                {{reply.likedUsers.length||0}}
+                {{reply.likeUsers.length||0}}
               </small>
-              <a href ng-show="reply.postBy._id == me._id" class="pull-right" ng-click="deleteReply(topic, reply)"><i class="fa fa-times"></i></a>
+              <a href ng-show="reply.postBy._id == me()._id" class="pull-right" ng-click="deleteReply(topic, reply)"><i class="fa fa-times"></i></a>
             </h5>
             <div class="reply-body blog" compile-html="reply.content" ></div>
           </div>

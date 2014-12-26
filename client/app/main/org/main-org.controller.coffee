@@ -12,6 +12,19 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
+  generateCategories = ()->
+    $q.all(_.uniq(_.pluck(_.pluck($scope.myCourses, 'categoryId').filter((x)-> x?),'_id')).map (id)->
+      if id
+        Category.find(id)
+      else
+        null
+    )
+    .then (categories)->
+      categories = categories.filter (category)->
+        category?
+      $scope.myCategories = [{name:'全部'}].concat(categories)
+      $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
+
   angular.extend $scope,
     Auth: Auth
     myCourses: null
@@ -45,13 +58,6 @@ angular.module('budweiserApp')
       $event.stopPropagation()
 
     loadMyCourses: ->
-      resetFilterData = ->
-        $q.all(_.uniq(_.pluck($scope.myCourses, 'categoryId')).map (id)->
-          Category.find(id)
-        )
-        .then (categories)->
-          $scope.myCategories = [{name:'全部'}].concat categories
-          $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
 
       if Auth.hasRole('teacher')
         Restangular
@@ -59,7 +65,7 @@ angular.module('budweiserApp')
         .getList(owner: Auth.getCurrentUser()._id)
         .then (courses) ->
           $scope.myCourses = courses
-          resetFilterData()
+          generateCategories()
       else
         Restangular
         .all('classes')
@@ -71,7 +77,7 @@ angular.module('budweiserApp')
           .getList(ids: courseIds)
           .then (courses) ->
             $scope.myCourses = courses
-            resetFilterData()
+            generateCategories()
 
   loadCategories = ->
     Category

@@ -12,6 +12,9 @@ exports.Comment = BaseModel.subclass
     index: [
       path: 'postBy', select: 'name avatar'
     ]
+    create: [
+      path: 'postBy', select: 'name avatar'
+    ]
 
   initialize: ($super) ->
     @schema = new Schema
