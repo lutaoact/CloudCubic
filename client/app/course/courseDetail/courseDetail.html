@@ -1,5 +1,4 @@
-<!-- lecture list -->
-<section class="course course-detail lecture-list" id="lecture-list">
+<div class="course course-detail">
   <div class="container">
     <div class="course-info row">
       <h4 class="course-title" tooltip="{{course.name}}" tooltip-placement="bottom">
@@ -16,20 +15,23 @@
           <span class="classe-label">已开班级：</span>
           <select ng-model="selectedClasse"
                   ng-options="classe.name for classe in classes">
+              <option value="" ng-if="!classes.length">-- 该课程暂未开设班级 --</option>
           </select>
         </div>
-        <div class="classe-duration text-muted">
-          <div class="classe-col">
-            总课时
-            <span>{{course.$lectures.length}}</span>
-          </div>
-          <div class="classe-col">
-            上课时间
-            <span>{{selectedClasse.duration.from | date: 'yyyy.MM.dd'}}</span>
-          </div>
-          <div class="classe-col">
-            结束时间
-            <span>{{selectedClasse.duration.to | date: 'yyyy.MM.dd'}}</span>
+        <div class="classe-info">
+          <div class="dl-dd-dt">
+            <table>
+              <tr>
+                <th>总课时</th>
+                <th>上课时间</th>
+                <th>结束时间</th>
+              </tr>
+              <tr>
+                <td>{{course.$lectures.length || '待定'}}</td>
+                <td>{{(selectedClasse.duration.from | date: 'yyyy.MM.dd') || '待定'}}</td>
+                <td>{{(selectedClasse.duration.to | date: 'yyyy.MM.dd') || '待定'}}</td>
+              </tr>
+            </table>
           </div>
         </div>
         <div class="owner">
@@ -43,7 +45,7 @@
             <span class="owner-title">{{course.owners[0].title}}</span>
           </div>
           <div class="owner-info text-muted">
-            {{course.owners[0].info}}
+            {{course.owners[0].info || '该教师还未填写简介'}}
           </div>
         </div>
         <div class="buy-buttons"
@@ -94,7 +96,7 @@
       </div>
     </div>
 
-    <div class="bud list-group">
+    <div class="bud list-group lecture-list">
       <div class="list-group-header">
         <span class="course-label">课程信息</span>
         <div class="btn-group">
@@ -153,4 +155,4 @@
     </pager>
   </div>
 
-</section>
+</div>
