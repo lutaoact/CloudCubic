@@ -17,7 +17,7 @@ angular.module('budweiserApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page
-      itemsPerPage : 2
+      itemsPerPage : 8
 
   Restangular
   .all('categories')
