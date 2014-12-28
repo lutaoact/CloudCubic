@@ -4,6 +4,7 @@ angular.module('budweiserApp')
 
 .controller 'CourseListCtrl', (
   $q
+  $state
   $scope
   Restangular
 ) ->
@@ -11,10 +12,12 @@ angular.module('budweiserApp')
   angular.extend $scope,
     categories: null
     allCourses: null
-    search: {}
-    maxSize      : 5
-    currentPage  : 1
-    itemsPerPage : 8
+    search:
+      categoryId: $state.params.category
+    pageConf:
+      maxSize      : 5
+      currentPage  : $state.params.page
+      itemsPerPage : 2
 
   Restangular
   .all('categories')
@@ -22,19 +25,21 @@ angular.module('budweiserApp')
   .then (categories) ->
     $scope.categories = categories
 
-  $scope.$watchCollection '[search.categoryId, currentPage]', ->
-    Restangular
-    .all('courses')
-    .getList(
-      from        : ($scope.currentPage - 1) * $scope.itemsPerPage
-      limit       : $scope.itemsPerPage
-      categoryIds : $scope.search.categoryId
-    )
-    .then (courses) ->
-      $scope.allCourses = courses
-      angular.forEach courses, (course) ->
-        Restangular
-        .all('classes')
-        .getList courseId: course._id
-        .then (classes)->
-          course.$classes = classes
+  Restangular
+  .all('courses')
+  .getList(
+    from        : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+    limit       : $scope.pageConf.itemsPerPage
+    categoryIds : $scope.search.categoryId
+  )
+  .then (courses) ->
+    $scope.allCourses = courses
+    angular.forEach courses, (course) ->
+      Restangular
+      .all('classes')
+      .getList courseId: course._id
+      .then (classes)->
+        course.$classes = classes
+
+  $scope.$watchCollection '[search.categoryId, pageConf.currentPage]', (newVal)->
+    $state.go('courseList', {category:newVal[0], page:newVal[1]})

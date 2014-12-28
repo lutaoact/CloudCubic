@@ -2,6 +2,6 @@
 
 angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider.state 'courseList',
-    url: '/courses'
+    url: '/courses?category&page'
     templateUrl: 'app/course/courseList/courseList.html'
     controller: 'CourseListCtrl'
