@@ -13,6 +13,8 @@ angular.module('budweiserApp')
     type: '@'
 
 .controller 'CommentsCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
+  if !$scope.type
+    throw 'should define type of comments directive'
   angular.extend $scope,
 
     me: Auth.getCurrentUser
@@ -24,6 +26,8 @@ angular.module('budweiserApp')
       # validate
       @commenting = true
       @newComment.type = $scope.type
+      if !$scope.belongTo
+        throw 'should define belongTo'
       $scope.newComment.belongTo = $scope.belongTo
       Restangular.all('comments').post $scope.newComment
       .then (comment)->
@@ -31,6 +35,7 @@ angular.module('budweiserApp')
         $scope.initMyComment()
         $scope.commenting = false
         $scope.activeComment = comment._id
+        $scope.$emit 'comments.number', $scope.comments.length
 
     initMyComment: ()->
       @newComment = {} if !@newComment
@@ -72,6 +77,7 @@ angular.module('budweiserApp')
       Restangular.all('comments').getList(belongTo:$scope.belongTo)
       .then (comments)->
         $scope.comments = comments
+        $scope.$emit 'comments.number', comments.length
 
   $scope.$watch 'activeComment', (value)->
     if value

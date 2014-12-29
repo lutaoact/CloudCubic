@@ -100,7 +100,7 @@
             <ul class="nav nav-pills" role="tablist">
               <li role="presentation" ng-class="{'active':viewState.displayView=='info'}"><a href="" ng-click="viewState.displayView='info'">课程信息</a></li>
               <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课时列表</a></li>
-              <!-- <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论</a></li> -->
+              <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论</a></li>
             </ul>
 
             <hr>
@@ -123,6 +123,9 @@
 
             <teacher-course-lectures course="course" ng-show="viewState.displayView=='lectures'"
                                      classe="selectedClasse"></teacher-course-lectures>
+
+            <comments belong-to="course._id" type="2" ng-show="viewState.displayView=='comments'" active-comment="dataId"></comments>
+
           </div>
         </div>
       </div>
