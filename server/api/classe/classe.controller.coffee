@@ -63,7 +63,7 @@ exports.update = (req, res, next) ->
   , next
 
 exports.destroy = (req, res, next) ->
-  conditions = _id: req.params.id, orgId: req.org?._id
+  conditions = _id: req.params.id, orgId: req.user.orgId
   WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.multiDelete = (req, res, next) ->

@@ -1,8 +1,26 @@
 <div id="lectures-{{course._id}}" >
   <div class="row course-lectures">
-    <br/>
+    <div class="col-md-4"
+         ng-if="course._id">
+      <div class="lectures-header">
+        <a href="#lectures-{{course._id}}"
+           du-smooth-scroll
+           offset="60">
+          <label class="title hand-point">班级</label>
+        </a>
+        <a href="" class="btn btn-sm rounded btn-primary" ng-click="addClass()">添加班级</a>
+      </div>
+      <hr class="hr-title"/>
 
-    <div class="col-md-12 lecture-list-group"
+      <classe-tile ng-class="{'active':selectedClasse==classe}"
+                   ng-repeat="classe in classes"
+                   classe="classe"
+                   ng-click="selectClasse(classe)"
+                   course="course">
+      </classe-tile>
+
+    </div>
+    <div class="col-md-8 lecture-list-group"
          ng-if="course._id">
       <div class="lectures-header">
         <a href="#lectures-{{course._id}}"

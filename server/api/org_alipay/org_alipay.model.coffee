@@ -28,3 +28,8 @@ exports.OrgAlipay = BaseModel.subclass
 
   findByOrgId: (orgId) ->
     @findOneQ orgId: orgId
+
+  findByOrgIdLean: (orgId) ->
+    @findOne orgId: orgId
+    .lean()
+    .execQ()

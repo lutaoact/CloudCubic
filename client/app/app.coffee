@@ -99,7 +99,7 @@ angular.module 'budweiserApp', [
     $location.replace()
     true
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
+.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector, initUser) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
@@ -109,12 +109,14 @@ angular.module 'budweiserApp', [
     config.headers.Authorization = 'Bearer ' + $cookieStore.get('token')  if $cookieStore.get('token')
     config
 
-  # Intercept 401s and redirect you to login
+  # Intercept 401s
   responseError: (response) ->
     if response.status is 401
-      loginRedirector.set($location.url())
+      # todo: should clear initUser?
       # remove any stale tokens
+      initUser = undefined
       $cookieStore.remove 'token'
+
       $q.reject response
     else
       $q.reject response
@@ -134,7 +136,6 @@ angular.module 'budweiserApp', [
       $rootScope.$loading = false
     response or $q.when(response)
 
-  # Intercept 401s and redirect you to login
   responseError: (response) ->
     if --numLoadings is 0
       $rootScope.$loading = false
@@ -196,7 +197,6 @@ angular.module 'budweiserApp', [
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     if initUser?
       Auth.getCurrentUser().$promise?.then (me) ->
-        $state.go(getHomeState me) if !Auth.hasRole(toState.roleRequired)
     else
       loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 

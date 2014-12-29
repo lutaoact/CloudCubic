@@ -4,6 +4,7 @@ Order = _u.getModel "order"
 Classe = _u.getModel "classe"
 Cart = _u.getModel "cart"
 populateClasses = require '../../utils/populateClasses'
+OrgAlipay = _u.getModel "org_alipay"
 
 alipay = require('./alipay_config').alipay;
 
@@ -114,14 +115,19 @@ exports.pay = (req, res, next)->
           errCode: ErrCode.ClassAlreadyPaid
           errMsg: '该订单已包含已付款课程'
   .then ->
+    OrgAlipay.findByOrgIdLean req.org._id
+  .then (org_alipay)->
     data =
       out_trade_no: order._id
       subject: '课程订单'
       total_fee: order.totalFee
       body: '课程订单'
-      show_url: req.protocol+'://'+req.headers.host+'/order/'+orderId
+      show_url: req.protocol+'://'+req.headers.host+'/orders/'+orderId
 
-    alipay.create_direct_pay_by_user(data, res);
+    org_alipay.host = req.protocol+'://'+req.headers.host+'/api/orders'
+    alipay.set_org_conf org_alipay
+
+    alipay.create_direct_pay_by_user(req.org._id, data, res);
   , next
 
 

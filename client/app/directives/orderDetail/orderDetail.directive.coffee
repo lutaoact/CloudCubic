@@ -24,8 +24,8 @@ angular.module('budweiserApp').directive 'orderDetail', ->
             size: 'sm'
             resolve:
               order: -> $scope.order
-#          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-#          window.open url
+          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+          window.open url
         .catch (err)->
           console.log err
           if err.data?.errCode == '10017'

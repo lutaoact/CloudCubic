@@ -35,8 +35,8 @@
 
   }
   .course-info{
-    height: 400px;
     position: relative;
+    padding: 20px 40px;
     .box-shadow(2px 2px 2px rgba(0,0,0,0.3));
 
     &:before{
@@ -51,24 +51,24 @@
       height: 0;
     }
     background: #FFF;
-    padding: 0px;
     margin-top: 15px;
-
-    .course-title{
-      margin: 0;
-      padding: 0px 40px;
-      line-height: 60px;
-      font-size: 20px;
-      font-weight: normal;
-      .text-overflow();
+    .course-actions-bar{
+      .course-title {
+        font-size: 20px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        width: ~"calc(100% - 150px)";
+      }
+    }
+    .course-status{
+      margin-bottom: 30px;
+      font-size: 12px;
+      i{
+        font-size: 14px;
+      }
     }
     .course-info-left{
-      position: absolute;
-      top: 0px;
-      bottom: 0;
-      left: 0;
-      padding: 60px 0px 20px 40px;
-      right: 450px;
+      height: 330px;
       .course-thumbnail{
         width: 100%;
         height: 100%;
@@ -77,21 +77,13 @@
         background-color: @gray-lighter;
       }
     }
+
     .course-info-right{
-      padding: 60px 40px 20px 20px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 450px;
       .classe-select {
         margin-bottom: 25px;
         .classe-label {
-          font-size: 16px;
-          color: @base-color;
         }
         select {
-          font-size: 16px;
           border: 1px solid #F0F0F0;
           background: white;
           display: inline-block;
@@ -101,29 +93,27 @@
       .owner {
         .avatar-lg {
           box-shadow: none;
-          margin-right: 10px;
           width: 50px;
           height: 50px;
           border-radius: 50px;
         }
         .owner-name-title {
           display: inline-block;
-          width: 100px;
           vertical-align: top;
           .owner-name {
             display: block;
             line-height: 30px;
+            .text-overflow();
           }
           .owner-title {
             display: block;
             font-size: 12px;
+            .text-overflow();
           }
         }
         .owner-info {
           font-size: 13px;
           display: inline-block;
-          width: 200px;
-          height: 40px;
           overflow: hidden;
           position: relative;
           padding-left: 20px;
@@ -167,16 +157,9 @@
       border-right: 15px solid transparent;
       height: 0;
     }
+
   }
 
-  .course-actions-bar{
-    background: #FFF;
-    .box-shadow(.5px 0 1px 0 rgba(146, 146, 146, 0.8));
-    padding: 6px 44px 6px 44px;
-    h4{
-      font-size: 16px;
-    }
-  }
 
   padding-top: 30px;
   padding-bottom: 30px;
@@ -196,6 +179,9 @@
   }
 
   .course-lectures {
+    .classe-tile{
+      cursor: pointer;
+    }
     min-height: 375px;
     margin: 0px;
     .hr-title {
