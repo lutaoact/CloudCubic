@@ -4,7 +4,7 @@ class CommentUtils extends BaseUtils
   getCommentRefByType: (type) ->
     return _u.getModel Const.CommentModelRef[type]
 
-  # get all users this commet is targeted to. 
+  # get all users this comment is targeted to. 
   # For discuss topic, it will be the author of topic
   # For course, it will be all course owners
   # For lecture, it will be lecture's course owners
@@ -23,15 +23,16 @@ class CommentUtils extends BaseUtils
       #console.log 'get obj', obj
       switch parseInt(type)
         when Const.CommentType.DisTopic 
-          #console.log 'type distopic'
-          return _.pull [obj.postBy], [commentBy]
+          return [] if obj.postBy.equals commentBy
+          return [obj.postBy]
           
         when Const.CommentType.Course
-          #console.log 'type course'
-          return _.pull obj.owners, [commentBy]
+          results = obj.owners
+          _.remove results, (owner) -> owner.equals commentBy
+          return results
           
         when Const.CommentType.Lecture
-          #todo: fixme
+          #todo: Can student comments on lecture?
           return []
         when Const.CommentType.Teacher
           #todo: fixme

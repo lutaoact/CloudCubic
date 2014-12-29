@@ -25,6 +25,10 @@ exports.create = (req, res, next) ->
     type    : body.type
     tags    : body.tags
 
+  console.log 'postBy type ', typeof data.postBy
+  console.log 'belongTo', typeof data.belongTo
+  
+  
   Model = CommentUtils.getCommentRefByType body.type
 
   Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
