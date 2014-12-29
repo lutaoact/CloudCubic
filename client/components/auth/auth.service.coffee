@@ -23,7 +23,6 @@ angular.module('budweiserApp').factory 'Auth', (
     cb = callback or angular.noop
     deferred = $q.defer()
     $http.post('/auth/local', user).success ((data) ->
-      console.log 'login success', data
       if data.targetUrl
         window.location.href = data.targetUrl
         return
