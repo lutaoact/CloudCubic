@@ -17,6 +17,23 @@ class NoticeUtils
       notice.populate "data.#{ref}"
             .populateQ "fromWhom", "-hashedPassword -salt"
 
+  #fromWhom commented userId's belongTo object
+  addCommentNotice : (userId, fromWhom, commentType, belongToId) ->
+    data =
+      userId: userId
+      fromWhom: fromWhom
+      type: Const.NoticeType.Comment
+      data: {}
+      status: 0
+
+    ref = Const.CommentRef[commentType]
+    data.data[ref] = belongToId
+
+    Notice.createQ data
+    .then (notice) ->
+      notice.populate "data.#{ref}"
+            .populateQ "fromWhom", "-hashedPassword -salt"
+  
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disReplyId) ->
     return @addNotice userId, fromWhom, Const.NoticeType.Comment, disReplyId

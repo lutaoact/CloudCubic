@@ -36,6 +36,12 @@ Const =
     Teacher: 4
 
   CommentRef:
+    1: 'disTopic'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+    
+  CommentModelRef:
     1: 'dis_topic'
     2: 'course'
     3: 'lecture'

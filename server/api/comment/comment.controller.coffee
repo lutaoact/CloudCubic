@@ -3,6 +3,10 @@
 Comment = _u.getModel 'comment'
 AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
+NoticeUtils = _u.getUtils 'notice'
+DeviceUtils = _u.getUtils 'device'
+SocketUtils = _u.getUtils 'socket'
+
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
 exports.index = (req, res, next) ->
@@ -23,10 +27,26 @@ exports.create = (req, res, next) ->
 
   Model = CommentUtils.getCommentRefByType body.type
 
-  # todo: tao
   Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
   .then (result) ->
     WrapRequest.wrapCreate req, res, next, data
+  .then () ->
+    #find all targeted users
+    CommentUtils.getTargetUsers body.type, data.belongTo, data.postBy
+  .then (targetUsers) ->  
+    #console.log 'target users are', targetUsers
+    notices = _.map targetUsers, (targetUser) ->
+      NoticeUtils.addCommentNotice(
+        targetUser
+        user._id
+        data.type
+        data.belongTo
+      )
+    Q.allSettled (notices) 
+  .then (notices) ->
+      #console.log 'notices are' , notices
+      SocketUtils.sendNotices notices
+      DeviceUtils.pushToUser notice for notice in notices
   .catch next
   .done()
 

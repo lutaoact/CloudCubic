@@ -27,6 +27,9 @@ exports.Notice = BaseModel.subclass
         disReply:
            type: ObjectId
            ref: 'dis_reply'
+        course :
+           type : ObjectId
+           ref : 'course'
       status: Number
 
     $super()
