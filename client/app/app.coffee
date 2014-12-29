@@ -212,7 +212,7 @@ angular.module 'budweiserApp', [
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->
-    setupUser(user, true)
+    setupUser(user, false)
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then setupUser

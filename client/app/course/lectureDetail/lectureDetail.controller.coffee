@@ -75,8 +75,15 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
           playerAPI.seekTime timestamp
 
     toggleDiscussionPanel: ()->
-      @viewState.discussPanelnitialized = true
-      @viewState.showDiscussion = !@viewState.showDiscussion
+      if !@viewState.discussPanelnitialized
+        @viewState.discussPanelnitialized = true
+        $scope.commentsLoading = true
+        $timeout ->
+          $scope.commentsLoading = false
+          $scope.viewState.showDiscussion = true
+        , 1000
+      else
+        @viewState.showDiscussion = !@viewState.showDiscussion
 
     toggleNotesPanel: ()->
       if !@viewState.notesPanelnitialized
