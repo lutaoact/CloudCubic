@@ -11,7 +11,7 @@
       <i class="fa fa-plus"></i>新讨论
     </button>
   </div>
-  <div class="clearfix title-row tags-bar">
+  <div class="clearfix title-row tags-bar" ng-if="queryTags.length">
     <div class="title-row-header">标签<hr></div>
     <div class="view-section all-tags clearfix">
       <a href class="tag pull-left" ng-class="{'active':tag.$active}" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)" tooltip="{{tag.name}}">{{tag.name}}</a>

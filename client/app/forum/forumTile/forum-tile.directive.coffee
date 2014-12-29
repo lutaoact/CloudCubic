@@ -34,4 +34,4 @@ angular.module('budweiserApp').directive 'forumTile', ()->
         .result.then ->
           forum.remove()
         .then ->
-          $scope.deleteCallback?($forum:forum)
+          $scope.deleteCallback?(forum)

@@ -1,0 +1,89 @@
+<div class="comments clearfix">
+  <div class="new-comment clearfix">
+    <div class="new-comment-left">
+      <div class="media-object avatar-md"
+           source-attr="background-image"
+           src="http://placehold.it/32x32"
+           src-key="me().avatar"
+           suffix="?imageView2/1/w/64/h/64">
+      </div>
+    </div>
+    <div class="new-comment-right" id="new-comment" is-visible="viewState.newCommentVisible">
+      <bud-editor
+        content="newComment.content"
+        metadata="newComment.metadata">
+      </bud-editor>
+    </div>
+
+    <div>
+      <button
+        class="btn btn-danger btn-sm rounded submit pull-right"
+        login-window
+        login-success="createComment()"
+        ng-disabled="!newComment.content">提交</button>
+    </div>
+  </div>
+  <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
+    <div class="pull-left" ng-init="viewState.orderBy = '-created'">
+      <a href class="btn btn-nav text-muted"
+        ng-class="{'active':viewState.orderBy == '-created'}"
+        ng-click="viewState.orderBy = '-created'">
+        最新回复
+      </a>
+      <a href class="btn btn-nav text-muted"
+        ng-class="{'active':viewState.orderBy != '-created'}"
+        ng-click="viewState.orderBy = ['-likeUsers.length', '-created']">
+        最热回复
+      </a>
+    </div>
+    <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
+    <div class="pull-left">
+      <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
+        <a type="button" class="btn dropdown-toggle text-muted">
+          {{viewState.filterMethod=='all'?'全部':'只看我的'}}<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
+          <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <ul class="list-group ">
+    <li class="bud thumbnail media col-md-12 comment"
+        ng-repeat="comment in comments|orderBy: viewState.orderBy|filter: commentsFilter" id="{{comment._id}}" >
+      <a class="pull-left" href>
+        <div class="media-object avatar-md"
+             source-attr="background-image"
+             src-key="comment.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
+        </div>
+      </a>
+      <div class="media-body">
+
+        <h5 class="base-color comment-author-name">{{comment.postBy.name}}
+          <small>|</small>
+          <small>{{comment.created|timeToTimeAgo}}</small>
+          <small>|</small>
+          <small>
+            <i
+              class="fa fa-heart vote"
+              ng-class="{'active':comment.likeUsers.indexOf(me()._id)>=0}"
+              login-window login-success="toggleLike(comment)">
+            </i>
+            {{comment.likeUsers.length||0}}
+          </small>
+          <a href ng-show="comment.postBy._id == me()._id" class="pull-right" ng-click="deleteComment(comment)"><i class="fa fa-times"></i></a>
+        </h5>
+        <div class="comment-body blog" compile-html="comment.content" ></div>
+      </div>
+    </li>
+  </ul>
+
+  <a class="btn form-control btn-primary btn-md rounded back-to-editor"
+    style="margin: 20px 0;border-radius: 3px;"
+    ng-class="{'hide': viewState.newCommentVisible}"
+    href="#new-comment" du-smooth-scroll du-scrollspy offset="200">
+    发表回复
+  </a>
+</div>

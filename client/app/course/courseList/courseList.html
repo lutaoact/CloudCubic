@@ -35,16 +35,16 @@
       </div>
     </div>
     <div class="row pagination-row text-center"
-         ng-hide="allCourses.$count <= itemsPerPage">
+         ng-if="allCourses.$count"
+         ng-show="allCourses.$count > pageConf.itemsPerPage">
       <pagination
         total-items="allCourses.$count"
-        ng-model="currentPage"
-        items-per-page="itemsPerPage"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
         class="pagination-sm bud"
         boundary-links="true"
         rotate="false"
-        max-size="maxSize"
-        num-pages="numPages">
+        max-size="pageConf.maxSize">
       </pagination>
     </div>
   </div>

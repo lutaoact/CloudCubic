@@ -60,6 +60,9 @@ exports.Course = BaseModel.subclass
       deleteFlag:
         type: Boolean
         default: false
+      commentsNum:
+        type: Number
+        default: 0
 
     $super()
 

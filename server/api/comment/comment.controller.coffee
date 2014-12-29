@@ -7,6 +7,8 @@ WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
 exports.index = (req, res, next) ->
   conditions = {}
+  conditions.type = req.query.type if req.query.type
+  conditions.belongTo = req.query.belongTo
   WrapRequest.wrapIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
@@ -15,18 +17,16 @@ exports.create = (req, res, next) ->
   data =
     content : body.content
     postBy  : user._id
-    type    : body.type
     belongTo: body.belongTo
+    type    : body.type
     tags    : body.tags
 
   Model = CommentUtils.getCommentRefByType body.type
-  Q.all [
-    Comment.createQ data
-    Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
-  ]
+
+  # todo: tao
+  Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
   .then (result) ->
-    comment = result[0]
-    res.send comment
+    WrapRequest.wrapCreate req, res, next, data
   .catch next
   .done()
 
