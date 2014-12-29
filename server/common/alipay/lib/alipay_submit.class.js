@@ -34,7 +34,7 @@ function AlipaySubmit(alipay_config){
  * @param para_sort 已排序要签名的数组
  * return 签名结果字符串
  */
-AlipaySubmit.prototype.buildRequestMysign = function(para_sort){
+AlipaySubmit.prototype.buildRequestMysign = function(org_id, para_sort){
     //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
     var prestr = core_funcs.createLinkstring(para_sort);
 
@@ -42,7 +42,7 @@ AlipaySubmit.prototype.buildRequestMysign = function(para_sort){
 
     var sign_type = this.alipay_config['sign_type'].trim().toUpperCase();
     if(sign_type == "MD5"){
-        mysign = md5_f.md5Sign(prestr, this.alipay_config['key']);
+        mysign = md5_f.md5Sign(prestr, this.alipay_config.org_conf[org_id]['key']);
     }
     else{
         mysign = "";
@@ -55,7 +55,7 @@ AlipaySubmit.prototype.buildRequestMysign = function(para_sort){
  * @param para_temp 请求前的参数数组
  * @return 要请求的参数数组
  */
-AlipaySubmit.prototype.buildRequestPara = function(para_temp){
+AlipaySubmit.prototype.buildRequestPara = function(org_id, para_temp){
     //除去待签名参数数组中的空值和签名参数
     var para_filter = core_funcs.paraFilter(para_temp);
 
@@ -63,7 +63,7 @@ AlipaySubmit.prototype.buildRequestPara = function(para_temp){
     var para_sort = core_funcs.argSort(para_filter);
 
     //生成签名结果
-    var mysign = this.buildRequestMysign(para_sort);
+    var mysign = this.buildRequestMysign(org_id, para_sort);
 
     //签名结果与签名方式加入请求提交参数组中
     para_sort['sign'] = mysign;
@@ -77,9 +77,9 @@ AlipaySubmit.prototype.buildRequestPara = function(para_temp){
  * @param para_temp 请求前的参数数组
  * @return 要请求的参数数组字符串
  */
-AlipaySubmit.prototype.buildRequestParaToString = function(para_temp){
+AlipaySubmit.prototype.buildRequestParaToString = function(org_id, para_temp){
     //待请求参数数组
-    var para = this.buildRequestPara(para_temp);
+    var para = this.buildRequestPara(org_id, para_temp);
 
     //把参数组中所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对字符串做urlencode编码
     var request_data = core_funcs.createLinkstringUrlencode(para);
@@ -94,9 +94,9 @@ AlipaySubmit.prototype.buildRequestParaToString = function(para_temp){
  * @param button_name 确认按钮显示文字
  * @return 提交表单HTML文本
  */
-AlipaySubmit.prototype.buildRequestForm = function (para_temp, method, button_name) {
+AlipaySubmit.prototype.buildRequestForm = function (org_id, para_temp, method, button_name) {
     //待请求参数数组
-    var para = this.buildRequestPara(para_temp);
+    var para = this.buildRequestPara(org_id, para_temp);
 
     var sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='"
             + this.alipay_gateway_new
@@ -122,9 +122,9 @@ AlipaySubmit.prototype.buildRequestForm = function (para_temp, method, button_na
  * @param para_temp 请求参数数组
  * @return 支付宝处理结果
  */
-AlipaySubmit.prototype.buildRequestHttp = function (para_temp, callback) {
+AlipaySubmit.prototype.buildRequestHttp = function (org_id, para_temp, callback) {
     //待请求参数数组字符串
-    var request_data = this.buildRequestPara(para_temp);
+    var request_data = this.buildRequestPara(org_id, para_temp);
 
     //远程获取数据
 	core_funcs.getHttpResponsePOST(this.alipay_gateway_new, this.alipay_config['cacert'],request_data,this.alipay_config['input_charset'].toLowerCase().trim(), callback);    
@@ -137,9 +137,9 @@ AlipaySubmit.prototype.buildRequestHttp = function (para_temp, callback) {
  * @param file_name 文件完整绝对路径
  * @return 支付宝返回处理结果
  */
-AlipaySubmit.prototype.buildRequestHttpInFile = function (para_temp, file_para_name, file_name, callback) {
+AlipaySubmit.prototype.buildRequestHttpInFile = function (org_id, para_temp, file_para_name, file_name, callback) {
     //待请求参数数组
-    var para = this.buildRequestPara(para_temp);
+    var para = this.buildRequestPara(org_id, para_temp);
     para[file_para_name] = "@" + file_name;
 
     //远程获取数据
