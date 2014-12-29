@@ -62,21 +62,6 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         course.remove().then ->
           $scope.deleteCallback?($course:course)
 
-    addClass: ()->
-      $modal.open
-        templateUrl: 'app/admin/classeManager/editClasseModal.html'
-        controller: 'EditClasseModalCtrl'
-        resolve:
-          Courses: -> [$scope.course]
-          Classe: ->
-            name: ''
-            price: 0
-            enrollment: {}
-            duration: {}
-            $course: $scope.course
-      .result.then (newClasse) ->
-        $scope.classes.push newClasse
-
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
@@ -86,10 +71,3 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     $scope.categories = categories
     $scope.course.$category = _.find $scope.categories, (category)->
       category._id is $scope.course.categoryId._id
-
-  Restangular.all('classes').getList courseId: $state.params.courseId
-  .then (classes) ->
-    $scope.classes = classes
-    $scope.selectedClasse = classes?[0]
-
-

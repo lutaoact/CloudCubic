@@ -1,0 +1,29 @@
+<div class="classe-tile">
+  <div class="clearfix" tooltip="{{classe.name | minLength:20}}"
+  tooltip-append-to-body="true">
+    <span class="pull-left"><h4>{{classe.name}}</h4></span>
+    <span dropdown class="pull-right" style="font-size: 0;position: relative;">
+      <a href="" class="btn btn-xs" dropdown-toggle title="编辑" >
+        <i class="fa fa-chevron-down"></i>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="" ng-click="editClasse(classe)">编辑</a>
+        </li>
+        <li>
+          <a href="" ng-click="deleteClasse(classe)">删除</a>
+        </li>
+      </ul>
+    </span>
+  </div>
+  <table>
+    <tr>
+      <th>开课时间</th>
+      <th>结束时间</th>
+    </tr>
+    <tr>
+      <td>{{classe.duration.from | date: 'yyyy.MM.dd'}}</td>
+      <td>{{classe.duration.to | date: 'yyyy.MM.dd'}}</td>
+    </tr>
+  </table>
+</div>

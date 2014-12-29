@@ -36,17 +36,6 @@
             </div>
           </div>
           <div class="course-info-right">
-            <div class="form-group">
-              <a href="" class="btn btn-sm rounded btn-primary" ng-click="addClass()">添加班级</a>
-            </div>
-            <div class="classe-select">
-              <span class="classe-label">切换班级：</span>
-              <select ng-model="selectedClasse"
-                      class="form-control"
-                      ng-disabled="viewState.editingInfo"
-                      ng-options="classe.name for classe in classes">
-              </select>
-            </div>
 
             <div class="classe-select" ng-if="!viewState.editingInfo">
               <span class="classe-label">科目：</span> <span>{{course.categoryId.name}}</span>
@@ -61,22 +50,6 @@
               </select>
             </div>
 
-            <div class="classe-info">
-              <div class="dl-dd-dt">
-                <table>
-                  <tr>
-                    <th>总课时</th>
-                    <th>上课时间</th>
-                    <th>结束时间</th>
-                  </tr>
-                  <tr>
-                    <td>{{course.$lectures.length}}</td>
-                    <td>{{selectedClasse.duration.from | date: 'yyyy.MM.dd'}}</td>
-                    <td>{{selectedClasse.duration.to | date: 'yyyy.MM.dd'}}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
             <div class="owner">
               <div class="avatar-lg pull-left"
                    source-attr="background-image"

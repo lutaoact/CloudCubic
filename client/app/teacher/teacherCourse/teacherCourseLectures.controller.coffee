@@ -7,7 +7,6 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
   templateUrl: 'app/teacher/teacherCourse/teacherCourseLectures.html'
   scope:
     course: '='
-    classe: '='
 
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope
@@ -31,13 +30,14 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       _.str.include(text, keyword)
 
     startTeaching: (course, lecture) ->
-      classe = $scope.classe
+      classe = $scope.selectedClasse
       $state.go 'teacher.teaching',
         courseId: course._id
         classeId: classe._id
         lectureId: lecture._id
 
     selectClasse: (classe) ->
+      $scope.selectedClasse = classe
       $scope.activeProgressKey = classe._id
       if $scope.progressMap[$scope.activeProgressKey]?
         setFirstUndoLecture()
@@ -77,6 +77,21 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     sortLecture: ->
       $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')
 
+    addClass: ()->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/editClasseModal.html'
+        controller: 'EditClasseModalCtrl'
+        resolve:
+          Courses: -> [$scope.course]
+          Classe: ->
+            name: ''
+            price: 0
+            enrollment: {}
+            duration: {}
+            $course: $scope.course
+      .result.then (newClasse) ->
+        $scope.classes.push newClasse
+
   reloadLectures = (course) ->
     if !course._id? then return
     # load course
@@ -88,12 +103,16 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     progress = $scope.progressMap[$scope.activeProgressKey]
     $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
-  $scope.$watch 'course', (value) ->
-    if value and $scope.classe
-      reloadLectures($scope.course)
-      $scope.selectClasse value
+  $scope.$on 'classe.deleted', (event, classe)->
+    deleteClasseIndex = $scope.classes.indexOf(classe)
+    $scope.classes.splice deleteClasseIndex, 1
+    $scope.selectedClasse = null
+    $scope.selectClasse($scope.classes?[0])
 
-  $scope.$watch 'classe', (value)->
-    if value and $scope.course
+  $scope.$watch 'course', (value) ->
+    if value
       reloadLectures($scope.course)
-      $scope.selectClasse value
+      Restangular.all('classes').getList courseId: value._id
+      .then (classes) ->
+        $scope.classes = classes
+        $scope.selectClasse(classes?[0])
