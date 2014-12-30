@@ -31,7 +31,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    videoLimitation: if $rootScope.org.isPaid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
+    videoLimitation: if $rootScope.org.paid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     keyPoints: KeyPoints
     mediaApi: null
     saving: false

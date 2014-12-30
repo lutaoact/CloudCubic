@@ -1,4 +1,6 @@
 <tabset class="col-md-12 tabset-non-border">
+
+  <!--机构基本信息-->
   <tab heading="机构基本信息">
     <div class="row admin-ui-view">
       <form id="org-form"
@@ -95,7 +97,7 @@
         <div class="form-group">
           <label class="col-sm-3 control-label">账户级别</label>
           <div class="col-sm-7">
-            <label ng-if="organization.isPaid" class="form-control text-primary">高级账户</label>
+            <label ng-if="organization.paid" class="form-control text-primary">高级账户</label>
             <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
           </div>
         </div>
@@ -122,147 +124,13 @@
     </div>
   </tab>
 
-  <tab heading="机构公告区">
-    <div class="row admin-ui-view">
-      <div class="col-md-6">
-        <form name="form" class="broadcast-form" ng-submit="postBroadcast(form)" novalidate>
-          <div class="form-title">
-            最新公告&nbsp;<i class="fa fa-send"></i>
-          </div>
-          <div class="form-group">
-            <label for="titleInput">标题</label>
-            <input
-              id="titleInput"
-              name="title"
-              placeholder="请输入标题"
-              class="form-control"
-              ng-model="newBroadcast.title"
-              required
-              >
-          </div>
-          <div class="form-group">
-            <label for="contentInput">内容</label>
-            <textarea
-              id="contentInput"
-              name="content"
-              cols="30"
-              placeholder="请输入内容"
-              rows="10"
-              style="height: 140px;"
-              class="form-control"
-              ng-model="newBroadcast.content"
-              required
-              msd-elastic>
-            </textarea>
-          </div>
-          <div class="pull-right">
-            <button class="btn btn-danger rounded" type="submit" ng-disabled="form.content.$invalid">
-              发送
-            </button>
-            <button class="btn btn-default rounded" type="reset">
-              重置
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="col-md-6 broadcast-browser">
-        <div class="title">已发公告<i class="fa fa-envelope envelope"></i></div>
-        <div class="seach-bar col-xs-12">
-          <div class="search col-xs-6">
-            <i class="fa fa-search pull-right"></i>
-            <input type="text" ng-model="viewState.broadcastQuery">
-          </div>
-        </div>
-        <ul class="list-group col-xs-12">
-          <li
-            class="list-group-item broadcast"
-            id="{{broadcast._id}}"
-            ng-click="viewState.selectedBroadcast=broadcast"
-            ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
-            ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
-            <div class="clearfix">
-              <h5 class="base-color pull-left">
-                {{broadcast.title}}
-                <br>
-                <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
-              </h5>
-              <div class="pull-right">
-                <div class="well">
-                  <i class="btn btn-xs fa fa-send text-muted" ng-click="resend(broadcast)"></i>
-                  <i class="btn btn-xs fa fa-times text-muted" ng-click="removeBroadcast(broadcast)"></i>
-                </div>
-              </div>
-            </div>
-            <div class="broadcast-content" compile-html="broadcast.content">
-            </div>
-          </li>
-        </ul>
-        <pagination
-          ng-hide="broadcasts.length <= itemsPerPage"
-          total-items="broadcasts.length"
-          ng-model="currentBroadcastPage"
-          items-per-page="itemsPerPage"
-          class="pagination-sm bud"
-          boundary-links="true"
-          rotate="false"
-          max-size="maxSize"
-          previous-text="&lsaquo;"
-          next-text="&rsaquo;"
-          first-text="&laquo;"
-          last-text="&raquo;"
-          num-pages="numPages">
-        </pagination>
-      </div>
-    </div>
-  </tab>
-
-  <tab heading="定制化">
-    <div class="row admin-ui-view customized">
-      <div class="col-md-12 custom-banner">
-        <div class="col-md-6">
-          <h5>横幅 <small>您的品牌展示</small></h5>
-          <div class="banner-edit" ng-repeat="banner in organization.banners">
-            <div class="banner-thumb" src-key="banner.image" source-attr="background-image">
-            </div>
-            <input type="text" class="form-control" placeholder="标语" ng-model="banner.text">
-            <a href="" class="btn btn-xs btn-remove" ng-click="removeBanner(banner)"><i class="fa fa-times"></i></a>
-          </div>
-          <uploader class="btn btn-xs rounded" limit="{{imageSizeLimitation}}"
-                    on-complete="onBannerUpload($data)"
-                    accept-type="image"
-                    crop="true"
-                    crop-ratio="2.5"
-                    max-width="1920"
-                    >
-            上传图片
-          </uploader>
-          <br>
-          <a href="" ng-click="saveCustom()" class="btn btn-danger btn-xs rounded">保存</a>
-        </div>
-        <div class="col-md-6">
-          预览
-          <carousel interval="myInterval" disable-animation>
-            <slide ng-repeat="banner in organization.banners" active="banner.active">
-              <div class="banner" src-key="banner.image" source-attr="background-image">
-                <div class="carousel-caption">
-                  <h4>{{banner.text}}</h4>
-                </div>
-              </div>
-            </slide>
-          </carousel>
-        </div>
-      </div>
-      <hr>
-    </div>
-  </tab>
-
-
+  <!--支付宝信息-->
   <tab heading="支付宝信息">
     <div class="row admin-ui-view">
       <form id="org-alipay-form"
             class="form-horizontal col-md-10 col-md-offset-1"
             role="form"
-            name="orgForm">
+            name="orgPaymentForm">
         <hr/>
 
         <div class="form-group">
@@ -309,7 +177,7 @@
         <div class="form-group text-center">
           <button type="submit"
                   class="btn btn-danger rounded save-btn"
-                  ng-click="saveOrgAlipay(orgForm)">
+                  ng-click="saveOrgAlipay(orgPaymentForm)">
               <span >保存</span>
           </button>
         </div>
@@ -317,4 +185,15 @@
       </form>
     </div>
   </tab>
+
+  <!--机构定制化-->
+  <tab heading="定制化">
+    <div custom-org-banners-tile organization="organization"></div>
+  </tab>
+
+  <!--机构公告区-->
+  <tab heading="机构公告区">
+    <div org-broadcast-tile organization="organization"></div>
+  </tab>
+
 </tabset>
