@@ -107,7 +107,7 @@ class WrapRequest
   wrapUpdate: (req, res, next, conditions, pickedUpdatedKeys) ->
     data = {}
     if pickedUpdatedKeys.omit
-      data = _.omit req.body pickedUpdatedKeys.omit
+      data = _.omit req.body, pickedUpdatedKeys.omit
     else
       data = _.pick req.body, pickedUpdatedKeys
 
