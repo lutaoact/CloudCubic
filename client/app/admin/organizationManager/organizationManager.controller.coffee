@@ -3,16 +3,13 @@
 angular.module('budweiserApp')
 
 .controller 'OrganizationManagerCtrl', (
-  Auth
-  $http
-  $modal
+  org
   notify
   $scope
-  $upload
-  orgTypeService
-  Restangular
   configs
   $timeout
+  Restangular
+  orgTypeService
 ) ->
 
   editableFields = [
@@ -35,7 +32,9 @@ angular.module('budweiserApp')
 
     onLogoUpload: (key) ->
       $scope.organization.logo = key
-      Restangular.one('organizations', $scope.organization._id).patch logo: key
+      Restangular
+      .one('organizations', $scope.organization._id)
+      .patch logo: key
       .then ->
         notify
           message: 'Logo 修改成功'
@@ -45,17 +44,58 @@ angular.module('budweiserApp')
       banner =
         image: key
         text: ''
-      $scope.organization.banners ?= []
-      $scope.organization.banners.push banner
+      banners = angular.copy $scope.organization.banners
+      banners ?= []
+      banners.push banner
+      Restangular
+      .one('organizations', $scope.organization._id)
+      .patch banners: banners
+      .then ->
+        $scope.organization.banners.push(banner)
+        notify
+          message: 'banner 添加成功'
+          classes: 'alert-success'
+      .catch (error) ->
+        notify
+          message: 'banner 添加失败'
+          classes: 'alert-danger'
 
     removeBanner: (banner) ->
-      $scope.organization.banners.splice($scope.organization.banners.indexOf(banner),1)
+      banners = angular.copy $scope.organization.banners
+      index = banners.indexOf(banner)
+      banners.splice(index, 1)
+      Restangular
+      .one('organizations', $scope.organization._id)
+      .patch banners: banners
+      .then ->
+        $scope.organization.banners.splice(index, 1)
+        notify
+          message: 'banner 已被移除'
+          classes: 'alert-success'
+      .catch (error) ->
+        notify
+          message: 'banner 移除失败'
+          classes: 'alert-danger'
+
+    saveBanners: ->
+      Restangular
+      .one('organizations', $scope.organization._id)
+      .patch banners: $scope.organization.banners
+      .then ->
+        notify
+          message: 'banner 已更新'
+          classes: 'alert-success'
+      .catch (error) ->
+        notify
+          message: 'banner 更新失败'
+          classes: 'alert-danger'
 
     saveOrg: (form)->
       if !form.$valid then return
       $scope.saving = true
       $scope.errors = null
-      Restangular.one('organizations', $scope.organization._id)
+      Restangular
+      .one('organizations', $scope.organization._id)
       .patch($scope.editingInfo)
       .then ->
         angular.extend $scope.organization, $scope.editingInfo
@@ -64,20 +104,22 @@ angular.module('budweiserApp')
         $scope.errors = error?.data?.errors
         $scope.saving = false
 
-    saveCustom: ()->
-      Restangular.one('organizations', $scope.organization._id).patch banners: $scope.organization.banners
-      .then ->
-        notify
-          message: '修改成功'
-          classes: 'alert-success'
+    saveOrgAlipay: ->
+      Restangular
+      .one('org_alipays','me')
+      .patch $scope.orgAlipay
 
-    myInterval: 5000
+  Restangular
+  .one('org_alipays','me').get()
+  .then (data) ->
+    $scope.orgAlipay = data
 
-  Auth.getCurrentUser().$promise.then (me) ->
-    Restangular.one('organizations', me.orgId._id).get()
-    .then (org) ->
-      $scope.organization = org
-      $scope.editingInfo = _.pick $scope.organization, editableFields
+  Restangular
+  .one('organizations', org._id)
+  .get()
+  .then (dbOrg) ->
+    $scope.organization = dbOrg
+    $scope.editingInfo = _.pick $scope.organization, editableFields
 
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.organization, editableFields)
@@ -85,22 +127,24 @@ angular.module('budweiserApp')
     $scope.saved = isEqual
 
   # broadcast
-  Restangular.all('broadcasts').getList()
-  .then (broadcasts)->
+  Restangular
+  .all('broadcasts')
+  .getList()
+  .then (broadcasts) ->
     $scope.broadcasts = broadcasts
 
   angular.extend $scope,
-    broadcasts: undefined
+    broadcasts: null
+    newBroadcast: {}
+    viewState: {}
 
     itemsPerPage: 5
     currentBroadcastPage: 1
     currentMessagePage: 1
     maxSize: 4
 
-    newBroadcast: {}
 
     postBroadcast: (form)->
-
       if form.$valid
         # Account created, redirect to home
         Restangular.all('broadcasts').post $scope.newBroadcast
@@ -116,7 +160,6 @@ angular.module('budweiserApp')
           message: '删除成功'
           classes: 'alert-success'
 
-    viewState: {}
 
     resend: (broadcast)->
       broadcastForm = angular.element '.broadcast-form'
@@ -149,10 +192,3 @@ angular.module('budweiserApp')
       $timeout ->
         outer.remove()
       , 800
-
-    saveOrgAlipay: ()->
-      Restangular.one('org_alipays','me').patch $scope.orgAlipay
-
-  Restangular.one('org_alipays','me').get()
-  .then (data)->
-    $scope.orgAlipay = data
