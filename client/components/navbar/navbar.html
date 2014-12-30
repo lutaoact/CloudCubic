@@ -63,8 +63,11 @@
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
-        <li ng-class="{active: isActive('main')}">
-          <a href ui-sref='main'>主页</a>
+        <li ng-if="Auth.hasRole('student') && !Auth.hasRole('admin')" ng-class="{active: isActive('main')}">
+          <a href ui-sref='main'>个人主页</a>
+        </li>
+        <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin.home')}">
+          <a class="text-center" ui-sref="admin.home">机构管理</a>
         </li>
         <li ng-class="{active: isActive('courseList')}">
           <a href ui-sref='courseList'>所有课程</a>
@@ -82,14 +85,10 @@
           <a href ui-sref="course.stats({courseId:$state.params.courseId})">统计</a>
         </li>
 
-        <li ng-if="Auth.hasRole('admin')">
-          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="main">切换到教师</a>
-          <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
-        </li>
-        <li>
+        <li ng-if="Auth.getCurrentUser().role == 'student'">
           <a href ui-sref="orderList">订单中心</a>
         </li>
-        <li shopcart></li>
+        <li ng-if="Auth.getCurrentUser().role == 'student'" shopcart></li>
         <li ng-if="!Auth.isLoggedIn()">
           <a href login-window>登录</a>
         </li>
