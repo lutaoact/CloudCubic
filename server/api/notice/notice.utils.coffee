@@ -1,50 +1,49 @@
 Notice = _u.getModel 'notice'
+DisTopic = _u.getModel 'dis_topic'
 
 class NoticeUtils
-  addNotice: (userId, fromWhom, type, objectId) ->
-    data =
+  addNotice: (userId, fromWhom, type, title, data) ->
+    notice =
       userId: userId
       fromWhom: fromWhom
       type: type
-      data: {}
+      title: title
+      data: data
       status: 0
 
-    ref = Const.NoticeRef[type]
-    data.data[ref] = objectId
-
-    Notice.createQ data
-    .then (notice) ->
-      notice.populate "data.#{ref}"
-            .populateQ "fromWhom", "-hashedPassword -salt"
+    Notice.createQ notice
 
   #fromWhom commented userId's belongTo object
-  addCommentNotice : (userId, fromWhom, commentType, belongToId) ->
-    data =
-      userId: userId
-      fromWhom: fromWhom
-      type: Const.NoticeType.Comment
-      data: {}
-      status: 0
+  addCommentNotice : (userId, fromWhom, commentRefType, belongToId) ->
+    switch commentRefType
+      # NoticeType: Const.NoticeType.DisTopicComment
+      when Const.CommentType.DisTopic # belongToId is disTopId
+        DisTopic.findByIdQ belongToId
+        .then (dis_topic) =>
+          data =
+            disTopicId: dis_topic._id
+            forumId: dis_topic.forumId
+          @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, dis_topic.title, data
 
-    ref = Const.CommentRef[commentType]
-    data.data[ref] = belongToId
+      # NoticeType: Const.NoticeType.CourseComment
+      when Const.CommentType.Course
+        console.log 'todo'
 
-    Notice.createQ data
-    .then (notice) ->
-      notice.populate "data.#{ref}"
-            .populateQ "fromWhom", "-hashedPassword -salt"
-  
+      # NoticeType: Const.NoticeType.LectureComment
+      when Const.CommentType.Lecture
+        console.log 'todo'
+
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disReplyId) ->
-    return @addNotice userId, fromWhom, Const.NoticeType.Comment, disReplyId
+    return @addNotice userId, fromWhom, Const.NoticeType.TopicComment, disReplyId
 
   #fromWhom给userId的disTopicId点赞了
   addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->
     return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
 
   #fromWhom给userId的disReplyId点赞了
-  addReplyVoteUpNotice: (userId, fromWhom, disReplyId) ->
-    return @addNotice userId, fromWhom, Const.NoticeType.ReplyVoteUp, disReplyId
+  addTopicCommentVoteUpNotice: (userId, fromWhom, disReplyId) ->
+    return @addNotice userId, fromWhom, Const.NoticeType.TopicCommentVoteUp, disReplyId
 
   #userId，有新的lecture发布了哦，赶紧去看吧
   buildLectureNotices: (userIds, lectureId) ->

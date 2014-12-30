@@ -26,7 +26,7 @@ angular.module('budweiserApp')
       when Const.NoticeType.TopicVoteUp
         if raw.data.disTopic._id is $scope.topic._id
           $scope.topic.likeUsers = raw.data.disTopic.likeUsers
-      when Const.NoticeType.ReplyVoteUp
+      when Const.NoticeType.TopicCommentVoteUp
         myReplie = $scope.topic.$comments.filter (item)->
           item._id is raw.data.disReply._id
         if myReplie?.length

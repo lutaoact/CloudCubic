@@ -25,7 +25,7 @@ angular.module('budweiserApp')
     createComment: ()->
       # validate
       @commenting = true
-      @newComment.type = $scope.type
+      @newComment.type = parseInt($scope.type)
       if !$scope.belongTo
         throw 'should define belongTo'
       $scope.newComment.belongTo = $scope.belongTo
@@ -39,7 +39,7 @@ angular.module('budweiserApp')
 
     initMyComment: ()->
       @newComment = {} if !@newComment
-      @newComment.type = $scope.type
+      @newComment.type = parseInt($scope.type)
       @newComment.content = ''
       @newComment.metadata = {}
 

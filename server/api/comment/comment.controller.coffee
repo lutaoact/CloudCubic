@@ -31,14 +31,14 @@ exports.create = (req, res, next) ->
   
   Model = CommentUtils.getCommentRefByType body.type
 
-  Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
+  Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
   .then (result) ->
     WrapRequest.wrapCreate req, res, next, data
   .then () ->
     #find all targeted users
     CommentUtils.getTargetUsers body.type, data.belongTo, data.postBy
   .then (targetUsers) ->  
-    #console.log 'target users are', targetUsers
+#    console.log 'target users are', targetUsers
     notices = _.map targetUsers, (targetUser) ->
       NoticeUtils.addCommentNotice(
         targetUser
@@ -46,11 +46,11 @@ exports.create = (req, res, next) ->
         data.type
         data.belongTo
       )
-    Q.allSettled (notices) 
+    Q.all(notices)
   .then (notices) ->
-      #console.log 'notices are' , notices
-      SocketUtils.sendNotices notices
-      DeviceUtils.pushToUser notice for notice in notices
+    #console.log 'notices are' , notices
+    SocketUtils.sendNotices notices
+    DeviceUtils.pushToUser notice for notice in notices
   .catch next
   .done()
 

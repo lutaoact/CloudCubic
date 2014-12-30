@@ -31,7 +31,7 @@ NoticeUtils.addTopicVoteUpNotice userId, fromWhom, topicId
 , (err) ->
   console.log err
 
-NoticeUtils.addReplyVoteUpNotice userId, fromWhom, replyId
+NoticeUtils.addTopicCommentVoteUpNotice userId, fromWhom, replyId
 .then (result) ->
   console.log result
 , (err) ->

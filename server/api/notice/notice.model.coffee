@@ -16,20 +16,24 @@ exports.Notice = BaseModel.subclass
       fromWhom:
         type: ObjectId
         ref: 'user'
-      type: Number #参考Const中的定义
+      type: Number #参考Const.CommentType中的定义
+      title: String
       data:
-        lecture:
+        lectureId:
            type: ObjectId
            ref: 'lecture'
-        disTopic:
+        disTopicId:
            type: ObjectId
            ref: 'dis_topic'
-        disReply:
+        disReplyId:
            type: ObjectId
            ref: 'dis_reply'
-        course :
+        courseId :
            type : ObjectId
            ref : 'course'
+        forumId:
+           type : ObjectId
+           ref : 'forum'
       status: Number
 
     $super()

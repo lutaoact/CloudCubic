@@ -2,9 +2,37 @@
 Const =
   NoticeType:
     TopicVoteUp: 1
-    ReplyVoteUp: 2
-    Comment: 3
-    Lecture: 4
+    TopicCommentVoteUp: 2
+    CourseCommentVoteUp: 3
+    LectureCommentVoteUp: 4
+
+    DisTopicComment: 5
+    CourseComment: 6
+    LectureComment: 7
+
+  CommentType:
+    DisTopic: 1
+    Course: 2
+    Lecture: 3
+    Teacher: 4
+
+  CommentRef:
+    1: 'disTopic'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+
+  CommentModelRef:
+    1: 'dis_topic'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+
+#  NoticeRef:
+#    1: 'disTopic'
+#    2: 'disReply'
+#    3: 'disReply'
+#    4: 'lecture'
 
   Notification:
     1: '有人赞了你的话题'
@@ -28,30 +56,6 @@ Const =
     Quiz: 'quiz'
     QuizAnswer: 'quiz_answer'
     Error: 'error'
-
-  CommentType:
-    DisTopic: 1
-    Course: 2
-    Lecture: 3
-    Teacher: 4
-
-  CommentRef:
-    1: 'disTopic'
-    2: 'course'
-    3: 'lecture'
-    4: 'user'
-    
-  CommentModelRef:
-    1: 'dis_topic'
-    2: 'course'
-    3: 'lecture'
-    4: 'user'
-
-  NoticeRef:
-    1: 'disTopic'
-    2: 'disReply'
-    3: 'disReply'
-    4: 'lecture'
 
   PageSize:
     DisTopic: 10

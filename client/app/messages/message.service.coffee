@@ -14,9 +14,9 @@ angular.module 'budweiserApp'
           deferred.resolve
             title: '赞了你的帖子：' + raw.data.disTopic.title
             raw: raw
-            link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
+            link: "forum.topic({forumId:'#{raw.data.disTopic.forumId}',topicId:'#{raw.data.disTopic._id}'})"
             type: 'message'
-      when Const.NoticeType.ReplyVoteUp
+      when Const.NoticeType.TopicCommentVoteUp
         if !raw.data.disReply
           Restangular.all('notices/read').post ids:[raw._id]
           .then ()->
@@ -30,20 +30,21 @@ angular.module 'budweiserApp'
               raw: raw
               link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
               type: 'message'
-      when Const.NoticeType.Comment
-        if !raw.data.disReply
+      when Const.NoticeType.DisTopicComment
+        if !raw.data.disTopicId
           Restangular.all('notices/read').post ids:[raw._id]
           .then ()->
             deferred.reject()
         else
-          Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
-          .then (topic)->
-            raw.data.disTopic = topic
-            deferred.resolve
-              title: '回复了你的帖子：' + raw.data.disTopic.title
-              raw: raw
-              link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
-              type: 'message'
+          deferred.resolve
+            title: '回复了你的帖子：' + raw.title
+            raw: raw
+            link: "forum.topic({forumId:'#{raw.data.forumId}',topicId:'#{raw.data.disTopicId}'})"
+            type: 'message'
+      when Const.NoticeType.CourseComment
+        console.log 'todo'
+      when Const.NoticeType.LectureComment
+        console.log 'todo'
       else deferred.reject()
     deferred.promise
 
