@@ -6,7 +6,7 @@
 
         <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
           <div class="course-actions-bar clearfix">
-            <h3 class="course-title pull-left" ng-if="!viewState.editingInfo" tooltip="{{course.name}}" tooltip-placement="bottom">
+            <h3 class="course-title pull-left" ng-if="!viewState.editingInfo">
               {{course.name}}
             </h3>
             <input ng-if="viewState.editingInfo" type="text" class="form-control course-title pull-left" ng-model="course.name">
