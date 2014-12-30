@@ -44,15 +44,6 @@ angular.module 'budweiserApp'
       socket.close()
       $state.go($localStorage.global?.loginState or 'main')
 
-    goHome: ->
-      currentUser = Auth.getCurrentUser()
-      homeStateName =
-        if currentUser?.role is 'admin' && $state.includes 'admin'
-          'admin.home'
-        else
-          'main'
-      $state.go homeStateName
-
     isActive: (state) ->
       $state.is state?.replace(/\(.*?\)/g, '')
 
@@ -79,4 +70,3 @@ angular.module 'budweiserApp'
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
-
