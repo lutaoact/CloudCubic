@@ -221,62 +221,7 @@
 
   <!--机构定制化-->
   <tab heading="定制化">
-    <div class="row admin-ui-view customized">
-      <div class="col-md-12 custom-banner"
-           sv-root
-           sv-on-sort="saveBanners()"
-           sv-part="organization.banners">
-        <h4>横幅 <small>您的品牌展示</small></h4>
-        <hr/>
-        <div class="banner-edit col-md-6"
-             sv-element
-             ng-repeat="banner in organization.banners">
-          <div class="banner-content">
-            <div class="index">
-              {{$index+1}}
-              <a href
-                 class="close pull-right"
-                 ng-click="removeBanner(banner)">&times;</a>
-            </div>
-
-            <div class="banner-thumb"
-                src-key="banner.image"
-                source-attr="background-image">
-            </div>
-            <div class="banner-text">
-              <input type="text"
-                     class="form-control"
-                     placeholder="文字描述（可选）"
-                     ng-model="banner.text">
-            </div>
-          </div>
-        </div>
-        <div class="banner-edit col-md-6">
-          <uploader class="btn btn-sm rounded"
-                    limit="{{imageSizeLimitation}}"
-                    on-complete="onBannerUpload($data)"
-                    accept-type="image"
-                    crop="true"
-                    crop-ratio="2.5"
-                    max-width="1920">
-            添加横幅
-          </uploader>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <h4>预览</h4>
-        <hr/>
-        <carousel interval="5000" disable-animation>
-          <slide ng-repeat="banner in organization.banners" active="banner.active">
-            <div class="banner" src-key="banner.image" source-attr="background-image">
-              <div class="carousel-caption">
-                <h4>{{banner.text}}</h4>
-              </div>
-            </div>
-          </slide>
-        </carousel>
-      </div>
-    </div>
+    <div custom-org-banners-tile organization="organization"></div>
   </tab>
 
   <!--支付宝信息-->

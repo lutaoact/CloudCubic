@@ -40,56 +40,6 @@ angular.module('budweiserApp')
           message: 'Logo 修改成功'
           classes: 'alert-success'
 
-    onBannerUpload: (key) ->
-      banner =
-        image: key
-        text: ''
-      banners = angular.copy $scope.organization.banners
-      banners ?= []
-      banners.push banner
-      Restangular
-      .one('organizations', $scope.organization._id)
-      .patch banners: banners
-      .then ->
-        $scope.organization.banners.push(banner)
-        notify
-          message: 'banner 添加成功'
-          classes: 'alert-success'
-      .catch (error) ->
-        notify
-          message: 'banner 添加失败'
-          classes: 'alert-danger'
-
-    removeBanner: (banner) ->
-      banners = angular.copy $scope.organization.banners
-      index = banners.indexOf(banner)
-      banners.splice(index, 1)
-      Restangular
-      .one('organizations', $scope.organization._id)
-      .patch banners: banners
-      .then ->
-        $scope.organization.banners.splice(index, 1)
-        notify
-          message: 'banner 已被移除'
-          classes: 'alert-success'
-      .catch (error) ->
-        notify
-          message: 'banner 移除失败'
-          classes: 'alert-danger'
-
-    saveBanners: ->
-      Restangular
-      .one('organizations', $scope.organization._id)
-      .patch banners: $scope.organization.banners
-      .then ->
-        notify
-          message: 'banner 已更新'
-          classes: 'alert-success'
-      .catch (error) ->
-        notify
-          message: 'banner 更新失败'
-          classes: 'alert-danger'
-
     saveOrg: (form)->
       if !form.$valid then return
       $scope.saving = true
