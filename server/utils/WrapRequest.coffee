@@ -142,15 +142,14 @@ class WrapRequest
     .done()
 
 
-  wrapLike: () ->
-    return (req, res, next) =>
-      _id = req.params.id
-      user = req.user
-      AdapterUtils.like @Model, _id, user._id
-      .then (doc) ->
-        res.send doc
-      .catch next
-      .done()
+  wrapLike: (req, res, next) ->
+    AdapterUtils.like @Model, req.params.id, req.user.id
+    .then (doc) ->
+      console.log 'like result:', doc
+      res.send doc
+      # create&send notice object
+    .catch next
+    .done()
 
 
 module.exports = WrapRequest

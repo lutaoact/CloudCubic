@@ -17,7 +17,7 @@ angular.module('budweiserApp')
     me: Auth.getCurrentUser
 
     toggleLike: (topic)->
-      topic.one('vote').post()
+      topic.one('like').post()
       .then (res)->
         topic.likeUsers = res.likeUsers
 

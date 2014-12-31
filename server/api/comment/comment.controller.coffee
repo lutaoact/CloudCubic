@@ -64,4 +64,5 @@ exports.destroy = (req, res, next) ->
   conditions = _id: req.params.id, postBy: req.user._id
   WrapRequest.wrapDestroy req, res, next, conditions
 
-exports.like = WrapRequest.wrapLike()
+exports.like = (req, res, next) ->
+  WrapRequest.wrapLike req, res, next

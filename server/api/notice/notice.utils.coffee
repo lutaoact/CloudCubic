@@ -17,6 +17,7 @@ class NoticeUtils
         noticeDoc = noticeDoc.populate option
       noticeDoc.populateQ()
     .then (noticeDoc) ->
+      console.log 'noticeDoc is ', noticeDoc
       return noticeDoc
 
   #fromWhom commented userId's belongTo object

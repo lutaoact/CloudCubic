@@ -72,11 +72,6 @@ exports.destroy = (req, res, next) ->
     res.send 204
   , next
 
-exports.vote = (req, res, next) ->
-  disTopicId = req.params.id
-  userId = req.user._id
-
-  DisUtils.vote DisTopic, disTopicId, userId
-  .then (dis) ->
-    res.send dis
-  , next
+exports.like = (req, res, next) ->
+  console.log 'receive like from ', req.user.id
+  WrapRequest.wrapLike req, res, next
