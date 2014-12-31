@@ -15,8 +15,6 @@ class NoticeUtils
       for option in Notice.populates?.create
         noticeDoc = noticeDoc.populate option
       noticeDoc.populateQ()
-    .then (noticeDoc) ->
-      return noticeDoc
 
   #fromWhom commented userId's belongTo object
   addCommentNotice : (userId, fromWhom, commentRefType, belongToId) ->
@@ -34,8 +32,7 @@ class NoticeUtils
       when Const.CommentType.Course
         data =
           courseId: belongToId
-        @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, data
-        console.log 'todo'
+        @addNotice userId, fromWhom, Const.NoticeType.CourseComment, data
 
       # NoticeType: Const.NoticeType.LectureComment
       when Const.CommentType.Lecture

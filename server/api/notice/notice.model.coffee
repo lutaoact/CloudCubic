@@ -5,19 +5,24 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = require('../../common/BaseModel').BaseModel
 
+populateCommon = [
+  path: 'fromWhom', select: 'avatar name'
+,
+  path: 'data.lectureId', select: 'name'
+,
+  path: 'data.disTopicId', select: 'title'
+,
+  path: 'data.courseId', select: 'name'
+,
+  path: 'data.forumId', select: 'name'
+]
+
 exports.Notice = BaseModel.subclass
   classname: 'Notice'
 
   populates:
-    create: [
-      path: 'data.lectureId', select: 'name'
-    ,
-      path: 'data.disTopicId', select: 'forumId title'
-    ,
-      path: 'data.courseId', select: 'name'
-    ,
-      path: 'data.forumId', select: 'name'
-    ]
+    create: populateCommon
+    index: populateCommon
     
   initialize: ($super) ->
     @schema = new Schema
