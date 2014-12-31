@@ -50,7 +50,8 @@ exports.create = (req, res, next) ->
   .then (notices) ->
     #console.log 'notices are' , notices
     SocketUtils.sendNotices notices
-    DeviceUtils.pushToUser notice for notice in notices
+    # TODO: for mobile app
+    #DeviceUtils.pushToUser notice for notice in notices
   .catch next
   .done()
 

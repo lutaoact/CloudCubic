@@ -16,8 +16,8 @@ exports.Notice = BaseModel.subclass
       fromWhom:
         type: ObjectId
         ref: 'user'
-      type: Number #参考Const.CommentType中的定义
-      title: String
+      type: Number #参考Const.NoticeType中的定义
+#      title: String
       data:
         lectureId:
            type: ObjectId

@@ -2,12 +2,11 @@ Notice = _u.getModel 'notice'
 DisTopic = _u.getModel 'dis_topic'
 
 class NoticeUtils
-  addNotice: (userId, fromWhom, type, title, data) ->
+  addNotice: (userId, fromWhom, type, data) ->
     notice =
       userId: userId
       fromWhom: fromWhom
       type: type
-      title: title
       data: data
       status: 0
 
@@ -23,10 +22,13 @@ class NoticeUtils
           data =
             disTopicId: dis_topic._id
             forumId: dis_topic.forumId
-          @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, dis_topic.title, data
+          @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, data
 
       # NoticeType: Const.NoticeType.CourseComment
       when Const.CommentType.Course
+        data =
+          courseId: belongToId
+        @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, data
         console.log 'todo'
 
       # NoticeType: Const.NoticeType.LectureComment
