@@ -68,5 +68,5 @@ angular.module 'budweiserApp'
 
 
   $scope.$on 'message.notice', (event, data)->
-    Msg.genMessage(data).then (msg)->
-      $scope.messages.splice 0, 0, msg
+    $scope.messages.splice 0, 0, Msg.genMessage(data)
+

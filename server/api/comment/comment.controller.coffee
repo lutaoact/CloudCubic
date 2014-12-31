@@ -3,9 +3,7 @@
 Comment = _u.getModel 'comment'
 AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
-NoticeUtils = _u.getUtils 'notice'
-DeviceUtils = _u.getUtils 'device'
-SocketUtils = _u.getUtils 'socket'
+
 
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
@@ -27,32 +25,17 @@ exports.create = (req, res, next) ->
 
   console.log 'postBy type ', typeof data.postBy
   console.log 'belongTo', typeof data.belongTo
-  
-  
-  Model = CommentUtils.getCommentRefByType body.type
 
-  Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
-  .then (result) ->
-    WrapRequest.wrapCreate req, res, next, data
-  .then () ->
-    #find all targeted users
-    CommentUtils.getTargetUsers body.type, data.belongTo, data.postBy
-  .then (targetUsers) ->  
-#    console.log 'target users are', targetUsers
-    notices = _.map targetUsers, (targetUser) ->
-      NoticeUtils.addCommentNotice(
-        targetUser
-        user._id
-        data.type
-        data.belongTo
-      )
-    Q.all(notices)
-  .then (notices) ->
-    #console.log 'notices are' , notices
-    SocketUtils.sendNotices notices
-    DeviceUtils.pushToUser notice for notice in notices
-  .catch next
+  WrapRequest.wrapCreate req, res, next, data
+
+  Model = CommentUtils.getCommentRefByType body.type
+  Q.all [
+    Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
+    CommentUtils.sendCommentNotices(data)
+  ]
+  .catch next #TODO: remove catch when release?
   .done()
+
 
 pickedUpdatedKeys = ['content', 'tags']
 exports.update = (req, res, next) ->

@@ -78,3 +78,14 @@ exports.Course = BaseModel.subclass
             errMsg: '没有找到该课程'
 
         return course
+
+  getByLectureId: (lectureId) ->
+    return @findOneQ lectureAssembly: lectureId
+      .then (course) ->
+        unless course
+          return Q.reject
+            status: 404
+            errCode: ErrCode.NoCourse
+            errMsg: '没有找到该课程'
+
+        return course

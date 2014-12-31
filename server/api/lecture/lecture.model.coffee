@@ -52,5 +52,8 @@ exports.Lecture = BaseModel.subclass
       isFreeTry:
         type: Boolean
         default: false
+      commentsNum:
+        type: Number
+        default: 0
 
     $super()

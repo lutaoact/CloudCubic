@@ -3,50 +3,22 @@ angular.module 'budweiserApp'
 .factory 'Msg', (Restangular, $q)->
 
   genMessage = (raw)->
-    deferred = $q.defer()
     switch raw.type
-      when Const.NoticeType.TopicVoteUp
-        if !raw.data.disTopic
-          Restangular.all('notices/read').post ids:[raw._id]
-          .then ()->
-            deferred.reject()
-        else
-          deferred.resolve
-            title: '赞了你的帖子：' + raw.data.disTopic.title
-            raw: raw
-            link: "forum.topic({forumId:'#{raw.data.disTopic.forumId}',topicId:'#{raw.data.disTopic._id}'})"
-            type: 'message'
-      when Const.NoticeType.TopicCommentVoteUp
-        if !raw.data.disReply
-          Restangular.all('notices/read').post ids:[raw._id]
-          .then ()->
-            deferred.reject()
-        else
-          Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
-          .then (topic)->
-            raw.data.disTopic = topic
-            deferred.resolve
-              title: '赞了你的回复：' + raw.data.disReply.content
-              raw: raw
-              link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
-              type: 'message'
       when Const.NoticeType.DisTopicComment
-        if !raw.data.disTopicId
-          Restangular.all('notices/read').post ids:[raw._id]
-          .then ()->
-            deferred.reject()
-        else
-          deferred.resolve
-            title: '回复了你的帖子：' + raw.title
-            raw: raw
-            link: "forum.topic({forumId:'#{raw.data.forumId}',topicId:'#{raw.data.disTopicId}'})"
-            type: 'message'
+        title: '回复了你的帖子：' + raw.data.disTopicId.title
+        raw: raw
+        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.disTopicId._id}'})"
+        type: 'message'
       when Const.NoticeType.CourseComment
-        console.log 'todo'
+        title: '回复了你的课程：' + raw.data.courseId.name
+        raw: raw
+        link: "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+        type: 'message'
       when Const.NoticeType.LectureComment
-        console.log 'todo'
-      else deferred.reject()
-    deferred.promise
+        title: '回复了你的课时：' + raw.data.lectureId.name
+        raw: raw
+        link: "lectureDetail({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        type: 'message'
 
   instance =
     messages: []
@@ -55,8 +27,7 @@ angular.module 'budweiserApp'
       Restangular.all('notices').getList()
       .then (notices)->
         notices.forEach (notice)->
-          genMessage(notice).then (msg)->
-            instance.messages.splice 0, 0, msg
+          instance.messages.splice 0, 0, genMessage(notice)
 
   return instance
 

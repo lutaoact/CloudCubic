@@ -1,13 +1,13 @@
 Notice = _u.getModel 'notice'
 DisTopic = _u.getModel 'dis_topic'
 
+
 class NoticeUtils
-  addNotice: (userId, fromWhom, type, title, data) ->
+  addNotice: (userId, fromWhom, type, data) ->
     notice =
       userId: userId
       fromWhom: fromWhom
       type: type
-      title: title
       data: data
       status: 0
 
@@ -16,29 +16,6 @@ class NoticeUtils
       for option in Notice.populates?.create
         noticeDoc = noticeDoc.populate option
       noticeDoc.populateQ()
-    .then (noticeDoc) ->
-      console.log 'noticeDoc is ', noticeDoc
-      return noticeDoc
-
-  #fromWhom commented userId's belongTo object
-  addCommentNotice : (userId, fromWhom, commentRefType, belongToId) ->
-    switch commentRefType
-      # NoticeType: Const.NoticeType.DisTopicComment
-      when Const.CommentType.DisTopic # belongToId is disTopId
-        DisTopic.findByIdQ belongToId
-        .then (dis_topic) =>
-          data =
-            disTopicId: dis_topic._id
-            forumId: dis_topic.forumId
-          @addNotice userId, fromWhom, Const.NoticeType.DisTopicComment, dis_topic.title, data
-
-      # NoticeType: Const.NoticeType.CourseComment
-      when Const.CommentType.Course
-        console.log 'todo'
-
-      # NoticeType: Const.NoticeType.LectureComment
-      when Const.CommentType.Lecture
-        console.log 'todo'
 
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disReplyId) ->

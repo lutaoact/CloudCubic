@@ -2,21 +2,16 @@
 
 Notice = _u.getModel 'notice'
 
+WrapRequest = new (require '../../utils/WrapRequest')(Notice)
+
 exports.index = (req, res, next) ->
   userId = req.user.id
 
-  #status: 0 -> unread
-  queryObj =
-    userId: userId
+  conditions = {}
+  conditions.userId = userId
   if !req.query.all
-    queryObj.status = 0
-
-  Notice.find queryObj
-  .populate 'data.lecture data.disTopic data.disReply fromWhom'
-  .execQ()
-  .then (notices) ->
-    res.send notices
-  , next
+    conditions.status = 0
+  WrapRequest.wrapIndex req, res, next, conditions
 
 exports.read = (req, res, next) ->
   ids = req.body.ids
