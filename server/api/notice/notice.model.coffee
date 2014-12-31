@@ -7,6 +7,18 @@ BaseModel = require('../../common/BaseModel').BaseModel
 
 exports.Notice = BaseModel.subclass
   classname: 'Notice'
+
+  populates:
+    create: [
+      path: 'data.lectureId', select: 'name'
+    ,
+      path: 'data.disTopicId', select: 'forumId title'
+    ,
+      path: 'data.courseId', select: 'name'
+    ,
+      path: 'data.forumId', select: 'name'
+    ]
+    
   initialize: ($super) ->
     @schema = new Schema
       userId:
