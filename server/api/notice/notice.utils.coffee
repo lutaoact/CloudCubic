@@ -11,6 +11,12 @@ class NoticeUtils
       status: 0
 
     Notice.createQ notice
+    .then (noticeDoc) =>
+      for option in Notice.populates?.create
+        noticeDoc = noticeDoc.populate option
+      noticeDoc.populateQ()
+    .then (noticeDoc) ->
+      return noticeDoc
 
   #fromWhom commented userId's belongTo object
   addCommentNotice : (userId, fromWhom, commentRefType, belongToId) ->

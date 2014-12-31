@@ -3,8 +3,7 @@
   <!--机构基本信息-->
   <tab heading="机构基本信息">
     <div class="row admin-ui-view">
-      <form id="org-form"
-            class="form-horizontal col-md-10 col-md-offset-1"
+      <form class="org-form form-horizontal col-md-10 col-md-offset-1"
             role="form"
             name="orgForm">
 
@@ -76,7 +75,8 @@
             <textarea class="form-control"
                       id="organization-desc"
                       name="desc"
-                      rows="2"
+                      rows="3"
+                      msd-elastic
                       ng-model="editingInfo.description"
                       placeholder="机构简介"></textarea>
           </div>
@@ -94,6 +94,7 @@
           </div>
         </div>
 
+        <!--
         <div class="form-group">
           <label class="col-sm-3 control-label">账户级别</label>
           <div class="col-sm-7">
@@ -101,6 +102,7 @@
             <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
           </div>
         </div>
+        -->
 
         <hr/>
 
