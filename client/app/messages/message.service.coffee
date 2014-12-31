@@ -15,7 +15,10 @@ angular.module 'budweiserApp'
         link: "courseDetail({courseId:'#{raw.data.courseId._id}'})"
         type: 'message'
       when Const.NoticeType.LectureComment
-        console.log 'todo'
+        title: '回复了你的课时：' + raw.data.lectureId.name
+        raw: raw
+        link: "lectureDetail({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        type: 'message'
 
   instance =
     messages: []

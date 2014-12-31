@@ -33,7 +33,7 @@ exports.create = (req, res, next) ->
     Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
     CommentUtils.sendCommentNotices(data)
   ]
-  .catch next
+  .catch next #TODO: remove catch when release?
   .done()
 
 
