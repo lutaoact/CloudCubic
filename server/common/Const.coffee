@@ -1,14 +1,19 @@
 
 Const =
   NoticeType:
-    TopicVoteUp: 1
-    TopicCommentVoteUp: 2
-    CourseCommentVoteUp: 3
-    LectureCommentVoteUp: 4
+    # Like related notices
+    LikeTopic: 1
+    LikeTopicComment: 2
+    LikeCourseComment: 3
+    LikeLectureComment: 4
 
+    # comment related notices
     DisTopicComment: 5
     CourseComment: 6
     LectureComment: 7
+    
+    # lecture related notices
+    Lecture : 8
 
   CommentType:
     DisTopic: 1
@@ -27,12 +32,6 @@ Const =
     2: 'course'
     3: 'lecture'
     4: 'user'
-
-#  NoticeRef:
-#    1: 'disTopic'
-#    2: 'disReply'
-#    3: 'disReply'
-#    4: 'lecture'
 
   Notification:
     1: '有人赞了你的话题'

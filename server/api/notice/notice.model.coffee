@@ -34,7 +34,6 @@ exports.Notice = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       type: Number #参考Const.NoticeType中的定义
-#      title: String
       data:
         lectureId:
            type: ObjectId
@@ -42,15 +41,15 @@ exports.Notice = BaseModel.subclass
         disTopicId:
            type: ObjectId
            ref: 'dis_topic'
-        disReplyId:
-           type: ObjectId
-           ref: 'dis_reply'
         courseId :
            type : ObjectId
            ref : 'course'
         forumId:
            type : ObjectId
            ref : 'forum'
+        commentId:
+           type : ObjectId
+           ref : 'comment'
       status: Number
 
     $super()

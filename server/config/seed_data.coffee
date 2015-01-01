@@ -260,24 +260,6 @@ module.exports =
       _s.sprintf userId, 3
     ]
   ]
-  dis_reply: [
-    _id: _s.sprintf disReplyId, 0
-    postBy: _s.sprintf userId, 3
-    disTopicId: _s.sprintf disTopicId, 0
-    content: 'this is the first dis reply'
-    likeUsers: [
-      _s.sprintf userId, 3
-      _s.sprintf userId, 4
-    ]
-  ,
-    _id: _s.sprintf disReplyId, 1
-    postBy: _s.sprintf userId, 4
-    disTopicId: _s.sprintf disTopicId, 0
-    content: 'this is the second dis reply'
-    likeUsers: [
-      _s.sprintf userId, 3
-    ]
-  ]
   question: [
     _id: _s.sprintf questionId, 0
     orgId: _s.sprintf orgId, 0

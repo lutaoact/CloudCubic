@@ -1,5 +1,5 @@
 require '../common/init'
-AdapterUtils = _u.getUtils 'adapter'
+LikeUtils = _u.getUtils 'like'
 
 class WrapRequest
   constructor: (@Model) ->
@@ -143,11 +143,18 @@ class WrapRequest
 
 
   wrapLike: (req, res, next) ->
-    AdapterUtils.like @Model, req.params.id, req.user.id
+    targetObjId = req.params.id
+    fromWhom = req.user.id
+    model = @Model
+    
+    LikeUtils.createLike model, targetObjId, fromWhom
     .then (doc) ->
       console.log 'like result:', doc
       res.send doc
-      # create&send notice object
+      
+      if doc.likeAction
+        # create&send notice object
+        LikeUtils.sendLikeNotice model, doc, fromWhom
     .catch next
     .done()
 
