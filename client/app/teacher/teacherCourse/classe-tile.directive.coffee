@@ -8,7 +8,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
     classe: '='
     plus: '@'
 
-  controller: ($scope, Auth, $modal, $state)->
+  controller: ($scope, Auth, $modal, Restangular)->
     angular.extend $scope,
       me: Auth.getCurrentUser
 
@@ -17,9 +17,11 @@ angular.module('budweiserApp').directive 'classeTile', ()->
           templateUrl: 'app/admin/classeManager/editClasseModal.html'
           controller: 'EditClasseModalCtrl'
           resolve:
-            Classe: -> classe
-            Courses: -> [$scope.courseId]
+            Courses: -> [$scope.classe.courseId]
+            Classe: -> angular.copy(classe)
+            Teachers: -> Restangular.all('users').getList(role:'teacher')
         .result.then (newClasse) ->
+          angular.extend classe, newClasse
 
       deleteCallback: (classe) ->
         $scope.$emit 'classe.deleted', classe

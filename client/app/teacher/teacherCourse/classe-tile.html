@@ -3,10 +3,8 @@
   <a class="classe-title" href ng-click="viewClasse(classe)">{{classe.name}}</a>
   <div class="divider" ng-if="plus"></div>
   <div class="text-muted teachers">
-    <span ng-repeat="teacher in classe.teachers">
-      <span ng-if="!classe.teachers.length">未设置授课教师</span>
-      <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
-    </span>
+    <span ng-if="!classe.teachers.length">未设置授课教师</span>
+    <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
   </div>
   <div class="classe-times">
     <table>
