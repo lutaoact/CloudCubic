@@ -10,25 +10,65 @@
 "use strict"
 
 Course = _u.getModel "course"
+Classe = _u.getModel "classe"
 Forum = _u.getModel 'forum'
+CourseUtils = _u.getUtils 'course'
 
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
-  conditions = {orgId: req.org?._id}
-  conditions.owners = req.query.owner if req.query.owner
+  
+  conditions = orgId : req.org?._id
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
-  conditions._id = {$in: _.flatten([req.query.ids])} if req.query.ids
-
-  # unless passed in owner and owner is logged-in user, we need to check isPublished
-  unless req.query.owner? and req.user?.id is req.query.owner
-    conditions.isPublished = true
-
+  conditions.isPublished = true
   options = limit: req.query.limit, from: req.query.from
-
-  console.log 'options', options
+    
   WrapRequest.wrapPageIndex req, res, next, conditions, options
 
+exports.myCourses = (req, res, next) ->
+  conditions = orgId: req.org?._id
+  conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
+  conditions.deleteFlag = {$ne: true} 
+  
+  user = req.user
+  userId = user.id
+  
+  switch user.role
+    when 'admin'
+      WrapRequest.wrapIndex req, res, next, conditions
+      
+    when 'student'
+      Classe.findQ students: userId
+      .then (classes) ->
+        courseIds = _.pluck classes, 'courseId'
+        conditions._id = $in : courseIds
+        WrapRequest.wrapIndex req, res, next, conditions
+
+    when 'teacher'
+      asOwner = Course.find 
+                  orgId : conditions.orgId
+                  deleteFlag : {$ne: true} 
+                  owners : userId
+                .populate Course.populates.index
+                .execQ()
+      
+      asTeacher = Classe.findQ teachers : userId
+      .then (classes) ->
+        courseIds = _.pluck classes, 'courseId'
+        conditions._id = $in: courseIds
+        Course.find conditions
+        .populate Course.populates.index
+        .execQ()
+      
+      Q.all [asOwner, asTeacher]
+      .then (courses) ->
+        res.send _.flatten courses
+      .catch next
+      .done()
+        
+    else
+      logger.error "Unknown user role: #{user.role}"
+  
 
 # TODO @lutao
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
@@ -50,21 +90,23 @@ exports.create = (req, res, next) ->
   .catch next
   .done()
 
+  
 
 pickedUpdatedKeys = omit: ['_id', 'orgId', 'isPublished', 'deleteFlag']
 exports.update = (req, res, next) ->
-  conditions = {_id: req.params.id, orgId: req.user.orgId}
-  conditions.owners = req.user._id if req.user.role is 'teacher'
-  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
+  
+  CourseUtils.buildWriteConditions req
+  .then (conditions) ->
+    WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 
 exports.destroy = (req, res, next) ->
-  conditions = {_id: req.params.id, orgId: req.user.orgId}
-  conditions.owners = req.user._id if req.user.role is 'teacher'
-  WrapRequest.wrapDestroy req, res, next, conditions
+  CourseUtils.buildWriteConditions req
+  .then (conditions) ->
+    WrapRequest.wrapDestroy req, res, next, conditions
 
 
 exports.publish = (req, res, next) ->
-  conditions = {_id: req.params.id, orgId: req.user.orgId}
-  conditions.owners = req.user._id if req.user.role is 'teacher'
-  WrapRequest.wrapChangeStatus req, res, next, conditions, {isPublished: true}
+  CourseUtils.buildWriteConditions req
+  .then (conditions) ->
+    WrapRequest.wrapChangeStatus req, res, next, conditions, {isPublished: true}
