@@ -1,4 +1,11 @@
 .shop-cart {
+  .dropdown-toggle {
+    &:hover,
+    &:focus{
+      .box-shadow(none) !important;
+      cursor: pointer;
+    }
+  }
   .shop-cart-icon{
     font-size: 18px;
     padding: 0px 5px;
@@ -14,6 +21,18 @@
     padding: 0px;
     width: 275px;
     color: black;
+    border-radius: 4px !important;
+    &:before {
+      content: '';
+      height: 0;
+      width: 0;
+      right: 22px;
+      top: -10px;
+      position: absolute;
+      border-bottom: 10px solid #FFFFFF;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
 
     .shop-cart-header {
       @header-line-height: 40px;
