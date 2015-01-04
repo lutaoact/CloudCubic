@@ -4,17 +4,29 @@ angular.module('budweiserApp')
 
 .controller 'EditClasseModalCtrl', (
   $scope
-  Courses
   Classe
   notify
+  Courses
+  Teachers
   Restangular
   $modalInstance
 ) ->
+
+  console.log Teachers
 
   angular.extend $scope,
     errors: null
     classe: Classe
     courses: Courses
+    teachers: Teachers
+
+    addTeacher: (teacher) ->
+      if !teacher? then return
+      $scope.classe.teachers = _.union($scope.classe.teachers, [teacher])
+
+    removeTeacher: (teacher) ->
+      index = $scope.classe.teachers.indexOf(teacher)
+      $scope.classe.teachers.splice(index, 1)
 
     cancel: ->
       $modalInstance.dismiss('cancel')
@@ -22,6 +34,7 @@ angular.module('budweiserApp')
     confirm: (form) ->
       if !form.$valid then return
       $scope.errors = null
+      $scope.classe.teachers = _.map $scope.classe.teachers, (t) -> t._id
       (
         if $scope.classe._id?
           Restangular.one('classes', $scope.classe._id).patch($scope.classe)

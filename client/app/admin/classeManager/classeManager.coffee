@@ -9,10 +9,6 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/admin/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
     roleRequired: 'admin'
-    resolve:
-      #TODO 添加API：按照名字搜索对应的课程
-      Courses: (Restangular) ->
-        Restangular.all('courses').getList()
 
   .state 'admin.classeManager.detail',
     url: '/:classeId'

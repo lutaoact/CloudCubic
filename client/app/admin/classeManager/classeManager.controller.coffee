@@ -6,7 +6,6 @@ angular.module('budweiserApp')
   $state
   $scope
   $modal
-  Courses
   Restangular
 ) ->
 
@@ -31,7 +30,11 @@ angular.module('budweiserApp')
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         resolve:
-          Courses: -> Courses
+          # FIXME course 分页？
+          Courses: ->
+            Restangular.all('courses').getList()
+          Teachers: ->
+            Restangular.all('users').getList(role: 'teacher')
           Classe: ->
             name: ''
             price: 0
@@ -62,7 +65,11 @@ angular.module('budweiserApp')
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         resolve:
-          Courses: -> Courses
+          # FIXME course 分页？
+          Courses: ->
+            Restangular.all('courses').getList()
+          Teachers: ->
+            Restangular.all('users').getList(role: 'teacher')
           Classe: -> angular.copy(classe)
       .result.then (dbClasse) ->
         angular.extend classe, dbClasse

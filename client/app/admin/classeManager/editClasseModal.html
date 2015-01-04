@@ -1,12 +1,26 @@
 <div class="modal-header modal-header-black">
   <h4 class="modal-title">
-    <span ng-if="!classe._id">添加开课班级</span>
-    <span ng-if="classe._id">编辑开课班级</span>
+    <span ng-if="!classe._id">创建新班级</span>
+    <span ng-if="classe._id">编辑班级</span>
     <a class="close" ng-click="cancel()">&times;</a>
   </h4>
 </div>
 <form class="form-horizontal edit-classe-form" novalidate
       name="form">
+  <div class="form-group" ng-if="!classe.$course">
+    <label class="control-label col-sm-3">课程名</label>
+    <div class="col-sm-8">
+      <select
+        class="form-control"
+        id="classe-course"
+        ng-model="classe.courseId"
+        ng-options="course._id as course.name for course in courses"
+        required>
+        <option value="" class="text-muted">请选择一门课程</option>
+      </select>
+    </div>
+  </div>
+
   <div class="form-group">
     <label class="control-label col-sm-3">班级名</label>
     <div class="col-sm-8">
@@ -18,18 +32,6 @@
              ng-model="classe.name"
              required>
       <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
-    </div>
-  </div>
-
-  <div class="form-group" ng-if="!classe.$course">
-    <label class="control-label col-sm-3">课程</label>
-    <div class="col-sm-8">
-      <select
-        class="form-control"
-        id="classe-course"
-        ng-model="classe.courseId"
-        ng-options="course._id as course.name for course in courses" required>
-      </select>
     </div>
   </div>
 
@@ -99,6 +101,29 @@
         datepicker-options="dateOptions">
         {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
       </button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-3">授课教师</label>
+    <div class="col-sm-8">
+      <select
+        class="form-control"
+        id="classe-teacher"
+        ng-model="selectedTeacher"
+        ng-change="addTeacher(selectedTeacher)"
+        ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
+        <option value="" class="text-muted">请选择授课教师</option>
+      </select>
+      <div class="row-fluid">
+        <span ng-repeat="teacher in classe.teachers">
+          <div class="label label-default"
+               style="font-size: 1em; line-height:2em; margin-right:.2em">
+            {{teacher.name}}
+            <a ng-click="removeTeacher($index)" class="close" style="float: none">&times;</a>
+          </div>
+        </span>
+      </div>
     </div>
   </div>
 

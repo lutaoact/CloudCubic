@@ -19,7 +19,10 @@
       <div class="classe-item-detail">
         <a class="classe-title" href ng-click="viewClasse(classe)">{{classe.name}}</a>
         <a class="classe-course" href ui-sref="courseDetail({courseId:classe.courseId._id})">{{classe.courseId.name}}</a>
-        <div class="text-muted teachers">王老师、刘老师</div>
+        <div class="text-muted">
+          <span ng-if="!classe.teachers.length">未设置授课教师</span>
+          <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
+        </div>
         <div class="classe-times">
           <table>
             <tr class="tr-border">
