@@ -48,27 +48,16 @@ exports.showStudents = (req, res, next) ->
     res.send classe.students
   , next
 
-pickedKeys = ["name", "courseId", "enrollment", "duration", "price"]
+pickedKeys = ["name", "courseId", "enrollment", "duration", "price", "teachers"]
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.orgId = req.user.orgId
   WrapRequest.wrapCreate req, res, next, data
 
-
+pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
-  classeId = req.params.id
-  body = req.body
-  delete body._id if body._id
-
-  Classe.findByIdQ classeId
-  .then (classe) ->
-    updated = _.extend classe, body
-    do updated.saveQ
-  .then (result) ->
-    newClasse = result[0]
-    logger.info newClasse
-    res.send newClasse
-  , next
+  conditions = {_id: req.params.id, orgId: req.user.orgId}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 exports.destroy = (req, res, next) ->
   conditions = _id: req.params.id, orgId: req.user.orgId

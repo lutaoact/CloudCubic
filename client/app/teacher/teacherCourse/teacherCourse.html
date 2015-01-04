@@ -9,21 +9,27 @@
             <h3 class="course-title pull-left" ng-if="!viewState.editingInfo">
               {{course.name}}
             </h3>
-            <input ng-if="viewState.editingInfo" type="text" class="form-control course-title pull-left" ng-model="course.name">
+            <div ng-if="viewState.editingInfo" >
+              <input type="text" class="form-control course-title pull-left" ng-model="course.name">
+            </div>
             <div class="pull-right" style="margin-top: 5px;">
-              <a href="" class="btn btn-sm rounded" ng-class="{'btn-primary':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
-                {{course.isPublished?'取消发布':'发布'}}
-              </a>
-              <span class="text-muted">|</span>
               <a href="" class="btn btn-sm rounded btn-danger" ng-if="viewState.editingInfo" ng-click="saveCourseInfo()">
                 保存
               </a>
-              <span ng-if="!viewState.editingInfo" dropdown class="setting-btn" style="position: relative;">
+              <a href="" class="btn btn-sm rounded btn-default" ng-if="viewState.editingInfo" ng-click="resetCourseInfo()">
+                取消
+              </a>
+              <span dropdown class="setting-btn pull-right" style="position: relative;">
                 <a href="" class="btn btn-sm" dropdown-toggle>
-                  <i class="fa fa-gear"></i>
+                  <i class="fa fa-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="" ng-click="viewState.editingInfo = true">编辑</a></li>
+                  <li>
+                    <a href="" ng-class="{'btn-primary':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
+                      {{course.isPublished?'取消发布':'发布'}}
+                    </a>
+                  </li>
                   <li><a href="" ng-click="removeCourse()">删除</a></li>
                 </ul>
               </span>
@@ -31,24 +37,26 @@
           </div>
           <div class="row">
             <div class="col-md-7 course-info-left">
-              <uploader
-                class="course-thumbnail-uploader"
-                on-complete="onThumbUploaded($data)"
-                limit="{{imageSizeLimitation}}"
-                crop="true"
-                crop-ratio="1.75"
-                max-width="1000"
-                accept-type="image"
-                ng-if="viewState.editingInfo"
-                >
-                <div
-                  class="course-thumbnail"
-                  src-key="course.thumbnail"
-                  source-attr="background-image"
+              <div
+                ng-if="viewState.editingInfo">
+                <uploader
+                  class="course-thumbnail-uploader"
+                  on-complete="onThumbUploaded($data)"
+                  limit="{{imageSizeLimitation}}"
+                  crop="true"
+                  crop-ratio="1.75"
+                  max-width="1000"
+                  accept-type="image"
                   >
-                  <div class="btn btn-danger rounded">修改</div>
-                </div>
-              </uploader>
+                  <div
+                    class="course-thumbnail"
+                    src-key="course.thumbnail"
+                    source-attr="background-image"
+                    >
+                    <div class="btn btn-danger rounded">修改</div>
+                  </div>
+                </uploader>
+              </div>
               <div
                 ng-if="!viewState.editingInfo"
                 class="course-thumbnail"

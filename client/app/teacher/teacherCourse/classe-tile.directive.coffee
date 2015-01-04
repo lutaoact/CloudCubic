@@ -6,24 +6,27 @@ angular.module('budweiserApp').directive 'classeTile', ()->
   replace: true
   scope:
     classe: '='
-    course: '='
+    plus: '@'
 
-  controller: ($scope, Auth, $modal)->
+  controller: ($scope, Auth, $modal, $state)->
     angular.extend $scope,
       me: Auth.getCurrentUser
 
       editClasse: (classe)->
-        classe.$course = $scope.course
         $modal.open
           templateUrl: 'app/admin/classeManager/editClasseModal.html'
           controller: 'EditClasseModalCtrl'
           resolve:
             Classe: -> classe
-            Courses: -> [$scope.course]
+            Courses: -> [$scope.courseId]
         .result.then (newClasse) ->
 
       deleteCallback: (classe) ->
         $scope.$emit 'classe.deleted', classe
+
+      viewClasse: (classe) ->
+        if $scope.plus and Auth.hasRole('admin') and classe
+          $state.go('admin.classeManager.detail', classeId:classe._id)
 
       deleteClasse: (classe)->
         $modal.open

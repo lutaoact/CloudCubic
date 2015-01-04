@@ -6,7 +6,6 @@ angular.module('budweiserApp')
   $state
   $scope
   $modal
-  Courses
   Restangular
 ) ->
 
@@ -31,7 +30,11 @@ angular.module('budweiserApp')
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         resolve:
-          Courses: -> Courses
+          # FIXME course 分页？
+          Courses: ->
+            Restangular.all('courses').getList()
+          Teachers: ->
+            Restangular.all('users').getList(role: 'teacher')
           Classe: ->
             name: ''
             price: 0
@@ -62,7 +65,11 @@ angular.module('budweiserApp')
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         resolve:
-          Courses: -> Courses
+          # FIXME course 分页？
+          Courses: ->
+            Restangular.all('courses').getList()
+          Teachers: ->
+            Restangular.all('users').getList(role: 'teacher')
           Classe: -> angular.copy(classe)
       .result.then (dbClasse) ->
         angular.extend classe, dbClasse
@@ -70,9 +77,6 @@ angular.module('budweiserApp')
     setKeyword: ($event) ->
       if $event.keyCode isnt 13 then return
       $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:$scope.pageConf.currentPage})
-
-    viewClasse: (classe) ->
-      $state.go('admin.classeManager.detail', classeId:classe._id) if classe?
 
   reloadStandAloneStudents = ->
     Restangular.all('users').getList(role:'student', standalone:true)
