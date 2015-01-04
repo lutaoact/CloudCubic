@@ -15,6 +15,8 @@ populateCommon = [
   path: 'data.courseId', select: 'name'
 ,
   path: 'data.forumId', select: 'name'
+,
+  path: 'data.commentId', select: 'content'
 ]
 
 exports.Notice = BaseModel.subclass
