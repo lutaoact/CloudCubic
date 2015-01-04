@@ -62,13 +62,27 @@
         background-color: @bg;
       }
     }
-    > li >a.navbar-avatar{
-      cursor: pointer;
-      .avatar(36px);
-      margin-top: ((@navbar-height - 36px) / 2) !important;
-      margin-bottom: ((@navbar-height - 36px) / 2) !important;
-      &:hover{
-        border:none;
+    > li {
+      .avatar-name{
+        cursor: pointer;
+        a.navbar-avatar {
+          .avatar(36px);
+          margin-top: ((@navbar-height - 30px) / 2) !important;
+          margin-bottom: ((@navbar-height - 30px) / 2) !important;
+          &:hover {
+            border: none;
+          }
+          display: inline-block;
+          float: left;
+          width: 30px;
+          height: 30px;
+        }
+        .user-name {
+          font-size: 14px;
+          float: left;
+          margin-top: 14px;
+          margin-left: 5px;
+        }
       }
     }
 
@@ -257,4 +271,37 @@
 
 .padding-top-20{
   padding-top: 20px;
+}
+
+.dropdown-menu.profile-menu {
+  left: -8px;
+  min-width: 120px;
+  &:before {
+    content: '';
+    height: 0;
+    width: 0;
+    left: 16px;
+    top: -10px;
+    position: absolute;
+    border-bottom: 10px solid #FFFFFF;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+  }
+  hr {
+    margin: 0;
+  }
+  li {
+    padding: 1px;
+    a{
+      padding: 3px 4px 3px 20px;
+      width: 100%;
+      font-weight: bold;
+      &:hover{
+        background: none;
+        color: @base-color;
+      }
+    }
+  }
+  padding: 6px 0;
+  border-radius: 4px !important;
 }
