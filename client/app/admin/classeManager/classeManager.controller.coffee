@@ -24,7 +24,7 @@ angular.module('budweiserApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
-      itemsPerPage : 2
+      itemsPerPage : 9
 
     createNewClasse: ->
       $modal.open
