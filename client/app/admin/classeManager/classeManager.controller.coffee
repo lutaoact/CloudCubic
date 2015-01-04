@@ -78,9 +78,6 @@ angular.module('budweiserApp')
       if $event.keyCode isnt 13 then return
       $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:$scope.pageConf.currentPage})
 
-    viewClasse: (classe) ->
-      $state.go('admin.classeManager.detail', classeId:classe._id) if classe?
-
   reloadStandAloneStudents = ->
     Restangular.all('users').getList(role:'student', standalone:true)
     .then (students) ->

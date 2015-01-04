@@ -16,43 +16,7 @@
 
   <div class="classe-list-content row">
     <div class="col-md-4 classe-list-item" ng-repeat="classe in classes">
-      <div class="classe-item-detail">
-        <a class="classe-title" href ng-click="viewClasse(classe)">{{classe.name}}</a>
-        <a class="classe-course" href ui-sref="courseDetail({courseId:classe.courseId._id})">{{classe.courseId.name}}</a>
-        <div class="text-muted">
-          <span ng-if="!classe.teachers.length">未设置授课教师</span>
-          <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
-        </div>
-        <div class="classe-times">
-          <table>
-            <tr class="tr-border">
-              <td class="tr-title text-muted">报名时间 </td>
-              <td>{{classe.enrollment.from | date:'yyyy.MM.dd'}}</td>
-              <td class="tr-space text-muted"><b>-</b></td>
-              <td>{{classe.enrollment.to | date:'yyyy.MM.dd'}}</td>
-            </tr>
-            <tr>
-              <td class="tr-title text-muted">上课时间 </td>
-              <td>{{classe.duration.from | date:'yyyy.MM.dd'}}</td>
-              <td class="tr-space text-muted"><b>-</b></td>
-              <td>{{classe.duration.to | date:'yyyy.MM.dd'}}</td>
-            </tr>
-          </table>
-        </div>
-        <div class="classe-footer">
-          <span class="yuan">¥ {{classe.price.toFixed(2)}}</span>
-          <span class="pull-right">
-            {{classe.students.length}} 个学生
-            <span dropdown class="setting-btn" style="position: relative;">
-              <a href class="btn btn-sm" dropdown-toggle><i class="fa fa-gear"></i></a>
-              <ul class="dropdown-menu" role="menu" dropdown-toggle>
-                <li><a href ng-click="editClasse(classe)">编辑</a></li>
-                <li><a href ng-click="deleteClasse(classe)">删除</a></li>
-              </ul>
-            </span>
-          </span>
-        </div>
-      </div>
+      <classe-tile classe="classe" plus="true"></classe-tile>
     </div>
   </div>
 

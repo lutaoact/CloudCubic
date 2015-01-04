@@ -1,47 +1,75 @@
 .classe-tile{
-  display: inline-block;
-  width: 100%;
-  padding: 10px 16px;
-  margin: 16px 0 0;
-  h4{
-    font-size: 16px;
-    margin-top: 2px;
+
+  margin-top: 25px;
+  margin-bottom: 10px;
+  padding: 15px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid #E1E1E1;
+  .box-shadow(0px 0px 2px rgba(0, 0, 0, 0.15));
+  &:hover {
+    border: 1px solid @base-color;
+    .box-shadow(0px 0px 4px 2px rgba(red(@base-color), green(@base-color), blue(@base-color), 0.3));
   }
-  .action-btn{
-    .circle-btn(20px, 4px);
-    padding-left: 5px;
-    padding-top: 4px;
-    margin-left: 6px;
+  .classe-title {
+    font-size: 15px;
+    color: #0E2721;
+    padding-bottom: 10px;
+    display: block;
   }
-  table{
-    width: 90%;
-    th, td{
-      padding: 0px 20px;
-      width: 50%;
-      text-align: left;
+  .divider{
+    height: 2px;
+    background: @gray-lighter;
+    margin-bottom: 10px;
+    &:after {
+      content: '';
+      display: block;
+      position: relative;
+      border-bottom: 2px solid @gray-light;
+      width: 50px;
+    }
+  }
+  .classe-course {
+    padding: 10px 0;
+    display: block;
+  }
+  .classe-teachers {
+    font-size: 12px;
+    .classe-teacher {
       font-size: 12px;
-      line-height: 16px;
-      font-weight: normal;
-      &:nth-child(1){
-        padding: 0 10px 0 0;
+    }
+  }
+  .classe-times {
+    font-size: 12px;
+    border: 2px solid #B1B1AF;
+    background: #F2F2F2;
+    padding: 2px 10px;
+    margin: 5px 0;
+    color: #343332;
+    .tr-border {
+      border-bottom: 1px dashed #D3D3D3
+    }
+    .tr-title {
+      padding: 4px 15px 4px 0;
+    }
+    .tr-space {
+      padding: 0 8px;
+    }
+  }
+  .classe-footer {
+    line-height: 30px;
+    .setting-btn{
+      .btn-sm{
+        padding: 5px 0px;
       }
     }
-    th{
-      color: @gray-light;
-    }
-    th+th,td+td{
-      border-left: 1px solid #EEE;
+    margin-top: 10px;
+    .yuan {
+      color: #F5855B;
     }
   }
-  border: 2px solid;
-  border-color: @gray-light;
   &.active{
-    border-color: @base-color;
-    .box-shadow(0 0 4px 2px rgba(red(@base-color),green(@base-color),blue(@base-color),0.5));
-  }
-  .box-shadow(none);
-  .transition(all .2s ease-in-out);
-  &:hover{
-    .box-shadow(0 0 4px 2px rgba(red(@gray-light),green(@gray-light),blue(@gray-light),0.5));
+    border: 1px solid @base-color;
+    .box-shadow(0px 0px 4px 2px rgba(red(@base-color), green(@base-color), blue(@base-color), 0.3));
   }
 }
