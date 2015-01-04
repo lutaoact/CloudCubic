@@ -85,6 +85,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         controller: 'EditClasseModalCtrl'
         resolve:
           Courses: -> [$scope.course]
+          Teachers: -> Restangular.all('users').getList(role:'teacher')
           Classe: ->
             name: ''
             price: 0
