@@ -2,6 +2,7 @@ BaseUtils = require '../../common/BaseUtils'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 DisTopic = _u.getModel 'dis_topic'
+Course = _u.getModel 'course'
 
 buildLikeCommentArgs = (comment) ->
   
@@ -9,24 +10,30 @@ buildLikeCommentArgs = (comment) ->
     data :
       commentId : comment._id
   
-  switch comment.type
-    when Const.CommentType.DisTopic
-      result.type = Const.NoticeType.LikeTopicComment
-      result.data.disTopicId = comment.belongTo
-      
-    when Const.CommentType.Course
-      result.type = Const.NoticeType.LikeCourseComment
-      result.data.courseId = comment.belongTo
-      
-    when Const.CommentType.Lecture
-      result.type = Const.NoticeType.LikeLectureComment
-      result.data.lectureId = comment.belongTo
-      
-    when Const.CommentType.Teacher
-      console.log 'like comment for teacher...'
-      #TODO: add like the comment for teacher
-    
-  return result
+  Q(switch comment.type
+      when Const.CommentType.DisTopic
+        result.noticeType = Const.NoticeType.LikeTopicComment
+        result.data.disTopicId = comment.belongTo
+        DisTopic.findByIdQ result.data.disTopicId
+        .then (disTopic)->
+          result.data.forumId = disTopic.forumId
+
+      when Const.CommentType.Course
+        result.noticeType = Const.NoticeType.LikeCourseComment
+        result.data.courseId = comment.belongTo
+
+      when Const.CommentType.Lecture
+        result.noticeType = Const.NoticeType.LikeLectureComment
+        result.data.lectureId = comment.belongTo
+        Course.getByLectureId result.data.lectureId
+        .then (course)->
+          result.data.courseId = course._id
+
+      when Const.CommentType.Teacher
+        console.log 'like comment for teacher...'
+        #TODO: add like the comment for teacher
+  ).then ->
+    return result
   
   
 class LikeUtils extends BaseUtils
@@ -53,25 +60,30 @@ class LikeUtils extends BaseUtils
     targetName = Model.constructor.name
     console.log 'TargetName: ', targetName
     data = {}
+    targetUserId = null
+    noticeType = null
     
-    switch targetName
-      when 'DisTopic'
-        data.disTopicId = doc._id
-        data.forumId = doc.forumId
-        targetUserId = doc.postBy
-        noticeType = Const.NoticeType.LikeTopic
-        
-      when 'Comment'  
-        targetUserId = doc.postBy
-        {noticeType, data} = buildLikeCommentArgs doc
-      else
-        logger.error 'Unknown Like type'
-    
-    NoticeUtils.addNotice targetUserId, fromWhom, noticeType, data 
+    Q(switch targetName
+        when 'DisTopic'
+          data.disTopicId = doc._id
+          data.forumId = doc.forumId
+          targetUserId = doc.postBy
+          noticeType = Const.NoticeType.LikeTopic
+
+        when 'Comment'
+          targetUserId = doc.postBy
+          buildLikeCommentArgs doc
+          .then (commentArgs)->
+            {noticeType, data} = commentArgs
+        else
+          logger.error 'Unknown Like type'
+    )
+    .then ->
+      NoticeUtils.addNotice targetUserId, fromWhom, noticeType, data
     .then (notice) ->
       console.log 'Notice to send: ', notice
       SocketUtils.sendNotices notice
-      
+
       # TODO: for mobile app
       #DeviceUtils.pushToUser notice
 
