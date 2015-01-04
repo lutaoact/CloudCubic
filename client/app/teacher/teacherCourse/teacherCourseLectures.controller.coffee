@@ -37,6 +37,8 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         lectureId: lecture._id
 
     selectClasse: (classe) ->
+      if !classe
+        return
       $scope.selectedClasse = classe
       $scope.activeProgressKey = classe._id
       if $scope.progressMap[$scope.activeProgressKey]?
