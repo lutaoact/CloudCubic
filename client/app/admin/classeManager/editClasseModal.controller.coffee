@@ -15,7 +15,6 @@ angular.module('budweiserApp')
     errors: null
     classe: Classe
     courses: Courses
-    format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy']
 
     cancel: ->
       $modalInstance.dismiss('cancel')

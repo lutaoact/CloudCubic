@@ -5,18 +5,12 @@ angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider
 
   .state 'admin.classeManager',
-    url: '/classes'
+    url: '/classes?keyword&page'
     templateUrl: 'app/admin/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
     roleRequired: 'admin'
     resolve:
-      Classes: (Restangular) ->
-        Restangular.all('classes').getList()
-        .then (classes) ->
-          classes
-        .catch (error) ->
-          console.debug 'get classes error', error
-          []
+      #TODO 添加API：按照名字搜索对应的课程
       Courses: (Restangular) ->
         Restangular.all('courses').getList()
 
