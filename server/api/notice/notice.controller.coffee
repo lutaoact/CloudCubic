@@ -25,3 +25,15 @@ exports.read = (req, res, next) ->
   .then (result) ->
     res.send 200, result[1]
   , next
+
+exports.unreadCount = (req, res, next) ->
+  userId = req.user.id
+  conditions =
+    userId: userId
+    status: 0
+  Notice.countQ conditions
+  .then (count)->
+    console.log count
+    res.send 200, unreadCount: count
+  .catch next
+  .done()

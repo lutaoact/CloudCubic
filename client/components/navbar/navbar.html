@@ -112,8 +112,8 @@
               <a href="/settings/notice"
                  rel="nofollow">
                 我的消息<span class="badge pull-right"
-                          ng-show="messages.length">
-                {{messages.length||'0'}}
+                          ng-show="unreadMsgCount">
+                {{unreadMsgCount||'0'}}
                 </span>
               </a>
             </li>
@@ -131,8 +131,8 @@
           </ul>
           <span class="badge"
                 style="position: absolute;top: 9px;left: 18px;"
-                ng-show="messages.length">
-            {{messages.length||'0'}}
+                ng-show="unreadMsgCount">
+            {{unreadMsgCount||'0'}}
           </span>
         </li>
       </ul>

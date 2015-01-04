@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
   $scope
   notify
   Restangular
+  $rootScope
   Msg
 ) ->
 
@@ -27,11 +28,11 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
       Restangular.all('notices/read').post ids:[noticeId]
       .then ()->
         message.raw.status = 1
+        $rootScope.$broadcast 'message.read', message
 
   Restangular.all('notices').getList({all: true})
   .then (notices)->
     notices.forEach (notice)->
-#      Msg.genMessage(notice).then (msg)->
       $scope.messages.splice 0, 0, Msg.genMessage(notice)
 
   Restangular.all('broadcasts').getList()
