@@ -45,7 +45,6 @@ exports.Course = BaseModel.subclass
         required: true
       thumbnail: String
       info: String
-      description: String
       lectureAssembly: [
         type: ObjectId
         ref: "lecture"

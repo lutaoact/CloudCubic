@@ -1,96 +1,101 @@
 <div class="course course-detail">
   <div class="container">
     <div class="course-info row">
-      <h4 class="course-title" tooltip="{{course.name}}" tooltip-placement="bottom">
+      <h4 class="course-title">
         {{course.name}}
       </h4>
-      <div class="course-info-left">
-        <div class="course-thumbnail"
-          src-key="course.thumbnail"
-          source-attr="background-image">
-        </div>
-      </div>
-      <div class="course-info-right">
-        <div class="classe-select">
-          <span class="classe-label">已开班级：</span>
-          <select ng-model="selectedClasse"
-                  ng-options="classe.name for classe in classes">
-              <option value="" ng-if="!classes.length">-- 该课程暂未开设班级 --</option>
-          </select>
-        </div>
-        <div class="classe-info">
-          <div class="dl-dd-dt">
-            <table>
-              <tr>
-                <th>总课时</th>
-                <th>上课时间</th>
-                <th>结束时间</th>
-              </tr>
-              <tr>
-                <td>{{course.$lectures.length || '待定'}}</td>
-                <td>{{(selectedClasse.duration.from | date: 'yyyy.MM.dd') || '待定'}}</td>
-                <td>{{(selectedClasse.duration.to | date: 'yyyy.MM.dd') || '待定'}}</td>
-              </tr>
-            </table>
+      <div class="row">
+        <div class="col-md-7 course-info-left">
+          <div class="course-thumbnail"
+            src-key="course.thumbnail"
+            source-attr="background-image">
           </div>
         </div>
-        <div class="owner">
-          <div class="avatar-lg pull-left"
-               source-attr="background-image"
-               src-key="course.owners[0].avatar"
-               suffix="?imageView2/1/w/64/h/64">
+        <div class="col-md-5 course-info-right">
+          <div class="classe-select">
+            <span class="classe-label">已开班级：</span>
+            <select ng-model="selectedClasse"
+                    ng-options="classe.name for classe in classes">
+                <option value="" ng-if="!classes.length">-- 该课程暂未开设班级 --</option>
+            </select>
           </div>
-          <div class="owner-name-title">
-            <span class="owner-name">{{course.owners[0].name||'某老师'}}</span>
-            <span class="owner-title">{{course.owners[0].title}}</span>
+          <div class="classe-info">
+            <h4>
+              {{selectedClasse.name}}
+            </h4>
+            <div class="dl-dd-dt">
+              <table>
+                <tr>
+                  <th>总课时</th>
+                  <th>上课时间</th>
+                  <th>结束时间</th>
+                </tr>
+                <tr>
+                  <td>{{course.$lectures.length || '待定'}}</td>
+                  <td>{{(selectedClasse.duration.from | date: 'yyyy.MM.dd') || '待定'}}</td>
+                  <td>{{(selectedClasse.duration.to | date: 'yyyy.MM.dd') || '待定'}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <div class="owner-info text-muted">
-            {{course.owners[0].info || '该教师还未填写简介'}}
+          <div class="owner clearfix" ng-repeat="owner in course.owners">
+            <div class="avatar-lg col-md-2"
+                 source-attr="background-image"
+                 src-key="owner.avatar"
+                 suffix="?imageView2/1/w/64/h/64">
+            </div>
+            <div class="owner-name-title col-md-5">
+              <span class="owner-name">{{owner.name||'某老师'}}</span>
+              <span class="owner-title">{{owner.title}}</span>
+            </div>
+            <div class="owner-info text-muted pull-left col-md-5">
+              {{owner.info}}
+            </div>
           </div>
-        </div>
-        <div class="buy-buttons"
-             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) == -1">
-          <span class="yuan" ng-if="selectedClasse.price > 0">
-            ¥ {{selectedClasse.price.toFixed(2)}}
-          </span>
-          <span class="yuan" ng-if="selectedClasse.price == 0">
-            免费课程
-          </span>
-          <span class="pull-right"
-                ng-if="selectedClasse.price > 0">
-            <button class="btn btn-md btn-link rounded"
-                    ng-click="addToCart(selectedClasse)">
-              加入购物车
-            </button>
-            <button class="btn btn-md btn-danger rounded"
-                    ng-click="makeOrder(selectedClasse)">
-              <i class="fa fa-shopping-cart"></i> 购买
-            </button>
-          </span>
-          <span class="pull-right"
-                ng-if="selectedClasse.price == 0">
-            <button class="btn btn-md btn-danger rounded"
-                    ng-click="enrollFreeClass(selectedClasse)">
-              参加课程
-            </button>
-          </span>
+          <div class="buy-buttons"
+               ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) == -1">
+            <span class="yuan" ng-if="selectedClasse.price > 0">
+              ¥ {{selectedClasse.price.toFixed(2)}}
+            </span>
+            <span class="yuan" ng-if="selectedClasse.price == 0">
+              免费课程
+            </span>
+            <span class="pull-right"
+                  ng-if="selectedClasse.price > 0">
+              <button class="btn btn-md btn-link rounded"
+                      ng-click="addToCart(selectedClasse)">
+                加入购物车
+              </button>
+              <button class="btn btn-md btn-danger rounded"
+                      ng-click="makeOrder(selectedClasse)">
+                <i class="fa fa-shopping-cart"></i> 购买
+              </button>
+            </span>
+            <span class="pull-right"
+                  ng-if="selectedClasse.price == 0">
+              <button class="btn btn-md btn-danger rounded"
+                      ng-click="enrollFreeClass(selectedClasse)">
+                参加课程
+              </button>
+            </span>
 
-        </div>
-        <div class="learn-progress"
-             ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) >= 0">
-          <div class="progress">
-            <div class="learn-progress-inner-bar"
-                ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}">
-            </div>
-            <div class="tip">
-              {{+viewedLectureIndex + '/' + course.$lectures.length}}课时
-            </div>
           </div>
-          <div class="learn-btn">
-            <a class="btn btn-danger btn-lg"
-               ng-click="gotoLecture()">
-              {{viewedLectureIndex?'继续学习':'开始学习'}}
-            </a>
+          <div class="learn-progress"
+               ng-if="selectedClasse.students.indexOf(Auth.getCurrentUser()._id) >= 0">
+            <div class="progress">
+              <div class="learn-progress-inner-bar"
+                  ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}">
+              </div>
+              <div class="tip">
+                {{+viewedLectureIndex + '/' + course.$lectures.length}}课时
+              </div>
+            </div>
+            <div class="learn-btn">
+              <a class="btn btn-danger btn-lg"
+                 ng-click="gotoLecture()">
+                {{viewedLectureIndex?'继续学习':'开始学习'}}
+              </a>
+            </div>
           </div>
         </div>
       </div>

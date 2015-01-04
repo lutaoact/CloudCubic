@@ -26,6 +26,7 @@ exports.index = (req, res, next) ->
 
   options = limit: req.query.limit, from: req.query.from
 
+  console.log 'options', options
   WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 

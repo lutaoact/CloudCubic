@@ -5,25 +5,28 @@ angular.module('budweiserApp')
 .controller 'ClasseManagerCtrl', (
   $state
   $scope
-  Classes
-  Restangular
-  Courses
   $modal
+  Courses
+  Restangular
 ) ->
 
-  viewFirstClasse = ->
-    classes = $scope.classes
-    $scope.viewClasse(classes[0]) if classes.length > 0
-
   angular.extend $scope,
-    classes: Classes
+    classes: null
     other:
       _id: ''
       name: '未分班的学生'
 
     selectedClasse: null
 
-    addClass: ()->
+    search:
+      keyword: $state.params.keyword
+
+    pageConf:
+      maxSize      : 5
+      currentPage  : $state.params.page ? 1
+      itemsPerPage : 9
+
+    createNewClasse: ->
       $modal.open
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
@@ -35,18 +38,41 @@ angular.module('budweiserApp')
             enrollment: {}
             duration: {}
       .result.then (newClasse) ->
-        $scope.classes.push newClasse
+        $scope.classes.splice 0, 0, newClasse
 
-    onDeleteClasses: (classes) ->
-      angular.forEach classes, (c) ->
-        $scope.classes.splice($scope.classes.indexOf(c), 1)
-      viewFirstClasse() if $scope.classes.indexOf($scope.selectedClasse) == -1
+    deleteClasse: (classe) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        size: 'sm'
+        resolve:
+          title: -> "删除班级"
+          message: ->
+            """确认要删除班级"#{classe.name}"吗？"""
+      .result.then ->
+        Restangular
+        .one('classes', classe._id)
+        .remove()
+        .then ->
+          index = $scope.classes.indexOf(classe)
+          $scope.classes.splice(index, 1)
+
+    editClasse: (classe) ->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/editClasseModal.html'
+        controller: 'EditClasseModalCtrl'
+        resolve:
+          Courses: -> Courses
+          Classe: -> angular.copy(classe)
+      .result.then (dbClasse) ->
+        angular.extend classe, dbClasse
+
+    setKeyword: ($event) ->
+      if $event.keyCode isnt 13 then return
+      $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:$scope.pageConf.currentPage})
 
     viewClasse: (classe) ->
       $state.go('admin.classeManager.detail', classeId:classe._id) if classe?
-
-  $scope.$on '$stateChangeSuccess', (event, toState) ->
-    viewFirstClasse() if toState.name == 'admin.classeManager'
 
   reloadStandAloneStudents = ->
     Restangular.all('users').getList(role:'student', standalone:true)
@@ -61,4 +87,18 @@ angular.module('budweiserApp')
     _.forEach updateClasses, (c) ->
       currentClasse = _.find Classes, _id:c._id
       currentClasse?.students = c.students
+
   $scope.$on 'removeUsersFromSystem', updateClassesStudents
+
+  Restangular
+  .all('classes')
+  .getList(
+    from    : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+    limit   : $scope.pageConf.itemsPerPage
+    keyword : $scope.search.keyword
+  )
+  .then (classes) ->
+    $scope.classes = classes
+
+  $scope.$watch 'pageConf.currentPage', (newPage) ->
+    $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:newPage})

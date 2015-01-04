@@ -18,8 +18,16 @@ exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
   conditions.courseId = req.query.courseId if req.query.courseId
   conditions.students = req.query.studentId if req.query.studentId
+  if req.query.keyword
+    keyword = req.query.keyword
+    regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
+    conditions.$or = [
+      'name': regex
+    ]
 
-  WrapRequest.wrapPageIndex req, res, next, conditions
+  options = limit: req.query.limit, from: req.query.from
+
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
 exports.show = (req, res, next) ->

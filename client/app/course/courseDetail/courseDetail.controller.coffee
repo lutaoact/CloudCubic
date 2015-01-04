@@ -66,7 +66,6 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
-    console.log event
 
   # 获取该课程的基本信息
   Restangular.one('courses', $state.params.courseId).get()

@@ -54,24 +54,24 @@
     <label class="control-label col-sm-3">上课时间</label>
     <div class="col-sm-8">
       从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="classe.duration.from"
         is-open="viewState.duration.fromPopOpened"
         ng-click="viewState.duration.fromPopOpened = true;"
         show-button-bar="false"
         datepicker-options="dateOptions">
-        {{classe.duration.from||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+        {{(classe.duration.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
       </button>
 
       到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="classe.duration.to"
         is-open="viewState.duration.toPopOpened"
         min-date="classe.duration.from"
         ng-click="viewState.duration.toPopOpened = true;"
         show-button-bar="false"
         datepicker-options="dateOptions">
-        {{classe.duration.to||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+        {{(classe.duration.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
       </button>
     </div>
   </div>
@@ -80,24 +80,24 @@
     <label class="control-label col-sm-3">报名时间</label>
     <div class="col-sm-8">
       从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="classe.enrollment.from"
         is-open="viewState.enrollment.fromPopOpened"
         ng-click="viewState.enrollment.fromPopOpened = true;"
         show-button-bar="false"
         datepicker-options="dateOptions">
-        {{classe.enrollment.from||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+        {{(classe.enrollment.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
       </button>
 
       到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="classe.enrollment.to"
         is-open="viewState.enrollment.toPopOpened"
         min-date="classe.enrollment.from"
         ng-click="viewState.enrollment.toPopOpened = true;"
         show-button-bar="false"
         datepicker-options="dateOptions">
-        {{classe.enrollment.to||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
+        {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
       </button>
     </div>
   </div>

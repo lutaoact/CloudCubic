@@ -11,6 +11,8 @@ exports.Classe = BaseModel.subclass
     index: [
       path: 'orgId', select: 'name'
     ,
+      path: 'teachers', select: 'name'
+    ,
       path: 'courseId', select: 'name'
     ]
     create: [
@@ -26,7 +28,7 @@ exports.Classe = BaseModel.subclass
         required: true
       orgId:
         type: ObjectId
-        ref: "organization"
+        ref: 'organization'
         required: true
       courseId:
         type: ObjectId
@@ -41,7 +43,11 @@ exports.Classe = BaseModel.subclass
         to: Date
       students: [
         type: ObjectId
-        ref: "user"
+        ref: 'user'
+      ]
+      teachers: [
+        type: ObjectId
+        ref: 'user'
       ]
       price:
         type: Number

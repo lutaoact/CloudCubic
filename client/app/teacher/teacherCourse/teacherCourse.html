@@ -6,7 +6,7 @@
 
         <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
           <div class="course-actions-bar clearfix">
-            <h3 class="course-title pull-left" ng-if="!viewState.editingInfo" tooltip="{{course.name}}" tooltip-placement="bottom">
+            <h3 class="course-title pull-left" ng-if="!viewState.editingInfo">
               {{course.name}}
             </h3>
             <input ng-if="viewState.editingInfo" type="text" class="form-control course-title pull-left" ng-model="course.name">
@@ -31,7 +31,27 @@
           </div>
           <div class="row">
             <div class="col-md-7 course-info-left">
-              <div class="course-thumbnail"
+              <uploader
+                class="course-thumbnail-uploader"
+                on-complete="onThumbUploaded($data)"
+                limit="{{imageSizeLimitation}}"
+                crop="true"
+                crop-ratio="1.75"
+                max-width="1000"
+                accept-type="image"
+                ng-if="viewState.editingInfo"
+                >
+                <div
+                  class="course-thumbnail"
+                  src-key="course.thumbnail"
+                  source-attr="background-image"
+                  >
+                  <div class="btn btn-danger rounded">修改</div>
+                </div>
+              </uploader>
+              <div
+                ng-if="!viewState.editingInfo"
+                class="course-thumbnail"
                 src-key="course.thumbnail"
                 source-attr="background-image">
               </div>
@@ -88,16 +108,11 @@
             <div ng-show="viewState.displayView=='info'">
               <div class="course-desc">
                 <h4>
-                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程概要
-                </h4>
-                <input type="text" class="form-control" ng-model="course.info" ng-disabled="!viewState.editingInfo">
-
-                <h4>
                   <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程详细内容
                 </h4>
-                <div class="blog" ng-if="!viewState.editingInfo" compile-html="course.description">
+                <div class="blog" ng-if="!viewState.editingInfo" compile-html="course.info">
                 </div>
-                <text-angular class="bud" ng-model="course.description" ng-if="viewState.editingInfo"></text-angular>
+                <text-angular class="bud" ng-model="course.info" ng-if="viewState.editingInfo"></text-angular>
               </div>
             </div>
 

@@ -190,29 +190,26 @@ angular.module 'budweiserApp', [
     startTop: 30
     duration: 4000
 
-  getHomeState = (user) ->
-    if Auth.hasRole('admin') then user.role + '.home' else 'main'
-
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    if initUser?
-      Auth.getCurrentUser().$promise?.then (me) ->
-    else
-      loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
+    if initUser? then return
+    loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
-  setupUser = (user, goHome = false) ->
+  setupUser = (user) ->
     Msg.init()
     socketHandler.init(user)
-    if !loginRedirector.apply()
-      $state.go(getHomeState user) if goHome
+    if !loginRedirector.apply() && $state.current.name is 'main'
+      homeState =
+        if Auth.hasRole('admin') then user.role + '.home' else 'main-home'
+      $state.go(homeState)
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->
-    setupUser(user, false)
+    setupUser(user)
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then setupUser

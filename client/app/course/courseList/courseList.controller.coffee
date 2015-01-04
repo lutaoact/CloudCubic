@@ -16,7 +16,7 @@ angular.module('budweiserApp')
       categoryId: $state.params.category
     pageConf:
       maxSize      : 5
-      currentPage  : $state.params.page
+      currentPage  : $state.params.page ? 1
       itemsPerPage : 8
 
   Restangular

@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   Restangular
   notify
   $modal
+  configs
 ) ->
 
   $scope.$on '$destroy', Navbar.resetTitle
@@ -19,6 +20,8 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       Courses.splice(Courses.indexOf(course), 1)
       $state.go('main')
 
+    imageSizeLimitation: configs.imageSizeLimitation
+
     togglePublish: ($event)->
       $event.stopPropagation()
       Restangular.one('courses', $scope.course._id).patch isPublished: !$scope.course.isPublished
@@ -28,19 +31,15 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     viewState:
       editingInfo: false
 
-    saveCourseDesc: ()->
-      Restangular.one('courses', $scope.course._id).patch description: $scope.course.description
-      .then ->
-        notify
-          message:'已保存'
-          classes: 'alert-success'
+    onThumbUploaded: (data)->
+      $scope.course.thumbnail = data
 
     saveCourseInfo: ()->
       Restangular.one('courses', $scope.course._id).patch
-        description: $scope.course.description
         categoryId: $scope.course.$category
         info: $scope.course.info
         name: $scope.course.name
+        thumbnail: $scope.course.thumbnail
       .then (newCourse)->
         angular.extend $scope.course, newCourse
         $scope.viewState.edtingInfo = false
