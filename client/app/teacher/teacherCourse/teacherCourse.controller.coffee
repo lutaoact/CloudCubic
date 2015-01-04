@@ -10,6 +10,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   notify
   $modal
   configs
+  $timeout
 ) ->
 
   $scope.$on '$destroy', Navbar.resetTitle
@@ -48,6 +49,9 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         notify
           message:'已保存'
           classes: 'alert-success'
+
+    resetCourseInfo: ()->
+      $scope.viewState.editingInfo = false
 
     removeCourse: ()->
       course = $scope.course
