@@ -28,16 +28,8 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     viewState:
       editingInfo: false
 
-    saveCourseDesc: ()->
-      Restangular.one('courses', $scope.course._id).patch description: $scope.course.description
-      .then ->
-        notify
-          message:'已保存'
-          classes: 'alert-success'
-
     saveCourseInfo: ()->
       Restangular.one('courses', $scope.course._id).patch
-        description: $scope.course.description
         categoryId: $scope.course.$category
         info: $scope.course.info
         name: $scope.course.name

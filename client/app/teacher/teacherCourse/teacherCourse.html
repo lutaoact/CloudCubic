@@ -88,16 +88,11 @@
             <div ng-show="viewState.displayView=='info'">
               <div class="course-desc">
                 <h4>
-                  <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程概要
-                </h4>
-                <input type="text" class="form-control" ng-model="course.info" ng-disabled="!viewState.editingInfo">
-
-                <h4>
                   <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课程详细内容
                 </h4>
-                <div class="blog" ng-if="!viewState.editingInfo" compile-html="course.description">
+                <div class="blog" ng-if="!viewState.editingInfo" compile-html="course.info">
                 </div>
-                <text-angular class="bud" ng-model="course.description" ng-if="viewState.editingInfo"></text-angular>
+                <text-angular class="bud" ng-model="course.info" ng-if="viewState.editingInfo"></text-angular>
               </div>
             </div>
 
