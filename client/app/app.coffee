@@ -204,7 +204,7 @@ angular.module 'budweiserApp', [
     socketHandler.init(user)
     if !loginRedirector.apply() && $state.current.name is 'main'
       homeState =
-        if Auth.hasRole('admin') then user.role + '.home' else 'main-home'
+        if Auth.hasRole('admin') then user.role + '.home' else 'home'
       $state.go(homeState)
 
   # setup data & config for logged user
