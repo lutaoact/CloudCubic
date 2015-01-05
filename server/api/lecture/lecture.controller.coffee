@@ -35,7 +35,7 @@ exports.index = (req, res, next) ->
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
-  Lecture.findOneQ conditions, null, {lean: true}
+  Lecture.findOneQ conditions
   .then (lecture) ->
     console.log lecture
     if lecture.isFreeTry
