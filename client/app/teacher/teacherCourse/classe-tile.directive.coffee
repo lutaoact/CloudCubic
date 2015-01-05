@@ -8,7 +8,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
     classe: '='
     plus: '@'
 
-  controller: ($scope, Auth, $modal, Restangular)->
+  controller: ($scope, $state, Auth, $modal, Restangular)->
     angular.extend $scope,
       me: Auth.getCurrentUser
 
