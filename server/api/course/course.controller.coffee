@@ -54,14 +54,7 @@ exports.myCourses = (req, res, next) ->
         ,
           owners: userId
         ]
-
-        Course.find conditions
-        .populate Course.populates.index
-        .execQ()
-      .then (courses) ->
-        res.send courses
-      .catch next
-      .done()
+        WrapRequest.wrapIndex req, res, next, conditions
 
     else
       logger.error "Unknown user role: #{user.role}"
