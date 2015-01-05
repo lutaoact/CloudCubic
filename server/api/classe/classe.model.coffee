@@ -33,6 +33,7 @@ exports.Classe = BaseModel.subclass
       name:
         type: String
         required: true
+      address: String
       orgId:
         type: ObjectId
         ref: 'organization'
@@ -56,6 +57,10 @@ exports.Classe = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       ]
+      schedule:
+        start: Date
+        end: Date
+        until: Date
       price:
         type: Number
         required: true
