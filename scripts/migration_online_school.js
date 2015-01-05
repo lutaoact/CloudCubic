@@ -79,3 +79,12 @@ db.dis_replies.find().forEach(function(dis_reply){
 db.courses.find().forEach(function(course) {
   db.courses.update({_id: course._id}, {$set: {isPublished: true}});
 });
+
+//lecture中新增courseId字段
+db.courses.find().forEach(function(course) {
+  print("courseId: " + course._id);
+  course.lectureAssembly.forEach(function(lectureId) {
+    print("\tlectureId: " + lectureId);
+    db.lectures.update({_id: lectureId}, {$set: {courseId: course._id}});
+  });
+});
