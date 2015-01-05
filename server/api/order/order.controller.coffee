@@ -90,9 +90,12 @@ exports.create = (req, res, next)->
 
 exports.show = (req, res, next) ->
   orderId = req.params.id
-  Order.findOneQ
-    _id: orderId
-    userId: req.user._id
+  if req.user.role == 'admin'
+    conditions = {_id: orderId}
+  else
+    conditions = {_id: orderId, userId: req.user._id}
+
+  Order.findOneQ conditions
   .then (order) ->
     populateClasses order
   .then (order) ->

@@ -1,5 +1,5 @@
 <div class="order-detail">
-  <div class="order-num">
+  <div class="order-num" ng-click="isCollapsed = !isCollapsed">
     {{order.created | date: 'yyyy-MM-dd'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="text-muted">订单号：</span>{{order._id}}
     <a class="close pull-right"
        ng-hide="order.status=='succeed' || onOrderDeleted()==undefined"
@@ -7,37 +7,39 @@
        ng-click="deleteOrder(order)">&times;
     </a>
   </div>
-  <div ng-repeat="classe in order.classes"
-       ui-sref="courseDetail({courseId: classe.courseId._id})"
-       class="order-classe row">
+  <div collapse="isCollapsed">
+    <div ng-repeat="classe in order.classes"
+         ui-sref="courseDetail({courseId: classe.courseId._id})"
+         class="order-classe row">
 
-    <div class="col-md-3 col-img">
-      <img class="item-image" src="{{classe.courseId.thumbnail}}">
-    </div>
-    <div class="col-md-4">
-      <div class="course-name">{{classe.courseId.name}}</div>
-      <div class="classe-duration text-muted">
-        <div class="classe-col">
-          总课时
-          <span>{{classe.courseId.lectureAssembly.length}}</span>
-        </div>
-        <div class="classe-col">
-          上课时间
-          <span>{{classe.duration.from | date: 'yyyy.MM.dd'}}</span>
-        </div>
-        <div class="classe-col">
-          结束时间
-          <span>{{classe.duration.to | date: 'yyyy.MM.dd'}}</span>
+      <div class="col-md-3 col-img">
+        <img class="item-image" src="{{classe.courseId.thumbnail}}">
+      </div>
+      <div class="col-md-4">
+        <div class="course-name">{{classe.courseId.name}}</div>
+        <div class="classe-duration text-muted">
+          <div class="classe-col">
+            总课时
+            <span>{{classe.courseId.lectureAssembly.length}}</span>
+          </div>
+          <div class="classe-col">
+            上课时间
+            <span>{{classe.duration.from | date: 'yyyy.MM.dd'}}</span>
+          </div>
+          <div class="classe-col">
+            结束时间
+            <span>{{classe.duration.to | date: 'yyyy.MM.dd'}}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="class-name text-muted">{{classe.name}}</div>
-    </div>
-    <div class="col-md-2 class-price">
-      <div class="pull-right">￥{{classe.price}}</div>
-    </div>
 
+      <div class="col-md-3">
+        <div class="class-name text-muted">{{classe.name}}</div>
+      </div>
+      <div class="col-md-2 class-price">
+        <div class="pull-right">￥{{classe.price}}</div>
+      </div>
+    </div>
   </div>
 
   <div class="order-footer row">
@@ -49,10 +51,16 @@
         <div ng-switch-when='succeed' class="pay-msg">
           已支付
         </div>
-        <button ng-click="pay()"
-                ng-switch-default
-                class="btn btn-danger btn-sm rounded pay-btn">支付宝结算
-        </button>
+        <div ng-switch-default>
+          <button ng-click="pay()"
+                  ng-hide="Auth.getCurrentUser().role == 'admin'"
+                  class="btn btn-danger btn-sm rounded pay-btn">支付宝结算
+          </button>
+          <div class="pay-msg"
+               ng-show="Auth.getCurrentUser().role == 'admin'">
+            未支付
+          </div>
+        </div>
       </div>
     </div>
   </div>

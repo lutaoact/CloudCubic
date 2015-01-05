@@ -6,14 +6,17 @@ angular.module('budweiserApp').directive 'orderDetail', ->
     order: '='
     onOrderDeleted: '&'
   controller: (
-    $scope,
-    $state,
-    notify,
-    $modal,
-    $rootScope,
+    Auth
+    $scope
+    $state
+    notify
+    $modal
+    $rootScope
     Restangular
   )->
     angular.extend $scope,
+      Auth: Auth
+      isCollapsed: false
       pay: ()->
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->

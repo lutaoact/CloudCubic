@@ -1,0 +1,43 @@
+<div class="order-list-search row">
+  <span class="title">订单管理</span>
+    <span class="order-status">
+      <select
+        style="width: 100px;"
+        class="form-control"
+        ng-model="search.status"
+        required>
+        <option value="" class="text-muted">全部订单</option>
+        <option value="succeed" class="text-muted">已付订单</option>
+        <option value="unpaid" class="text-muted">未付订单</option>
+      </select>
+    </span>
+  <input type="text"
+         class="form-control"
+         placeholder="订单号搜索"
+         ng-model="search.orderId"
+         ng-keyup="setKeyword($event)">
+</div>
+
+<div class="order-list-view">
+    <div ng-repeat="order in orders">
+      <order-detail order="order" on-order-deleted="orderDeleted"></order-detail>
+    </div>
+    <div class="row pagination-row text-center"
+         ng-hide="orders.$count <= itemsPerPage">
+      <pagination
+        total-items="orders.$count"
+        ng-model="currentPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
+    </div>
+
+</div>

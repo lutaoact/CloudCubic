@@ -6,7 +6,6 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
   $state
   Navbar
   Restangular
-  notify
 ) ->
 
   angular.extend $scope,
@@ -21,8 +20,6 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
     orderDeleted : (order)->
       _.remove $scope.orders, (_order)->
         _order == order
-      $scope.count.totalCount -= 1
-      $scope.count.unpaidCount -= 1
 
   $scope.$watchCollection '[status, currentPage]', ->
     Restangular.all('orders').getList(
@@ -32,7 +29,3 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
     )
     .then (orders)->
       $scope.orders = orders
-
-  Restangular.all('orders').customGET('count')
-  .then (data)->
-    $scope.count = data

@@ -22,7 +22,7 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       className: 'budon budon-category'
       label: '专业课程'
     ,
-      stateName:'admin.categoryManager'
+      stateName:'admin.orderManager'
       className: 'budon budon-category'
       label: '订单管理'
     ]
