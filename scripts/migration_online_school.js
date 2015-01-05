@@ -88,3 +88,8 @@ db.courses.find().forEach(function(course) {
     db.lectures.update({_id: lectureId}, {$set: {courseId: course._id}});
   });
 });
+
+//将schedule中的start, end, until字段迁移到相应的classe中
+db.schedules.find().forEach(function(schedule) {
+  db.classes.update({_id: schedule.classe}, {$set: {'schedule.start': schedule.start, 'schedule.end': schedule.end, 'schedule.until': schedule.until}});
+});
