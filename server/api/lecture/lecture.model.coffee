@@ -49,6 +49,10 @@ exports.Lecture = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "question"
       ]
+      courseId:
+        type: ObjectId
+        ref: 'course'
+        required: true
       isFreeTry:
         type: Boolean
         default: false
