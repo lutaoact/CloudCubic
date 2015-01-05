@@ -35,9 +35,10 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         $modal.open
           templateUrl: 'components/modal/messageModal.html'
           controller: 'MessageModalCtrl'
+          size: 'sm'
           resolve:
-            title: -> '删除讨论组'
-            message: -> "确认要删除《#{classe.name}》？"
+            title: -> '删除班级'
+            message: -> "确认要删除 #{classe.name}？"
         .result.then ->
           console.log classe
           classe.remove()
