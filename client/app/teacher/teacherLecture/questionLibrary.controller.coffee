@@ -29,16 +29,6 @@ angular.module('budweiserApp')
     keyword: ''
     $state: $state
 
-    # TODO refactor filter
-    # correct answers to 'ABC'
-    getCorrectInfo: (question) ->
-      info = _.reduce question.choices, (result, option, index) ->
-        if option.correct==true
-          result += String.fromCharCode(65+index)
-        result
-      , ''
-      if info == '' then '?' else info
-
     getSelectedNum: ->
       _.reduce $scope.questions, (sum, q) ->
         sum + (if q.$selected then 1 else 0)
@@ -86,7 +76,7 @@ angular.module('budweiserApp')
         backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints
-          categoryId: -> $scope.categoryId._id||$scope.categoryId
+          categoryId: -> $scope.categoryId._id ? $scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then $scope.pageChange
@@ -102,15 +92,13 @@ angular.module('budweiserApp')
       $scope.searchQuestions(true) if $scope.questions.length < loadedItems
 
     searchQuestions: (loadMore = false) ->
-      Restangular.one('questions').get(
+      Restangular.all('questions').getList(
         from: (if loadMore then $scope.questions.length else 0)
         limit: ($scope.pageSize + if loadMore then 0 else 1)
-        categoryId: $scope.categoryId._id||$scope.categoryId
+        categoryId: $scope.categoryId._id ? $scope.categoryId
         keyword: $scope.keyword
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
-      ).then (res) ->
-        totalNum = res.totalNum
-        questions = res.questions
+      ).then (questions) ->
         currentQuestions = _.pluck $scope.lecture?[$state.params.questionType], '_id'
         angular.forEach questions, (q) ->
           q.$exists = currentQuestions.indexOf(q._id) >= 0
@@ -119,9 +107,7 @@ angular.module('budweiserApp')
             _.union $scope.questions, questions
           else
             questions
-        $scope.totalItems = totalNum #$scope.questions.length
+        $scope.totalItems = questions.$count
 
   $scope.$watch 'categoryId', (value)->
-    if value
-      $scope.searchQuestions()
-
+    $scope.searchQuestions() if value
