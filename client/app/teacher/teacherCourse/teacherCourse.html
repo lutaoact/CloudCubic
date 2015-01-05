@@ -6,12 +6,7 @@
 
         <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
           <div class="course-actions-bar clearfix">
-            <h3 class="course-title pull-left" ng-if="!viewState.editingInfo">
-              {{course.name}}
-            </h3>
-            <div ng-if="viewState.editingInfo" >
-              <input type="text" class="form-control course-title pull-left" ng-model="course.name">
-            </div>
+
             <div class="pull-right" style="margin-top: 5px;">
               <a href="" class="btn btn-sm rounded btn-danger" ng-if="viewState.editingInfo" ng-click="saveCourseInfo()">
                 保存
@@ -26,7 +21,7 @@
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="" ng-click="viewState.editingInfo = true">编辑</a></li>
                   <li>
-                    <a href="" ng-class="{'btn-primary':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
+                    <a href="" ng-click="togglePublish($event)">
                       {{course.isPublished?'取消发布':'发布'}}
                     </a>
                   </li>
@@ -53,7 +48,9 @@
                     src-key="course.thumbnail"
                     source-attr="background-image"
                     >
-                    <div class="btn btn-danger rounded">修改</div>
+                    <div class="mask">
+                      <div class="btn btn-danger rounded">修改</div>
+                    </div>
                   </div>
                 </uploader>
               </div>
@@ -65,16 +62,18 @@
               </div>
             </div>
             <div class="col-md-5 course-info-right">
-
-              <div class="course-status">
-                <i class="fa fa-clock-o"></i>&nbsp;{{course.lectureAssembly.length||0}}总课时
+              <h3 class="course-title" ng-if="!viewState.editingInfo">
+                {{course.name}}
+              </h3>
+              <div ng-if="viewState.editingInfo" >
+                <textarea type="text" class="form-control course-title pull-left" ng-model="course.name"></textarea>
               </div>
 
-              <div class="classe-select" ng-if="!viewState.editingInfo">
+              <div class="classe-select pull-left" ng-if="!viewState.editingInfo">
                 <span class="classe-label">科目：</span> <span>{{course.categoryId.name}}</span>
               </div>
 
-              <div class="classe-select" ng-if="viewState.editingInfo">
+              <div class="classe-select pull-left" ng-if="viewState.editingInfo">
                 <span class="classe-label">科目：</span>
                 <select ng-model="course.$category"
                         class="form-control"
@@ -82,20 +81,23 @@
                         ng-options="category.name for category in categories">
                 </select>
               </div>
+
+              <div class="pull-right" ng-class="{'base-color':course.isPublished,'text-muted':!course.isPublished}">{{course.isPublished?'已发布':'未发布'}}</div>
+              <div class="clearfix"></div>
               <hr>
-              <div class="owner" ng-repeat="owner in course.owners">
-                <div class="avatar-lg col-md-2"
-                     source-attr="background-image"
-                     src-key="owner.avatar"
-                     suffix="?imageView2/1/w/64/h/64">
+              <div class="teachers">
+                <div class="column" ng-repeat="i in [0,1,2,3,4,5,6]">
+                  <div class="teacher" ng-repeat="j in [0,1,2]" ng-if="course.$teachers[i*3+j]">
+                    <div class="avatar-md"
+                         title="{{course.$teachers[i*3+j].name}}"
+                         source-attr="background-image"
+                         src-key="course.$teachers[i*3+j].avatar"
+                         suffix="?imageView2/1/w/64/h/64"
+                         >
+                    </div>
+                  </div>
                 </div>
-                <div class="owner-name-title col-md-5">
-                  <span class="owner-name">{{owner.name||'某老师'}}</span>
-                  <span class="owner-title">{{owner.title}}</span>
-                </div>
-                <div class="owner-info text-muted pull-left col-md-5">
-                  {{owner.info}}
-                </div>
+
               </div>
 
             </div>

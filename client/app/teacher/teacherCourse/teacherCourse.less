@@ -53,12 +53,6 @@
     background: #FFF;
     margin-top: 15px;
     .course-actions-bar{
-      .course-title {
-        font-size: 20px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        width: ~"calc(100% - 150px)";
-      }
     }
     .course-status{
       margin-bottom: 30px;
@@ -72,10 +66,19 @@
       height: 330px;
       .course-thumbnail-uploader{
         width: 100%;
-        height: 100%;
+        height: 330px;
         padding: 0;
         border: none;
         line-height: 330px;
+        position: relative;
+        .mask{
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(100,100,100,0.5);
+        }
       }
       .course-thumbnail{
         width: 100%;
@@ -87,8 +90,31 @@
     }
 
     .course-info-right{
+      .teachers{
+        .column{
+          width: 50px;
+          display: inline-block;
+          height: 150px;
+        }
+        .teacher{
+          width: 50px;
+          height: 50px;
+          padding: 7px;
+          display: block;
+        }
+      }
+      .course-title {
+        font-size: 20px;
+        height: 120px;
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+      hr{
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
       .classe-select {
-        margin-bottom: 25px;
+        height: 34px;
         .classe-label {
         }
         select {

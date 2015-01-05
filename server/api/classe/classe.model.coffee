@@ -11,14 +11,14 @@ exports.Classe = BaseModel.subclass
     index: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name'
+      path: 'teachers', select: 'name avatar'
     ,
       path: 'courseId', select: 'name'
     ]
     update: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name'
+      path: 'teachers', select: 'name avatar'
     ,
       path: 'courseId', select: 'name'
     ]
@@ -26,6 +26,8 @@ exports.Classe = BaseModel.subclass
       path: 'orgId', select: 'name'
     ,
       path: 'courseId', select: 'name'
+    ,
+      path: 'teachers', select: 'name avatar'
     ]
 
   initialize: ($super) ->
