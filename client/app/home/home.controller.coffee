@@ -12,7 +12,7 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  generateCategories = ()->
+  generateCategories = ->
     $q.all(_.uniq(_.pluck(_.pluck($scope.myCourses, 'categoryId').filter((x)-> x?),'_id')).map (id)->
       if id
         Category.find(id)
@@ -58,26 +58,12 @@ angular.module('budweiserApp')
       $event.stopPropagation()
 
     loadMyCourses: ->
-
-      if Auth.hasRole('teacher')
-        Restangular
-        .all('courses')
-        .getList(owner: Auth.getCurrentUser()._id)
-        .then (courses) ->
-          $scope.myCourses = courses
-          generateCategories()
-      else
-        Restangular
-        .all('classes')
-        .getList(studentId: Auth.getCurrentUser()._id)
-        .then (classes) ->
-          courseIds = _.map classes, (c) -> c.courseId._id
-          Restangular
-          .all('courses')
-          .getList(ids: courseIds)
-          .then (courses) ->
-            $scope.myCourses = courses
-            generateCategories()
+      Restangular
+      .all('courses/me')
+      .getList()
+      .then (courses) ->
+        $scope.myCourses = courses
+        generateCategories()
 
   loadCategories = ->
     Category
