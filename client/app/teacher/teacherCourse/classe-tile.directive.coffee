@@ -16,6 +16,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         $modal.open
           templateUrl: 'app/admin/classeManager/editClasseModal.html'
           controller: 'EditClasseModalCtrl'
+          windowClass: 'edit-classe-modal'
           resolve:
             Courses: -> [$scope.classe.courseId]
             Classe: -> angular.copy(classe)

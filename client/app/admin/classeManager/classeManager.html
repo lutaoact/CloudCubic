@@ -1,4 +1,4 @@
-<div class="classe-manager container" ui-view class="fadeIn">
+<div class="classe-manager" ui-view class="fadeIn">
 
   <div class="classe-list-header row">
     <span class="title">班级管理</span>
@@ -14,7 +14,7 @@
             ng-click="createNewClasse()">开班</button>
   </div>
 
-  <div class="classe-list-content row">
+  <div class="row">
     <div class="col-md-4 classe-list-item" ng-repeat="classe in classes">
       <classe-tile classe="classe" plus="true"></classe-tile>
     </div>

@@ -29,6 +29,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
+        windowClass: 'edit-classe-modal'
         resolve:
           # FIXME course 分页？
           Courses: ->
@@ -59,20 +60,6 @@ angular.module('budweiserApp')
         .then ->
           index = $scope.classes.indexOf(classe)
           $scope.classes.splice(index, 1)
-
-    editClasse: (classe) ->
-      $modal.open
-        templateUrl: 'app/admin/classeManager/editClasseModal.html'
-        controller: 'EditClasseModalCtrl'
-        resolve:
-          # FIXME course 分页？
-          Courses: ->
-            Restangular.all('courses').getList()
-          Teachers: ->
-            Restangular.all('users').getList(role: 'teacher')
-          Classe: -> angular.copy(classe)
-      .result.then (dbClasse) ->
-        angular.extend classe, dbClasse
 
     setKeyword: ($event) ->
       if $event.keyCode isnt 13 then return

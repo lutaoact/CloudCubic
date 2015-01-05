@@ -83,6 +83,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       $modal.open
         templateUrl: 'app/admin/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
+        windowClass: 'edit-classe-modal'
         resolve:
           Courses: -> [$scope.course]
           Teachers: -> Restangular.all('users').getList(role:'teacher')

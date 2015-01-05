@@ -21,6 +21,7 @@ angular.module('budweiserApp')
     teachers: Teachers
 
     addTeacher: (teacher) ->
+      console.log 'addTeacher', teacher
       if !teacher? then return
       $scope.classe.teachers = _.union($scope.classe.teachers, [teacher])
 
