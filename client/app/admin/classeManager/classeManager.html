@@ -11,27 +11,32 @@
            ng-model="search.keyword"
            ng-keyup="setKeyword($event)">
     <button class="btn btn-sm btn-danger rounded pull-right"
-            ng-click="createNewClasse()">开班</button>
+            ng-click="createNewClasse()">
+            开班
+    </button>
   </div>
 
   <div class="row">
-    <div class="col-md-4 classe-list-item" ng-repeat="classe in classes">
-      <classe-tile classe="classe" courses="courses" plus="true"></classe-tile>
+    <div class="col-md-4 classe-list-item"
+         ng-repeat="classe in classes">
+      <classe-tile classe="classe"
+                   courses="courses"
+                   plus="true">
+      </classe-tile>
     </div>
   </div>
 
   <div class="row pagination-row text-center"
        ng-if="classes.$count"
        ng-show="classes.$count > pageConf.itemsPerPage">
-    <pagination
-      total-items="classes.$count"
-      ng-model="pageConf.currentPage"
-      items-per-page="pageConf.itemsPerPage"
-      class="pagination-sm bud"
-      ng-change="reload()"
-      boundary-links="true"
-      rotate="false"
-      max-size="pageConf.maxSize">
+    <pagination total-items="classes.$count"
+                ng-model="pageConf.currentPage"
+                items-per-page="pageConf.itemsPerPage"
+                class="pagination-sm bud"
+                ng-change="reload()"
+                boundary-links="true"
+                rotate="false"
+                max-size="pageConf.maxSize">
     </pagination>
   </div>
 
