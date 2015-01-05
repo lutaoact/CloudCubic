@@ -91,7 +91,7 @@ exports.create = (req, res, next)->
 exports.show = (req, res, next) ->
   orderId = req.params.id
   if req.user.role == 'admin'
-    conditions = {_id: orderId}
+    conditions = {_id: orderId, orgId: req.org._id}
   else
     conditions = {_id: orderId, userId: req.user._id}
 
