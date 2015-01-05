@@ -22,7 +22,7 @@ class WrapRequest
   populateDoc: (mongoDoc, options = []) ->
     for option in options
       mongoDoc = mongoDoc.populate option
-      
+
     mongoDoc.populateQ()
 
 

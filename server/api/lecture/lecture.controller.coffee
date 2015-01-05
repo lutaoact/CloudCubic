@@ -49,6 +49,8 @@ exports.show = (req, res, next) ->
 
     LectureUtils.checkAuthForLecture req.user, lecture
   .then (lecture) ->
+    WrapRequest.populateDoc lecture, Lecture.populates?.show
+  .then (lecture) ->
     res.send lecture
   .catch next
   .done()
