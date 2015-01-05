@@ -15,9 +15,6 @@ angular.module('budweiserApp')
     eidtingInfo: null
 
     reloadStudents: (users, remove) ->
-      if _.isEmpty($scope.selectedClasse._id) || remove == 1
-        $rootScope.$broadcast 'reloadStandAloneStudents'
-
       $scope.selectedClasse?.all?('students').getList()
       .then (students) ->
         $scope.selectedClasse.students = _.pluck students, '_id'

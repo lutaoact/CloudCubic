@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       label: '教师管理'
     ,
       stateName:'admin.classeManager'
-      className: 'fa fa-group'
+      className: 'budon budon-course-classe'
       label: '开班设置'
     ,
       stateName:'admin.categoryManager'
@@ -23,6 +23,6 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       label: '专业课程'
     ,
       stateName:'admin.orderManager'
-      className: 'budon budon-category'
+      className: 'budon budon-pay'
       label: '订单管理'
     ]
