@@ -38,13 +38,18 @@ alipay
 
 
 exports.index = (req, res, next)->
-  conditions = userId: req.user._id
+  if req.user.role == 'admin'
+    conditions = orgId: req.org._id
+  else
+    conditions = userId: req.user._id
   conditions.status = req.query.status if req.query.status
 
   limit = req.query.limit ? Const.PageSize['Order']
   from = req.query.from ? 0
 
   ordersPromise = Order.find conditions
+  ordersPromise = ordersPromise.populate "userId", "name email" if req.user.role == 'admin'
+  ordersPromise = ordersPromise
   .sort {created: -1}
   .limit limit
   .skip from
@@ -69,6 +74,7 @@ exports.create = (req, res, next)->
   body = req.body
   body.userId = req.user._id
   body.status = 'unpaid'
+  body.orgId = req.org._id
 
   Q.all _.map body.classes, (classe)->
     Classe.getOneById classe
@@ -144,6 +150,7 @@ exports.delete = (req, res, next)->
     res.send 204
   .fail next
   .done()
+
 
 exports.count = (req, res, next)->
   userId = req.user._id

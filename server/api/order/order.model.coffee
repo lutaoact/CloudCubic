@@ -20,6 +20,10 @@ exports.Order = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: 'user'
         required : true
+      orgId:
+        type: Schema.Types.ObjectId
+        ref: 'organization'
+        required: true
       classes: [
         type: Schema.Types.ObjectId
         ref: 'classe'
