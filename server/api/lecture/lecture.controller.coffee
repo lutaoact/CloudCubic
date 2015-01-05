@@ -70,10 +70,7 @@ exports.create = (req, res, next) ->
     Classe.find
       courseId: courseId
   .then (classes) ->
-    if classes?.length
-      Classe.getAllStudents _.pluck(classes, '_id')
-    else
-      []
+    Classe.getAllStudents _.pluck(classes, '_id')
   .then (studentIds) ->
     NoticeUtils.addLectureNotices studentIds, tmpResult.lecture._id
 #  .then (notices) ->
