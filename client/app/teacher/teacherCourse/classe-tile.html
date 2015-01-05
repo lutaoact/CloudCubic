@@ -6,9 +6,9 @@
       <li><a href ng-click="deleteClasse(classe)">删除</a></li>
     </ul>
   </span>
-  <a class="classe-course" ng-if="plus" href ui-sref="courseDetail({courseId:classe.courseId._id})">{{classe.courseId.name}}</a>
   <a class="classe-title" href ng-click="viewClasse(classe)">{{classe.name}}</a>
   <div class="divider" ng-if="plus"></div>
+  <a class="classe-course" ng-if="plus" href ui-sref="courseDetail({courseId:classe.courseId._id})">{{classe.courseId.name}}</a>
   <div class="text-muted teachers">
     <span ng-if="!classe.teachers.length">未设置授课教师</span>
     <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
