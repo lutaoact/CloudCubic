@@ -63,8 +63,8 @@
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
-        <li ng-if="Auth.hasRole('student') && !Auth.hasRole('admin')" ng-class="{active: isActive('main-home')}">
-          <a href ui-sref='main-home'>个人主页</a>
+        <li ng-if="Auth.hasRole('student') && !Auth.hasRole('admin')" ng-class="{active: isActive('home')}">
+          <a href ui-sref='home'>个人主页</a>
         </li>
         <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin.home')}">
           <a class="text-center" ui-sref="admin.home">机构管理</a>

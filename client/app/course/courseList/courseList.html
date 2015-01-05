@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12 header">
           <h4 class="title">
-            <a href ng-click="search.categoryId = null">所有课程分类</a>
+            <a href ng-click="search.categoryId=null; reload()">所有课程分类</a>
           </h4>
         </div>
       </div>
@@ -15,6 +15,7 @@
             <label class="btn btn-toggle"
                    ng-repeat="category in categories"
                    ng-model="search.categoryId"
+                   ng-change="reload(1)"
                    uncheckable
                    btn-radio="category._id">{{category.name}}</label>
           </div>
@@ -43,6 +44,7 @@
         items-per-page="pageConf.itemsPerPage"
         class="pagination-sm bud"
         boundary-links="true"
+        ng-change="reload($event)"
         rotate="false"
         max-size="pageConf.maxSize">
       </pagination>

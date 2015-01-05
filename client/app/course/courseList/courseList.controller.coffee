@@ -19,6 +19,10 @@ angular.module('budweiserApp')
       currentPage  : $state.params.page ? 1
       itemsPerPage : 8
 
+    reload: (resetPage) ->
+      $scope.pageConf.currentPage = 1 if resetPage?
+      $state.go('courseList', {category:$scope.search.categoryId, page:$scope.pageConf.currentPage})
+
   Restangular
   .all('categories')
   .getList()
@@ -40,6 +44,3 @@ angular.module('budweiserApp')
       .getList courseId: course._id
       .then (classes)->
         course.$classes = classes
-
-  $scope.$watchCollection '[search.categoryId, pageConf.currentPage]', (newVal)->
-    $state.go('courseList', {category:newVal[0], page:newVal[1]})

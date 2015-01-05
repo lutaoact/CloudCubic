@@ -17,26 +17,27 @@ CourseUtils = _u.getUtils 'course'
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
-  
+
   conditions = orgId : req.org?._id
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
   conditions.isPublished = true
   options = limit: req.query.limit, from: req.query.from
-    
+
   WrapRequest.wrapPageIndex req, res, next, conditions, options
+
 
 exports.myCourses = (req, res, next) ->
   conditions = orgId: req.org?._id
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
-  conditions.deleteFlag = {$ne: true} 
-  
+  conditions.deleteFlag = {$ne: true}
+
   user = req.user
   userId = user.id
-  
+
   switch user.role
     when 'admin'
       WrapRequest.wrapIndex req, res, next, conditions
-      
+
     when 'student'
       Classe.findQ students: userId
       .then (classes) ->
@@ -45,30 +46,27 @@ exports.myCourses = (req, res, next) ->
         WrapRequest.wrapIndex req, res, next, conditions
 
     when 'teacher'
-      asOwner = Course.find 
-                  orgId : conditions.orgId
-                  deleteFlag : {$ne: true} 
-                  owners : userId
-                .populate Course.populates.index
-                .execQ()
-      
-      asTeacher = Classe.findQ teachers : userId
+      Classe.findQ teachers : userId
       .then (classes) ->
         courseIds = _.pluck classes, 'courseId'
-        conditions._id = $in: courseIds
+        conditions.$or = [
+          _id: $in: courseIds
+        ,
+          owners: userId
+        ]
+
         Course.find conditions
         .populate Course.populates.index
         .execQ()
-      
-      Q.all [asOwner, asTeacher]
       .then (courses) ->
-        res.send _.flatten courses
+        res.send courses
       .catch next
       .done()
-        
+
     else
       logger.error "Unknown user role: #{user.role}"
-  
+      res.send 404
+
 
 # TODO @lutao
 # orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
@@ -90,11 +88,11 @@ exports.create = (req, res, next) ->
   .catch next
   .done()
 
-  
+
 
 pickedUpdatedKeys = omit: ['_id', 'orgId', 'isPublished', 'deleteFlag']
 exports.update = (req, res, next) ->
-  
+
   CourseUtils.buildWriteConditions req
   .then (conditions) ->
     WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys

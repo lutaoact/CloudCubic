@@ -76,6 +76,10 @@ angular.module('budweiserApp')
 
     setKeyword: ($event) ->
       if $event.keyCode isnt 13 then return
+      $scope.pageConf.currentPage = 1
+      $scope.reload()
+
+    reload: ->
       $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:$scope.pageConf.currentPage})
 
   reloadStandAloneStudents = ->
@@ -103,6 +107,3 @@ angular.module('budweiserApp')
   )
   .then (classes) ->
     $scope.classes = classes
-
-  $scope.$watch 'pageConf.currentPage', (newPage) ->
-    $state.go('admin.classeManager', {keyword:$scope.search.keyword, page:newPage})

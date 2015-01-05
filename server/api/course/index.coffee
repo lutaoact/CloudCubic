@@ -6,8 +6,8 @@ auth = require("../../auth/auth.service")
 router = express.Router()
 
 # course
-router.get "/", auth.verifyTokenCookie(), controller.index
-router.get "/me", auth.verifyTokenCookie(), controller.myCourses
+router.get "/", controller.index
+router.get "/me", auth.isAuthenticated(), controller.myCourses
 router.get "/:id", controller.show
 router.post "/", auth.hasRole("teacher"), controller.create
 router.put "/:id", auth.hasRole("teacher"), controller.update
