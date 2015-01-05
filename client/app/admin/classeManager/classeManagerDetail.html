@@ -1,13 +1,9 @@
 <div ng-show="selectedClasse"
      class="list-group form col-md-12 item-detail-group">
   <div class="list-group-item" id="item-name">
-    <a class="form-control"
-       href
-       tooltip="点击即可编辑"
-       ng-click="editClasse()">
+    <span class="form-control">
       {{selectedClasse.name}}
-      <i class="pull-right glyphicon glyphicon-pencil"></i>
-    </a>
+    </span>
   </div>
 
   <div ui-view

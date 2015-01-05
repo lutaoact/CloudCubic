@@ -28,6 +28,7 @@
       ng-model="pageConf.currentPage"
       items-per-page="pageConf.itemsPerPage"
       class="pagination-sm bud"
+      ng-change="reload()"
       boundary-links="true"
       rotate="false"
       max-size="pageConf.maxSize">

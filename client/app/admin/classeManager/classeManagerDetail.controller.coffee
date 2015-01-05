@@ -7,27 +7,12 @@ angular.module('budweiserApp')
   $state
   notify
   $modal
-  Courses
   $rootScope
 ) ->
 
   angular.extend $scope,
 
     eidtingInfo: null
-
-    editClasse: ->
-      console.log 'editClasse', $scope.selectedClasse
-      $modal.open
-        templateUrl: 'app/admin/classeManager/editClasseModal.html'
-        controller: 'EditClasseModalCtrl'
-        resolve:
-          Courses: -> Courses
-          Classe: -> angular.copy($scope.selectedClasse)
-      .result.then (classe) ->
-        angular.extend $scope.selectedClasse, classe
-        notify
-          message: '开课班级信息修改成功'
-          classes: 'alert-success'
 
     reloadStudents: (users, remove) ->
       if _.isEmpty($scope.selectedClasse._id) || remove == 1
