@@ -17,6 +17,8 @@ angular.module('budweiserApp')
 
     selectedClasse: null
 
+    courses: Restangular.all('courses').getList()
+
     search:
       keyword: $state.params.keyword
 
@@ -32,8 +34,7 @@ angular.module('budweiserApp')
         windowClass: 'edit-classe-modal'
         resolve:
           # FIXME course 分页？
-          Courses: ->
-            Restangular.all('courses').getList()
+          Courses: -> $scope.courses
           Teachers: ->
             Restangular.all('users').getList(role: 'teacher')
           Classe: ->

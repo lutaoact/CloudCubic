@@ -21,5 +21,5 @@ class NoticeUtils
   addLectureNotices: (userIds, lectureId) ->
     data = {lectureId : lectureId}
     @addNotice(userId, null, Const.NoticeType.Lecture, data) for userId in userIds
-      
+
 exports.NoticeUtils = NoticeUtils

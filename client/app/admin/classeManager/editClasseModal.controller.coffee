@@ -48,6 +48,3 @@ angular.module('budweiserApp')
         notify
           message: '编辑开课班级信息失败'
           classes: 'alert-danger'
-
-  if $scope.classe.$course
-    $scope.classe.courseId = $scope.classe.$course._id

@@ -58,10 +58,13 @@ exports.show = (req, res, next) ->
 exports.create = (req, res, next) ->
   courseId = req.query.courseId
   tmpResult = {}
+  data = req.body
+  delete data._id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
     tmpResult.course = course
-    Lecture.createQ req.body
+    data.courseId = course._id
+    Lecture.createQ data
   .then (lecture) ->
     tmpResult.lecture = lecture
     tmpResult.course.lectureAssembly.push lecture._id

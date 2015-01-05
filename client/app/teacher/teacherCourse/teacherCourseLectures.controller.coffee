@@ -85,14 +85,14 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         controller: 'EditClasseModalCtrl'
         windowClass: 'edit-classe-modal'
         resolve:
-          Courses: -> [$scope.course]
+          Courses: -> null
           Teachers: -> Restangular.all('users').getList(role:'teacher')
           Classe: ->
             name: ''
             price: 0
             enrollment: {}
             duration: {}
-            $course: $scope.course
+            courseId: $scope.course._id
       .result.then (newClasse) ->
         $scope.classes.push newClasse
 

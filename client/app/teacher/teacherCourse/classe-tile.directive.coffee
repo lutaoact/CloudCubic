@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
   replace: true
   scope:
     classe: '='
+    courses: '='
     plus: '@'
 
   controller: ($scope, $state, Auth, $modal, Restangular)->
@@ -18,8 +19,11 @@ angular.module('budweiserApp').directive 'classeTile', ()->
           controller: 'EditClasseModalCtrl'
           windowClass: 'edit-classe-modal'
           resolve:
-            Courses: -> [$scope.classe.courseId]
-            Classe: -> angular.copy(classe)
+            Courses: -> $scope.courses
+            Classe: ->
+              editingClasse = angular.copy(classe)
+              editingClasse.courseId = editingClasse.courseId._id ? editingClasse.courseId
+              editingClasse
             Teachers: -> Restangular.all('users').getList(role:'teacher')
         .result.then (newClasse) ->
           angular.extend classe, newClasse
@@ -35,9 +39,10 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         $modal.open
           templateUrl: 'components/modal/messageModal.html'
           controller: 'MessageModalCtrl'
+          size: 'sm'
           resolve:
-            title: -> '删除讨论组'
-            message: -> "确认要删除《#{classe.name}》？"
+            title: -> '删除班级'
+            message: -> "确认要删除 #{classe.name}？"
         .result.then ->
           console.log classe
           classe.remove()

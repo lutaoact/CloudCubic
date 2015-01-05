@@ -1,5 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
+    <i class="budon budon-course-classe"></i>
     <span ng-if="!classe._id">创建新班级</span>
     <span ng-if="classe._id">编辑班级</span>
     <a class="close" ng-click="cancel()">&times;</a>
@@ -21,8 +22,7 @@
       <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
     </div>
   </div>
-
-  <div class="form-group" ng-if="!classe.$course">
+  <div class="form-group" ng-if="courses.length">
     <span class="control-label col-sm-3">课程名</span>
     <div class="col-sm-8">
       <select
@@ -123,7 +123,8 @@
           <div class="label label-default"
                style="font-size: 1em; line-height:2em; margin-right:.2em">
             {{teacher.name}}
-            <a ng-click="removeTeacher($index)" class="close" style="float: none">&times;</a>
+            <a ng-click="removeTeacher($index)"
+               class="close">&times;</a>
           </div>
         </span>
       </div>
