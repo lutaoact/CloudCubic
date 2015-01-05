@@ -52,7 +52,6 @@ exports.Lecture = BaseModel.subclass
       courseId:
         type: ObjectId
         ref: 'course'
-        required: true
       isFreeTry:
         type: Boolean
         default: false
