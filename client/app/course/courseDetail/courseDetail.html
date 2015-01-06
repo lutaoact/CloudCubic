@@ -99,19 +99,15 @@
 
     <div class="bud list-group lecture-list">
       <div class="list-group-header">
-        <span class="course-label">课程信息</span>
         <div class="btn-group">
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
-                 uncheckable
-                 btn-radio="'lecture'">课时列表</label>
-          <label class="btn btn-toggle"
-                 ng-model="courseTab.type"
-                 uncheckable
                  btn-radio="'desc'">课程简介</label>
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
-                 uncheckable
+                 btn-radio="'lecture'">课时列表</label>
+          <label class="btn btn-toggle"
+                 ng-model="courseTab.type"
                  btn-radio="'comments'">评论({{course.commentsNum||0}})</label>
         </div>
       </div>
