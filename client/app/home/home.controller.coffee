@@ -47,8 +47,21 @@ angular.module('budweiserApp')
       else
         $scope.myCourses
 
-  generateCategories = ->
+  generateCategoriesFromMyCouses = ->
     $q.all(_.uniq(_.pluck(_.pluck($scope.myCourses, 'categoryId').filter((x)-> x?),'_id')).map (id)->
+      if id
+        Category.find(id)
+      else
+        null
+    )
+    .then (categories)->
+      categories = categories.filter (category)->
+        category?
+      $scope.myCategories = [{name:'全部'}].concat(categories)
+      $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
+
+  generateCategoriesFromMyClasses = ->
+    $q.all(_.uniq(_.pluck(_.pluck(_.pluck($scope.myClasses, 'courseId'),'categoryId').filter((x)-> x?),'_id')).map (id)->
       if id
         Category.find(id)
       else
@@ -67,10 +80,12 @@ angular.module('budweiserApp')
     .then (classes) ->
       console.log 'myClasses', classes
       $scope.myClasses = classes
+      generateCategoriesFromMyClasses()
   else
     Restangular
     .all('courses/me')
     .getList()
     .then (courses) ->
       $scope.myCourses = courses
-      generateCategories()
+      # teacher do not need filters
+      # generateCategoriesFromMyCouses()
