@@ -14,7 +14,6 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   if !$state.params.classeId
     Restangular.all('classes').getList(courseId: $state.params.courseId)
     .then (classes)->
-      console.log classes
       if classes?.length
         $state.go 'courseDetail', {courseId: $state.params.courseId,classeId: classes[0]._id}
       else
@@ -91,4 +90,6 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   Restangular.one('classes',$state.params.classeId).get()
   .then (classe)->
     $scope.classe = classe
+  , (err)->
+    console.log err
 

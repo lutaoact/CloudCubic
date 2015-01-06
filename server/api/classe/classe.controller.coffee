@@ -38,7 +38,7 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  conditions = _id: req.params.id, orgId: req.user.orgId
+  conditions = _id: req.params.id, orgId: req.org?._id
   WrapRequest.wrapShow req, res, next, conditions
 
 
