@@ -68,23 +68,21 @@ exports.Course = BaseModel.subclass
     $super()
 
   getById: (courseId) ->
-    return @findByIdQ courseId
-      .then (course) ->
-        unless course
-          return Q.reject
-            status: 404
-            errCode: ErrCode.NoCourse
-            errMsg: '没有找到该课程'
+    @findByIdQ courseId
+    .then (course) ->
+      return course if course?
+      return Q.reject
+        status: 404
+        errCode: ErrCode.NoCourse
+        errMsg: '没有找到该课程'
 
-        return course
+      course
 
   getByLectureId: (lectureId) ->
-    return @findOneQ lectureAssembly: lectureId
-      .then (course) ->
-        unless course
-          return Q.reject
-            status: 404
-            errCode: ErrCode.NoCourse
-            errMsg: '没有找到该课程'
-
-        return course
+    @findOneQ lectureAssembly: lectureId
+    .then (course) ->
+      return course if course?
+      return Q.reject
+        status: 404
+        errCode: ErrCode.NoCourse
+        errMsg: '没有找到该课程'

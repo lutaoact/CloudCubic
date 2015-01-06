@@ -10,23 +10,29 @@ User        = _u.getModel 'user'
 class StatsUtils extends BaseUtils
   classname: 'StatsUtils'
 
-  makeKPStatsForUser: (user, courseId) ->
+  makeKPStatsForUser: (user, courseId, classeId) ->
     tmpResult = {}
-    CourseUtils.getStudentsNum user, courseId
-    .then (studentsNum) ->
-      tmpResult.studentsNum = studentsNum
-      CourseUtils.getAuthedCourseById user, courseId
+    CourseUtils.getAuthedCourseById user, courseId
     .then (course) ->
       course.populateQ 'lectureAssembly', 'name quizzes homeworks'
-    .then (course) =>
+    .then (course) ->
       tmpResult.course = course
-      promiseArray = for lecture in course.lectureAssembly
-        @makeKPStatsForSpecifiedLecture lecture, user
+      CourseUtils.getStudentIds user, courseId, classeId
+    .then (studentIds) =>
+      tmpResult.studentIds = studentIds
+
+      unless studentIds.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoStudentsHere
+          errMsg: '指定的班级或课程中不包含学生，无法进行统计'
+
+      promiseArray = for lecture in tmpResult.course.lectureAssembly
+        @makeKPStatsForSpecifiedLecture lecture, user, studentIds
 
       Q.all promiseArray
     .then (statsArray) =>
-      finalKPStats = @buildFinalKPStats tmpResult.studentsNum, statsArray
-      #logger.info JSON.stringify finalKPStats, null, 4
+      finalKPStats = @buildFinalKPStats tmpResult.studentIds.length, statsArray
       return finalKPStats
 
 
@@ -65,7 +71,7 @@ class StatsUtils extends BaseUtils
   computePercent: (studentsNum, stat) ->
     return stat.correctNum * 100 // (studentsNum * stat.total)
 
-  makeKPStatsForSpecifiedLecture: (lecture, user) ->
+  makeKPStatsForSpecifiedLecture: (lecture, user, studentIds) ->
     questionIds = _u.union lecture.quizzes, lecture.homeworks
     lectureId = lecture.id
 
@@ -80,25 +86,23 @@ class StatsUtils extends BaseUtils
       tmpResult.questions = questions
       return @buildQKAsByQuestions questions
     .then (myQKAs) =>
-#      tmpResult.myQKAs = myQKAs
-#      tmpResult.myKPsCount = @getKPsCountFromQKAs myQKAs
       tmpResult.myQKAMap = _.indexBy myQKAs, 'questionId'
 
       resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
     .then () ->
-      condition = lectureId: lectureId
-      condition.userId = user._id if user.role is 'student'
+      conditions =
+        lectureId: lectureId
+        userId: $in: studentIds
 
-      HomeworkAnswer.findQ condition
+      HomeworkAnswer.findQ conditions
     .then (homeworkAnswers) ->
       tmpResult.homeworkAnswers = homeworkAnswers
-      condition =
-        questionId:
-          $in: questionIds
-        lectureId: lectureId
-      condition.userId = user._id if user.role is 'student'
+      conditions =
+        questionId: $in: questionIds
+        lectureId: lecture._id
+        userId: $in: studentIds
 
-      QuizAnswer.findQ condition
+      QuizAnswer.findQ conditions
     .then (quizAnswers) =>
       tmpResult.quizAnswers = quizAnswers
 
@@ -220,7 +224,7 @@ class StatsUtils extends BaseUtils
     this.getQuestionStats answersPromise, questionId
 
 
-  makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
+  makeQuizStatsPromiseForSpecifiedLecture: (lecture, user, studentIds) ->
     questionIds = lecture.quizzes
 
     resolveResult =
@@ -236,13 +240,12 @@ class StatsUtils extends BaseUtils
 #      logger.info "myQAMap"
 #      logger.info myQAMap
       tmpResult.myQAMap = myQAMap
-      condition =
-        questionId:
-          $in: questionIds
+      conditions =
+        questionId: $in: questionIds
         lectureId: lecture._id
-      condition.userId = user._id if user.role is 'student'
+        userId: $in: studentIds
 
-      QuizAnswer.findQ condition
+      QuizAnswer.findQ conditions
     .then (quizAnswers) =>
 #      logger.info "quizAnswers:"
 #      logger.info quizAnswers
@@ -254,26 +257,30 @@ class StatsUtils extends BaseUtils
       return resolveResult
 
 
-  makeQuizStatsPromiseForUser: (user, courseId) ->
+  makeQuizStatsPromiseForUser: (user, courseId, classeId) ->
     tmpResult = {}
-
-    CourseUtils.getStudentsNum user, courseId
-    .then (studentsNum) ->
-      tmpResult.studentsNum = studentsNum
-      CourseUtils.getAuthedCourseById user, courseId
+    CourseUtils.getAuthedCourseById user, courseId
     .then (course) ->
       course.populateQ 'lectureAssembly', 'name quizzes'
-    .then (course) =>
-      promiseArray = for lecture in course.lectureAssembly
-        @makeQuizStatsPromiseForSpecifiedLecture lecture, user
+    .then (course) ->
+      tmpResult.course = course
+      CourseUtils.getStudentIds user, courseId, classeId
+    .then (studentIds) =>
+      tmpResult.studentIds = studentIds
+
+      unless studentIds.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoStudentsHere
+          errMsg: '指定的班级或课程中不包含学生，无法进行统计'
+
+      promiseArray = for lecture in tmpResult.course.lectureAssembly
+        @makeQuizStatsPromiseForSpecifiedLecture lecture, user, studentIds
 
       Q.all promiseArray
     .then (statsArray) =>
-#      logger.info statsArray
-#      logger.info _.indexBy(statsArray, 'lectureId')
-
       @computeFinalStats(
-        tmpResult.studentsNum
+        tmpResult.studentIds.length
         _.indexBy statsArray, 'lectureId'
       )
 
@@ -377,7 +384,7 @@ class StatsUtils extends BaseUtils
 
           tmpResult.queryUser = queryUser
         .then () ->
-          CourseUtils.getAuthedCourseById user, courseId
+          CourseUtils.getAuthedCourseById user, courseId #这里只需要检查user拥有相关权限就可以了，queryUser自会在统计的时候检查
         .then (course) ->
           return tmpResult.queryUser
       else
