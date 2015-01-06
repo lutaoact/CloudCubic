@@ -29,6 +29,11 @@ angular.module('budweiserApp')
       Restangular.one('orders', $scope.search.orderId).get()
       .then (order) ->
         $scope.orders = [order]
+      .catch (err) ->
+        $scope.orders = []
+        notify
+          message:'订单号不存在'
+          classes:'alert-danger'
 
   $scope.$watchCollection '[search.status, currentPage]', ->
     Restangular.all('orders').getList(
