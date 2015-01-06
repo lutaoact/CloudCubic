@@ -24,6 +24,6 @@ angular.module('budweiserApp')
   $scope.$watch 'search.categoryId', (categoryId) ->
     Restangular
     .all('classes')
-    .getList(limit:4, categoryIds:categoryId)
+    .getList(limit:4, categoryId:categoryId)
     .then (classes) ->
       $scope.allClasses = classes

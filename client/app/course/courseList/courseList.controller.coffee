@@ -32,9 +32,9 @@ angular.module('budweiserApp')
   Restangular
   .all('classes')
   .getList(
-    from        : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
-    limit       : $scope.pageConf.itemsPerPage
-    categoryIds : $scope.search.categoryId
+    from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+    limit      : $scope.pageConf.itemsPerPage
+    categoryId : $scope.search.categoryId
   )
   .then (classes) ->
     console.log 'all classes', classes

@@ -12,6 +12,7 @@
 "use strict"
 
 Classe = _u.getModel "classe"
+Course = _u.getModel "course"
 WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
 exports.index = (req, res, next) ->
