@@ -15,7 +15,11 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
         link: 'settings/profile'
       }
       {
-        title: '消息'
+        title: '公告信息'
+        link: 'settings/broadcast'
+      }
+      {
+        title: '我的消息'
         link: 'settings/notice'
       }
     ]

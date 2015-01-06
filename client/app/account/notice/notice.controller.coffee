@@ -11,10 +11,8 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
 
   angular.extend $scope,
     itemsPerPage: 5
-    currentBroadcastPage: 1
     currentMessagePage: 1
     maxSize: 4
-    broadcasts: undefined
 
     messages: []
 
@@ -35,6 +33,3 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
     notices.forEach (notice)->
       $scope.messages.splice 0, 0, Msg.genMessage(notice)
 
-  Restangular.all('broadcasts').getList()
-  .then (broadcasts)->
-    $scope.broadcasts = broadcasts
