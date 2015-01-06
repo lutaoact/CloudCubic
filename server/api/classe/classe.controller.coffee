@@ -19,11 +19,8 @@ exports.index = (req, res, next) ->
   conditions.courseId = req.query.courseId if req.query.courseId
   conditions.students = req.query.studentId if req.query.studentId
   if req.query.keyword
-    keyword = req.query.keyword
-    regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
-    conditions.$or = [
-      'name': regex
-    ]
+    keyword = req.query.keyword?.replace(/[{}()^$|.\[\]*?+]/g, '\\$&')
+    conditions.name = new RegExp(keyword, 'i')
 
   options = limit: req.query.limit, from: req.query.from
 
