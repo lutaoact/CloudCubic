@@ -1,3 +1,20 @@
+<div class="container">
+  <ul class="breadcrumb">
+    <li>
+      <a href="" ui-sref="home">
+        个人主页
+      </a>
+    </li>
+    <li>
+      <a href="" ui-sref="teacher.course({courseId: course._id})">
+        {{course.name||'未知课程'}}
+      </a>
+    </li>
+    <li>
+        {{lecture.name||'未知课时'}}
+    </li>
+  </ul>
+</div>
 <div class="teacher-lecture">
   <div class="quick-link"
        ng-if="$state.includes('teacher.lecture.questionLibrary') ||

@@ -56,13 +56,6 @@
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed">
       <ul class="bud nav navbar-nav navbar-right">
-        <li ng-if="getTitle()"
-            class="nav-title"
-            ng-class="{active: isActive(getTitle().link)}">
-          <a ui-sref="{{getTitle().link}}"
-             tooltip-placement="bottom"
-             tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
-        </li>
         <li ng-if="Auth.hasRole('student') && !Auth.hasRole('admin')" ng-class="{active: isActive('home')}">
           <a href ui-sref='home'>个人主页</a>
         </li>
