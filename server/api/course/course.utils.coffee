@@ -89,15 +89,36 @@ class CourseUtils extends BaseUtils
       .populate 'owners', '_id name avatar'
       .execQ()
 
-  getStudentsNum: (user, courseId) ->
-    if user.role is 'student'
-      return Q(1)
+  getStudentsNum: (user, courseId, classeId) ->
+    @getStudentIds.apply @, arguments
+    .then (studentIds) ->
+      unless studentIds.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoStudentsHere
+          errMsg: '所选的班级没有学生'
 
-    @getAuthedCourseById user, courseId
-    .then (course) ->
-      Classe.findQ courseId: courseId
+      return studentIds.length
+
+
+  #获取参与指定课程的所有学生的id列表，若指定了班级，则只需要计算该班级即可
+  getStudentIds: (user, courseId, classeId) ->
+    if user.role is 'student'
+      return Q([user._id])
+
+    conditions = courseId: courseId
+    conditions._id = classeId if classeId #如果提供了classeId，则只查找指定班级
+
+    Classe.findQ conditions
     .then (classes) ->
-      return (_u.union.apply _u, (_.pluck classes, 'students')).length
+      unless classes?.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoClassesHere
+          errMsg: "没有找到相应班级 classeId: #{classeId}, courseId: #{courseId}"
+
+      return _u.union.apply _u, (_.pluck classes, 'students')
+
 
   # For update operations, such as update/destroy/publish, user has to be
   # either course owner or course's associated classes teacher
