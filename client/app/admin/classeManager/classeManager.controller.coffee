@@ -6,14 +6,17 @@ angular.module('budweiserApp')
   $state
   $scope
   $modal
+  Category
   Restangular
 ) ->
 
   angular.extend $scope,
     classes: null
     courses: Restangular.all('courses').getList()
+    categories: Category.find().$object
     search:
       keyword: $state.params.keyword
+      category: $state.params.category
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
@@ -36,23 +39,26 @@ angular.module('budweiserApp')
       .result.then (newClasse) ->
         $scope.classes.splice 0, 0, newClasse
 
-    setKeyword: ($event) ->
-      if $event.keyCode isnt 13 then return
+    setKeyword: ->
       $scope.pageConf.currentPage = 1
       $scope.reload()
 
-    reload: ->
+    reload: (refreshPage) ->
+      $scope.pageConf.currentPage = 1 if refreshPage
       $state.go('admin.classeManager', {
-        keyword:$scope.search.keyword
-        page:$scope.pageConf.currentPage
+        category :$scope.search.category
+        keyword  :$scope.search.keyword
+        page     :$scope.pageConf.currentPage
       })
 
   Restangular
   .all('classes')
   .getList(
-    from    : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
-    limit   : $scope.pageConf.itemsPerPage
-    keyword : $scope.search.keyword
+    from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+    limit      : $scope.pageConf.itemsPerPage
+    keyword    : $scope.search.keyword
+    categoryId : $scope.search.category
   )
   .then (classes) ->
+    console.log 'load classes: ', classes
     $scope.classes = classes

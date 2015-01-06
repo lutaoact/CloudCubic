@@ -8,16 +8,28 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   Category
   $rootScope
   Restangular
+  notify
 ) ->
+
+  if !$state.params.classeId
+    Restangular.all('classes').getList(courseId: $state.params.courseId)
+    .then (classes)->
+      if classes?.length
+        $state.go 'courseDetail', {courseId: $state.params.courseId,classeId: classes[0]._id}
+      else
+        $state.go 'home'
+        notify
+          message:'该班级不存在'
+          classes: 'alert-warning'
+    return
 
   angular.extend $scope,
     Auth: Auth
     itemsPerPage: 10
     currentPage: 1
-    selectedClasse: null
     course: null
     courseTab:
-      type: 'lecture'
+      type: 'desc'
 
     loadProgress: ->
       $scope.viewedLectureIndex = 1
@@ -74,8 +86,10 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
     $scope.course = course
     $scope.loadProgress()
 
-  # 获取该课程的已开班级信息
-  Restangular.all('classes').getList(courseId: $state.params.courseId)
-  .then (classes)->
-    $scope.classes = classes
-    $scope.selectedClasse = classes[0]
+  # 获取班级信息
+  Restangular.one('classes',$state.params.classeId).get()
+  .then (classe)->
+    $scope.classe = classe
+  , (err)->
+    console.log err
+

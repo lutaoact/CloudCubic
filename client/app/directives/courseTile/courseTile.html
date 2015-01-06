@@ -8,13 +8,13 @@
     <div class="clearfix owner">
       <div class="avatar-xs pull-left"
            source-attr="background-image"
-           src-key="course.owners[0].avatar"
+           src-key="classe.teachers[0].avatar"
            suffix="?imageView2/1/w/64/h/64">
       </div>
-      <span class="name text-muted small">{{course.owners[0].name}}</span>
+      <span class="name text-muted small">{{classe.teachers[0].name}}</span>
     </div>
     <h5 class="course-name">
-      {{course.name}}<br>
+      {{classe.name || course.name}}<br>
     </h5>
     <hr>
     <div class="lecture-info text-muted small" ng-if="!Auth.hasRole('teacher')">

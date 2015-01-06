@@ -12,7 +12,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     categories: null
-    allCourses: null
+    allClasses: null
     search: {}
 
   Restangular
@@ -23,16 +23,7 @@ angular.module('budweiserApp')
 
   $scope.$watch 'search.categoryId', (categoryId) ->
     Restangular
-    .all('courses')
-    .getList(limit:4, categoryIds:categoryId)
-    .then (result) ->
-      classeQs = result.map (course) ->
-        Restangular
-        .all('classes')
-        .getList courseId: course._id
-        .then (classes)->
-          course.$classes = classes
-          course
-      $q.all(classeQs)
-    .then (result)->
-      $scope.allCourses = result
+    .all('classes')
+    .getList(limit:4, categoryId:categoryId)
+    .then (classes) ->
+      $scope.allClasses = classes

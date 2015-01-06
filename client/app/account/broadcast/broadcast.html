@@ -1,0 +1,35 @@
+<div>
+  <ul class="list-group">
+    <li class="list-group-item broadcast"
+      id="{{broadcast._id}}"
+      ng-click="changeViewState(broadcast, mousedownTimeStamp, $event)"
+      ng-mousedown="mousedownTimeStamp = $event.timeStamp"
+      ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
+      ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
+      <div class="clearfix">
+        <h5 class="base-color pull-left">
+          {{broadcast.title}}
+          <br>
+          <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
+        </h5>
+      </div>
+      <div class="broadcast-content" compile-html="broadcast.content">
+      </div>
+    </li>
+  </ul>
+  <pagination
+    ng-hide="broadcasts.length <= itemsPerPage"
+    total-items="broadcasts.length"
+    ng-model="currentBroadcastPage"
+    items-per-page="itemsPerPage"
+    class="pagination-sm bud"
+    boundary-links="true"
+    rotate="false"
+    max-size="maxSize"
+    previous-text="&lsaquo;"
+    next-text="&rsaquo;"
+    first-text="&laquo;"
+    last-text="&raquo;"
+    num-pages="numPages">
+  </pagination>
+</div>

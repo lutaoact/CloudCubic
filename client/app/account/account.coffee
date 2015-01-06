@@ -43,3 +43,9 @@ angular.module('budweiserApp')
     templateUrl: 'app/account/notice/notice.html'
     controller: 'NoticeCtrl'
     roleRequired: 'user'
+
+  .state 'settings.broadcast',
+    url: '/broadcast'
+    templateUrl: 'app/account/broadcast/broadcast.html'
+    controller: 'BroadcastCtrl'
+    roleRequired: 'user'

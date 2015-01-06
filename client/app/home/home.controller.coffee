@@ -12,6 +12,41 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
+  isClasseData = -> Auth.getCurrentUser().role is 'student'
+
+  angular.extend $scope,
+    Auth: Auth
+    myCourses: null
+    myClasses: null
+    itemsPerPage: 6
+    currentMyCoursesPage: 1
+    maxSize: 3
+    viewState:
+      myCoursesFilters:
+        category: null
+
+    createNewCourse: ->
+      $modal.open
+        templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
+        controller: 'TeacherNewCourseCtrl'
+        size: 'lg'
+        resolve:
+          categories: -> Category.find()
+      .result.then (newCourse) ->
+        $scope.myCourses.push newCourse
+
+    getCourse: (data) ->
+      if isClasseData() then data.courseId else data
+
+    getClasse: (data) ->
+      if isClasseData() then data else null
+
+    getListData: ->
+      if isClasseData()
+        $scope.myClasses
+      else
+        $scope.myCourses
+
   generateCategories = ->
     $q.all(_.uniq(_.pluck(_.pluck($scope.myCourses, 'categoryId').filter((x)-> x?),'_id')).map (id)->
       if id
@@ -25,51 +60,17 @@ angular.module('budweiserApp')
       $scope.myCategories = [{name:'全部'}].concat(categories)
       $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
 
-  angular.extend $scope,
-    Auth: Auth
-    myCourses: null
-    allCourses: null
-    categories: null
-    itemsPerPage: 6
-    currentMyCoursesPage: 1
-    maxSize: 3
-    myInterval: 5000
-    banners: [
-      {
-        image:'http://public-cloud3edu-com.qiniudn.com/cdn/images/banners/1/classroom.jpg'
-        text: '学之方帮你打造云课堂'
-      }
-    ]
-    viewState:
-      myCoursesFilters:
-        category: null
-
-    createNewCourse: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
-        controller: 'TeacherNewCourseCtrl'
-        size: 'lg'
-        resolve:
-          categories: -> $scope.categories
-      .result.then (newCourse) ->
-        $scope.myCourses.push newCourse
-
-    addSchedule: ($event)->
-      $event.stopPropagation()
-
-    loadMyCourses: ->
-      Restangular
-      .all('courses/me')
-      .getList()
-      .then (courses) ->
-        $scope.myCourses = courses
-        generateCategories()
-
-  loadCategories = ->
-    Category
-    .find()
-    .then (categories) ->
-      $scope.categories = categories
-      $scope.$categories = [{name:'全部'}].concat categories
-
-  loadCategories()
+  if isClasseData()
+    Restangular
+    .all('classes')
+    .getList(studentId: Auth.getCurrentUser()._id)
+    .then (classes) ->
+      console.log 'myClasses', classes
+      $scope.myClasses = classes
+  else
+    Restangular
+    .all('courses/me')
+    .getList()
+    .then (courses) ->
+      $scope.myCourses = courses
+      generateCategories()

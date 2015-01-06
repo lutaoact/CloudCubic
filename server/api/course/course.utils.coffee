@@ -12,11 +12,18 @@ class CourseUtils extends BaseUtils
       when 'admin'   then return @checkAdmin   user, courseId
 
   checkTeacher: (user, courseId) ->
-    Course.findOne
-      _id: courseId
-      owners: user._id
-    .populate 'categoryId', 'orgId'
-    .execQ()
+    Classe.findQ teachers: user._id
+    .then (classes) ->
+      courseIds = _.pluck classes, 'courseId'
+      conditions = _id: courseId
+
+      # 如果不是某个班级的老师，则必须是相应课程的owner才有权限
+      unless ~_u.findIndex(courseIds, courseId)
+        conditions.owners = user._id
+
+      Course.findOne conditions
+            .populate 'categoryId', 'orgId'
+            .execQ()
     .then (course) ->
       if course?
         return course

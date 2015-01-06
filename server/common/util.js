@@ -138,8 +138,9 @@ function getUtils(key) {
 exports.getUtils = getUtils;
 
 function findIndex(array, key) {
+  var target = key.toString();
   return _.findIndex(array, function(ele) {
-    return ele.toString() === key;
+    return ele.toString() === target;
   });
 }
 exports.findIndex = findIndex;
@@ -163,7 +164,12 @@ function contains(ids, target) {
   }
   return false;
 }
-exports.contains = contains
+exports.contains = contains;
+
+function escapeRegex(string) {
+  return string.replace(/[{}()^$|.\[\]*?+]/g, '\\$&');
+}
+exports.escapeRegex = escapeRegex;
 
 var ejs = require('ejs');
 var fs = require('fs');
@@ -184,4 +190,4 @@ function buildTradeNo(userId) {
   assert.equal(tradeNo.length, 36);
   return tradeNo;
 }
-exports.buildTradeNo = buildTradeNo
+exports.buildTradeNo = buildTradeNo;

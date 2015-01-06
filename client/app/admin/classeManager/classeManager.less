@@ -16,8 +16,11 @@
         border-radius: 13px;
         height: 30px;
       }
-      .total-num {
-        margin: 0 20px 0 20px;
+      .border-left {
+        margin: 0 15px 0 15px;
+        select {
+          width: 150px;
+        }
         &:before {
           content: '';
           display: inline-block;
@@ -26,6 +29,9 @@
           height: 20px;
           padding: 10px;
           top: 5px;
+        }
+        + .border-left {
+           margin-left: 0;
         }
       }
       .pull-right {

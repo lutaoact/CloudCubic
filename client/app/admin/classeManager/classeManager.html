@@ -2,14 +2,22 @@
 
   <div class="classe-list-header row">
     <span class="title">班级管理</span>
-    <span class="total-num">
+    <span class="border-left">
+      <select class="form-control"
+              ng-model="search.category"
+              ng-change="reload(true)"
+              ng-options="category._id as category.name for category in categories"
+              required>
+        <option value="" class="text-muted">全部科目</option>
+      </select>
+    </span>
+    <span class="border-left">
       共 <span class="text-primary" style="font-size: 1.2em">{{classes.$count}}</span> 个
     </span>
-    <input type="text"
-           class="form-control"
-           placeholder="关键字"
-           ng-model="search.keyword"
-           ng-keyup="setKeyword($event)">
+    <search-input keyword="search.keyword"
+                  on-submit="setKeyword($keyword)"
+                  placeholder="班级名搜索">
+    </search-input>
     <button class="btn btn-sm btn-danger rounded pull-right"
             ng-click="createNewClasse()">
             开班

@@ -53,8 +53,8 @@ calStats = (user, courseId, studentsNum, studentsList, userId) ->
   if studentsNum is 0
     return Q.reject
       status : 403
-      errCode : ErrCode.EmptyClass
-      errMsg : 'Empty class'
+      errCode : ErrCode.NoStudentsHere
+      errMsg : 'No student to calculate statistics data'
     
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->

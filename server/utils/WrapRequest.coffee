@@ -4,15 +4,6 @@ LikeUtils = _u.getUtils 'like'
 class WrapRequest
   constructor: (@Model) ->
 
-  buildConditions: (query) ->
-    conditions = {}
-    conditions.courseId = query.courseId if query.courseId
-
-    conditions.deleteFlag = {$ne: true}
-
-    return conditions
-
-
   populateQuery: (mongoQuery, options = []) ->
     for option in options
       mongoQuery = mongoQuery.populate option

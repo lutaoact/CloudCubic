@@ -31,9 +31,7 @@ exports.create = (req, res, next) ->
 
 exports.searchByKeyword = (req, res, next) ->
   name = req.params.name
-  escape = name.replace /[{}()^$|.\[\]*?+]/g, '\\$&'
-  regex = new RegExp(escape)
-  logger.info regex
+  regex = new RegExp(_u.escapeRegex(name), 'i')
 
   KeyPoint.findQ
     name: regex
