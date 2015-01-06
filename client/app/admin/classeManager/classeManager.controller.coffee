@@ -54,4 +54,5 @@ angular.module('budweiserApp')
     keyword : $scope.search.keyword
   )
   .then (classes) ->
+    console.log 'load classes: ', classes
     $scope.classes = classes

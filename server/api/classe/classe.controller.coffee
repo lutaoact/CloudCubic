@@ -12,6 +12,7 @@
 "use strict"
 
 Classe = _u.getModel "classe"
+Course = _u.getModel "course"
 WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
 exports.index = (req, res, next) ->
@@ -37,7 +38,7 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  conditions = _id: req.params.id, orgId: req.user.orgId
+  conditions = _id: req.params.id, orgId: req.org?._id
   WrapRequest.wrapShow req, res, next, conditions
 
 

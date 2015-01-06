@@ -3,7 +3,6 @@
     <div class="container">
       <div class="row">
 
-
         <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
           <div class="course-actions-bar clearfix">
 
@@ -109,7 +108,7 @@
           <div class="course-stuff">
             <ul class="nav nav-pills" role="tablist">
               <li role="presentation" ng-class="{'active':viewState.displayView=='info'}"><a href="" ng-click="viewState.displayView='info'">课程信息</a></li>
-              <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课时列表</a></li>
+              <li role="presentation" ng-class="{'active':viewState.displayView=='lectures'}"><a href="" ng-click="viewState.displayView='lectures'">课时列表({{course.lectureAssembly.length||0}})</a></li>
               <li role="presentation" ng-class="{'active':viewState.displayView=='comments'}"><a href="" ng-click="viewState.displayView='comments'">评论({{course.commentsNum||0}})</a></li>
             </ul>
 

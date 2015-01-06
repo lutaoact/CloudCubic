@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'courseTile', ()->
   replace: true
   scope:
     course: '='
+    classe: '='
 
   controller: ($scope, $state, Restangular, Auth)->
     $scope.Auth = Auth
@@ -47,4 +48,5 @@ angular.module('budweiserApp').directive 'courseTile', ()->
   replace: true
   scope:
     course: '='
+    classe: '='
   link: (scope, element, attrs) ->

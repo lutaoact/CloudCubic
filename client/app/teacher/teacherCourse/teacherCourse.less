@@ -233,12 +233,16 @@
     .lectures-header {
       .title {
         color: black;
-        font-size: 18px;
         margin-left: 5px;
-        font-weight: bold;
+        font-weight: normal;
         padding-right: 0px;
-        margin-right: 10px;
+        height: 24px;
+        line-height: 24px;
+        margin-right: 5px;
         display: inline-block;
+        &.text-muted{
+          color: @gray-light;
+        }
       }
       .search-class {
         display: inline-block;

@@ -13,21 +13,21 @@ exports.Classe = BaseModel.subclass
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name'
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
     update: [
       path: 'orgId', select: 'name'
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name'
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
     create: [
       path: 'orgId', select: 'name'
     ,
-      path: 'courseId', select: 'name'
-    ,
       path: 'teachers', select: 'name avatar'
+    ,
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
 
   initialize: ($super) ->
@@ -124,9 +124,13 @@ exports.Classe = BaseModel.subclass
         return @buildStudentIds classes
 
   getStudentIdsByClasseIds: (classeIds) ->
+    unless classeIds?.length
+      return []
+
     return @findQ _id: $in: classeIds
       .then (classes) =>
         return @buildStudentIds classes
+
 
   # return [id & name]
   getAllStudentsInfo: (classeIds) ->
