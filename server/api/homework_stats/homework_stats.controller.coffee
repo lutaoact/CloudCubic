@@ -4,8 +4,9 @@ CourseUtils = _u.getUtils 'course'
 HomeworkAnswer = _u.getModel 'homework_answer'
 StatsUtils = _u.getUtils 'stats'
 User = _u.getModel 'user'
+Classe = _u.getModel 'classe'
 
-calLectureStats = (lecture, summary, studentsNum, userId) ->
+calLectureStats = (lecture, summary, studentsNum, studentsList, userId) ->
   tmpResult = {}
   questionIds = lecture.homeworks
 
@@ -18,7 +19,8 @@ calLectureStats = (lecture, summary, studentsNum, userId) ->
 
   condition =
     lectureId : lecture._id
-  if userId? then condition.userId = userId
+  condition.userId = userId if userId?
+  condition.userId = $in : studentsList if studentsList? 
 
   HomeworkAnswer.findQ condition
   .then (answers) ->
@@ -30,32 +32,45 @@ calLectureStats = (lecture, summary, studentsNum, userId) ->
 
     summary.questionsLength += lectureStat.questionsLength
     summary.correctNum += lectureStat.correctNum
-    lectureStat.percent =
-      lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
+    
+    if lectureStat.correctNum is 0
+      lectureStat.percent = 0
+    else
+      lectureStat.percent = 
+        lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
 
     return lectureStat
   , (err) ->
     Q.reject err
 
-calStats = (user, courseId, studentsNum, userId) ->
+calStats = (user, courseId, studentsNum, studentsList, userId) ->
   finalStats = {}
   summary =
     questionsLength: 0
     correctNum: 0
     percent: 0
 
+  if studentsNum is 0
+    return Q.reject
+      status : 403
+      errCode : ErrCode.EmptyClass
+      errMsg : 'Empty class'
+    
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
     course.populateQ 'lectureAssembly', 'name homeworks'
   .then (course) ->
     lectures = course.lectureAssembly
+    
     Q.all _.map lectures, (lecture) ->
-      calLectureStats lecture, summary, studentsNum, userId
+      calLectureStats lecture, summary, studentsNum, studentsList, userId 
   .then (statsData) ->
     finalStats = _.indexBy statsData, 'lectureId'
 
-    summary.percent =
-      summary.correctNum * 100 // (summary.questionsLength * studentsNum)
+    if summary.correctNum is 0
+      summary.percent = 0
+    else
+      summary.percent = summary.correctNum * 100 // (summary.questionsLength * studentsNum)
 
     finalStats.summary = summary
     return finalStats
@@ -65,18 +80,26 @@ exports.show = (req, res, next) ->
   role = me.role
 
   courseId = req.query.courseId
+  classeId = req.query.classeId
   queryUserId = req.query.studentId ? req.query.userId
 
   (switch role
     when 'student'
-      calStats me, courseId, 1, me.id
+      calStats me, courseId, 1, null, me.id
     when 'teacher'
-      if queryUserId?
-        calStats me, courseId, 1, queryUserId
+      if queryUserId? # calculate stats for one person
+        calStats me, courseId, 1, null, queryUserId
       else
-        CourseUtils.getStudentsNum me, courseId
-        .then (num) ->
-          calStats me, courseId, num
+        if classeId? # calculate stats for a class
+          Classe.findByIdQ classeId
+          .then (classe) ->
+            studentsNum = classe.students.length
+            studentsList = classe.students
+            calStats me, courseId, studentsNum, studentsList
+        else # calculate stats for a course
+          CourseUtils.getStudentsNum me, courseId
+          .then (studentsNum) ->
+            calStats me, courseId, studentsNum
     when 'admin'
       tmpResult = {}
       queryUserId ?= me.id

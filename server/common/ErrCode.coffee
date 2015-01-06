@@ -25,3 +25,4 @@ module.exports =
   NotFreeLecture: 10035
 
   ClassAlreadyPaid: 10040
+  EmptyClass : 10041
