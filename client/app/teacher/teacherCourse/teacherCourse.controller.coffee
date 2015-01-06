@@ -80,3 +80,5 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   .then (classes)->
     $scope.course.$teachers = _.uniq($scope.course.$teachers.concat(_.flatten(_.pluck(classes, 'teachers'))),'_id')
 
+  $scope.$on 'comments.number', (event, data)->
+    $scope.course.commentsNum = data
