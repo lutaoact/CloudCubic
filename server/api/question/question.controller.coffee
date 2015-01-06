@@ -30,7 +30,7 @@ exports.index = (req, res, next) ->
   if req.query.keyword
     keyword = req.query.keyword
     #对可能出现的正则元字符进行转义
-    regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
+    regex = new RegExp(_u.escapeRegex(keyword), 'i')
     conditions.$or = [
       'body': regex
     ,

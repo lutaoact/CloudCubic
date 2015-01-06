@@ -16,13 +16,24 @@ WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
 exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
-  conditions.courseId = req.query.courseId if req.query.courseId
+
   conditions.students = req.query.studentId if req.query.studentId
-  conditions.name = new RegExp(req.query.keyword, 'i') if req.query.keyword
+  conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
 
   options = limit: req.query.limit, from: req.query.from
 
-  WrapRequest.wrapPageIndex req, res, next, conditions, options
+  Q(
+    if req.query.categoryId
+      Course.findQ categoryId: req.query.categoryId
+      .then (courses) ->
+        courseIds = _.pluck courses, '_id'
+        conditions.courseId = {$in: courseIds}
+    else
+      conditions.courseId = req.query.courseId if req.query.courseId
+  ).then () ->
+    WrapRequest.wrapPageIndex req, res, next, conditions, options
+  .catch next
+  .done()
 
 
 exports.show = (req, res, next) ->
