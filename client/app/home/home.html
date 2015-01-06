@@ -1,6 +1,5 @@
 <div class="home">
   <section class="course-list"
-           ng-init="loadMyCourses()"
            id="course-list">
     <div class="head-row">
       <div class="container">
@@ -18,7 +17,7 @@
         </div>
         <div class="pull-right my-course-count">
           <div class="text-muted">我的课程</div>
-          <h3>{{myCourses.length||0}}</h3>
+          <h3>{{getListData().length||0}}</h3>
         </div>
       </div>
     </div>
@@ -66,20 +65,23 @@
                 </div>
               </h4>
             </div>
-            <div class="col-md-4 col-sm-6" ng-repeat="course in viewState.filteredMyCourses = ( myCourses | orderBy:'-created':true|filter:viewState.myCoursesFilters.category._id)|paging:itemsPerPage:currentMyCoursesPage">
+            <div class="col-md-4 col-sm-6"
+                 ng-repeat="data in getListData()">
               <a ng-if="Auth.hasRole('teacher')"
-                 ui-sref="teacher.course({courseId:course._id})">
-                <course-tile course="course"></course-tile>
+                 ui-sref="teacher.course({courseId:getCourse(data)._id})">
+                <course-tile course="getCourse(data)"></course-tile>
               </a>
               <a ng-if="!Auth.hasRole('teacher')"
-                 ui-sref="courseDetail({courseId:course._id})">
-                <course-tile course="course"></course-tile>
+                 ui-sref="courseDetail({courseId:getCourse(data)._id, classeId:getClasse(data)._id})">
+                <course-tile course="getCourse(data)" classe="getClasse(data)"></course-tile>
               </a>
             </div>
           </div>
-          <div class="row pagination-row text-center" style="margin-left: 0;" ng-hide="myCourses.length <= itemsPerPage">
+          <div class="row pagination-row text-center"
+               style="margin-left: 0;"
+               ng-hide="getListData().length <= itemsPerPage">
             <pagination
-              total-items="viewState.filteredMyCourses.length"
+              total-items="getListData().$count"
               ng-model="currentMyCoursesPage"
               items-per-page="itemsPerPage"
               class="pagination-sm bud"

@@ -13,21 +13,21 @@ exports.Classe = BaseModel.subclass
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name'
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
     update: [
       path: 'orgId', select: 'name'
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name'
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
     create: [
       path: 'orgId', select: 'name'
     ,
-      path: 'courseId', select: 'name'
-    ,
       path: 'teachers', select: 'name avatar'
+    ,
+      path: 'courseId', select: 'name thumbnail lectureAssembly'
     ]
 
   initialize: ($super) ->

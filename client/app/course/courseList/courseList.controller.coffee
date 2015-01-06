@@ -11,7 +11,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     categories: null
-    allCourses: null
+    allClasses: null
     search:
       categoryId: $state.params.category
     pageConf:
@@ -30,17 +30,12 @@ angular.module('budweiserApp')
     $scope.categories = categories
 
   Restangular
-  .all('courses')
+  .all('classes')
   .getList(
     from        : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
     limit       : $scope.pageConf.itemsPerPage
     categoryIds : $scope.search.categoryId
   )
-  .then (courses) ->
-    $scope.allCourses = courses
-    angular.forEach courses, (course) ->
-      Restangular
-      .all('classes')
-      .getList courseId: course._id
-      .then (classes)->
-        course.$classes = classes
+  .then (classes) ->
+    console.log 'all classes', classes
+    $scope.allClasses = classes
