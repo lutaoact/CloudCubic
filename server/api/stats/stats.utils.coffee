@@ -15,10 +15,10 @@ class StatsUtils extends BaseUtils
     CourseUtils.getAuthedCourseById user, courseId
     .then (course) ->
       course.populateQ 'lectureAssembly', 'name quizzes homeworks'
-    .then (course) =>
+    .then (course) ->
       tmpResult.course = course
       CourseUtils.getStudentIds user, courseId, classeId
-    .then (studentIds) ->
+    .then (studentIds) =>
       tmpResult.studentIds = studentIds
 
       unless studentIds.length
@@ -27,7 +27,7 @@ class StatsUtils extends BaseUtils
           errCode: ErrCode.NoStudentsHere
           errMsg: '指定的班级或课程中不包含学生，无法进行统计'
 
-      promiseArray = for lecture in course.lectureAssembly
+      promiseArray = for lecture in tmpResult.course.lectureAssembly
         @makeKPStatsForSpecifiedLecture lecture, user, studentIds
 
       Q.all promiseArray
@@ -262,10 +262,10 @@ class StatsUtils extends BaseUtils
     CourseUtils.getAuthedCourseById user, courseId
     .then (course) ->
       course.populateQ 'lectureAssembly', 'name quizzes'
-    .then (course) =>
+    .then (course) ->
       tmpResult.course = course
       CourseUtils.getStudentIds user, courseId, classeId
-    .then (studentIds) ->
+    .then (studentIds) =>
       tmpResult.studentIds = studentIds
 
       unless studentIds.length
