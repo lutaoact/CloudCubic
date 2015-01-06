@@ -124,9 +124,13 @@ exports.Classe = BaseModel.subclass
         return @buildStudentIds classes
 
   getStudentIdsByClasseIds: (classeIds) ->
+    unless classeIds?.length
+      return []
+
     return @findQ _id: $in: classeIds
       .then (classes) =>
         return @buildStudentIds classes
+
 
   # return [id & name]
   getAllStudentsInfo: (classeIds) ->
