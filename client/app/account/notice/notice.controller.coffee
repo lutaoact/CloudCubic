@@ -16,8 +16,6 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
 
     messages: []
 
-    viewState: {}
-
     markAsRead: (message, $event)->
       $event?.stopPropagation()
       if message.raw.status

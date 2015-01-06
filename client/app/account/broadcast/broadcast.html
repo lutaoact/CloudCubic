@@ -2,7 +2,8 @@
   <ul class="list-group">
     <li class="list-group-item broadcast"
       id="{{broadcast._id}}"
-      ng-click="viewState.selectedBroadcast=broadcast"
+      ng-click="changeViewState(broadcast, mousedownTimeStamp, $event)"
+      ng-mousedown="mousedownTimeStamp = $event.timeStamp"
       ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
       ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
       <div class="clearfix">

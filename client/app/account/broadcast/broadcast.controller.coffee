@@ -5,8 +5,6 @@ angular.module('budweiserApp').controller 'BroadcastCtrl',(
   $scope
   notify
   Restangular
-  $rootScope
-  Msg
 ) ->
 
   angular.extend $scope,
@@ -14,6 +12,16 @@ angular.module('budweiserApp').controller 'BroadcastCtrl',(
     currentBroadcastPage: 1
     maxSize: 4
     broadcasts: undefined
+
+    viewState: {}
+
+    changeViewState: (broadcast, mousedownTimeStamp, $event)->
+      if ($event.timeStamp - mousedownTimeStamp) > 100
+        return
+      if $scope.viewState.selectedBroadcast == broadcast
+        $scope.viewState.selectedBroadcast = null
+      else
+        $scope.viewState.selectedBroadcast = broadcast
 
   Restangular.all('broadcasts').getList()
   .then (broadcasts)->
