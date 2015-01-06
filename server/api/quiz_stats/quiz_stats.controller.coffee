@@ -7,12 +7,13 @@ Course = _u.getModel 'course'
 
 exports.show = (req, res, next) ->
   courseId = req.query.courseId
+  classeId = req.query.classeId
   queryUserId = req.query.userId ? req.query.studentId
   user = req.user
 
   StatsUtils.getQueryUser user, queryUserId, courseId
   .then (person) ->
-    StatsUtils.makeQuizStatsPromiseForUser person, courseId
+    StatsUtils.makeQuizStatsPromiseForUser person, courseId, classeId
   .then (finalStats) ->
     res.send finalStats
   , next

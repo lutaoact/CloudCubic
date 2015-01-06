@@ -27,3 +27,4 @@ module.exports =
   ClassAlreadyPaid: 10040
 
   NoStudentsHere: 10045
+  NoClassesHere: 10050
