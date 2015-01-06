@@ -90,15 +90,13 @@ exports.Classe = BaseModel.subclass
     $super()
 
   getOneById: (classeId) ->
-    return @findOneQ {_id: classeId, deleteFlag: {$ne: true}}
+    @findOneQ {_id: classeId, deleteFlag: {$ne: true}}
     .then (classe) ->
-      unless classe
-        return Q.reject
-          status: 404
-          errCode: ErrCode.InvalidClasse
-          errMsg: '班级未建立或者已被删除'
-
-      return classe
+      return classe if classe?
+      return Q.reject
+        status: 404
+        errCode: ErrCode.InvalidClasse
+        errMsg: '班级未建立或者已被删除'
 
   getAllStudents: (classeIds) ->
     unless classeIds.length
@@ -106,30 +104,30 @@ exports.Classe = BaseModel.subclass
 
     @findQ _id: $in: classeIds
     .then (classes) ->
-      return _.reduce classes, (studentIds, classe) ->
-        return studentIds.concat classe.students
+      _.reduce classes, (studentIds, classe) ->
+        studentIds.concat classe.students
       , []
 
   buildStudentIds: (classes) ->
     allIds = _.reduce classes, (studentIds, classe) ->
-      return studentIds.concat classe.students
+      studentIds.concat classe.students
     , []
-    return _.uniq allIds, (id) ->
-      return id.toString()
+    _.uniq allIds, (id) ->
+      id.toString()
 
 
   getStudentIdsByCourseId: (courseId) ->
-    return @findQ courseId: courseId
-      .then (classes) =>
-        return @buildStudentIds classes
+    @findQ courseId: courseId
+    .then (classes) =>
+      @buildStudentIds classes
 
   getStudentIdsByClasseIds: (classeIds) ->
     unless classeIds?.length
       return []
 
-    return @findQ _id: $in: classeIds
-      .then (classes) =>
-        return @buildStudentIds classes
+    @findQ _id: $in: classeIds
+    .then (classes) =>
+      @buildStudentIds classes
 
 
   # return [id & name]
@@ -139,6 +137,6 @@ exports.Classe = BaseModel.subclass
     .populate('students', '_id email name')
     .execQ()
     .then (classes) ->
-      return _.reduce classes, (studentInfos, classe) ->
-        return studentInfos.concat classe.students
+      _.reduce classes, (studentInfos, classe) ->
+        studentInfos.concat classe.students
       , []

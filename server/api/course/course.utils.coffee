@@ -70,12 +70,12 @@ class CourseUtils extends BaseUtils
 
   # 管理员可以查看该机构的所有课程
   getAdminCourses : (orgId) ->
-    return Course.find orgId: orgId
+    Course.find orgId: orgId
     .populate 'owners', '_id name avatar'
     .execQ()
 
   getTeacherCourses : (teacherId) ->
-    return Course.find owners : teacherId
+    Course.find owners : teacherId
     .populate 'owners', '_id name avatar'
     .execQ()
 
