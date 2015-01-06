@@ -25,10 +25,9 @@ angular.module('budweiserApp')
       $scope.count.totalCount -= 1
       $scope.count.unpaidCount -= 1
 
-    setKeyword: ($event) ->
-      if $event.keyCode isnt 13 then return
+    setKeyword: ->
       Restangular.one('orders', $scope.search.orderId).get()
-      .then (order)->
+      .then (order) ->
         $scope.orders = [order]
 
   $scope.$watchCollection '[search.status, currentPage]', ->

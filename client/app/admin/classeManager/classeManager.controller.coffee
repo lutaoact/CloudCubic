@@ -36,8 +36,7 @@ angular.module('budweiserApp')
       .result.then (newClasse) ->
         $scope.classes.splice 0, 0, newClasse
 
-    setKeyword: ($event) ->
-      if $event.keyCode isnt 13 then return
+    setKeyword: ->
       $scope.pageConf.currentPage = 1
       $scope.reload()
 

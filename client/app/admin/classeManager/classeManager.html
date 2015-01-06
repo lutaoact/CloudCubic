@@ -5,11 +5,10 @@
     <span class="total-num">
       共 <span class="text-primary" style="font-size: 1.2em">{{classes.$count}}</span> 个
     </span>
-    <input type="text"
-           class="form-control"
-           placeholder="关键字"
-           ng-model="search.keyword"
-           ng-keyup="setKeyword($event)">
+    <search-input keyword="search.keyword"
+                  on-submit="setKeyword($keyword)"
+                  placeholder="关键字">
+    </search-input>
     <button class="btn btn-sm btn-danger rounded pull-right"
             ng-click="createNewClasse()">
             开班

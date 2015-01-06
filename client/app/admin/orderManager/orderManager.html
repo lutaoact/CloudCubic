@@ -11,11 +11,10 @@
         <option value="unpaid" class="text-muted">未付订单</option>
       </select>
     </span>
-  <input type="text"
-         class="form-control"
-         placeholder="订单号搜索"
-         ng-model="search.orderId"
-         ng-keyup="setKeyword($event)">
+  <search-input keyword="search.orderId"
+                on-submit="setKeyword($keyword)"
+                placeholder="订单号搜索">
+  </search-input>
 </div>
 
 <div class="order-list-view">
