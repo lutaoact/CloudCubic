@@ -74,3 +74,7 @@ angular.module 'budweiserApp'
   Restangular.all('notices').customGET('unreadCount')
   .then (data)->
     $scope.unreadMsgCount = data.unreadCount
+    Tinycon.setBubble($scope.unreadMsgCount)
+
+  $scope.$watch 'unreadMsgCount', ->
+    Tinycon.setBubble($scope.unreadMsgCount);
