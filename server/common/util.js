@@ -138,8 +138,9 @@ function getUtils(key) {
 exports.getUtils = getUtils;
 
 function findIndex(array, key) {
+  var target = key.toString();
   return _.findIndex(array, function(ele) {
-    return ele.toString() === key;
+    return ele.toString() === target;
   });
 }
 exports.findIndex = findIndex;
