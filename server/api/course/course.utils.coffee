@@ -94,7 +94,7 @@ class CourseUtils extends BaseUtils
 
   # For update operations, such as update/destroy/publish, user has to be
   # either course owner or course's associated classes teacher
-  buildWriteCondition : (req) ->
+  buildWriteConditions : (req) ->
     courseId = req.params.id
     orgId = req.user.orgId
     userId = req.user.id
@@ -104,10 +104,10 @@ class CourseUtils extends BaseUtils
       courseId : courseId
       teachers : userId
     .then (classes) ->
-      unless classes? and classes.length > 0 
+      unless classes? and classes.length > 0
         conditions.owners = req.user._id if req.user.role is 'teacher'
         return conditions
     .catch (err) ->
       logger.error 'Failed to find class', err
-    
+
 exports.CourseUtils = CourseUtils
