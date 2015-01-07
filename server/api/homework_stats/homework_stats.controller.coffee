@@ -19,7 +19,7 @@ calLectureStats = (lecture, summary, studentsNum, studentsList) ->
 
   condition =
     lectureId : lecture._id
-  condition.userId = $in : studentsList if studentsList? 
+  condition.userId = $in : studentsList
 
   HomeworkAnswer.findQ condition
   .then (answers) ->
@@ -82,13 +82,10 @@ exports.show = (req, res, next) ->
   classeId = req.query.classeId
   queryUserId = req.query.studentId ? req.query.userId
   
-  studentsList = []
   Q(if queryUserId?
-      studentsList = [queryUserId]
+      [queryUserId]
     else
       CourseUtils.getStudentIds(me, courseId, classeId)
-      .then (studentIds) ->
-        studentsList = studentIds
   )
   .then (studentsList) ->
     calStats me, courseId, studentsList
