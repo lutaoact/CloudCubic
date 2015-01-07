@@ -25,6 +25,7 @@ orgGetter = (req, res, next) ->
   host = req.headers.host
   defaultHost = config.host.replace /^.*:\/\//, ''
 
+  logger.info "current host: #{host}"
   Q(
     if host isnt defaultHost
       # 匹配出二级域名
