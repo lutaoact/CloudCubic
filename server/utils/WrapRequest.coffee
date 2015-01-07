@@ -30,10 +30,14 @@ class WrapRequest
         logger.error err
         options.sort = null
 
+    #从limit中取值，若未定义，则去PageSize中制定model的值，否则，取Default的值
+    pageSize = options.limit ?
+               Const.PageSize[@constructor.name] ?
+               Const.PageSize.Default
     mongoQuery = @Model.find conditions
       .sort options.sort ? {created: -1}
-      .limit ~~options.limit ? Const.PageSize[@constructor.name]
-      .skip ~~options.from
+      .limit _.min [~~pageSize, Const.MaxPageSize]
+      .skip _.max [~~options.from, Const.MinSkipNum]
 
     mongoQuery = @populateQuery mongoQuery, @Model.populates?.index
 
