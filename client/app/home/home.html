@@ -17,7 +17,7 @@
         </div>
         <div class="pull-right my-course-count">
           <div class="text-muted">我的课程</div>
-          <h3>{{getListData().$count||0}}</h3>
+          <h3>{{viewState.total||0}}</h3>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
               </h4>
             </div>
             <div class="col-md-4 col-sm-6"
-                 ng-repeat="data in getListData()|filter:viewState.myCoursesFilters.category._id|orderBy:'-created'">
+                 ng-repeat="data in getListData()|filter:viewState.myCoursesFilters.category._id">
               <a ng-if="Auth.hasRole('teacher')"
                  ui-sref="teacher.course({courseId:getCourse(data)._id})">
                 <course-tile course="getCourse(data)"></course-tile>

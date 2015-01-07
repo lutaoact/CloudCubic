@@ -18,10 +18,11 @@ angular.module('budweiserApp')
     Auth: Auth
     myCourses: null
     myClasses: null
-    itemsPerPage: 2
+    itemsPerPage: 6
     currentMyCoursesPage: 1
     maxSize: 3
     viewState:
+      total: 0
       myCoursesFilters:
         category: null
 
@@ -57,18 +58,22 @@ angular.module('budweiserApp')
           from: ($scope.currentMyCoursesPage - 1) * $scope.itemsPerPage
           limit: $scope.itemsPerPage
         .then (classes) ->
-          console.log 'myClasses', classes
           $scope.myClasses = classes
       else
         Restangular
         .all('courses/me')
-        .getList()
+        .getList
+          from: ($scope.currentMyCoursesPage - 1) * $scope.itemsPerPage
+          limit: $scope.itemsPerPage
         .then (courses) ->
           $scope.myCourses = courses
-          # teacher do not need filters
 
   Category.find()
   .then (categories)->
     $scope.myCategories = [{name:'全部'}].concat(categories)
     $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
     $scope.reload()
+    .then (items)->
+      # at the first time get the total number.
+      $scope.viewState.total = items.$count
+
