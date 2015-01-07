@@ -43,8 +43,8 @@ angular.module('budweiserApp')
       $scope.pageConf.currentPage = 1
       $scope.reload()
 
-    reload: (refreshPage) ->
-      $scope.pageConf.currentPage = 1 if refreshPage
+    reload: (resetPage) ->
+      $scope.pageConf.currentPage = 1 if resetPage
       $state.go('admin.classeManager', {
         category :$scope.search.category
         keyword  :$scope.search.keyword

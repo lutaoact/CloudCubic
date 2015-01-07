@@ -1,6 +1,7 @@
 'use strict'
 
 Forum = _u.getModel 'forum'
+DisTopic = _u.getModel 'dis_topic'
 WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
 exports.index = (req, res, next) ->
@@ -31,3 +32,11 @@ exports.update = (req, res, next) ->
 exports.destroy = (req, res, next) ->
   conditions = {_id : req.params.id, postBy : req.user._id}
   WrapRequest.wrapDestroy req, res, next, conditions
+
+
+exports.topicsNum = (req, res, next) ->
+  DisTopic.getTopicsNumByForumId req.params.id
+  .then (num) ->
+    res.send {count: num}
+  .catch next
+  .done()

@@ -13,21 +13,21 @@ exports.Classe = BaseModel.subclass
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name thumbnail lectureAssembly'
+      path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
     update: [
       path: 'orgId', select: 'name'
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name thumbnail lectureAssembly'
+      path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
     create: [
       path: 'orgId', select: 'name'
     ,
       path: 'teachers', select: 'name avatar'
     ,
-      path: 'courseId', select: 'name thumbnail lectureAssembly'
+      path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
 
   initialize: ($super) ->
@@ -59,10 +59,11 @@ exports.Classe = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       ]
-      schedule:
+      schedules: [
         start: Date
         end: Date
         until: Date
+      ]
       price:
         type: Number
         required: true

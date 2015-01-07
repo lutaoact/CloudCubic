@@ -37,5 +37,4 @@ angular.module('budweiserApp')
     categoryId : $scope.search.categoryId
   )
   .then (classes) ->
-    console.log 'all classes', classes
     $scope.allClasses = classes

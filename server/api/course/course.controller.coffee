@@ -54,7 +54,8 @@ exports.myCourses = (req, res, next) ->
         ,
           owners: userId
         ]
-        WrapRequest.wrapIndex req, res, next, conditions
+        options = limit: req.query.limit, from: req.query.from
+        WrapRequest.wrapPageIndex req, res, next, conditions, options
 
     else
       logger.error "Unknown user role: #{user.role}"

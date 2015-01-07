@@ -62,7 +62,7 @@
         <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin.home')}">
           <a class="text-center" ui-sref="admin.home">机构管理</a>
         </li>
-        <li ng-class="{active: isActive('courseList')}">
+        <li ng-if="!Auth.hasRole('teacher')" ng-class="{active: isActive('courseList')}">
           <a href ui-sref='courseList'>所有课程</a>
         </li>
         <li>

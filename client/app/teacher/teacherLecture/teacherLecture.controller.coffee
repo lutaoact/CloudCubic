@@ -1,6 +1,9 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
+angular.module('budweiserApp')
+
+.controller 'TeacherLectureCtrl', (
+  $sce
   $http
   $scope
   $state
@@ -8,19 +11,22 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   notify
   Navbar
   $filter
-  KeyPoints
-  Restangular
-  $sce
   configs
+  KeyPoints
   $rootScope
+  Restangular
 ) ->
 
-  Restangular.one('courses', $state.params.courseId).get()
+  Restangular
+  .one('courses', $state.params.courseId)
+  .get()
   .then (course) ->
     $scope.course = course
     Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
-  Restangular.all('classes').getList courseId: $state.params.courseId
+  Restangular
+  .all('classes')
+  .getList courseId: $state.params.courseId
   .then (classes) ->
     $scope.classes = classes
 

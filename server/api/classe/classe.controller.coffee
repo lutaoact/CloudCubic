@@ -19,6 +19,7 @@ exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
 
   conditions.students = req.query.studentId if req.query.studentId
+  conditions.teachers = req.query.teacherId if req.query.teacherId
   conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
 
   options = limit: req.query.limit, from: req.query.from
