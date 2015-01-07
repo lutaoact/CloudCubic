@@ -59,10 +59,11 @@ exports.Classe = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       ]
-      schedule:
+      schedules: [
         start: Date
         end: Date
         until: Date
+      ]
       price:
         type: Number
         required: true
