@@ -17,7 +17,7 @@
         </div>
         <div class="pull-right my-course-count">
           <div class="text-muted">我的课程</div>
-          <h3>{{getListData().length||0}}</h3>
+          <h3>{{getListData().$count||0}}</h3>
         </div>
       </div>
     </div>
@@ -34,13 +34,7 @@
                   <div class="form-group">
                     <label class="col-xs-3 control-label">科目</label>
                     <div class="col-xs-9">
-                      <select class="form-control " ng-model="viewState.myCoursesFilters.category" ng-options="category.name for category in myCategories"></select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-xs-3 control-label">老师</label>
-                    <div class="col-xs-9">
-                      <select class="form-control " ng-model="viewState.myCoursesFilters.teacher" ng-options="teacher.name for teacher in $teachers"></select>
+                      <select class="form-control" ng-change="reload()" ng-model="viewState.myCoursesFilters.category" ng-options="category.name for category in myCategories"></select>
                     </div>
                   </div>
                 </div>
@@ -66,7 +60,7 @@
               </h4>
             </div>
             <div class="col-md-4 col-sm-6"
-                 ng-repeat="data in getListData()">
+                 ng-repeat="data in getListData()|filter:viewState.myCoursesFilters.category._id|orderBy:'-created'">
               <a ng-if="Auth.hasRole('teacher')"
                  ui-sref="teacher.course({courseId:getCourse(data)._id})">
                 <course-tile course="getCourse(data)"></course-tile>
@@ -79,7 +73,7 @@
           </div>
           <div class="row pagination-row text-center"
                style="margin-left: 0;"
-               ng-hide="getListData().length <= itemsPerPage">
+               ng-hide="getListData().$count <= itemsPerPage">
             <pagination
               total-items="getListData().$count"
               ng-model="currentMyCoursesPage"
@@ -91,6 +85,7 @@
               previous-text="&lsaquo;"
               next-text="&rsaquo;"
               first-text="&laquo;"
+              ng-change="reload()"
               last-text="&raquo;"
               num-pages="numPages">
             </pagination>

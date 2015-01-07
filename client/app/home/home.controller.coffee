@@ -18,7 +18,7 @@ angular.module('budweiserApp')
     Auth: Auth
     myCourses: null
     myClasses: null
-    itemsPerPage: 6
+    itemsPerPage: 2
     currentMyCoursesPage: 1
     maxSize: 3
     viewState:
@@ -47,45 +47,28 @@ angular.module('budweiserApp')
       else
         $scope.myCourses
 
-  generateCategoriesFromMyCouses = ->
-    $q.all(_.uniq(_.pluck(_.pluck($scope.myCourses, 'categoryId').filter((x)-> x?),'_id')).map (id)->
-      if id
-        Category.find(id)
+    reload: () ->
+      if isClasseData()
+        Restangular
+        .all('classes')
+        .getList
+          studentId: Auth.getCurrentUser()._id
+          categoryId: $scope.viewState.myCoursesFilters.category?._id
+          from: ($scope.currentMyCoursesPage - 1) * $scope.itemsPerPage
+          limit: $scope.itemsPerPage
+        .then (classes) ->
+          console.log 'myClasses', classes
+          $scope.myClasses = classes
       else
-        null
-    )
-    .then (categories)->
-      categories = categories.filter (category)->
-        category?
-      $scope.myCategories = [{name:'全部'}].concat(categories)
-      $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
+        Restangular
+        .all('courses/me')
+        .getList()
+        .then (courses) ->
+          $scope.myCourses = courses
+          # teacher do not need filters
 
-  generateCategoriesFromMyClasses = ->
-    $q.all(_.uniq(_.pluck(_.pluck(_.pluck($scope.myClasses, 'courseId'),'categoryId').filter((x)-> x?),'_id')).map (id)->
-      if id
-        Category.find(id)
-      else
-        null
-    )
-    .then (categories)->
-      categories = categories.filter (category)->
-        category?
-      $scope.myCategories = [{name:'全部'}].concat(categories)
-      $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
-
-  if isClasseData()
-    Restangular
-    .all('classes')
-    .getList(studentId: Auth.getCurrentUser()._id)
-    .then (classes) ->
-      console.log 'myClasses', classes
-      $scope.myClasses = classes
-      generateCategoriesFromMyClasses()
-  else
-    Restangular
-    .all('courses/me')
-    .getList()
-    .then (courses) ->
-      $scope.myCourses = courses
-      # teacher do not need filters
-      # generateCategoriesFromMyCouses()
+  Category.find()
+  .then (categories)->
+    $scope.myCategories = [{name:'全部'}].concat(categories)
+    $scope.viewState.myCoursesFilters.category = $scope.myCategories[0]
+    $scope.reload()
