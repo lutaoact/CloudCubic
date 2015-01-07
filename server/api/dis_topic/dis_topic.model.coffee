@@ -52,5 +52,8 @@ exports.DisTopic = BaseModel.subclass
         type: ObjectId
         ref: 'user'
       ]
+      deleteFlag:
+        type: Boolean
+        default: false
 
     $super()

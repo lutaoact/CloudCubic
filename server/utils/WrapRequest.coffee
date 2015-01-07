@@ -137,12 +137,10 @@ class WrapRequest
     targetObjId = req.params.id
     fromWhom = req.user.id
     model = @Model
-    
     LikeUtils.createLike model, targetObjId, fromWhom
     .then (doc) ->
       console.log 'like result:', doc
       res.send doc
-      
       if doc.likeAction
         # create&send notice object
         LikeUtils.sendLikeNotice model, doc, fromWhom

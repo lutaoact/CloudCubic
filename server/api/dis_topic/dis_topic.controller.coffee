@@ -65,12 +65,12 @@ exports.update = (req, res, next) ->
   , next
 
 exports.destroy = (req, res, next) ->
-  DisTopic.removeQ
+  conditions =
     _id: req.params.id
     postBy : req.user.id
-  .then () ->
-    res.send 204
-  , next
+
+  WrapRequest.wrapDestroy req, res, next, conditions
+
 
 exports.like = (req, res, next) ->
   console.log 'receive like from ', req.user.id
