@@ -13,33 +13,39 @@
       </div>
       <span class="name text-muted small">{{classe.teachers[0].name}}</span>
     </div>
-    <h5 class="course-name">
+    <div class="classe-price">
+      <span class="yuan"
+            ng-if="classe">
+        <span ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
+        <span ng-if="!(classe.price > 0)">免费</span>
+      </span>
+      <span class="yuan"
+            ng-if="!classe">
+        即将推出
+      </span>
+      <span class="pull-right">
+        <button class="btn btn-xs btn-default rounded">
+          <i class="fa fa-play"></i> 试听
+        </button>
+      </span>
+    </div>
+    <h5 class="classe-name">
       {{classe.name || course.name}}<br>
     </h5>
     <hr>
-    <div class="lecture-info text-muted small">
+    <div class="classe-info text-muted small">
       <div class="lecture-num">{{course.lectureAssembly.length || 0}} 课时</div>
       <span ng-if="!classe">即将推出</span>
       <span ng-if="classe">
-        {{classe.duration.from|date:'yyyy.MM.dd'}}-{{classe.duration.to|date:'yyyy.MM.dd'}}
+        {{classe.duration.from|date:'yyyy.MM.dd'}} - {{classe.duration.to|date:'yyyy.MM.dd'}}
       </span>
     </div>
+    <div class="classe-info text-muted small">
+      周一、四 13:00 - 14:30
+    </div>
+    <div class="classe-info text-muted small">
+      {{classe.address || '上课地点未设置'}}
+    </div>
 
-    <span class="yuan"
-          ng-if="classe">
-      ¥ {{classe.price.toFixed(2)}}
-    </span>
-    <span class="yuan"
-          ng-if="!classe">
-      即将推出
-    </span>
-    <span class="pull-right">
-      <button class="btn btn-xs btn-default rounded">
-        <i class="fa fa-play"></i> 试听
-      </button>
-      <button class="btn btn-xs btn-danger rounded">
-        <i class="fa fa-shopping-cart"></i> 购买
-      </button>
-    </span>
   </div>
 </div>

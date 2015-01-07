@@ -1,11 +1,16 @@
 .public-course-tile{
-  .book(208px, 240px);
+  .book(218px, 240px);
   border: 1px solid rgba(118, 120, 122, 0.25);
   hr{
     margin-top: 0;
     margin-bottom: 3px;
   }
-  .caption{
+  .back {
+    bottom: 130px;
+  }
+  .caption {
+    height: 190px;
+    bottom: -54px;
     .owner {
       margin-top: -28px;
       margin-left: 15px;
@@ -18,9 +23,28 @@
         margin-top: 22px;
       }
     }
-    .yuan {
-      line-height: 24px;
-      color: #F5855B;
+    .classe-price {
+      .yuan {
+        line-height: 24px;
+        font-size: 20px;
+        color: #F5855B;
+      }
+      margin-top: 8px;
+    }
+    .classe-name{
+      height: 38px;
+      margin-top: 8px;
+      line-height: 20px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .classe-info {
+      padding-bottom: 4px;
+      padding-top: 5px;
+      +.classe-info {
+        border-top: 1px dashed #C7C7C7;
+      }
     }
     .lecture-num {
       display: inline-block;
@@ -36,23 +60,8 @@
         right: -7px;
       }
     }
-    .course-name{
-      height: 38px;
-      margin-top: 8px;
-      line-height: 20px;
-      overflow: hidden;
-      margin-bottom: 8px;
-      overflow: hidden;
-    }
-    .lecture-info {
-      padding-bottom: 2px;
-      padding-top: 2px;
-      margin-bottom: 6px;
-    }
     .btn {
       padding: 2px 8px !important;
     }
-    height: 170px;
-    bottom: -70px;
   }
 }
