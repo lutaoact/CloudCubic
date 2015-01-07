@@ -293,7 +293,7 @@
                lecture="lecture"
                class="col-md-6 video-body"
                key-points="keyPoints"
-               category-id="course.categoryId"
+               category-id="course.categoryId | objectId"
                media-api="mediaApi">
           </div>
         </div>
@@ -365,7 +365,7 @@
         question-type="quizzes"
         on-update="updateEditingProgress($lecture)"
         key-points="keyPoints"
-        category-id="course.categoryId"></edit-lecture-questions>
+        category-id="course.categoryId | objectId"></edit-lecture-questions>
 
     <edit-lecture-questions
         ng-show="viewState.questionType=='homeworks'"
@@ -373,7 +373,7 @@
         question-type="homeworks"
         on-update="updateEditingProgress($lecture)"
         key-points="keyPoints"
-        category-id="course.categoryId"></edit-lecture-questions>
+        category-id="course.categoryId | objectId"></edit-lecture-questions>
 
     <mark-offline-works
         ng-show="viewState.questionType=='offlineWorks'"

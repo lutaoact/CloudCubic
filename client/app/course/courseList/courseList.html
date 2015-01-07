@@ -15,7 +15,7 @@
             <label class="btn btn-toggle"
                    ng-repeat="category in categories"
                    ng-model="search.categoryId"
-                   ng-change="reload(1)"
+                   ng-change="reload(true)"
                    uncheckable
                    btn-radio="category._id">{{category.name}}</label>
           </div>
@@ -44,7 +44,7 @@
         items-per-page="pageConf.itemsPerPage"
         class="pagination-sm bud"
         boundary-links="true"
-        ng-change="reload($event)"
+        ng-change="reload()"
         rotate="false"
         max-size="pageConf.maxSize">
       </pagination>
