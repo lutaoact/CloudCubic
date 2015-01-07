@@ -18,10 +18,10 @@ class WrapRequest
 
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
-    logger.info 'page index conditions:', conditions
-    logger.info 'page index options:', options
-    # todo: tao
     conditions.deleteFlag = {$ne: true}
+    logger.info 'page index conditions:', conditions
+
+    logger.info 'page index options:', options
     # 若有sort参数传递，则解析结果，否则直接使用默认排序{created: -1}
     if options.sort?
       try
