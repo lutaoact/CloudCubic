@@ -95,7 +95,24 @@ angular.module('budweiserApp')
       .then ->
         event.$container.splice event.$container.indexOf(event), 1
 
-  Restangular.all('schedules').getList()
+  (()->
+    if Auth.getCurrentUser().role is 'student'
+      Restangular.all('classes')
+      .getList
+        studentId: Auth.getCurrentUser()._id
+    else
+      Restangular.all('classes')
+      .getList
+        teacherId: Auth.getCurrentUser()._id
+  )()
+  .then (classes)->
+    _.flatten(
+      classes.map (classe)->
+        classeCopy = angular.copy(classe)
+        schedules = classe.schedules.map (schedule)->
+          schedule.classe = classeCopy
+          schedule.course = classeCopy.courseId
+    )
   .then (schedules)->
     # Compose this week then set handle
     $scope.schedules = schedules

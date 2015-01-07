@@ -67,6 +67,7 @@ Const =
     Course: 10
     Question: 300
     Order: 10
+    Notice: 5
 
   QuestionType:
     Choice: 1

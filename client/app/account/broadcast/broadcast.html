@@ -17,19 +17,21 @@
       </div>
     </li>
   </ul>
-  <pagination
-    ng-hide="broadcasts.length <= itemsPerPage"
-    total-items="broadcasts.length"
-    ng-model="currentBroadcastPage"
-    items-per-page="itemsPerPage"
-    class="pagination-sm bud"
-    boundary-links="true"
-    rotate="false"
-    max-size="maxSize"
-    previous-text="&lsaquo;"
-    next-text="&rsaquo;"
-    first-text="&laquo;"
-    last-text="&raquo;"
-    num-pages="numPages">
-  </pagination>
+  <div class="row pagination-row text-center">
+    <pagination
+      ng-hide="broadcasts.length <= itemsPerPage"
+      total-items="broadcasts.length"
+      ng-model="currentBroadcastPage"
+      items-per-page="itemsPerPage"
+      class="pagination-sm bud"
+      boundary-links="true"
+      rotate="false"
+      max-size="maxSize"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      num-pages="numPages">
+    </pagination>
+  </div>
 </div>
