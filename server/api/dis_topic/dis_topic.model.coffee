@@ -57,3 +57,6 @@ exports.DisTopic = BaseModel.subclass
         default: false
 
     $super()
+
+  getTopicsNumByForumId: (forumId) ->
+    return @countQ forumId: forumId
