@@ -18,10 +18,10 @@ class WrapRequest
 
 
   wrapPageIndex: (req, res, next, conditions, options = {}) ->
-    logger.info 'page index conditions:', conditions
-    logger.info 'page index options:', options
-    # todo: tao
     conditions.deleteFlag = {$ne: true}
+    logger.info 'page index conditions:', conditions
+
+    logger.info 'page index options:', options
     # 若有sort参数传递，则解析结果，否则直接使用默认排序{created: -1}
     if options.sort?
       try
@@ -30,10 +30,14 @@ class WrapRequest
         logger.error err
         options.sort = null
 
+    #从limit中取值，若未定义，则去PageSize中制定model的值，否则，取Default的值
+    pageSize = options.limit ?
+               Const.PageSize[@constructor.name] ?
+               Const.PageSize.Default
     mongoQuery = @Model.find conditions
       .sort options.sort ? {created: -1}
-      .limit ~~options.limit ? Const.PageSize[@constructor.name]
-      .skip ~~options.from
+      .limit _.min [~~pageSize, Const.MaxPageSize]
+      .skip _.max [~~options.from, Const.MinSkipNum]
 
     mongoQuery = @populateQuery mongoQuery, @Model.populates?.index
 
@@ -137,12 +141,10 @@ class WrapRequest
     targetObjId = req.params.id
     fromWhom = req.user.id
     model = @Model
-    
     LikeUtils.createLike model, targetObjId, fromWhom
     .then (doc) ->
       console.log 'like result:', doc
       res.send doc
-      
       if doc.likeAction
         # create&send notice object
         LikeUtils.sendLikeNotice model, doc, fromWhom

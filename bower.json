@@ -39,7 +39,8 @@
     "angular-fullscreen": "~1.0.0",
     "angular-i18n": "~1.2.26",
     "Jcrop": "~0.9.12",
-    "textAngular": "v1.3.0-pre5"
+    "textAngular": "v1.3.0-pre5",
+    "tinycon": "https://github.com/tommoor/tinycon.git#0.6.3"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

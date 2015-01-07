@@ -56,7 +56,11 @@ Const =
     QuizAnswer: 'quiz_answer'
     Error: 'error'
 
+  MaxPageSize: 1000
+  MinSkipNum: 0
+
   PageSize:
+    Default: 10
     DisTopic: 10
     DisReply: 36
     Lecture: 30

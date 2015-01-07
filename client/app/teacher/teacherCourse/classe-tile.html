@@ -1,36 +1,55 @@
-<div class="classe-tile" >
+<div class="classe-tile">
   <span dropdown class="pull-right setting-btn">
-    <a href class="btn btn-sm pull-left" dropdown-toggle><i class="fa fa-chevron-down"></i></a>
+    <a href class="btn btn-sm pull-left" dropdown-toggle>
+      <i class="fa fa-chevron-down"></i>
+    </a>
     <ul class="dropdown-menu" role="menu" dropdown-toggle>
       <li><a href ng-click="editClasse(classe)">编辑</a></li>
       <li><a href ng-click="deleteClasse(classe)">删除</a></li>
     </ul>
   </span>
-  <a class="classe-title" href ng-click="viewClasse(classe)">{{classe.name}}</a>
+  <a class="classe-title"
+     href
+     ng-click="viewClasse(classe)">
+     {{classe.name}}
+  </a>
   <div class="divider" ng-if="plus"></div>
-  <a class="classe-course" ng-if="plus" href ui-sref="courseDetail({courseId:classe.courseId._id})">{{classe.courseId.name}}</a>
+  <a class="classe-course"
+     ng-if="plus && classe.courseId"
+     href
+     ui-sref="courseDetail({courseId:classe.courseId._id})">
+     {{classe.courseId.name}}
+  </a>
+  <span class="classe-course text-muted" ng-if="plus && !classe.courseId">未开设课程</span>
   <div class="text-muted teachers">
     <span ng-if="!classe.teachers.length">未设置授课教师</span>
-    <span class="classe-teacher" ng-repeat="teacher in classe.teachers">{{teacher.name}} </span>
+    <span class="classe-teacher"
+          ng-repeat="teacher in classe.teachers">
+          {{teacher.name}}
+    </span>
   </div>
   <div class="classe-times">
     <table>
       <tr class="tr-border">
         <td class="tr-title text-muted">报名时间 </td>
-        <td>{{classe.enrollment.from | date:'yyyy.MM.dd'}}</td>
+        <td>
+          {{(classe.enrollment.from | date:'yyyy.MM.dd') || '待定'}}
+        </td>
         <td class="tr-space text-muted"><b>-</b></td>
-        <td>{{classe.enrollment.to | date:'yyyy.MM.dd'}}</td>
+        <td>{{(classe.enrollment.to | date:'yyyy.MM.dd') || '待定'}}</td>
       </tr>
       <tr>
         <td class="tr-title text-muted">上课时间 </td>
-        <td>{{classe.duration.from | date:'yyyy.MM.dd'}}</td>
+        <td>{{(classe.duration.from | date:'yyyy.MM.dd') || '待定'}}</td>
         <td class="tr-space text-muted"><b>-</b></td>
-        <td>{{classe.duration.to | date:'yyyy.MM.dd'}}</td>
+        <td>{{(classe.duration.to | date:'yyyy.MM.dd') || '待定'}}</td>
       </tr>
     </table>
   </div>
   <div class="classe-footer">
-    <span class="yuan">¥ {{classe.price.toFixed(2)}}</span>
-    <span class="pull-right">{{classe.students.length}} 个学生</span>
+    <span class="yuan" ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
+    <span class="yuan" ng-if="!(classe.price > 0)">免费</span>
+    <span ng-if="!plus" class="pull-right">{{classe.students.length}} 个学生</span>
+    <a href ng-if="plus" ng-click="viewClasse(classe)" class="pull-right">{{classe.students.length}} 个学生</a>
   </div>
 </div>

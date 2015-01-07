@@ -26,7 +26,7 @@
         <div class="col-sm-3">
           <div class="row">
             <accordion class="bud" close-others="false">
-              <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
+              <accordion-group is-open="viewState.categoryOpen" ng-if="!Auth.hasRole('teacher')" ng-init="viewState.categoryOpen=true">
                 <accordion-heading>
                   分类 <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.categoryOpen, 'fa-chevron-right': !viewState.categoryOpen}"></i>
                 </accordion-heading>

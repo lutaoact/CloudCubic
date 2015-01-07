@@ -22,7 +22,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
             Courses: -> $scope.courses
             Classe: ->
               editingClasse = angular.copy(classe)
-              editingClasse.courseId = editingClasse.courseId._id ? editingClasse.courseId
+              editingClasse.courseId = editingClasse.courseId?._id ? editingClasse.courseId
               editingClasse
             Teachers: -> Restangular.all('users').getList(role:'teacher')
         .result.then (newClasse) ->
