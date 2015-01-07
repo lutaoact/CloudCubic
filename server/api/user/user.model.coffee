@@ -49,6 +49,11 @@ exports.User = BaseModel.subclass
         id: String
         name: String
         token: String
+      weixin:
+        id: String
+        name: String
+        token: String
+        other: {}
       salt :
         type : String
       status :
