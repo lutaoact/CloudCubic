@@ -1,7 +1,7 @@
 <div class="notice-view">
   <ul class="media-list message-list"
       ng-if="messages.length > 0">
-    <li ng-repeat="message in messages|orderBy:'raw.status'|paging:itemsPerPage:currentMessagePage"
+    <li ng-repeat="message in messages|orderBy:'raw.status'"
         class="message media broadcast"
         ng-class="{'unread':!message.raw.status}"
         ng-click="markAsRead(message)"
@@ -19,19 +19,24 @@
       </div>
     </li>
   </ul>
-  <pagination
-    ng-hide="messages.length <= itemsPerPage"
-    total-items="messages.length"
-    ng-model="currentMessagePage"
-    items-per-page="itemsPerPage"
-    class="pagination-sm bud"
-    boundary-links="true"
-    rotate="false"
-    max-size="maxSize"
-    previous-text="&lsaquo;"
-    next-text="&rsaquo;"
-    first-text="&laquo;"
-    last-text="&raquo;"
-    num-pages="numPages">
-  </pagination>
+
+  <div class="row pagination-row text-center"
+       ng-if="messages.$count"
+       ng-show="messages.$count > pageConf.itemsPerPage">
+    <pagination
+      total-items="messages.$count"
+      ng-model="pageConf.currentPage"
+      ng-change="changePage()"
+      items-per-page="pageConf.itemsPerPage"
+      class="pagination-sm bud"
+      boundary-links="true"
+      rotate="false"
+      max-size="pageConf.maxSize"
+      previous-text="&lsaquo;"
+      next-text="&rsaquo;"
+      first-text="&laquo;"
+      last-text="&raquo;"
+      num-pages="numPages">
+    </pagination>
+  </div>
 </div>

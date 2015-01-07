@@ -39,7 +39,7 @@ angular.module('budweiserApp')
     roleRequired: 'user'
 
   .state 'settings.notice',
-    url: '/notice'
+    url: '/notice?page'
     templateUrl: 'app/account/notice/notice.html'
     controller: 'NoticeCtrl'
     roleRequired: 'user'
