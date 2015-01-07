@@ -61,16 +61,31 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
           lectureId: $scope.course.$lectures[0]._id
 
     addToCart: (classe)->
+      if Auth.hasRole('teacher')
+        notify
+          message: '请登录学生账户购买该课程开班'
+          classes: 'alert-danger'
+        return
       Restangular.all('carts/add').post classes: [classe._id]
       .then (result)->
         $rootScope.$broadcast 'addedToCart', result
 
     makeOrder: (classe)->
+      if Auth.hasRole('teacher')
+        notify
+          message: '请登录学生账户购买该课程开班'
+          classes: 'alert-danger'
+        return
       Restangular.all('orders').post classes: [classe._id]
       .then (order)->
         $state.go 'order', orderId: order._id
 
     enrollFreeClass: (classe)->
+      if Auth.hasRole('teacher')
+        notify
+          message: '请登录学生账户参加该课程开班'
+          classes: 'alert-danger'
+        return
       Restangular.all('classes').one(classe._id, 'enroll').post()
       .then ->
         console.log 'enrolled!'
@@ -92,4 +107,3 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
     $scope.classe = classe
   , (err)->
     console.log err
-
