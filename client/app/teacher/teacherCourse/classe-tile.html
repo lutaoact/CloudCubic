@@ -15,12 +15,12 @@
   </a>
   <div class="divider" ng-if="plus"></div>
   <a class="classe-course"
-     ng-if="plus"
+     ng-if="plus && classe.courseId"
      href
      ui-sref="courseDetail({courseId:classe.courseId._id})">
      {{classe.courseId.name}}
   </a>
-  <a class="classe-course" ng-if="plus && !classe.courseId">未开设课程</a>
+  <span class="classe-course text-muted" ng-if="plus && !classe.courseId">未开设课程</span>
   <div class="text-muted teachers">
     <span ng-if="!classe.teachers.length">未设置授课教师</span>
     <span class="classe-teacher"
