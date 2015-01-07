@@ -92,17 +92,19 @@
             </a>
             <span class="user-name">{{Auth.getCurrentUser().name}}<span class="caret"></span></span>
           </div>
-          <ul class="dropdown-menu profile-menu" role="menu">
+          <ul class="dropdown-menu profile-menu dropdown-toggle" role="menu">
             <li ng-if="Auth.getCurrentUser().role == 'student'">
-              <a href="/orders"
+              <a ui-sref="orderList"
+                 ui-sref-opts="{reload: true}"
                  rel="nofollow">
               我的订单</a></li>
             <hr ng-if="Auth.getCurrentUser().role == 'student'">
-            <li><a href="/settings/notice"
+            <li><a ui-sref="settings.broadcast"
                    rel="nofollow">
               公告信息</a></li>
             <li>
-              <a href="/settings/notice"
+              <a ui-sref="settings.notice"
+                 ui-sref-opts="{reload: true}"
                  rel="nofollow">
                 我的消息<span class="badge pull-right"
                           ng-show="unreadMsgCount">
@@ -111,7 +113,8 @@
               </a>
             </li>
             <hr>
-            <li><a href="/settings"
+            <li><a ui-sref="settings.profile"
+                   ui-sref-opts="{reload: true}"
                    rel="nofollow">
               个人设置</a></li>
             <li>
