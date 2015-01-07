@@ -48,3 +48,8 @@ angular.module('budweiserApp')
         notify
           message: '编辑开课班级信息失败'
           classes: 'alert-danger'
+
+    viewState:
+      dateOptions:
+        startingDay: 0
+        "show-weeks": false

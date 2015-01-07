@@ -14,7 +14,7 @@
       </ui-select>
     </div>
     <div class="form-group col-xs-6">
-      <ui-select ng-model="viewState.classe" ng-disabled="viewState.isBusy||!viewState.course">
+      <ui-select ng-model="viewState.classe" ng-change="getShifts()" ng-disabled="viewState.isBusy||!viewState.course">
         <ui-select-match placeholder="选择班级">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="option as option in viewState.course.classes | filter: $select.search">
           <div ng-bind-html="option.name | highlight: $select.search"></div>
@@ -26,7 +26,7 @@
   <div class="clearfix title-row row">
     <div class="form-group col-xs-12 bud-datepicker-wrap">
       从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="viewState.startDate"
         is-open="viewState.fromPopOpened"
         ng-click="viewState.fromPopOpened = true;"
@@ -36,7 +36,7 @@
       </button>
 
       到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
-        datepicker-popup="{{format}}"
+        datepicker-popup="'yyyy-MM-dd'"
         ng-model="viewState.endDate"
         is-open="viewState.toPopOpened"
         min-date="viewState.startDate"
