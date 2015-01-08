@@ -28,3 +28,5 @@ module.exports =
 
   NoStudentsHere: 10045
   NoClassesHere: 10050
+
+  UnallowedDomain: 10055
