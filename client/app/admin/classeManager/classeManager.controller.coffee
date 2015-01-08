@@ -58,6 +58,7 @@ angular.module('budweiserApp')
     limit      : $scope.pageConf.itemsPerPage
     keyword    : $scope.search.keyword
     categoryId : $scope.search.category
+    sort       : JSON.stringify {setTop : -1, created : -1}
   )
   .then (classes) ->
     console.log 'load classes: ', classes

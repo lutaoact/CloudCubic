@@ -52,6 +52,7 @@
   <ul class="list-group ">
     <li class="bud thumbnail media col-md-12 comment"
         ng-repeat="comment in comments|orderBy: viewState.orderBy|filter: commentsFilter" id="{{comment._id}}" >
+      <a href ng-if="comment.postBy._id == me()._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
       <a class="pull-left" href>
         <div class="media-object avatar-md"
              source-attr="background-image"
@@ -73,7 +74,6 @@
             </i>
             {{comment.likeUsers.length||0}}
           </small>
-          <a href ng-show="comment.postBy._id == me()._id" class="pull-right" ng-click="deleteComment(comment)"><i class="fa fa-times"></i></a>
         </h5>
         <div class="comment-body blog" compile-html="comment.content" ></div>
       </div>

@@ -29,7 +29,7 @@
           role="form"
           name="profileForm"
           ng-submit="saveProfile(profileForm)">
-      <div class="form-group">
+      <div class="form-group" ng-if="user.email.length > 0">
         <label class="col-xs-4 control-label">邮箱</label>
         <div class="col-xs-8">
           <label class="control-label">{{user.email}}</label>

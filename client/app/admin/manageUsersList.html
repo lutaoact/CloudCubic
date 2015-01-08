@@ -138,10 +138,10 @@
              class="bud checkbox-default">
       <a ng-click="showDetail(user)">
         <span class="name">{{user.name}}</span>
-        <span class="email">{{user.email}}</span>
+        <span class="email">{{user.email}}<span class="text-primary" ng-if="user.weixin.id"> 微信用户</span></span>
       <span class="pull-right">
-        <span class="status text-success" ng-if="user.status == 1">已激活</span>
-        <span class="status text-danger" ng-if="user.status != 1">等待激活</span>
+        <span class="status text-success" ng-if="user.weixin.id || user.status == 1">已激活</span>
+        <span class="status text-danger" ng-if="!user.weixin.id && user.status != 1">等待激活</span>
       </span>
       </a>
     </div>

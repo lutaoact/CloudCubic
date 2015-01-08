@@ -35,6 +35,7 @@ angular.module('budweiserApp')
     from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
     limit      : $scope.pageConf.itemsPerPage
     categoryId : $scope.search.categoryId
+    sort       : JSON.stringify {setTop:-1, created:-1}
   )
   .then (classes) ->
     $scope.allClasses = classes

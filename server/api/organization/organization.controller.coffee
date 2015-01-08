@@ -57,6 +57,13 @@ exports.update = (req, res, next) ->
   delete body._id
   # delete body.uniqueName
 
+  if body.customDomain?.indexOf 'cloud3edu' > -1
+    return next {
+      status: 403
+      errCode: ErrCode.UnallowedDomain
+      errMsg: '域名中不允许带有cloud3edu'
+    }
+
   (if orgId.toString() isnt req.user.orgId.toString()
     Q.reject
       status : 403

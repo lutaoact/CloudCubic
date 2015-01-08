@@ -9,11 +9,17 @@ angular.module('budweiserApp').directive 'classeTile', ()->
     courses: '='
     plus: '@'
 
-  controller: ($scope, $state, Auth, $modal, Restangular)->
+  controller: (
+    Auth
+    $scope
+    $state
+    $modal
+    Restangular
+  ) ->
     angular.extend $scope,
-      me: Auth.getCurrentUser
+      Auth: Auth
 
-      editClasse: (classe)->
+      editClasse: (classe) ->
         $modal.open
           templateUrl: 'app/admin/classeManager/editClasseModal.html'
           controller: 'EditClasseModalCtrl'
@@ -28,6 +34,14 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         .result.then (newClasse) ->
           angular.extend classe, newClasse
 
+      switchSetTop: (classe) ->
+        setTop = if classe.setTop then null else new Date()
+        Restangular
+        .one('classes', classe._id)
+        .patch setTop:setTop
+        .then (newClasse) ->
+          angular.extend classe, newClasse
+          
       deleteCallback: (classe) ->
         $scope.$emit 'classe.deleted', classe
 
