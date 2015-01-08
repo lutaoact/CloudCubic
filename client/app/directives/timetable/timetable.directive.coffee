@@ -151,12 +151,12 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       $modalInstance.dismiss('close')
 
     loadCourses: ()->
-      Restangular.all('courses').getList()
+      Restangular.all('courses/me').getList()
       .then (courses)->
         $scope.courses = courses
       .then (courses)->
         $q.all(courses.map (course)->
-          Restangular.all('classes').getList({couresId: course._id})
+          Restangular.all('classes').getList({courseId: course._id})
           .then (classes)->
             course.classes = classes
         )
@@ -178,7 +178,10 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       if $scope.shifts.length
         schedules = []
         $scope.shifts.forEach (shift)->
-          if shift.weekday is NaN
+          startMoment = null
+          endMoment = null
+          untilMoment = null
+          if isNaN(shift.weekday.value)
             startMoment = moment($scope.viewState.startDate).hours(shift.start.hour).minute(shift.start.minute)._d
             endMoment = moment($scope.viewState.startDate).hours(shift.start.hour).minute(shift.start.minute).add(shift.last,'minutes')._d
             untilMoment = endMoment
@@ -193,22 +196,34 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
             start: startMoment
             end: endMoment
             until: untilMoment
-          console.log schedule
 
           schedules.push schedule
-
-        $q.all(schedules.map (schedule)->
-          Restangular.all('schedules').post schedule
-        ).then (data)->
-          $modalInstance.close data
+        console.log schedules
+        $scope.viewState.classe.patch
+          schedules: schedules
+        .then (classe)->
+          $modalInstance.close classe.schedules
       else
         console.log 'no shift found'
-
-    format: ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate']
 
     dateOptions:
       startingDay: 0
       "show-weeks": false
+
+    getShifts: ()->
+
+      if $scope.viewState.classe
+        $scope.viewState.startDate = $scope.viewState.classe.duration.from
+        $scope.viewState.endDate = $scope.viewState.classe.duration.to
+        console.log $scope.viewState.classe
+        $scope.shifts = $scope.viewState.classe.schedules.map (schedule)->
+          weekday: if moment(schedule.end).isSame(moment(schedule.until),'day') then $scope.weekdays[0] else $scope.weekdays[moment(schedule.start).isoWeekday()]
+          start:
+            hour: moment(schedule.start).get('hour')
+            minute: moment(schedule.start).get('minute')
+          last: (moment(schedule.end).get('hour') * 60 + moment(schedule.end).get('minute')) - (moment(schedule.start).get('hour') * 60 + moment(schedule.start).get('minute'))
+      else
+        $scope.shifts = []
 
     shifts: []
 
@@ -253,15 +268,5 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
 
     removeShift: (shift)->
       $scope.shifts.splice $scope.shifts.indexOf(shift), 1
-
-  $scope.$watch 'viewState.startDate', (value)->
-    if value and $scope.shifts.length is 0
-      # initial the first shift
-      $scope.shifts.push
-        weekday: $scope.weekdays[moment(value).isoWeekday()]
-        start:
-          hour: 9
-          minute: 0
-        last: 90
 
   $scope.loadCourses()

@@ -56,7 +56,7 @@ exports.showStudents = (req, res, next) ->
     res.send classe.students
   , next
 
-pickedKeys = ["name", "courseId", "enrollment", "duration", "price", "teachers"]
+pickedKeys = ["name", "courseId", "enrollment", "duration", "price", "teachers", "schedules", "address"]
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.orgId = req.user.orgId

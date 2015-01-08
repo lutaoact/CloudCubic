@@ -106,16 +106,18 @@ angular.module('budweiserApp')
         teacherId: Auth.getCurrentUser()._id
   )()
   .then (classes)->
-    _.flatten(
+    allSchedules = _.flatten(
       classes.map (classe)->
         classeCopy = angular.copy(classe)
         schedules = classe.schedules.map (schedule)->
           schedule.classe = classeCopy
           schedule.course = classeCopy.courseId
+          schedule
+        schedules
     )
-  .then (schedules)->
     # Compose this week then set handle
-    $scope.schedules = schedules
+    $scope.schedules = allSchedules
+    console.log allSchedules
     bindSchedules()
 
   eventsOfDay = (day)->
