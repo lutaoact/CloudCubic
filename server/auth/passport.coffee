@@ -4,6 +4,7 @@ passport = require 'passport'
 User = _u.getModel 'user'
 WeiboStrategy = require('passport-weibo').Strategy
 QQStrategy = require('passport-qq').Strategy
+WeixinStrategy = require('passport-weixin').Strategy
 
 passport.use(new WeiboStrategy({
   clientID    : config.weiboAuth.appkey
@@ -83,4 +84,41 @@ passport.use(new QQStrategy({
         if err then return done err
 
         done null, user
+))
+
+passport.use(new WeixinStrategy({
+  clientID    : config.weixinAuth.appkey
+  clientSecret: config.weixinAuth.secret
+  callbackURL : config.weixinAuth.oauth_callback_url
+  requireState: false
+  scope       : 'snsapi_login'
+  passReqToCallback: true
+}, (req, token, refreshToken, profile, done) ->
+  weixin =
+    id   : profile.id
+    token: token
+    name : profile.displayName
+    other: profile
+
+  User.findOne {'weixin.id': profile.id, orgId: req.org?._id}, (err, dbUser) ->
+    if err then return done err
+
+    if dbUser
+      dbUser.weixin = weixin
+
+      dbUser.save (err) ->
+        return done err, dbUser
+    else
+      if req.user
+        req.user.weixin = weixin
+        req.user.save (err) ->
+          return done err, req.user
+      else
+        data =
+          name: weixin.name
+          avatar: profile.profileUrl
+          weixin: weixin
+          orgId: req.org?._id
+        User.create data, (err, user) ->
+          return done err, user
 ))

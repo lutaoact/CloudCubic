@@ -22,7 +22,10 @@ exports.index = (req, res, next) ->
   conditions.teachers = req.query.teacherId if req.query.teacherId
   conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
 
-  options = limit: req.query.limit, from: req.query.from
+  options =
+    limit: req.query.limit
+    from : req.query.from
+    sort : req.query.sort #JSON.stringify {setTop: -1, created: -1}
 
   Q(
     if req.query.categoryId
