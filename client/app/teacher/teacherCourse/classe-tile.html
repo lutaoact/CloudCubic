@@ -5,9 +5,16 @@
     </a>
     <ul class="dropdown-menu" role="menu" dropdown-toggle>
       <li><a href ng-click="editClasse(classe)">编辑</a></li>
+      <li ng-if="plus">
+        <a href ng-click="switchSetTop(classe)">
+          <span ng-if="classe.setTop">取消</span>置顶
+        </a>
+      </li>
       <li><a href ng-click="deleteClasse(classe)">删除</a></li>
     </ul>
   </span>
+  <div class="set-top" 
+       ng-if="plus && classe.setTop">已置顶</div>
   <a class="classe-title"
      href
      ng-click="viewClasse(classe)">
