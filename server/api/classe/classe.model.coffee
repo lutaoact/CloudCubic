@@ -71,6 +71,8 @@ exports.Classe = BaseModel.subclass
       isOpen:
         type: Boolean
         default: true
+      setTop:
+        type: Date
       deleteFlag:
         type: Boolean
         default: false

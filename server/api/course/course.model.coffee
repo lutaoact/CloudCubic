@@ -59,8 +59,6 @@ exports.Course = BaseModel.subclass
       commentsNum:
         type: Number
         default: 0
-      setTop:
-        type: Date
 
     $super()
 
