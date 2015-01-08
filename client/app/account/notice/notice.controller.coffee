@@ -42,5 +42,5 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
   .then (notices)->
     $scope.messages = []
     notices.forEach (notice)->
-      $scope.messages.splice 0, 0, Msg.genMessage(notice)
+      $scope.messages.push Msg.genMessage(notice)
     $scope.messages.$count = notices.$count
