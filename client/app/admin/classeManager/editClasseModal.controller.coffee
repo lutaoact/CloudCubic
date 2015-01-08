@@ -3,6 +3,7 @@
 angular.module('budweiserApp')
 
 .controller 'EditClasseModalCtrl', (
+  Auth
   $scope
   Classe
   notify
@@ -19,6 +20,8 @@ angular.module('budweiserApp')
     classe: Classe
     courses: Courses
     teachers: Teachers
+    Auth: Auth
+    $modalInstance: $modalInstance
 
     addTeacher: (teacher) ->
       console.log 'addTeacher', teacher

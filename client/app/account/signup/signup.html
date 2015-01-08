@@ -149,40 +149,6 @@
           </p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-success': form.alipayEmail.$valid && submitted,
-                                            'has-error': form.alipayEmail.$invalid && submitted }">
-          <label>支付宝Email</label>
-
-          <input type="email" name="alipayEmail" class="form-control input-sm" ng-model="organization.alipayEmail"
-                 ng-model-options="{ debounce: 250 }"
-                 required
-                 mongoose-error/>
-          <p class="help-block" ng-show="form.alipayEmail.$error.email && submitted">
-            邮箱格式不对
-          </p>
-          <p class="help-block" ng-show="form.alipayEmail.$error.required && submitted">
-            请输入机构支付宝账号邮箱
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label>支付宝合作者身份(PID)</label>
-
-          <input type="text" name="alipayPID" class="form-control input-sm" ng-model="organization.alipayPID"
-                 ng-model-options="{ debounce: 250 }"
-                 required
-                 mongoose-error/>
-        </div>
-
-        <div class="form-group">
-          <label>支付宝合作者身份(Key)</label>
-
-          <input type="text" name="alipayPID" class="form-control input-sm" ng-model="organization.alipayKey"
-                 ng-model-options="{ debounce: 250 }"
-                 required
-                 mongoose-error/>
-        </div>
-
         <div class="form-group" ng-class="{ 'has-success': form.orgLocation.$valid && submitted,
                                             'has-error': form.orgLocation.$invalid && submitted }">
           <label>位置/您的机构所在地</label>

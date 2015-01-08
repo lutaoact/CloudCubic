@@ -32,9 +32,6 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           orgName: $scope.organization.name
           orgUniqueName: $scope.organization.uniqueName
           orgLocation: $scope.organization.location
-          orgAlipayEmail:  $scope.organization.alipayEmail
-          orgAlipayPID:  $scope.organization.alipayPID
-          orgAlipayKey:  $scope.organization.alipayKey
         .then ->
           $scope.signupFinish = true
         , (err) ->

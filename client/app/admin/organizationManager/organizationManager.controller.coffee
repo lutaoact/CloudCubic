@@ -62,7 +62,7 @@ angular.module('budweiserApp')
   Restangular
   .one('org_alipays','me').get()
   .then (data) ->
-    $scope.orgAlipay = data
+    $scope.orgAlipay = data ? {}
 
   Restangular
   .one('organizations', org._id)
