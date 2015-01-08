@@ -53,9 +53,6 @@ exports.Course = BaseModel.subclass
         type: ObjectId
         ref: "user"
       ]
-      isPublished:
-        type: Boolean
-        default: false
       deleteFlag:
         type: Boolean
         default: false

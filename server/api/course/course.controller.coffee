@@ -20,7 +20,6 @@ exports.index = (req, res, next) ->
 
   conditions = orgId : req.org?._id
   conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
-  conditions.isPublished = true
   options = limit: req.query.limit, from: req.query.from
 
   WrapRequest.wrapPageIndex req, res, next, conditions, options
@@ -84,7 +83,7 @@ exports.create = (req, res, next) ->
 
 
 
-pickedUpdatedKeys = omit: ['_id', 'orgId', 'isPublished', 'deleteFlag']
+pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
 
   CourseUtils.buildWriteConditions req
@@ -96,9 +95,3 @@ exports.destroy = (req, res, next) ->
   CourseUtils.buildWriteConditions req
   .then (conditions) ->
     WrapRequest.wrapDestroy req, res, next, conditions
-
-
-exports.publish = (req, res, next) ->
-  CourseUtils.buildWriteConditions req
-  .then (conditions) ->
-    WrapRequest.wrapChangeStatus req, res, next, conditions, {isPublished: true}
