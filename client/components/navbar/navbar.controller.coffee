@@ -22,7 +22,7 @@ angular.module 'budweiserApp'
   $rootScope
   Restangular
   $localStorage
-  $modal
+  Msg
 ) ->
 
   angular.extend $scope,
@@ -31,6 +31,7 @@ angular.module 'budweiserApp'
     viewState:
       isCollapsed: true
     Auth: Auth
+    getMsgCount: Msg.getMsgCount
     unreadMsgCount: 0
     getTitle: Navbar.getTitle
     getVisible: Navbar.getVisible
@@ -39,6 +40,7 @@ angular.module 'budweiserApp'
       $scope.viewState.isCollapsed = val
 
     logout: ->
+      Msg.clearMsg()
       Auth.logout()
       socket.close()
       $state.go($localStorage.global?.loginState or 'main')
@@ -52,29 +54,5 @@ angular.module 'budweiserApp'
 #        .then ()->
 #          $scope.messages.length = 0
 #
-#    removeMsg: (message, $event)->
-#      # for only reload the topicDetail directive when we are just on this forum page.
-#      $rootScope.$broadcast("forum/reloadReplyList", message.raw.data?.disReply?._id)
-#
-#      $event?.stopPropagation()
-#      noticeId = message.raw._id
-#      Restangular.all('notices/read').post ids:[noticeId]
-#      .then ->
-#        $scope.messages.splice $scope.messages.indexOf(message), 1
-
     displayCourseMenu: ->
       $state.params.courseId && $state.current.name.indexOf('admin') != 0
-
-  $scope.$on 'message.notice', ->
-    $scope.unreadMsgCount += 1
-
-  $scope.$on 'message.read', ->
-    $scope.unreadMsgCount -= 1
-
-  Restangular.all('notices').customGET('unreadCount')
-  .then (data)->
-    $scope.unreadMsgCount = data.unreadCount
-    Tinycon.setBubble($scope.unreadMsgCount)
-
-  $scope.$watch 'unreadMsgCount', ->
-    Tinycon.setBubble($scope.unreadMsgCount);

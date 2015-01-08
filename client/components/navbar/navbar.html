@@ -107,8 +107,8 @@
                  ui-sref-opts="{reload: true}"
                  rel="nofollow">
                 我的消息<span class="badge pull-right"
-                          ng-show="unreadMsgCount">
-                {{unreadMsgCount||'0'}}
+                          ng-show="getMsgCount()">
+                {{getMsgCount()||'0'}}
                 </span>
               </a>
             </li>
@@ -127,8 +127,8 @@
           </ul>
           <span class="badge"
                 style="position: absolute;top: 9px;left: 18px;"
-                ng-show="unreadMsgCount">
-            {{unreadMsgCount||'0'}}
+                ng-show="getMsgCount()">
+            {{getMsgCount()||'0'}}
           </span>
         </li>
       </ul>

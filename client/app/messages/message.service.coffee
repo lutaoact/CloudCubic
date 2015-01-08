@@ -41,13 +41,24 @@ angular.module 'budweiserApp'
         type: 'message'
 
   instance =
-    messages: []
+    unreadMsgCount: 0
     genMessage: genMessage
     init: ()->
-      Restangular.all('notices').getList()
-      .then (notices)->
-        notices.forEach (notice)->
-          instance.messages.splice 0, 0, genMessage(notice)
+      Restangular.all('notices').customGET('unreadCount')
+      .then (data)->
+        instance.unreadMsgCount = data.unreadCount
+        Tinycon.setBubble(instance.unreadMsgCount)
+    addMsg: ->
+      instance.unreadMsgCount += 1
+      Tinycon.setBubble(instance.unreadMsgCount)
+    readMsg: ->
+      instance.unreadMsgCount -= 1
+      Tinycon.setBubble(instance.unreadMsgCount)
+    clearMsg: ->
+      instance.unreadMsgCount = 0
+      Tinycon.setBubble(instance.unreadMsgCount)
+    getMsgCount: ->
+      instance.unreadMsgCount
 
   return instance
 

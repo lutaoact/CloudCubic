@@ -145,13 +145,15 @@ angular.module 'budweiserApp', [
   socket
   $modal
   $rootScope
+  Msg
 ) ->
 
   init: (me) ->
     socket.setup()
     if me?
       socket.setHandler Const.MsgType.Notice, (data) ->
-        $rootScope.$broadcast 'message.notice', data
+#        $rootScope.$broadcast 'message.notice', data
+        Msg.addMsg()
     if me?.role is 'student'
       socket.setHandler Const.MsgType.Quiz, (data) ->
         $modal.open

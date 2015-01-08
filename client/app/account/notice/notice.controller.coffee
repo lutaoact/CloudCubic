@@ -26,7 +26,7 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
       Restangular.all('notices/read').post ids:[noticeId]
       .then ()->
         message.raw.status = 1
-        $rootScope.$broadcast 'message.read', message
+        Msg.readMsg()
 
     changePage: ()->
       console.log $scope.pageConf.currentPage
