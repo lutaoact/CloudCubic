@@ -57,7 +57,7 @@ angular.module('budweiserApp')
       isNaN(value)
 
     getSchedules: ()->
-      if $scope.shifts.length
+      if $scope.shifts?.length
         schedules = []
         $scope.shifts.forEach (shift)->
           startMoment = null
@@ -87,8 +87,8 @@ angular.module('budweiserApp')
 
     getShifts: ()->
       $scope.shifts = []
-      if $scope.classe
-        $scope.shifts = $scope.classe.schedules?.map (schedule)->
+      if $scope.classe?.schedules?.lenght
+        $scope.shifts = $scope.classe.schedules.map (schedule)->
           weekday: if moment(schedule.end).isSame(moment(schedule.until),'day') then $scope.weekdays[0] else $scope.weekdays[moment(schedule.start).isoWeekday()]
           date: moment(schedule.start)._d
           start:

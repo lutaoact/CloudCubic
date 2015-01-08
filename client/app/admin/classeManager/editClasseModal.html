@@ -1,4 +1,4 @@
-<div class="modal-header">
+<div class="col-md-10 col-md-offset-1">
   <h4 class="modal-title">
     <i class="budon budon-course-classe"></i>
     <span ng-if="!classe._id">创建新班级</span>
@@ -6,163 +6,170 @@
     <a class="close" ng-click="cancel()">&times;</a>
   </h4>
 </div>
-<form class="form-horizontal edit-classe-form"
-      name="form">
-  <div class="form-group form-group-sm">
-    <span class="control-label col-sm-3">班级名</span>
-    <div class="col-sm-8">
-      <input class="form-control"
-             type="text"
-             id="classe-name"
-             ng-init="nameInputFocus=true"
-             focus-me="nameInputFocus"
-             placeholder="请输入班级名称"
-             ng-model="classe.name"
-             required>
-      <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
-    </div>
-  </div>
-  <div class="form-group form-group-sm" ng-if="courses.length">
-    <span class="control-label col-sm-3">课程名</span>
-    <div class="col-sm-8">
-      <select
-        class="form-control"
-        id="classe-course"
-        ng-model="classe.courseId"
-        ng-options="course._id as course.name for course in courses"
-        required>
-        <option value="" class="text-muted">请选择一门课程</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm" ng-class="{'has-error': form.price.$invalid}">
-    <span class="control-label col-sm-3">价格</span>
-    <div class="col-sm-8">
-      <div class="input-group">
+<div class="col-md-10 col-md-offset-1">
+  <form class="form-horizontal edit-classe-form"
+        name="form">
+    <div class="form-group form-group-sm">
+      <span class="control-label col-sm-3">班级名</span>
+      <div class="col-sm-9">
         <input class="form-control"
-               type="number"
-               id="classe-price"
-               placeholder="请输入价格"
-               type="number"
-               min="0"
-               ng-model="classe.price"
-               name="price"
-               is-alipay-set="price"
+               type="text"
+               id="classe-name"
+               ng-init="nameInputFocus=true"
+               focus-me="nameInputFocus"
+               placeholder="请输入班级名称"
+               ng-model="classe.name"
                required>
-        <div class="input-group-addon">元</div>
-      </div>
-      <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
-      <p class="text-danger" ng-show="form.price.$error.aplipaySet">
-        <span ng-if="Auth.hasRole('admin')">
-          开设收费课程需要支付宝信息，请在<a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>进行设置
-        </span>
-        <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">开设收费课程需要支付宝信息，请联系机构管理员进行设置</span>
-      </p>
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm">
-    <span class="control-label col-sm-3">授课教师</span>
-    <div class="col-sm-8">
-      <select
-        class="form-control"
-        id="classe-teacher"
-        ng-model="selectedTeacher"
-        ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
-        ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
-        <option value="" class="text-muted">请选择授课教师</option>
-      </select>
-      <div class="row-fluid classe-teachers">
-        <span ng-repeat="teacher in classe.teachers">
-          <div class="label label-default"
-               style="font-size: 1em; line-height:2em; margin-right:.2em">
-            {{teacher.name}}
-            <a ng-click="removeTeacher($index)"
-               class="close">&times;</a>
-          </div>
-        </span>
+        <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
       </div>
     </div>
-  </div>
-
-  <div class="form-group form-group-sm">
-    <span class="control-label col-sm-3">上课地点</span>
-    <div class="col-sm-8">
-      <input class="form-control"
-             type="text"
-             id="classe-address"
-             placeholder="请输入授课地点"
-             ng-model="classe.address">
-      <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
-    </div>
-  </div>
-
-  <ul class="nav nav-tabs" ng-init="viewState.datetimeConfig='date'">
-    <li ng-class="{'active':viewState.datetimeConfig=='date'}">
-      <a href="" ng-click="viewState.datetimeConfig='date'">日期设置</a>
-    </li>
-    <li ng-class="{'active':viewState.datetimeConfig=='time'}">
-      <a href="" ng-click="viewState.datetimeConfig='time'">时间段设置</a>
-    </li>
-  </ul>
-
-  <div class="classe-times" ng-show="viewState.datetimeConfig=='date'">
-    <div class="form-group bud-datepicker-wrap">
-      <span class="control-label col-sm-3">报名日期</span>
-      <div class="col-sm-8">
-        从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-          datepicker-popup="'yyyy-MM-dd'"
-          ng-model="classe.enrollment.from"
-          is-open="viewState.enrollment.fromPopOpened"
-          ng-click="viewState.enrollment.fromPopOpened = true;"
-          show-button-bar="false"
-          datepicker-options="viewState.dateOptions">
-          {{(classe.enrollment.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-        </button>
-
-        到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-          datepicker-popup="'yyyy-MM-dd'"
-          ng-model="classe.enrollment.to"
-          is-open="viewState.enrollment.toPopOpened"
-          min-date="classe.enrollment.from"
-          ng-click="viewState.enrollment.toPopOpened = true;"
-          show-button-bar="false"
-          datepicker-options="viewState.dateOptions">
-          {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-        </button>
+    <div class="form-group form-group-sm" ng-if="courses.length">
+      <span class="control-label col-sm-3">课程名</span>
+      <div class="col-sm-9">
+        <select
+          class="form-control"
+          id="classe-course"
+          ng-model="classe.courseId"
+          ng-options="course._id as course.name for course in courses"
+          required>
+          <option value="" class="text-muted">请选择一门课程</option>
+        </select>
       </div>
     </div>
 
-    <div class="form-group bud-datepicker-wrap">
-      <span class="control-label col-sm-3">上课日期</span>
-      <div class="col-sm-8">
-        从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-          datepicker-popup="'yyyy-MM-dd'"
-          ng-model="classe.duration.from"
-          is-open="viewState.duration.fromPopOpened"
-          ng-click="viewState.duration.fromPopOpened = true;"
-          show-button-bar="false"
-          datepicker-options="viewState.dateOptions">
-          {{(classe.duration.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-        </button>
-
-        到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-          datepicker-popup="'yyyy-MM-dd'"
-          ng-model="classe.duration.to"
-          is-open="viewState.duration.toPopOpened"
-          min-date="classe.duration.from"
-          ng-click="viewState.duration.toPopOpened = true;"
-          show-button-bar="false"
-          datepicker-options="viewState.dateOptions">
-          {{(classe.duration.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-        </button>
+    <div class="form-group form-group-sm" ng-class="{'has-error': form.price.$invalid}">
+      <span class="control-label col-sm-3">价格</span>
+      <div class="col-sm-9">
+        <div class="input-group">
+          <input class="form-control"
+                 type="number"
+                 id="classe-price"
+                 placeholder="请输入价格"
+                 type="number"
+                 min="0"
+                 ng-model="classe.price"
+                 name="price"
+                 is-alipay-set="price"
+                 required>
+          <div class="input-group-addon">元</div>
+        </div>
+        <small class="text-danger" ng-if="errors.price">{{ errors.price.message }}</small>
+        <p class="text-danger" ng-show="form.price.$error.aplipaySet">
+          <span ng-if="Auth.hasRole('admin')">
+            开设收费课程需要支付宝信息，请在<a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>进行设置
+          </span>
+          <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">开设收费课程需要支付宝信息，请联系机构管理员进行设置</span>
+        </p>
       </div>
     </div>
 
-  </div>
+    <div class="form-group form-group-sm">
+      <span class="control-label col-sm-3">授课教师</span>
+      <div class="col-sm-9">
+        <select
+          class="form-control"
+          id="classe-teacher"
+          ng-model="selectedTeacher"
+          ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
+          ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
+          <option value="" class="text-muted">请选择授课教师</option>
+        </select>
+        <div class="row-fluid classe-teachers">
+          <span ng-repeat="teacher in classe.teachers">
+            <div class="label label-default"
+                 style="font-size: 1em; line-height:2em; margin-right:.2em">
+              {{teacher.name}}
+              <a ng-click="removeTeacher($index)"
+                 class="close">&times;</a>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
 
-  <div class="classe-times" ng-show="viewState.datetimeConfig=='time'">
+    <div class="form-group form-group-sm">
+      <span class="control-label col-sm-3">上课地点</span>
+      <div class="col-sm-9">
+        <input class="form-control"
+               type="text"
+               id="classe-address"
+               placeholder="请输入授课地点"
+               ng-model="classe.address">
+        <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
+      </div>
+    </div>
+  </form>
+</div>
+<ul class="nav nav-tabs" ng-init="viewState.datetimeConfig='date'">
+  <li ng-class="{'active':viewState.datetimeConfig=='date'}">
+    <a href="" ng-click="viewState.datetimeConfig='date'">日期设置</a>
+  </li>
+  <li ng-class="{'active':viewState.datetimeConfig=='time'}">
+    <a href="" ng-click="viewState.datetimeConfig='time'">时间段设置</a>
+  </li>
+</ul>
+
+<div class="classe-times clearfix" ng-show="viewState.datetimeConfig=='date'">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+      <div class="form-group bud-datepicker-wrap">
+        <span class="control-label col-sm-3">报名日期</span>
+        <div class="col-sm-8">
+          从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
+            datepicker-popup="'yyyy-MM-dd'"
+            ng-model="classe.enrollment.from"
+            is-open="viewState.enrollment.fromPopOpened"
+            ng-click="viewState.enrollment.fromPopOpened = true;"
+            show-button-bar="false"
+            datepicker-options="viewState.dateOptions">
+            {{(classe.enrollment.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
+          </button>
+
+          到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
+            datepicker-popup="'yyyy-MM-dd'"
+            ng-model="classe.enrollment.to"
+            is-open="viewState.enrollment.toPopOpened"
+            min-date="classe.enrollment.from"
+            ng-click="viewState.enrollment.toPopOpened = true;"
+            show-button-bar="false"
+            datepicker-options="viewState.dateOptions">
+            {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group bud-datepicker-wrap">
+        <span class="control-label col-sm-3">上课日期</span>
+        <div class="col-sm-8">
+          从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
+            datepicker-popup="'yyyy-MM-dd'"
+            ng-model="classe.duration.from"
+            is-open="viewState.duration.fromPopOpened"
+            ng-click="viewState.duration.fromPopOpened = true;"
+            show-button-bar="false"
+            datepicker-options="viewState.dateOptions">
+            {{(classe.duration.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
+          </button>
+
+          到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
+            datepicker-popup="'yyyy-MM-dd'"
+            ng-model="classe.duration.to"
+            is-open="viewState.duration.toPopOpened"
+            min-date="classe.duration.from"
+            ng-click="viewState.duration.toPopOpened = true;"
+            show-button-bar="false"
+            datepicker-options="viewState.dateOptions">
+            {{(classe.duration.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="classe-times clearfix" ng-show="viewState.datetimeConfig=='time'">
+  <div class="row">
     <div class="clearfix shifts">
 
       <div class="col-md-10 col-md-offset-1">
@@ -204,18 +211,19 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="form-group form-group-sm">
-    <div class="col-sm-8 col-sm-offset-3">
-      <span style="float: right">
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="pull-right">
         <button type="button"
                 class="btn btn-sm btn-default rounded"
                 ng-click="cancel()">取消</button>
         <button type="submit"
                 class="btn btn-sm btn-danger rounded"
                 ng-click="confirm(form)">确认</button>
-      </span>
+      </div>
     </div>
   </div>
-
-</form>
+</div>

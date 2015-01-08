@@ -1,5 +1,8 @@
 .edit-classe-modal {
   .edit-classe-form {
+    &.form-horizontal .control-label{
+      text-align: left;
+    }
     padding: 30px 0px 20px 0px;
     input {
       border-radius: 4px;
@@ -89,6 +92,7 @@
   .modal-content {
     border-radius: 4px;
     .modal-title {
+      margin-top: 20px;
       .budon {
         color: @base-color;
         color: #5abda6;
@@ -102,6 +106,12 @@
     .modal-header {
       border-radius: 4px;
       background: white;
+    }
+    .modal-footer{
+      border-top: none;
+      .btn{
+        width: 60px;
+      }
     }
   }
 }
