@@ -36,10 +36,6 @@
     </div>
     <div class="lecture-info text-muted small" ng-if="Auth.hasRole('teacher')">
       <span class="pull-right">
-        <a href="" class="btn btn-xs rounded" ng-class="{'btn-danger':!course.isPublished,'btn-default':course.isPublished}" ng-click="togglePublish($event)">
-          {{course.isPublished?'取消发布':'发布'}}
-        </a>
-        <span class="text-muted">|</span>
         <a href="" class="btn btn-xs" ng-click="">
           <i class="fa fa-gear"></i>
         </a>

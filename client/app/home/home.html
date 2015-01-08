@@ -53,7 +53,7 @@
             <div class="col-md-12 text-center">
               <h4>{{viewState.myCoursesFilters.category.name||'全部'}}
                 <div class="pull-right">
-                  <a href=""  ng-if="Auth.hasRole('teacher')" class="btn btn-xs" ng-click="createNewCourse()">
+                  <a href=""  ng-if="Auth.hasRole('teacher')" class="btn btn-danger rounded btn-xs" ng-click="createNewCourse()">
                     <i class="fa fa-plus"></i>&nbsp;添加新课程
                   </a>
                 </div>
