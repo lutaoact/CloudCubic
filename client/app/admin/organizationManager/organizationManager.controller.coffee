@@ -17,6 +17,7 @@ angular.module('budweiserApp')
     'uniqueName'
     'customDomain'
     'description'
+    'telephone'
     ]
 
   angular.extend $scope,

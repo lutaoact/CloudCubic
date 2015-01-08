@@ -30,6 +30,8 @@ exports.Organization = BaseModel.subclass
       customDomain:
         type : String
         unique : true
+      telephone:
+        type : String
       banners: [
         {
           image: String
