@@ -6,11 +6,13 @@
         ng-class="{'unread':!message.raw.status}"
         ng-click="markAsRead(message)"
         ui-sref="{{message.link}}">
-      <div class="avatar-xs pull-left"
-           src-key="message.raw.fromWhom.avatar"
-           source-attr="background-image"></div>
+      <a class="pull-left">
+        <div class="avatar-xs"
+             src-key="message.raw.fromWhom.avatar"
+             source-attr="background-image"></div>
+      </a>
+      <a class="pull-right btn fa" ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" ng-click="markAsRead(message, $event)" title="标记为{{message.raw.status?'未读':'已读'}}"></a>
       <div class="media-body">
-        <a class="pull-right btn fa" ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" ng-click="markAsRead(message, $event)" title="标记为{{message.raw.status?'未读':'已读'}}"></a>
         <h6 class="media-heading">
           {{message.raw.fromWhom.name}}
           <small>|&nbsp;{{message.raw.created|timeToTimeAgo}}</small>

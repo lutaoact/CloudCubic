@@ -31,8 +31,10 @@ getMoreData = (data) ->
 getTargetUsers = (data) ->
   switch data.type
     when Const.CommentType.DisTopic
-      data.targetUsers = [] if data.disTopic.postBy.equals data.postBy
-      data.targetUsers = [data.disTopic.postBy]
+      if data.disTopic.postBy.equals data.postBy
+        data.targetUsers = []
+      else
+        data.targetUsers = [data.disTopic.postBy]
 
     when Const.CommentType.Course, Const.CommentType.Lecture
       data.targetUsers = data.course.owners
@@ -75,7 +77,7 @@ class CommentUtils extends BaseUtils
         )
       Q.all notices
     .then (notices) ->
-      console.log 'notices are' , notices
+#      console.log 'notices are' , notices
       SocketUtils.sendNotices notices
       # TODO: for mobile app
       #DeviceUtils.pushToUser notice for notice in notices
