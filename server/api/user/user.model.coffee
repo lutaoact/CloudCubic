@@ -23,7 +23,6 @@ exports.User = BaseModel.subclass
       email :
         type : String
         lowercase : true
-        required: true
       orgId :
         type : ObjectId
         ref : 'organization'
@@ -66,7 +65,8 @@ exports.User = BaseModel.subclass
       resetPasswordExpires :
         type: Date
 
-    @schema.index {email: 1, orgId: 1}, {unique: true}
+# 这里必须删掉索引，否则微信授权登录的时候，因为相应email字段都为空，会导致索引失败
+#    @schema.index {email: 1, orgId: 1}, {unique: true}
 
     setupUserSchema @schema
 
@@ -75,6 +75,7 @@ exports.User = BaseModel.subclass
 
   findBy: (userInfo) ->
     conditions = {$or: []}
+    conditions.orgId = userInfo.orgId if userInfo.orgId
     conditions.$or.push(email: userInfo.email) if userInfo.email?
 
     if _.isEmpty conditions.$or
@@ -136,14 +137,14 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .path 'email'
   .validate (email) ->
-    email.length
+    return @weixin.id or email.length
   , '邮箱地址不能为空'
 
   # Validate empty password
   UserSchema
   .path 'hashedPassword'
   .validate (hashedPassword) ->
-    hashedPassword.length
+    return @weixin.id or hashedPassword.length
   , '登录密码不能为空'
 
   # Validate email is not taken
@@ -167,13 +168,14 @@ setupUserSchema = (UserSchema) ->
   .pre 'save', (next) ->
     if this.isNew
       this.activationCode = generateActivationCode this.email
-    else
-      next()
 
-    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
-      next new Error '用户名或者密码错误'
-    else
-      next()
+    next()
+
+# 密码的相关验证器已经存在，这里不需要重复验证
+#    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
+#      next new Error '用户名或者密码错误'
+#    else
+#      next()
 
   UserSchema.methods =
     ###

@@ -47,4 +47,13 @@ router.get('/qq/callback', auth.verifyTokenCookie(), function(req, res, next) {
   })(req, res, next);
 });
 
+router.get('/weixin/callback', auth.verifyTokenCookie(), function(req, res, next) {
+  passport.authenticate('weixin', function(err, user, info) {
+    if (err) return next(err)
+
+    req.user = user
+    auth.setTokenCookie(req, res);
+  })(req, res, next);
+});
+
 module.exports = router;

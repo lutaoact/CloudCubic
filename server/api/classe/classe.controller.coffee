@@ -24,8 +24,8 @@ exports.index = (req, res, next) ->
 
   options =
     limit: req.query.limit
-    from: req.query.from
-    sort: req.query.sort #JSON.stringify {setTop: -1, created: -1}
+    from : req.query.from
+    sort : req.query.sort #JSON.stringify {setTop: -1, created: -1}
 
   Q(
     if req.query.categoryId

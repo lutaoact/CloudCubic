@@ -93,3 +93,6 @@ db.courses.find().forEach(function(course) {
 db.schedules.find().forEach(function(schedule) {
   db.classes.update({_id: schedule.classe}, {$set: {'schedule.start': schedule.start, 'schedule.end': schedule.end, 'schedule.until': schedule.until}});
 });
+
+//删除掉email和orgId上的唯一索引，因为微信授权登录的时候，email为空，会导致索引失败
+db.users.dropIndex('email_1_orgId_1');
