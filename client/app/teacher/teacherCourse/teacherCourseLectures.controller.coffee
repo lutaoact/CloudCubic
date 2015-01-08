@@ -94,7 +94,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
             duration: {}
             courseId: $scope.course._id
       .result.then (newClasse) ->
-        $scope.classes.push newClasse
+        $scope.classes.splice 0, 0, newClasse
 
   reloadLectures = (course) ->
     if !course._id? then return

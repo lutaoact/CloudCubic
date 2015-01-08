@@ -74,12 +74,6 @@ angular.module('budweiserApp')
       bindSchedules()
 
     gotoCourse: (event)->
-      if $state.includes 'student'
-        $state.go 'courseDetail', courseId: event.$course._id
-      else if $state.includes 'teacher'
-        $state.go 'teacher.course', courseId: event.$course._id
-      else
-        console.log event
 
     addSchedule: ()->
       $modal.open
@@ -117,7 +111,6 @@ angular.module('budweiserApp')
     )
     # Compose this week then set handle
     $scope.schedules = allSchedules
-    console.log allSchedules
     bindSchedules()
 
   eventsOfDay = (day)->
