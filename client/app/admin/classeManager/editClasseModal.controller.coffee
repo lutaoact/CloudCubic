@@ -82,12 +82,12 @@ angular.module('budweiserApp')
         []
 
     getShifts: ()->
-
+      $scope.shifts = []
       if $scope.classe
         $scope.viewState.startDate = $scope.classe.duration.from
         $scope.viewState.endDate = $scope.classe.duration.to
         console.log $scope.classe
-        $scope.shifts = $scope.classe.schedules.map (schedule)->
+        $scope.shifts = $scope.classe.schedules?.map (schedule)->
           weekday: if moment(schedule.end).isSame(moment(schedule.until),'day') then $scope.weekdays[0] else $scope.weekdays[moment(schedule.start).isoWeekday()]
           date: moment(schedule.start)._d
           start:
@@ -131,6 +131,7 @@ angular.module('budweiserApp')
     hours: [0..23]
     minutes: [0..11].map (index)-> (index * 5)
     addShift: ()->
+      $scope.shifts ?= []
       $scope.shifts.push
         weekday: $scope.weekdays[0]
         start:
