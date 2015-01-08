@@ -15,6 +15,13 @@ exports.Classe = BaseModel.subclass
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
+    show: [
+      path: 'orgId', select: 'name'
+    ,
+      path: 'teachers', select: 'name avatar'
+    ,
+      path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
+    ]
     update: [
       path: 'orgId', select: 'name'
     ,
