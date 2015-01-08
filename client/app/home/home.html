@@ -94,4 +94,8 @@
       </div>
     </div>
   </section>
+
+  <section ng-if="!Auth.hasRole('teacher')">
+    <course-list-tile limit="4"></course-list-tile>
+  </section>
 </div>

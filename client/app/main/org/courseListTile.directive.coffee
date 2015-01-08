@@ -5,6 +5,8 @@ angular.module('budweiserApp')
 .directive 'courseListTile', ->
   restrict: 'E'
   replace: true
+  scope:
+    limit: '@'
   controller: 'CourseListTileCtrl'
   templateUrl: 'app/main/org/courseListTile.html'
 
@@ -24,6 +26,6 @@ angular.module('budweiserApp')
   $scope.$watch 'search.categoryId', (categoryId) ->
     Restangular
     .all('classes')
-    .getList(limit:4, categoryId:categoryId)
+    .getList(limit:$scope.limit ? 8, categoryId:categoryId)
     .then (classes) ->
       $scope.allClasses = classes
