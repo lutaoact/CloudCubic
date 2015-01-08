@@ -43,7 +43,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         thumbnail: $scope.course.thumbnail
       .then (newCourse)->
         angular.extend $scope.course, newCourse
-        $scope.viewState.edtingInfo = false
+        $scope.viewState.editingInfo = false
         $scope.course.$category = _.find $scope.categories, (category)->
           category._id is $scope.course.categoryId._id
         notify

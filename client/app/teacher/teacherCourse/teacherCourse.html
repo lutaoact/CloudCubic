@@ -5,25 +5,21 @@
 
         <div class="col-md-12 course-info" ng-init="viewState.displayView='info'">
           <div class="course-actions-bar clearfix">
-
-            <div class="pull-right" style="margin-top: 5px;">
-              <a href="" class="btn btn-sm rounded btn-danger" ng-if="viewState.editingInfo" ng-click="saveCourseInfo()">
-                保存
-              </a>
-              <a href="" class="btn btn-sm rounded btn-default" ng-if="viewState.editingInfo" ng-click="resetCourseInfo()">
-                取消
-              </a>
-              <span dropdown class="setting-btn pull-right" style="position: relative;">
-                <a href="" class="btn btn-sm" dropdown-toggle>
-                  <i class="fa fa-chevron-down"></i>
+            <div class="pull-right" style="margin-top: 5px;" >
+              <div ng-if="viewState.editingInfo">
+                <a href="" class="btn btn-sm rounded btn-danger" ng-click="saveCourseInfo()">
+                  保存
+                </a>
+                <a href="" class="btn btn-sm rounded btn-default" ng-click="resetCourseInfo()">
+                  取消
+                </a>
+              </div>
+              <span dropdown class="setting-btn pull-right" ng-if="!viewState.editingInfo" style="position: relative;">
+                <a href="" dropdown-toggle>
+                  <i class="fa fa-bars"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="" ng-click="viewState.editingInfo = true">编辑</a></li>
-                  <li>
-                    <a href="" ng-click="togglePublish($event)">
-                      {{course.isPublished?'取消发布':'发布'}}
-                    </a>
-                  </li>
                   <li><a href="" ng-click="removeCourse()">删除</a></li>
                 </ul>
               </span>
@@ -81,22 +77,18 @@
                 </select>
               </div>
 
-              <div class="pull-right" ng-class="{'text-primary':course.isPublished,'text-muted':!course.isPublished}">{{course.isPublished?'已发布':'未发布'}}</div>
               <div class="clearfix"></div>
               <hr>
               <div class="teachers">
-                <div class="column" ng-repeat="i in [0,1,2,3,4,5,6]">
-                  <div class="teacher" ng-repeat="j in [0,1,2]" ng-if="course.$teachers[i*3+j]">
-                    <div class="avatar-md"
-                         title="{{course.$teachers[i*3+j].name}}"
-                         source-attr="background-image"
-                         src-key="course.$teachers[i*3+j].avatar"
-                         suffix="?imageView2/1/w/64/h/64"
-                         >
-                    </div>
+                <div class="teacher" ng-repeat="teacher in course.$teachers">
+                  <div class="avatar-md"
+                       title="{{teacher.name}}"
+                       source-attr="background-image"
+                       src-key="teacher.avatar"
+                       suffix="?imageView2/1/w/64/h/64"
+                       >
                   </div>
                 </div>
-
               </div>
 
             </div>
