@@ -21,15 +21,6 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
       posting: false
       errors: null
 
-    initWeChatLogin : ->
-      $scope.wechatLogin = new WxLogin
-        id: 'wechat-login'
-        appid : 'wx0b867034fb0d7f4e'
-        scope: 'snsapi_login'
-        redirect_uri: 'http://www.cloud3edu.com'
-        state: 'abcdefg'
-        style: 'black'
-
     changePage: (pageName)->
       if pageName == 'forget'
         $modalInstance.dismiss('cancel')

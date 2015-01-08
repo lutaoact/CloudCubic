@@ -142,6 +142,7 @@ angular.module('budweiserApp')
     removeShift: (shift)->
       $scope.shifts.splice $scope.shifts.indexOf(shift), 1
 
+
     viewState:
       dateOptions:
         startingDay: 0

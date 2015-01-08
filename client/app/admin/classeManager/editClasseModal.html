@@ -8,7 +8,6 @@
 </div>
 <form class="form-horizontal edit-classe-form"
       name="form">
-
   <div class="form-group form-group-sm">
     <span class="control-label col-sm-3">班级名</span>
     <div class="col-sm-8">
@@ -23,7 +22,7 @@
       <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
     </div>
   </div>
-  <div class="form-group" ng-if="courses.length">
+  <div class="form-group form-group-sm" ng-if="courses.length">
     <span class="control-label col-sm-3">课程名</span>
     <div class="col-sm-8">
       <select
@@ -56,19 +55,6 @@
   </div>
 
   <div class="form-group form-group-sm">
-    <span class="control-label col-sm-3">上课地点</span>
-    <div class="col-sm-8">
-      <input class="form-control"
-             type="text"
-             id="classe-address"
-             placeholder="请输入授课地点"
-             ng-model="classe.address"
-             required>
-      <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm">
     <span class="control-label col-sm-3">授课教师</span>
     <div class="col-sm-8">
       <select
@@ -89,6 +75,19 @@
           </div>
         </span>
       </div>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">上课地点</span>
+    <div class="col-sm-8">
+      <input class="form-control"
+             type="text"
+             id="classe-address"
+             placeholder="请输入授课地点"
+             ng-model="classe.address"
+             required>
+      <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
     </div>
   </div>
 
@@ -154,7 +153,7 @@
       </div>
     </div>
 
-    </div>
+  </div>
 
   <div class="classe-times" ng-show="viewState.datetimeConfig=='time'">
     <div class="clearfix shifts">
