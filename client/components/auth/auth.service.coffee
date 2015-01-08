@@ -54,6 +54,7 @@ angular.module('budweiserApp').factory 'Auth', (
   logout: ->
     $cookieStore.remove 'token'
     currentUser = {}
+    Tinycon.reset()
     $rootScope.$emit 'logoutSuccess'
     return
 
