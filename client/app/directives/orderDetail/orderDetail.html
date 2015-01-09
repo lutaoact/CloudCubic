@@ -9,7 +9,7 @@
   </div>
   <div collapse="isCollapsed">
     <div ng-repeat="classe in order.classes"
-         ui-sref="courseDetail({courseId: classe.courseId._id})"
+         ui-sref="course.detail({courseId: classe.courseId._id,classeId: classe._id})"
          class="order-classe row">
 
       <div class="col-md-3 col-img">

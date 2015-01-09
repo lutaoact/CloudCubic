@@ -44,7 +44,6 @@ setup = ->
       name : 'Class one'
       orgId : orgId
       students : [studentId]
-      yearGrade : '2014'
 
   .then (classe) ->
     console.log 'Created classe:'

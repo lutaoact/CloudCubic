@@ -23,7 +23,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
   angular.extend $scope,
     me: Auth.getCurrentUser()
-    course: null
     lecture: null
     selectedFile: null
 
@@ -113,14 +112,8 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       a.timestamp >= b.timestamp
     )?[0]
 
-  Restangular.one('courses', $state.params.courseId).get()
-  .then (course) ->
-    $scope.course = course
-    Navbar.setTitle course.name, "courseDetail({courseId:'#{$state.params.courseId}'})"
-
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->
-    Navbar.resetTitle()
 
     # clear video
     angular.element('video').attr 'src', ''

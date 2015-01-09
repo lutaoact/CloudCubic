@@ -1,14 +1,16 @@
 <div class="teacher-stats">
   <div class="container">
-
-    <div ui-view class="fadeIn stats-view teacher-stats-subview"></div>
-
     <student-list class="col-md-3"
                   classes="classes"
                   selected-student="viewState.student"
                   on-student-select="viewStudentStats($student)"
-                  on-classe-select="viewClasseStats($classe)">
+                  on-classe-select="viewClasseStats($classe)"
+                  style="margin-top: 38px;">
     </student-list>
+
+    <div class="col-md-9">
+      <div ui-view class="fadeIn stats-view teacher-stats-subview"></div>
+    </div>
 
   </div>
 </div>

@@ -13,7 +13,7 @@
       <li><a href ng-click="deleteClasse(classe)">删除</a></li>
     </ul>
   </span>
-  <div class="set-top" 
+  <div class="set-top"
        ng-if="plus && classe.setTop">已置顶</div>
   <a class="classe-title"
      ng-class="{'plus':plus}"
@@ -25,7 +25,7 @@
   <a class="classe-info"
      ng-if="plus && classe.courseId"
      href
-     ui-sref="courseDetail({courseId:classe.courseId._id})">
+     ui-sref="course.detail({courseId:classe.courseId._id, classeId: classe._id})">
      {{classe.courseId.name}}
   </a>
   <div class="classe-info text-muted" ng-if="plus && !classe.courseId">未开设课程</div>
@@ -67,8 +67,8 @@
     <span class="yuan" ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
     <span class="yuan" ng-if="!(classe.price > 0)">免费</span>
     <span ng-if="!plus" class="pull-right">{{classe.students.length}} 个学生</span>
-    <a href ng-if="plus" 
-       ng-click="viewClasse(classe)" 
+    <a href ng-if="plus"
+       ng-click="viewClasse(classe)"
        class="pull-right">
        {{classe.students.length}} 个学生
     </a>
