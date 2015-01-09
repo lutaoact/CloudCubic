@@ -8,7 +8,7 @@
 
   <div ng-repeat="classe in classes" class="classe">
     <div class="classe-header">
-      <a href="" class="btn btn-link" ng-click="toggleClasse(classe)">
+      <a href="" class="btn btn-link" ng-click="toggleClasse(classe)" ng-disabled="!classe.$students.length">
         <i class="fa base-color" ng-class="{'fa-caret-down': viewState.expandClasse == classe,'fa-caret-right':viewState.expandClasse != classe}"></i>
       </a>
       <a href="" class="btn btn-link" ng-click="selectClasse(classe)" ng-class="{'active':selectedClass==classe}">

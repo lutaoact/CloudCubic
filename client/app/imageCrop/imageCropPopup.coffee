@@ -98,6 +98,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           onRelease: cancelSelect
           aspectRatio: options.ratio
           keySupport: false
+          setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio
 
 
 
