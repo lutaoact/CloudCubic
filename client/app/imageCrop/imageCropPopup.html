@@ -15,16 +15,20 @@
           ng-if="!viewState.previewUrl"
         alt="">
       </div>
-      <label class="btn btn-default" ng-if="!viewState.previewUrl">
-        <input type="file"
-        style="display:none;"
-        accept="image/*"
-        ng-file-select="onFileSelect($event,$files)"/>
-        选择图片
-      </label>
-      <label class="btn btn-default disabled ng-hide" ng-hide="!viewState.uploading">
-        <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
-      </label>
+      <div ng-if="!viewState.previewUrl">
+        <label class="btn btn-default">
+          <input type="file"
+          style="display:none;"
+          accept="image/*"
+          ng-file-select="onFileSelect($event,$files)"/>
+          选择图片
+        </label>
+      </div>
+      <div ng-if="viewState.uploading">
+        <label class="btn btn-default disabled ng-hide">
+          <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
+        </label>
+      </div>
     </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ angular.module('budweiserApp').directive 'studentList', ->
     selectedStudent: '='
     studentsStatus: '='
     onStudentSelect: '&'
+    onClasseSelect: '&'
   link: (scope, element, attrs) ->
 
   controller: ($scope, $q, Restangular, $state)->
@@ -30,8 +31,8 @@ angular.module('budweiserApp').directive 'studentList', ->
             $scope.allStudentsArray = $scope.allStudentsArray.concat students
             students.forEach (student)->
               student.$classeInfo =
+                id: classe._id
                 name: classe.name
-                yearGrade: classe.yearGrade
             classe.$students = students
         ).then ->
           $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
@@ -39,7 +40,13 @@ angular.module('budweiserApp').directive 'studentList', ->
 
       selectStudent: (student)->
         $scope.selectedStudent = student
-        $scope.onStudentSelect()?(student)
+        $scope.selectedClass = null
+        $scope.onStudentSelect($student:student)
+
+      selectClasse: (classe) ->
+        $scope.selectedClass = classe
+        $scope.selectedStudent = null
+        $scope.onClasseSelect($classe:classe)
 
     updateStudentsStatus = ()->
       if $scope.allStudentsDict? and $scope.studentsStatus

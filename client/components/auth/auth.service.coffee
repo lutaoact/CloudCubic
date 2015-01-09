@@ -90,6 +90,8 @@ angular.module('budweiserApp').factory 'Auth', (
     ]
     userRoles.indexOf(currentUser.role ? role) >= userRoles.indexOf(roleRequired)
 
+  userRole : ->
+    currentUser.role
 
   ###
   Get auth token

@@ -126,7 +126,6 @@ module.exports =
       _s.sprintf userId, 3
       _s.sprintf userId, 4
     ]
-    yearGrade : '2014'
   ,
     _id: _s.sprintf classeId, 1
     name : 'Class two'
@@ -135,7 +134,6 @@ module.exports =
       _s.sprintf userId, 5
       _s.sprintf userId, 6
     ]
-    yearGrade : '2015'
   ]
   lecture: [
     _id: _s.sprintf lectureId, 0

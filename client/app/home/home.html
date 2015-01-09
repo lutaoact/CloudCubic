@@ -4,16 +4,16 @@
     <div class="head-row">
       <div class="container">
         <div class="pull-left">
-          <div class="avatar-md pull-left" 
-               src-key="getMe().avatar" 
+          <div class="avatar-md pull-left"
+               src-key="getMe().avatar"
                source-attr="background-image">
           </div>
           <div class="pull-left">
             <h4>
               {{getMe().name}}
             </h4>
-            <span class="text-muted" 
-                  style="font-size: 12px;" 
+            <span class="text-muted"
+                  style="font-size: 12px;"
                   ng-if="org.location.name">
               <i class="fa fa-map-marker"></i>{{org.location.name}}
             </span>
@@ -30,14 +30,14 @@
         <div class="col-sm-3">
           <div class="row">
             <accordion class="bud" close-others="false">
-              <accordion-group is-open="viewState.categoryOpen" 
-                               ng-if="!Auth.hasRole('teacher')" 
+              <accordion-group is-open="viewState.categoryOpen"
+                               ng-if="!Auth.hasRole('teacher')"
                                ng-init="viewState.categoryOpen=true">
                 <accordion-heading>
-                  分类 
-                  <i class="pull-right fa" 
+                  分类
+                  <i class="pull-right fa"
                      ng-class="{
-                     'fa-chevron-down': viewState.categoryOpen, 
+                     'fa-chevron-down': viewState.categoryOpen,
                      'fa-chevron-right': !viewState.categoryOpen
                      }"></i>
                 </accordion-heading>
@@ -45,9 +45,9 @@
                   <div class="form-group">
                     <label class="col-xs-3 control-label">科目</label>
                     <div class="col-xs-9">
-                      <select class="form-control" 
-                              ng-change="reload()" 
-                              ng-model="viewState.filterCategory" 
+                      <select class="form-control"
+                              ng-change="reload()"
+                              ng-model="viewState.filterCategory"
                               ng-options="category.name for category in categories">
                         <option value="">全部</option>
                       </select>
@@ -55,13 +55,13 @@
                   </div>
                 </div>
               </accordion-group>
-              <accordion-group is-open="viewState.calendarOpen" 
+              <accordion-group is-open="viewState.calendarOpen"
                                ng-init="viewState.calendarOpen=true">
                 <accordion-heading>
-                  课程表 <i class="fa fa-calendar"></i> 
-                  <i class="pull-right fa" 
+                  课程表 <i class="fa fa-calendar"></i>
+                  <i class="pull-right fa"
                      ng-class="{
-                     'fa-chevron-down': viewState.calendarOpen, 
+                     'fa-chevron-down': viewState.calendarOpen,
                      'fa-chevron-right': !viewState.calendarOpen
                      }"></i>
                 </accordion-heading>
@@ -75,7 +75,7 @@
             <div class="col-md-12 text-center">
               <h4>{{viewState.filterCategory.name || '全部'}}</h4>
             </div>
-            <div class="col-md-4 col-sm-6 text-center" 
+            <div class="col-md-4 col-sm-6 text-center"
                  ng-if="Auth.hasRole('teacher')">
               <button type="button"
                       class="btn btn-default new-course-btn"
@@ -92,7 +92,7 @@
                 <course-tile course="getCourse(data)"></course-tile>
               </a>
               <a ng-if="!Auth.hasRole('teacher')"
-                 ui-sref="courseDetail({courseId:getCourse(data)._id, classeId:getClasse(data)._id})">
+                 ui-sref="course.detail({courseId:getCourse(data)._id, classeId:getClasse(data)._id})">
                 <course-tile course="getCourse(data)" classe="getClasse(data)"></course-tile>
               </a>
             </div>

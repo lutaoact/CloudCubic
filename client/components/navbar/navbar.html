@@ -75,7 +75,7 @@
           <a href ui-sref="teacher.courseStats.all({courseId:$state.params.courseId})">统计</a>
         </li>
         <li ng-if="displayCourseMenu() && !Auth.hasRole('teacher')">
-          <a href ui-sref="courseStats({courseId:$state.params.courseId})">统计</a>
+          <a href ui-sref="course.stats()">统计</a>
         </li>
 
         <li ng-if="Auth.getCurrentUser().role == 'student'" shopcart></li>

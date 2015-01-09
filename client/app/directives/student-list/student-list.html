@@ -7,9 +7,13 @@
   </div>
 
   <div ng-repeat="classe in classes" class="classe">
-    <div ng-click="toggleClasse(classe)" class="classe-header">
-      <i class="fa base-color" ng-class="{'fa-caret-down': viewState.expandClasse == classe,'fa-caret-right':viewState.expandClasse != classe}"></i>
-      {{classe.yearGrade + ' ' + classe.name}}
+    <div class="classe-header">
+      <a href="" class="btn btn-link" ng-click="toggleClasse(classe)" ng-disabled="!classe.$students.length">
+        <i class="fa base-color" ng-class="{'fa-caret-down': viewState.expandClasse == classe,'fa-caret-right':viewState.expandClasse != classe}"></i>
+      </a>
+      <a href="" class="btn btn-link" ng-click="selectClasse(classe)" ng-class="{'active':selectedClass==classe}">
+        {{classe.name}}
+      </a>
     </div>
     <!-- 人数 -->
     <div class="students" ng-show="viewState.expandClasse == classe">

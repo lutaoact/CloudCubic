@@ -22,7 +22,7 @@
       <img class="item-image" src="{{classe.courseId.thumbnail}}">
       <div class="item-body">
         <h5 class="course-name"
-            ui-sref="courseDetail({courseId: classe.courseId._id})">
+            ui-sref="course.detail({courseId: classe.courseId._id, classeId:classe._id})">
             {{classe.courseId.name}}
         </h5>
         <span class="class-price">￥{{classe.price}}</span>

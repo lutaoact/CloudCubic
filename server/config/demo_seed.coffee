@@ -37,7 +37,6 @@ module.exports =
     name : 'Demo 演示组'
     orgId: orgId
     students : []
-    yearGrade : '2014'
   ]
 #  course: [
 #    _id: CourseId

@@ -29,8 +29,16 @@
   }
 
   .classe{
+    .btn-link{
+      padding: 0;
+      &.active{
+        color: @base-color-darker;
+      }
+      &[disabled]{
+        cursor: not-allowed;
+      }
+    }
     .classe-header{
-      cursor: pointer;
       padding: 6px 16px;
       i{
         width: 10px;

@@ -1,4 +1,4 @@
-<div class="course course-detail">
+<div class="course-detail">
   <div class="container">
     <div class="course-info row">
       <h4 class="course-title">
@@ -62,7 +62,7 @@
               免费课程
             </span>
             <span class="pull-right"
-                  ng-if="classe.price > 0">
+                  ng-show="showBuyClass()">
               <button class="btn btn-md btn-warning rounded"
                       login-window
                       login-success="makeOrder(classe)">
@@ -75,7 +75,7 @@
               </button>
             </span>
             <span class="pull-right"
-                  ng-if="classe.price == 0">
+                  ng-show="showJoinClass()" >
               <button class="btn btn-md btn-danger rounded"
                       login-window
                       login-success="enrollFreeClass(classe)">
@@ -88,10 +88,10 @@
                ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) >= 0">
             <div class="progress">
               <div class="learn-progress-inner-bar"
-                  ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}">
+                  ng-style="{'width':viewedLectureIndex / course.lectureAssembly.length * 100 + '%'}">
               </div>
               <div class="tip">
-                {{+viewedLectureIndex + '/' + course.$lectures.length}}课时
+                {{+viewedLectureIndex + '/' + course.lectureAssembly.length}}课时
               </div>
             </div>
             <div class="learn-btn">
@@ -133,14 +133,14 @@
       </div>
 
       <div class="list-group-item desc"
-           ng-if="courseTab.type=='lecture' && !course.$lectures.length">
+           ng-if="courseTab.type=='lecture' && !course.lectureAssembly.length">
         <h3 class="text-center text-muted">暂无课时</h3>
       </div>
 
       <a class="list-group-item lecture"
          ng-show="courseTab.type=='lecture'"
-         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-         ui-sref="lectureDetail({courseId:course._id,lectureId:lecture._id})">
+         ng-repeat="lecture in course.lectureAssembly | paging:itemsPerPage:currentPage"
+         ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
         <div class="text-center lecture-index text-muted">
           {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
         </div>
@@ -161,8 +161,8 @@
       </a>
     </div>
 
-    <pager ng-hide="course.$lectures.length <= itemsPerPage"
-      total-items="course.$lectures.length"
+    <pager ng-hide="course.lectureAssembly.length <= itemsPerPage"
+      total-items="course.lectureAssembly.length"
       items-per-page="itemsPerPage"
       align="false"
       class="bud"

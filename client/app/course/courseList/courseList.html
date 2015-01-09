@@ -32,14 +32,14 @@
       </search-input>
     </div>
     <div class="row courses-row">
-      <div ng-if="!allClasses.length" 
+      <div ng-if="!allClasses.length"
            class="text-center text-muted empty-classes">
         <i class="budon budon-course-classe"></i>
         暂无课程，敬请期待
       </div>
       <div class="col-md-3 col-sm-4"
            ng-repeat="classe in allClasses">
-        <a ui-sref="courseDetail({courseId:classe.courseId._id, classeId:classe._id})">
+        <a ui-sref="course.detail({courseId:classe.courseId._id, classeId:classe._id})">
           <public-course-tile course="classe.courseId" classe="classe"></public-course-tile>
         </a>
       </div>
