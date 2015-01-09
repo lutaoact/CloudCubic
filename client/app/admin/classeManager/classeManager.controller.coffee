@@ -51,6 +51,9 @@ angular.module('budweiserApp')
         page     :$scope.pageConf.currentPage
       })
 
+  $scope.$on 'classe.deleted', (event, classe)->
+    $scope.classes.splice($scope.classes.indexOf(classe),1)
+  
   Restangular
   .all('classes')
   .getList(
@@ -63,3 +66,5 @@ angular.module('budweiserApp')
   .then (classes) ->
     console.log 'load classes: ', classes
     $scope.classes = classes
+
+
