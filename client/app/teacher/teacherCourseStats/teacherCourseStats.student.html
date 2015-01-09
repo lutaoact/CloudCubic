@@ -1,9 +1,5 @@
 <div class="overall col-md-12 clearfix">
   <div class="col-md-3 student-info">
-    <a class="btn btn-primary btn-md rounded pull-left"
-       ui-sref="teacher.courseStats.all({courseid: course._id})">
-      <i class="fa fa-arrow-left"></i>
-    </a>
     <div class="avatar-lg"
          src-key="viewState.student.avatar"
          source-attr="background-image"
@@ -12,7 +8,7 @@
     <h4>
       {{viewState.student.name}}<br/>
       <small>
-        {{viewState.student.$classeInfo.yearGrade + ' ' + viewState.student.$classeInfo.name}}
+        {{viewState.student.$classeInfo.name||classe.name}}
       </small>
     </h4>
   </div>
@@ -38,7 +34,7 @@
   </div>
 </div>
 
-<div class="col-md-9 clearfix detail-container">
+<div class="col-md-12 clearfix detail-container">
   <div class="detail">
     <tabset class="trend">
       <tab heading="随堂问题" select="triggerResize()">

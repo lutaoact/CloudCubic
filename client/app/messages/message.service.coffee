@@ -17,12 +17,12 @@ angular.module 'budweiserApp'
       when Const.NoticeType.LikeCourseComment
         title: '赞了你的回复：' + raw.data.commentId.content
         raw: raw
-        link: "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+        link: "course.detail({courseId:'#{raw.data.courseId._id}'})"
         type: 'message'
       when Const.NoticeType.LikeLectureComment
         title: '赞了你的回复：' + raw.data.commentId.content
         raw: raw
-        link: "lectureDetail({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        link: "course.lecture({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
         type: 'message'
       when Const.NoticeType.DisTopicComment
         title: '回复了你的帖子：' + raw.data.disTopicId.title
@@ -32,12 +32,12 @@ angular.module 'budweiserApp'
       when Const.NoticeType.CourseComment
         title: '回复了你的课程：' + raw.data.courseId.name
         raw: raw
-        link: "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+        link: "course.detail({courseId:'#{raw.data.courseId._id}'})"
         type: 'message'
       when Const.NoticeType.LectureComment
         title: '回复了你的课时：' + raw.data.lectureId.name
         raw: raw
-        link: "lectureDetail({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        link: "course.lecture({courseId:'#{raw.data.courseId._id}', lectureId:'#{raw.data.lectureId._id}'})"
         type: 'message'
 
   instance =

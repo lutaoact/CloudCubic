@@ -17,7 +17,7 @@ angular.module('budweiserApp')
       continueStudying: ($event) ->
         $event.stopPropagation()
         if !$scope.progress?.length and $scope.course.lectureAssembly.length
-          $state.go 'lectureDetail',
+          $state.go 'course.lecture',
             courseId: $scope.course._id
             lectureId: $scope.course.lectureAssembly[0]
           return
@@ -27,7 +27,7 @@ angular.module('budweiserApp')
           # GOTO that course
           # TODO: last viewed should not be the last viewed item :(
           lastViewed = viewedLectures[viewedLectures.length - 1]
-          $state.go 'lectureDetail',
+          $state.go 'course.lecture',
             courseId: $scope.course._id
             lectureId: lastViewed
 
