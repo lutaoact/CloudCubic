@@ -130,7 +130,9 @@ buildSchedules = (classes) ->
 
 exports.schedules = (req, res, next) ->
   conditions = buildConditionsByUser req.user
-  console.log conditions
+  #使用{lean: true}选项获取纯对象，方便后续构建schedules时使用
+  #如果是mongoose对象，则由于schedule.classe和schedule.course没有相应的setter方法
+  #会导致响应的属性设置失败
   mongoQuery = Classe.find conditions, null, {lean: true}
   mongoQuery = WrapRequest.populateQuery mongoQuery, Classe.populates.schedules
 
