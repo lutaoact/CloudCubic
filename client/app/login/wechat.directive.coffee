@@ -1,6 +1,6 @@
 angular.module 'budweiserApp'
 
-.directive 'weixinLogin' , ->
+.directive 'weixinLogin' , ($location) ->
   
   restrict : 'E'
   replace: true
@@ -8,10 +8,11 @@ angular.module 'budweiserApp'
   template : """<div id="weixin-login"></div>"""
   
   link : ->
+    redirect = $location.absUrl()
     new WxLogin
       id    : 'weixin-login'
       appid : 'wx0b867034fb0d7f4e'
       scope : 'snsapi_login'
       state : 'STATE'
       style : 'black'
-      redirect_uri: 'http://www.cloud3edu.com/auth/weixin/callback'
+      redirect_uri: 'http://www.cloud3edu.com/auth/weixin/callback?redirect='+redirect

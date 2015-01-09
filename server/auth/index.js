@@ -26,7 +26,7 @@ router.get('/weibo/callback', auth.verifyTokenCookie(), function(req, res, next)
     }
 
     req.user = user
-    auth.setTokenCookie(req, res);
+    auth.setTokenCookie(req, res, req.query.redirect);
   })(req, res, next);
 });
 
@@ -43,7 +43,7 @@ router.get('/qq/callback', auth.verifyTokenCookie(), function(req, res, next) {
     }
 
     req.user = user
-    auth.setTokenCookie(req, res);
+    auth.setTokenCookie(req, res, req.query.redirect);
   })(req, res, next);
 });
 
@@ -52,7 +52,8 @@ router.get('/weixin/callback', auth.verifyTokenCookie(), function(req, res, next
     if (err) return next(err)
 
     req.user = user
-    auth.setTokenCookie(req, res);
+    console.log('weixin/callback ' + req.query.redirect);
+    auth.setTokenCookie(req, res, req.query.redirect);
   })(req, res, next);
 });
 

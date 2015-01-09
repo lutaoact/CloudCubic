@@ -85,11 +85,11 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 
     # only show buy class for student
     showBuyClass : ->
-      ($scope.classe.price > 0) && (Auth.userRole() is 'student')
+      $scope.classe.price > 0 && (Auth.userRole() is 'student' or !Auth.isLoggedIn())
 
     # only show join class for student
     showJoinClass : ->
-      ($scope.classe.price is 0) && (Auth.userRole() is 'student')
+      $scope.classe.price is 0 && (Auth.userRole() is 'student' or !Auth.isLoggedIn())
       
       
   $scope.$on 'comments.number', (event, data)->
