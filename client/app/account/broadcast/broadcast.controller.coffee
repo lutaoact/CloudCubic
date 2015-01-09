@@ -10,7 +10,7 @@ angular.module('budweiserApp').controller 'BroadcastCtrl',(
   angular.extend $scope,
     itemsPerPage: 5
     currentBroadcastPage: 1
-    maxSize: 4
+    maxSize: 5
     broadcasts: undefined
 
     viewState: {}

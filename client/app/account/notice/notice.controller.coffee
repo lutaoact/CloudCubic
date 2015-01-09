@@ -14,7 +14,7 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
     pageConf:
       itemsPerPage: 5
       currentPage : $state.params.page ? 1
-      maxSize: 4
+      maxSize: 5
 
     messages: []
 

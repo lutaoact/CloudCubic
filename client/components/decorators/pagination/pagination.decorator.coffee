@@ -7,4 +7,17 @@ angular.module 'budweiserApp'
     directive = $delegate[0];
     directive.templateUrl = 'components/decorators/pagination/pagination.html'
     directive.scope.maxSize = '='
+
+    compile = directive.compile;
+    directive.compile = (tElement, tAttrs)->
+      link = compile.apply(this, arguments);
+      return (scope, elem, attrs, ctrls)->
+        link.apply(this, arguments)
+
+        ngModelCtrl = ctrls[1]
+        scope.selectPage = (page) ->
+          if (page > 0 && page <= scope.totalPages)
+            ngModelCtrl.$setViewValue(page)
+            ngModelCtrl.$render()
+
     $delegate
