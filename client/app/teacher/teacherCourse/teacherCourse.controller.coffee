@@ -78,7 +78,8 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     $scope.course.$teachers = $scope.course.owners
     Restangular.all('classes').getList({courseId: $scope.course._id})
   .then (classes)->
-    $scope.course.$teachers = _.uniq($scope.course.$teachers.concat(_.flatten(_.pluck(classes, 'teachers'))),'_id')
+    
+    $scope.course.$teachers = _.uniq($scope.course.$teachers.concat(_.flatten(_.compact(_.pluck(classes, 'teachers')))),'_id')
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
