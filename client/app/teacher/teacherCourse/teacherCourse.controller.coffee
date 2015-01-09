@@ -35,23 +35,25 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     onThumbUploaded: (data)->
       $scope.course.thumbnail = data
 
-    saveCourseInfo: ()->
+    saveCourse: ()->
       Restangular.one('courses', $scope.course._id).patch
         categoryId: $scope.course.$category
-        info: $scope.course.info
         name: $scope.course.name
         thumbnail: $scope.course.thumbnail
       .then (newCourse)->
         angular.extend $scope.course, newCourse
-        $scope.viewState.editingInfo = false
+        $scope.viewState.editing = false
         $scope.course.$category = _.find $scope.categories, (category)->
           category._id is $scope.course.categoryId._id
         notify
           message:'已保存'
           classes: 'alert-success'
 
-    resetCourseInfo: ()->
-      $scope.viewState.editingInfo = false
+    resetCourse: ()->
+      Restangular.one('courses', $scope.course._id).get()
+      .then (course)->
+        angular.extend $scope.course, course
+        $scope.viewState.editing = false
 
     removeCourse: ()->
       course = $scope.course
@@ -64,6 +66,25 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       .result.then ->
         course.remove().then ->
           $scope.deleteCallback?($course:course)
+
+    saveCourseInfo: ()->
+      Restangular.one('courses', $scope.course._id).patch
+        info: $scope.course.info
+      .then (newCourse)->
+        angular.extend $scope.course, newCourse
+        $scope.viewState.editingInfo = false
+        $scope.course.$category = _.find $scope.categories, (category)->
+          category._id is $scope.course.categoryId._id
+        notify
+          message:'已保存'
+          classes: 'alert-success'
+
+    resetCourseInfo: ()->
+      Restangular.one('courses', $scope.course._id).get()
+      .then (course)->
+        angular.extend $scope.course, course
+        $scope.viewState.editingInfo = false
+
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
@@ -78,7 +99,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     $scope.course.$teachers = $scope.course.owners
     Restangular.all('classes').getList({courseId: $scope.course._id})
   .then (classes)->
-    
+
     $scope.course.$teachers = _.uniq($scope.course.$teachers.concat(_.flatten(_.compact(_.pluck(classes, 'teachers')))),'_id')
 
   $scope.$on 'comments.number', (event, data)->

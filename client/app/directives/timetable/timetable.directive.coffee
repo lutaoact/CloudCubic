@@ -127,7 +127,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         isoWeekday =  moment(schedule.start).isoWeekday() # 1,2...7
         event = {}
         event.title = schedule.course.name
-        event.subtitle = schedule.classe.name]
+        event.subtitle = schedule.classe.name
         event.$course = schedule.course
         event.startTime = moment(schedule.start).weeks(today.weeks())
         # event.currentWeek = today.diff(moment(schedule.start),'weeks') + 1

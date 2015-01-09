@@ -42,6 +42,37 @@
   }
 }
 
+.nav.nav-underline{
+  li{
+    display: inline-block;
+  }
+  > li:nth-child(1) >a{
+    margin-left: 0;
+  }
+  > li > a {
+    color: #000;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 15px;
+    margin-left: 15px;
+    .transition(all .13s ease-in-out);
+    &:hover,
+    &:focus{
+      background: transparent;
+      .box-shadow(inset 0 -2px 0 @brand-danger);
+    }
+  }
+  > li.active {
+  }
+  > .active > a {
+    &,
+    &:hover,
+    &:focus {
+      .box-shadow(inset 0 -2px 0 @brand-danger);
+    }
+  }
+}
+
 .tabset-non-border>.nav-tabs{
   .nav{
     margin-bottom: 0;
