@@ -4,13 +4,17 @@
     <div class="head-row">
       <div class="container">
         <div class="pull-left">
-          <div class="avatar-md pull-left" src-key="getMe().avatar" source-attr="background-image">
+          <div class="avatar-md pull-left" 
+               src-key="getMe().avatar" 
+               source-attr="background-image">
           </div>
           <div class="pull-left">
             <h4>
               {{getMe().name}}
             </h4>
-            <span class="text-muted" style="font-size: 12px;" ng-if="org.location.name">
+            <span class="text-muted" 
+                  style="font-size: 12px;" 
+                  ng-if="org.location.name">
               <i class="fa fa-map-marker"></i>{{org.location.name}}
             </span>
           </div>
@@ -26,22 +30,40 @@
         <div class="col-sm-3">
           <div class="row">
             <accordion class="bud" close-others="false">
-              <accordion-group is-open="viewState.categoryOpen" ng-if="!Auth.hasRole('teacher')" ng-init="viewState.categoryOpen=true">
+              <accordion-group is-open="viewState.categoryOpen" 
+                               ng-if="!Auth.hasRole('teacher')" 
+                               ng-init="viewState.categoryOpen=true">
                 <accordion-heading>
-                  分类 <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.categoryOpen, 'fa-chevron-right': !viewState.categoryOpen}"></i>
+                  分类 
+                  <i class="pull-right fa" 
+                     ng-class="{
+                     'fa-chevron-down': viewState.categoryOpen, 
+                     'fa-chevron-right': !viewState.categoryOpen
+                     }"></i>
                 </accordion-heading>
                 <div class="form-horizontal">
                   <div class="form-group">
                     <label class="col-xs-3 control-label">科目</label>
                     <div class="col-xs-9">
-                      <select class="form-control" ng-change="reload()" ng-model="viewState.myCoursesFilters.category" ng-options="category.name for category in myCategories"></select>
+                      <select class="form-control" 
+                              ng-change="reload()" 
+                              ng-model="viewState.filterCategory" 
+                              ng-options="category.name for category in categories">
+                        <option value="">全部</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               </accordion-group>
-              <accordion-group is-open="viewState.calendarOpen" ng-init="viewState.calendarOpen=true">
+              <accordion-group is-open="viewState.calendarOpen" 
+                               ng-init="viewState.calendarOpen=true">
                 <accordion-heading>
-                  课程表 <i class="fa fa-calendar"></i> <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.calendarOpen, 'fa-chevron-right': !viewState.calendarOpen}"></i>
+                  课程表 <i class="fa fa-calendar"></i> 
+                  <i class="pull-right fa" 
+                     ng-class="{
+                     'fa-chevron-down': viewState.calendarOpen, 
+                     'fa-chevron-right': !viewState.calendarOpen
+                     }"></i>
                 </accordion-heading>
                 <calendar-tile></calendar-tile>
               </accordion-group>
@@ -51,16 +73,20 @@
         <div class="col-sm-9">
           <div class="row my-courses" style="margin-left: 0;">
             <div class="col-md-12 text-center">
-              <h4>{{viewState.myCoursesFilters.category.name||'全部'}}
-                <div class="pull-right">
-                  <a href=""  ng-if="Auth.hasRole('teacher')" class="btn btn-danger rounded btn-xs" ng-click="createNewCourse()">
-                    <i class="fa fa-plus"></i>&nbsp;添加新课程
-                  </a>
-                </div>
-              </h4>
+              <h4>{{viewState.filterCategory.name || '全部'}}</h4>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center" 
+                 ng-if="Auth.hasRole('teacher')">
+              <button type="button"
+                      class="btn btn-default new-course-btn"
+                      ng-click="createNewCourse()">
+                <i class="budon budon-add-course fa-3x"></i>
+                <label>添加新课程</label>
+                <i class="plus">+</i>
+              </button>
             </div>
             <div class="col-md-4 col-sm-6"
-                 ng-repeat="data in getListData()|filter:viewState.myCoursesFilters.category._id">
+                 ng-repeat="data in getListData()|filter:viewState.filterCategory._id">
               <a ng-if="Auth.hasRole('teacher')"
                  ui-sref="teacher.course({courseId:getCourse(data)._id})">
                 <course-tile course="getCourse(data)"></course-tile>
@@ -74,20 +100,19 @@
           <div class="row pagination-row text-center"
                style="margin-left: 0;"
                ng-hide="getListData().$count <= itemsPerPage">
-            <pagination
-              total-items="getListData().$count"
-              ng-model="currentMyCoursesPage"
-              items-per-page="itemsPerPage"
-              class="pagination-sm bud"
-              boundary-links="true"
-              rotate="false"
-              max-size="maxSize"
-              previous-text="&lsaquo;"
-              next-text="&rsaquo;"
-              first-text="&laquo;"
-              ng-change="reload()"
-              last-text="&raquo;"
-              num-pages="numPages">
+            <pagination total-items="getListData().$count"
+                        ng-model="currentPage"
+                        items-per-page="itemsPerPage"
+                        class="pagination-sm bud"
+                        boundary-links="true"
+                        rotate="false"
+                        max-size="maxSize"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;"
+                        ng-change="reload()"
+                        last-text="&raquo;"
+                        num-pages="numPages">
             </pagination>
           </div>
         </div>

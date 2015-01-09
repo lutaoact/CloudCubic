@@ -26,6 +26,10 @@
   <div class="container">
     <div class="row info-row">
       共<span class="total-num">{{allClasses.$count}}</span>个
+      <search-input keyword="search.keyword"
+                    on-submit="setKeyword($keyword)"
+                    placeholder="班级名搜索">
+      </search-input>
     </div>
     <div class="row courses-row">
       <div ng-if="!allClasses.length" 

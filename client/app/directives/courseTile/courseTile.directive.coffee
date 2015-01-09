@@ -1,6 +1,8 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'courseTile', ()->
+angular.module('budweiserApp')
+
+.directive 'courseTile', ->
   templateUrl: 'app/directives/courseTile/courseTile.html'
   restrict: 'EA'
   replace: true
@@ -8,34 +10,32 @@ angular.module('budweiserApp').directive 'courseTile', ()->
     course: '='
     classe: '='
 
-  controller: ($scope, $state, Restangular, Auth)->
-    $scope.Auth = Auth
-    $scope.continueStudying = ($event)->
-      $event.stopPropagation()
-      if !$scope.progress?.length and $scope.course.lectureAssembly.length
-        $state.go 'lectureDetail',
-          courseId: $scope.course._id
-          lectureId: $scope.course.lectureAssembly[0]
-        return
-      viewedLectures = $scope.course.lectureAssembly.filter (x)->
-        $scope.progress.indexOf(x) > 0
-      if viewedLectures and viewedLectures.length > 0
-        # GOTO that course
-        # TODO: last viewed should not be the last viewed item :(
-        lastViewed = viewedLectures[viewedLectures.length - 1]
-        $state.go 'lectureDetail',
-          courseId: $scope.course._id
-          lectureId: lastViewed
+  controller: ($scope, $state, Restangular, Auth) ->
 
-    $scope.togglePublish = ($event)->
-      $event.stopPropagation()
-      Restangular.one('courses', $scope.course._id).patch isPublished: !$scope.course.isPublished
-      .then ->
-        $scope.course.isPublished = !$scope.course.isPublished
+    angular.extend $scope,
+      Auth: Auth
+      continueStudying: ($event) ->
+        $event.stopPropagation()
+        if !$scope.progress?.length and $scope.course.lectureAssembly.length
+          $state.go 'lectureDetail',
+            courseId: $scope.course._id
+            lectureId: $scope.course.lectureAssembly[0]
+          return
+        viewedLectures = $scope.course.lectureAssembly.filter (x)->
+          $scope.progress.indexOf(x) > 0
+        if viewedLectures and viewedLectures.length > 0
+          # GOTO that course
+          # TODO: last viewed should not be the last viewed item :(
+          lastViewed = viewedLectures[viewedLectures.length - 1]
+          $state.go 'lectureDetail',
+            courseId: $scope.course._id
+            lectureId: lastViewed
 
-    $scope.$watch 'course', (value)->
+    $scope.$watch 'course', (value) ->
       if value and Auth.hasRole('student') and !Auth.hasRole('teacher')
-        Restangular.all('progresses').getList({courseId: value._id})
+        Restangular
+        .all('progresses')
+        .getList({courseId: value._id})
         .then (progress)->
           $scope.percentageCalculated = true
           $scope.progress = progress

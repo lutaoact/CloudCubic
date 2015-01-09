@@ -57,7 +57,7 @@ exports.update = (req, res, next) ->
   delete body._id
   # delete body.uniqueName
 
-  if body.customDomain?.indexOf 'cloud3edu' > -1
+  if body.customDomain?.indexOf('cloud3edu') > -1
     return next {
       status: 403
       errCode: ErrCode.UnallowedDomain

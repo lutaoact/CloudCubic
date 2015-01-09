@@ -64,13 +64,16 @@
     padding-top: 16px;
   }
   .new-course-btn {
-    width: 200px;
+    width: 205px;
     height: 200px;
-    border: 3px dashed @base-color;
+    border: 1px dashed rgba(118, 120, 122, 0.4);
     border-radius: 5px;
     text-align: center;
     color: #666;
-    background: #fff;
+    background: #F1F1F2;
+    .budon {
+      color: @base-color;
+    }
     .plus {
       color: @base-color;
       font-size: 50px;
@@ -80,18 +83,20 @@
     label {
       display: block;
       font-weight: normal;
-      font-size: 18px;
+      font-size: 15px;
       padding-top: 10px;
     }
-  }
-  .new-course-btn:hover,
-  .new-course-btn:focus,
-  .new-course-btn:active,
-  .new-course-btn.active {
-    color: #fff;
-    background: @base-color;
-    .plus {
-      color: #fff;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      border-color: @base-color;
+      background: @base-color;
+      label,
+      .budon,
+      .plus {
+        color: #fff;
+      }
     }
   }
   .course-list{

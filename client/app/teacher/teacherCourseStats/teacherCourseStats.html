@@ -6,7 +6,8 @@
     <student-list class="col-md-3"
                   classes="classes"
                   selected-student="viewState.student"
-                  on-student-select="viewStudentStats">
+                  on-student-select="viewStudentStats($student)"
+                  on-classe-select="viewClasseStats($classe)">
     </student-list>
 
   </div>

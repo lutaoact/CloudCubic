@@ -108,3 +108,35 @@ exports.enroll = (req, res, next) ->
     res.send classe
   .catch next
   .done()
+
+buildConditionsByUser = (user) ->
+  conditions = {orgId: user.orgId}
+  switch user.role
+    when 'student' then conditions.students = user._id
+    when 'teacher' then conditions.teachers = user._id
+
+  return conditions
+
+buildSchedules = (classes) ->
+  schedules = []
+  for classe in classes
+    for schedule in classe.schedules
+      schedule.classe = classe.name
+      schedule.course = classe.courseId.name
+      schedules.push schedule
+
+  return schedules
+
+
+exports.schedules = (req, res, next) ->
+  conditions = buildConditionsByUser req.user
+  console.log conditions
+  mongoQuery = Classe.find conditions, null, {lean: true}
+  mongoQuery = WrapRequest.populateQuery mongoQuery, Classe.populates.schedules
+
+  mongoQuery.execQ()
+  .then (classes) ->
+    schedules = buildSchedules classes
+    res.send schedules
+  .catch next
+  .done()

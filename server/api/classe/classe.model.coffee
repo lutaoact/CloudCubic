@@ -36,6 +36,9 @@ exports.Classe = BaseModel.subclass
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
+    schedules: [
+      path: 'courseId', select: 'name'
+    ]
 
   initialize: ($super) ->
     @schema = new Schema

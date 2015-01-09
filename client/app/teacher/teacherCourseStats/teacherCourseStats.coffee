@@ -15,8 +15,13 @@ angular.module('budweiserApp').config ($stateProvider) ->
     roleRequired: 'teacher'
 
   .state 'teacher.courseStats.student',
-    url: '/students/:studentId'
+    url: '/classes/:classeId/students/:studentId'
     templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.student.html'
     controller: 'TeacherCourseStatsStudentCtrl'
     roleRequired: 'teacher'
 
+  .state 'teacher.courseStats.classe',
+    url: '/classes/:classeId'
+    templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.classe.html'
+    controller: 'TeacherCourseStatsClasseCtrl'
+    roleRequired: 'teacher'

@@ -17,7 +17,10 @@
       {{classe.name || course.name}}<br>
     </h5>
     <hr>
-    <div class="lecture-info text-muted small" ng-if="!Auth.hasRole('teacher')">
+
+    <!--Student View-->
+    <div class="lecture-info text-muted small" 
+         ng-if="!Auth.hasRole('teacher')">
       <span ng-if="!percentageCalculated">进度计算中...</span>
       <span class="thermometer" ng-if="percentageCalculated">
         <span class="thermometer-inner" ng-style="{'width':percentage+'%'}"></span>
@@ -26,7 +29,10 @@
         {{percentage}}%
       </span>
       <span ng-if="percentageCalculated" class="pull-right">
-        <a href="" ng-if="course.lectureAssembly.length" class="btn btn-danger btn-xs rounded continue-btn" ng-click="continueStudying($event)">
+        <a href 
+           ng-if="course.lectureAssembly.length" 
+           class="btn btn-danger btn-xs rounded continue-btn" 
+           ng-click="continueStudying($event)">
           {{percentage==0?'开始':'继续'}}
         </a>
         <span class="text-muted" ng-if="!course.lectureAssembly.length">
@@ -34,12 +40,12 @@
         </span>
       </span>
     </div>
-    <div class="lecture-info text-muted small" ng-if="Auth.hasRole('teacher')">
-      <span class="pull-right">
-        <a href="" class="btn btn-xs" ng-click="">
-          <i class="fa fa-gear"></i>
-        </a>
-      </span>
+
+    <!--Teacher View-->
+    <div class="lecture-info text-muted small" 
+         ng-if="Auth.hasRole('teacher')">
+      {{course.categoryId.name}}
+      <span class="pull-right">{{course.lectureAssembly.length}} 课时</span>
     </div>
   </div>
 </div>
