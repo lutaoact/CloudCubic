@@ -6,6 +6,8 @@ auth = require("../../auth/auth.service")
 router = express.Router()
 
 router.get "/", controller.index
+router.get '/schedules', auth.isAuthenticated(), controller.schedules
+
 router.get "/:id", controller.show
 router.get "/:id/students", auth.hasRole("teacher"), controller.showStudents
 router.post "/", auth.hasRole("teacher"), controller.create

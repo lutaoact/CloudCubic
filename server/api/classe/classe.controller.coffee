@@ -108,3 +108,20 @@ exports.enroll = (req, res, next) ->
     res.send classe
   .catch next
   .done()
+
+buildConditionsByUser = (user) ->
+  conditions = {orgId: user.orgId}
+  switch user.role
+    when 'student' then conditions.students = user._id
+    when 'teacher' then conditions.teachers = user._id
+
+  return conditions
+
+exports.schedules = (req, res, next) ->
+  conditions = buildConditionsByUser req.user
+  console.log conditions
+  Classe.findQ conditions
+  .then (classes) ->
+    res.send classes
+  .catch next
+  .done()
