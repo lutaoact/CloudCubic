@@ -193,8 +193,16 @@
         <div class="form-group text-center">
           <button type="submit"
                   class="btn btn-danger rounded save-btn"
+                  ng-disabled="alipaySaved || alipaySaving"
                   ng-click="saveOrgAlipay(orgPaymentForm)">
-              <span >保存</span>
+            <span ng-if="!alipaySaving">
+              <span ng-if="!alipaySaved">保存</span>
+              <span ng-if="alipaySaved">已保存</span>
+            </span>
+            <span ng-if="alipaySaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
           </button>
         </div>
 

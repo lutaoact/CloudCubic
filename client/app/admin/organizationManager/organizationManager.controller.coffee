@@ -27,6 +27,10 @@ angular.module('budweiserApp')
     errors: null
     saving: false
     saved: true
+    alipaySaving: false
+    alipaySaved: true
+    orgAlipay: null
+    orignOrgAlipay: {}
 
     orgTypes: orgTypeService.getList()
 
@@ -55,14 +59,21 @@ angular.module('budweiserApp')
         $scope.saving = false
 
     saveOrgAlipay: ->
+      $scope.alipaySaving = true
       Restangular
       .one('org_alipays','me')
       .patch $scope.orgAlipay
+      .then ->
+        angular.extend $scope.orignOrgAlipay, $scope.orgAlipay
+      .finally ->
+        $scope.alipaySaving = false
+
 
   Restangular
   .one('org_alipays','me').get()
   .then (data) ->
     $scope.orgAlipay = data ? {}
+    angular.extend $scope.orignOrgAlipay, $scope.orgAlipay
 
   Restangular
   .one('organizations', org._id)
@@ -75,3 +86,8 @@ angular.module('budweiserApp')
     _.isEqual($scope.editingInfo, _.pick $scope.organization, editableFields)
   , (isEqual) ->
     $scope.saved = isEqual
+
+  $scope.$watch ->
+    _.isEqual($scope.orgAlipay, $scope.orignOrgAlipay)
+  , (isEqual) ->
+    $scope.alipaySaved = isEqual
