@@ -62,7 +62,7 @@
               免费课程
             </span>
             <span class="pull-right"
-                  ng-if="classe.price > 0">
+                  ng-show="showBuyClass()">
               <button class="btn btn-md btn-warning rounded"
                       login-window
                       login-success="makeOrder(classe)">
@@ -75,7 +75,7 @@
               </button>
             </span>
             <span class="pull-right"
-                  ng-if="classe.price == 0">
+                  ng-show="showJoinClass()" >
               <button class="btn btn-md btn-danger rounded"
                       login-window
                       login-success="enrollFreeClass(classe)">

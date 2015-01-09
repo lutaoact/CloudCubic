@@ -107,6 +107,15 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
       else
         '无具体上课时间'
 
+    # only show buy class for student
+    showBuyClass : ->
+      ($scope.classe.price > 0) && (Auth.userRole() is 'student')
+
+    # only show join class for student
+    showJoinClass : ->
+      ($scope.classe.price is 0) && (Auth.userRole() is 'student')
+      
+      
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
 
