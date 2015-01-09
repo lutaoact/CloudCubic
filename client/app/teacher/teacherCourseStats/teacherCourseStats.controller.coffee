@@ -29,10 +29,15 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         angular.element($window).resize()
 
     viewStudentStats: (student)->
-      console.log 'viewStudentStats'
       $state.go 'teacher.courseStats.student',
         courseId: $scope.course._id
+        classeId: student.$classeInfo.id
         studentId: student._id or student
+
+    viewClasseStats: (classe)->
+      $state.go 'teacher.courseStats.classe',
+        courseId: $scope.course._id
+        classeId: classe._id or classe
 
 .controller 'TeacherCourseStatsMainCtrl', (
   $scope
@@ -49,7 +54,14 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   chartUtils
 ) ->
 
-  chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.studentId
+  chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.classeId, $state.params.studentId
 
+.controller 'TeacherCourseStatsClasseCtrl', (
+  $scope
+  $state
+  chartUtils
+) ->
+
+  chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.classeId
 
 

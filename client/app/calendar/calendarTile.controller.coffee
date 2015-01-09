@@ -33,7 +33,7 @@ angular.module('budweiserApp')
       for j in [0..6]
         weekDay = {}
         day = angular.copy(dateIndex)
-        dateIndex.add('days', 1)
+        dateIndex.add(1, 'days')
         weekDay.day = day
         weekDay.isInCurrentMonth = if day.month() is selectedDay.month() then true else false
         weekDay.isToday = if day.isSame(moment(), 'day') then true else false
@@ -64,12 +64,12 @@ angular.module('budweiserApp')
         bindSchedules()
 
     prevClick: ()->
-      $scope.selectedDate = moment($scope.selectedDate).add('months', -1)
+      $scope.selectedDate = moment($scope.selectedDate).add(-1, 'months')
       $scope.weeks = weeksOfMonth($scope.selectedDate)
       bindSchedules()
 
     nextClick: ()->
-      $scope.selectedDate = moment($scope.selectedDate).add('months', 1)
+      $scope.selectedDate = moment($scope.selectedDate).add(1, 'months')
       $scope.weeks = weeksOfMonth($scope.selectedDate)
       bindSchedules()
 

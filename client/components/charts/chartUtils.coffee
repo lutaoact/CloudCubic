@@ -1,5 +1,5 @@
 angular.module 'budweiserApp'
-.factory 'chartUtils', (Restangular,$q)->
+.factory 'chartUtils', (Restangular,$q, notify)->
   chartConfigs =
     # trend for quiz and homework
     trendChart:
@@ -91,7 +91,6 @@ angular.module 'budweiserApp'
         style:
           fontSize: '12px'
         text: ''
-
       loading: true
 
     questionChart:
@@ -133,6 +132,7 @@ angular.module 'budweiserApp'
         text: null
       subtitle:
         text: 'Click the columns to view answer detail.'
+      loading: true
 
     scatterChart:
       options:
@@ -159,6 +159,7 @@ angular.module 'budweiserApp'
             [Math.random() * 7, Math.random() * 2 + id % 2 * 12 + 7 ]
         }
       ]
+      loading: true
 
     verticalBarChart:
       options:
@@ -199,9 +200,20 @@ angular.module 'budweiserApp'
         text: ''
       loading: true
 
+  errorHandle = (err)->
+    if err.status is 403 or err.status is 400
+      notify
+        message: err.data?.errMsg
+        classes: 'alert-danger'
+    else
+      notify
+        message: '发生错误'
+        classes: 'alert-danger'
+    $q.reject err
+
   chartConfigs: chartConfigs
 
-  genStatsOnScope: ($scope, courseId, userId)->
+  genStatsOnScope: ($scope, courseId, classeId, userId)->
     $scope.quizStats = angular.copy(chartConfigs.pieChart)
     $scope.keypointStats = angular.copy(chartConfigs.pieChart)
     $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
@@ -210,7 +222,7 @@ angular.module 'budweiserApp'
     $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
 
     loadQuizStats = ()->
-      Restangular.one('quiz_stats','').get({courseId:courseId, userId:userId})
+      Restangular.one('quiz_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '随堂问题'
         $scope.quizStats.series[0].data = [
@@ -227,9 +239,10 @@ angular.module 'budweiserApp'
         $scope.quizStats.title.text = '随堂问题正确率'
         $scope.quizStats.loading = false
         result
+      , errorHandle
 
     loadHomeworkStats = ()->
-      Restangular.one('homework_stats','').get({courseId:courseId, userId:userId})
+      Restangular.one('homework_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '课后习题'
         $scope.homeworkStats.series[0].data = [
@@ -246,9 +259,10 @@ angular.module 'budweiserApp'
         $scope.homeworkStats.title.text = '课后习题正确率'
         $scope.homeworkStats.loading = false
         result
+      , errorHandle
 
     loadKeypointStats = ()->
-      Restangular.one('keypoint_stats','').get({courseId:courseId, userId:userId})
+      Restangular.one('keypoint_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '知识点掌握程度'
         $scope.keypointStats.series[0].data = [
@@ -266,22 +280,24 @@ angular.module 'budweiserApp'
         $scope.keypointStats.title.text = '知识点掌握程度'
         $scope.keypointStats.loading = false
         result
-      , (err)->
-        console.log err
+      , errorHandle
 
     loadKeypoints = ()->
       Restangular.all('key_points').getList(courseId: courseId)
       .then (result)->
         $scope.keypoints = result
+      , errorHandle
 
     loadLectures = ()->
       Restangular.all('lectures').getList(courseId:courseId)
+      .then (results)->
+        results
+      , errorHandle
 
     loadStats = ->
       $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
       .then (results)->
         # fill the trend chart
-
         $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
           data: results[3].map (lecture)->
             name: lecture.name
@@ -312,5 +328,7 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'
         $scope.keypointBarChart.loading = false
+      , (errs)->
+        console.log errs
 
     loadStats()
