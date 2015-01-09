@@ -71,7 +71,14 @@ exports.show = (req, res, next) ->
 exports.create = (req, res, next) ->
   data = req.body
   # 先建立forum，然后设置 course 的 forumId
-  Forum.createQ {postBy: req.user._id, name: "来自课程-#{data.name}",logo: data.thumbnail, categoryId: data.categoryId?._id||data.categoryId, orgId: req.user.orgId}
+  forumData =
+    postBy: req.user._id
+    name: "来自课程-#{data.name}"
+    logo: data.thumbnail
+    categoryId: data.categoryId?._id ? data.categoryId
+    orgId: req.user.orgId
+
+  Forum.createQ forumData
   .then (forum) ->
     delete data._id
     data.owners  = [req.user._id]

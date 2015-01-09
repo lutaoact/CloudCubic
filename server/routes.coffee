@@ -72,7 +72,7 @@ module.exports = (app) ->
   app.use '/api/activities', require './api/activity'
   app.use '/api/progresses', require './api/progress'
   app.use '/api/schools', require './api/school'
-  app.use '/api/schedules', require './api/schedule'
+#  app.use '/api/schedules', require './api/schedule'
   app.use '/api/notices', require './api/notice'
   app.use '/api/offline_works', require './api/offline_work'
   app.use '/api/demo', require './api/demo'

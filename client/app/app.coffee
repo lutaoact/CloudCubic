@@ -1,5 +1,6 @@
 'use strict'
 
+
 angular.module 'budweiserApp', [
   'ngCookies'
   'ngResource'
@@ -28,10 +29,10 @@ angular.module 'budweiserApp', [
 .constant 'configs',
   baseUrl: ''
   fpUrl: 'http://54.223.144.96:9090/'
-  imageSizeLimitation: 3 * 1024 * 1024
-  fileSizeLimitation: 30 * 1024 * 1024
-  videoSizeLimitation: 30 * 1024 * 1024
-  proVideoSizeLimitation: 1024 * 1024 * 1024
+  imageSizeLimitation    : 3 * 1024 * 1024
+  fileSizeLimitation     : 30 * 1024 * 1024
+  videoSizeLimitation    : 30 * 1024 * 1024
+  proVideoSizeLimitation : 1024 * 1024 * 1024
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')

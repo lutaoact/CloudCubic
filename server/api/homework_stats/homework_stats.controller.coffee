@@ -52,7 +52,7 @@ calStats = (user, courseId, studentsList) ->
   studentsNum = studentsList?.length
   if studentsNum is 0
     return Q.reject
-      status : 403
+      status : 400
       errCode : ErrCode.NoStudentsHere
       errMsg : 'No student to calculate statistics data'
     
