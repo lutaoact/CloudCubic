@@ -1,60 +1,60 @@
 .forum-tile{
   background: #FFF;
-  border: 1px solid #eee;
-  border-radius: 2px;
   margin: 10px 0;
+  cursor: pointer;
+  border: 1px solid #eee;
+  position: relative;
+  .menu-bar{
+    position: absolute;
+    right: 0;
+    top: 0;
+    > a{
+      opacity: 0.7;
+      color: #eee;
+      .text-shadow(2px 2px 4px #aaa);
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
   .box-shadow(none);
-  .transition(all .2s ease-in-out);
+  .transition(all .13s linear);
+  border-radius: 4px;
   .forum-logo{
-    display: inline-block;
-    width: 70px;
-    height: 45px;
+    margin-left: -1px;
+    margin-right: -1px;
+    margin-top: -1px;
+    height: 196px;
     background-color: @gray-lighter;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 8px;
+    border-radius: 4px 4px 0 0;
   }
   .forum-body{
-    display: inline-block;
-    margin: 8px;
-    width: ~"calc(100% - 102px)";
-    .forum-title{
-      margin-top: 0;
-      margin-bottom: 10px;
+    margin: 0 18px 18px 18px;
+    h5, h6{
       .text-overflow();
       width: 100%;
     }
-    table{
-      th, td{
-        padding: 0 10px;
-        text-align: center;
-        font-size: 12px;
-        line-height: 14px;
-        &:nth-child(1){
-          padding: 0 10px 0 0;
-        }
-      }
-      td{
-        color: @gray-light;
-      }
-      th+th,td+td{
-        border-left: 1px solid #EEE;
-      }
+    h5{
+      height: 15px;
+    }
+    h6{
+      height: 13px;
+    }
+    .forum-tag{
+
+    }
+    .forum-info{
+      margin-top: 20px;
     }
   }
   .forum-tool-bar{
-    background: @gray-lighter;
-    height: 30px;
-    width: 100%;
-    padding: 5px 8px;
-    border-radius: 0 0 2px;
-  }
-  .action-btn{
-    .circle-btn(20px, 4px);
-    padding-left: 5px;
-    padding-top: 4px;
-    margin-left: 6px;
+    height: 40px;
+    padding: 10px 18px;
+    border-radius: 0 0 4px 4px;
+    border-top: 1px solid #eee;
   }
 
   &:hover{

@@ -3,24 +3,16 @@
   padding-top: 40px;
   .header-row {
     .header {
-      padding: 10px 1px;
-      border-bottom: 1px solid #B2B3B4;
-      margin-bottom: 30px;
-      &:before {
-        content: '';
-        border-bottom: 1px solid #676767;
-        width: 115px;
-        position: absolute;
-        bottom: -1px;
-        left: 0px;
-      }
+      background: #FFF;
+      padding: 10px 0;
+      margin-bottom: 28px;
+      .box-shadow(0 0 2px @gray-light);
       .search{
         background: #FFFFFF;
-        margin-top: -2px;
         border-radius: 16px;
         .form-control {
           padding: 5px;
-          height: 32px;
+          height: 30px;
         }
         .input-group-addon{
           padding: 5px;
@@ -38,7 +30,7 @@
       }
       .title {
         font-size: 16px;
-        margin: 3px 10px 5px 0;
+        margin: 4px 0;
         a {
           color: #0F1116;
         }
@@ -52,16 +44,16 @@
 
   .all-forums{
     background: #FFF;
+    .box-shadow(0 0 2px @gray-light);
     margin-bottom: 30px;
     padding-top: 30px;
     padding-bottom: 30px;
-    margin-left: 0;
   }
   .pagination-row{
+    .box-shadow(0 0 2px @gray-light);
     margin-top: 18px;
     background: #FFF;
     height: 30px;
-    margin-left: 0;
     margin-bottom: 30px;
     .pagination{
       margin: 2px 0;

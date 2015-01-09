@@ -42,6 +42,42 @@
   }
 }
 
+.nav.nav-group{
+  font-size: 12px;
+  display: inline-block;
+  float: left;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  li{
+    float: left;
+  }
+  li + li{
+    a{
+      border-left: 1px solid #ddd;
+    }
+  }
+  > li > a {
+    color: #000;
+    padding: 6px 10px;
+    height: 28px;
+    .transition(all .13s ease-in-out);
+    &:hover,
+    &:focus{
+      background: #efefef;
+    }
+  }
+  > li.active {
+  }
+  > .active > a {
+    &,
+    &:hover,
+    &:focus {
+      background: @gray-lighter;
+    }
+  }
+}
+
 .nav.nav-underline{
   li{
     display: inline-block;

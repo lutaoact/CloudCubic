@@ -3,16 +3,21 @@
   <div class="header-row">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 header">
-          <div class="col-md-5 clearfix">
-            <div class="pull-left title">所有讨论组</div>
-            <ul class="nav nav-pills pull-left" role="tablist" ng-init="viewState.orderBy='-created'">
-              <li role="presentation" ng-class="{'active':viewState.orderBy=='-created'}"><a href="" ng-click="viewState.orderBy='-created'">最新</a></li>
-              <li role="presentation" ng-class="{'active':viewState.orderBy=='recentPostsCount'}"><a href="" ng-click="viewState.orderBy='recentPostsCount'">最热</a></li>
-              <li role="presentation" ng-class="{'active':viewState.orderBy=='postsCount'}"><a href="" ng-click="viewState.orderBy='postsCount'">评论最多</a></li>
+        <div class="col-md-12 clearfix header">
+          <div class="col-sm-3 clearfix">
+            <div class="title">
+              所有讨论组
+              <span>|</span>
+              <span>共<span class="text-primary">{{forums.length||0}}</span>个</span>
+            </div>
+          </div>
+          <div class="col-sm-3 clearfix">
+            <ul class="nav nav-group" ng-init="viewState.orderBy='-created'">
+              <li ng-class="{'active':viewState.orderBy=='$topicCount'}"><a href="" ng-click="viewState.orderBy='$topicCount'">最热</a></li>
+              <li ng-class="{'active':viewState.orderBy=='-created'}"><a href="" ng-click="viewState.orderBy='-created'">最新</a></li>
             </ul>
           </div>
-          <div class="col-md-5 clearfix">
+          <div class="col-sm-4 clearfix">
             <div class="search">
               <div class="bud input-group">
                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
@@ -21,7 +26,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-2 actions clearfix">
+          <div class="col-sm-2 actions clearfix">
             <a href="" class="btn btn-danger btn-sm rounded" ng-click="createForum()">
               <i class="fa fa-plus"></i>&nbsp;新讨论组
             </a>
@@ -32,34 +37,14 @@
   </div>
 
   <div class="container">
-    <div class="col-md-3">
-      <div class="row">
-        <accordion class="bud" close-others="false">
-          <accordion-group is-open="viewState.categoryOpen" ng-init="viewState.categoryOpen=true">
-            <accordion-heading>
-              分类 <i class="pull-right fa" ng-class="{'fa-chevron-down': viewState.categoryOpen, 'fa-chevron-right': !viewState.categoryOpen}"></i>
-            </accordion-heading>
-            <div class="form-horizontal">
-              <div class="form-group">
-                <label class="col-xs-3 control-label">科目</label>
-                <div class="col-xs-9">
-                  <select class="form-control " ng-model="viewState.forumsFilters.category" ng-options="category.name for category in forumCategories"></select>
-                </div>
-              </div>
-            </div>
-          </accordion-group>
-        </accordion>
+    <div class="row all-forums">
+      <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:categoryFilter)|paging:itemsPerPage:currentForumPage">
+        <forum-tile forum="forum" >
+        </forum-tile>
       </div>
     </div>
-    <div class="col-md-9">
-      <div class="row all-forums">
-        <div class="col-md-6" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:categoryFilter)|paging:itemsPerPage:currentForumPage">
-          <forum-tile forum="forum" >
-          </forum-tile>
-        </div>
-      </div>
-      <div class="row pagination-row text-center"
-         ng-hide="forums.$count <= itemsPerPage">
+    <div class="row pagination-row text-center"
+       ng-hide="forums.$count <= itemsPerPage">
       <pagination
         total-items="viewState.filteredForums.length"
         ng-model="currentForumPage"
@@ -70,7 +55,6 @@
         max-size="maxSize"
         num-pages="numPages">
       </pagination>
-    </div>
     </div>
   </div>
 </section>

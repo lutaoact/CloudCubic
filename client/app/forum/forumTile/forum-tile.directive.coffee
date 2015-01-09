@@ -7,7 +7,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
   scope:
     forum: '='
 
-  controller: ($scope, Auth, $modal)->
+  controller: ($scope, Auth, $modal, $http)->
     angular.extend $scope,
       getMe: Auth.getCurrentUser
 
@@ -18,7 +18,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
           resolve:
             forum: ->
               forum
-        .result.then (newForum) ->
+        true
 
       deleteCallback: (forum) ->
         $scope.$emit 'forum.deleted', forum
@@ -35,3 +35,11 @@ angular.module('budweiserApp').directive 'forumTile', ()->
           forum.remove()
         .then ->
           $scope.deleteCallback?(forum)
+
+      stopPropagation: ($event)->
+        $event.stopPropagation();
+
+    $http.get("api/forums/#{$scope.forum._id}/topicsNum")
+    .success (data)->
+      $scope.forum.$topicCount = data.count
+
