@@ -200,17 +200,6 @@ angular.module 'budweiserApp'
         text: ''
       loading: true
 
-  errorHandle = (err)->
-    if err.status is 403 or err.status is 400
-      notify
-        message: err.data?.errMsg
-        classes: 'alert-danger'
-    else
-      notify
-        message: '发生错误'
-        classes: 'alert-danger'
-    $q.reject err
-
   chartConfigs: chartConfigs
 
   genStatsOnScope: ($scope, courseId, classeId, userId)->
@@ -239,7 +228,6 @@ angular.module 'budweiserApp'
         $scope.quizStats.title.text = '随堂问题正确率'
         $scope.quizStats.loading = false
         result
-      , errorHandle
 
     loadHomeworkStats = ()->
       Restangular.one('homework_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
@@ -259,7 +247,6 @@ angular.module 'budweiserApp'
         $scope.homeworkStats.title.text = '课后习题正确率'
         $scope.homeworkStats.loading = false
         result
-      , errorHandle
 
     loadKeypointStats = ()->
       Restangular.one('keypoint_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
@@ -280,19 +267,16 @@ angular.module 'budweiserApp'
         $scope.keypointStats.title.text = '知识点掌握程度'
         $scope.keypointStats.loading = false
         result
-      , errorHandle
 
     loadKeypoints = ()->
       Restangular.all('key_points').getList(courseId: courseId)
       .then (result)->
         $scope.keypoints = result
-      , errorHandle
 
     loadLectures = ()->
       Restangular.all('lectures').getList(courseId:courseId)
       .then (results)->
         results
-      , errorHandle
 
     loadStats = ->
       $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
@@ -328,7 +312,15 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'
         $scope.keypointBarChart.loading = false
-      , (errs)->
-        console.log errs
+      , (err)->
+        if err.status is 403 or err.status is 400
+          notify
+            message: err.data?.errMsg
+            classes: 'alert-danger'
+        else
+          notify
+            message: '发生错误'
+            classes: 'alert-danger'
+        $q.reject err
 
     loadStats()
