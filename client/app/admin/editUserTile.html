@@ -45,6 +45,27 @@
           </div>
         </div>
       </div>
+      <div class="form-group" >
+        <label class="col-xs-4 control-label">微信</label>
+        <div class="col-xs-8">
+          <label class="control-label" style="font-weight: normal">
+            <span ng-if="user.weixin.id" class="text-success">{{user.weixin.name}}</span>
+            <span ng-if="!user.weixin.id && Auth.getCurrentUser()._id != user._id">未绑定</span>
+            <span class="dropdown" ng-if="!user.weixin.id && Auth.getCurrentUser()._id == user._id">
+              <a href class="dropdown-toggle">
+                点击绑定微信登录
+              </a>
+              <div class="dropdown-menu">
+                <div style="text-align: center; padding-top: 10px;">
+                  请使用微信扫描二维码完成绑定 
+                  <hr/>
+                </div>
+                <weixin-login/>
+              </div>
+            </span>
+          </label>
+        </div>
+      </div>
       <div class="form-group">
         <label for="inputName" class="col-xs-4 control-label">姓名</label>
         <div class="col-xs-8">

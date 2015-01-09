@@ -123,6 +123,7 @@ setupUserSchema = (UserSchema) ->
     'role': this.role
     'info': this.info
     'email': this.email
+    'weixin': {id:this.weixin.id, name:this.weixin.name}
     'avatar': this.avatar
     'status': this.status
 

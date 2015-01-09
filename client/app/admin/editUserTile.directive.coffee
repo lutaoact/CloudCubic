@@ -14,13 +14,14 @@ angular.module('budweiserApp')
     onUpdateUser: '&'
 
 .controller 'EditUserTileCtrl', (
+  Auth
+  $log
   $state
   $scope
   $modal
   notify
-  Restangular
   configs
-  $log
+  Restangular
 ) ->
 
   # 能被编辑的字段
@@ -32,6 +33,7 @@ angular.module('budweiserApp')
   ]
 
   angular.extend $scope,
+    Auth: Auth
     imageSizeLimitation: configs.imageSizeLimitation
     $state: $state
     errors: null
