@@ -117,11 +117,26 @@ buildConditionsByUser = (user) ->
 
   return conditions
 
+buildSchedules = (classes) ->
+  schedules = []
+  for classe in classes
+    for schedule in classe.schedules
+      schedule.classe = classe.name
+      schedule.course = classe.courseId.name
+      schedules.push schedule
+
+  return schedules
+
+
 exports.schedules = (req, res, next) ->
   conditions = buildConditionsByUser req.user
   console.log conditions
-  Classe.findQ conditions
+  mongoQuery = Classe.find conditions, null, {lean: true}
+  mongoQuery = WrapRequest.populateQuery mongoQuery, Classe.populates.schedules
+
+  mongoQuery.execQ()
   .then (classes) ->
-    res.send classes
+    schedules = buildSchedules classes
+    res.send schedules
   .catch next
   .done()
