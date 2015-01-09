@@ -53,7 +53,7 @@ exports.showStudents = (req, res, next) ->
   Classe.findOne
     _id: classeId
     orgId: user.orgId
-  .populate 'students'
+  .populate 'students', '-hashedPassword -salt'
   .execQ()
   .then (classe) ->
     res.send classe.students
