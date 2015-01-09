@@ -1,12 +1,12 @@
+<div class="modal-header">
+  <a class="close" ng-click="cancel()">&times;</a>
+</div>
 <div class="col-md-10 col-md-offset-1">
   <h4 class="modal-title">
     <i class="budon budon-course-classe"></i>
     <span ng-if="!classe._id">创建新班级</span>
     <span ng-if="classe._id">编辑班级</span>
-    <a class="close" ng-click="cancel()">&times;</a>
   </h4>
-</div>
-<div class="col-md-10 col-md-offset-1">
   <form class="form-horizontal edit-classe-form"
         name="form">
     <div class="form-group form-group-sm">
@@ -20,24 +20,26 @@
                placeholder="请输入班级名称"
                ng-model="classe.name"
                required>
-        <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
+        <small class="text-danger" ng-if="errors.name">
+          {{ errors.name.message }}
+        </small>
       </div>
     </div>
     <div class="form-group form-group-sm" ng-if="courses.length">
       <span class="control-label col-sm-3">课程名</span>
       <div class="col-sm-9">
-        <select
-          class="form-control"
-          id="classe-course"
-          ng-model="classe.courseId"
-          ng-options="course._id as course.name for course in courses"
-          required>
+        <select class="form-control"
+                id="classe-course"
+                ng-model="classe.courseId"
+                ng-options="course._id as course.name for course in courses"
+                required>
           <option value="" class="text-muted">请选择一门课程</option>
         </select>
       </div>
     </div>
 
-    <div class="form-group form-group-sm" ng-class="{'has-error': form.price.$invalid}">
+    <div class="form-group form-group-sm" 
+        ng-class="{'has-error': form.price.$invalid}">
       <span class="control-label col-sm-3">价格</span>
       <div class="col-sm-9">
         <div class="input-group">
@@ -56,22 +58,37 @@
         <small class="text-danger" ng-if="errors.price">{{ errors.price.message }}</small>
         <p class="text-danger" ng-show="form.price.$error.aplipaySet">
           <span ng-if="Auth.hasRole('admin')">
-            开设收费课程需要支付宝信息，请在<a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>进行设置
+            开设收费课程需要支付宝信息，请在
+            <a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>
+            进行设置
           </span>
-          <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">开设收费课程需要支付宝信息，请联系机构管理员进行设置</span>
+          <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">
+            开设收费课程需要支付宝信息，请联系机构管理员进行设置
+          </span>
         </p>
+      </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+      <span class="control-label col-sm-3">上课地点</span>
+      <div class="col-sm-9">
+        <input class="form-control"
+               type="text"
+               id="classe-address"
+               placeholder="请输入授课地点"
+               ng-model="classe.address">
+        <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
       </div>
     </div>
 
     <div class="form-group form-group-sm">
       <span class="control-label col-sm-3">授课教师</span>
       <div class="col-sm-9">
-        <select
-          class="form-control"
-          id="classe-teacher"
-          ng-model="selectedTeacher"
-          ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
-          ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
+        <select class="form-control"
+                id="classe-teacher"
+                ng-model="selectedTeacher"
+                ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
+                ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
           <option value="" class="text-muted">请选择授课教师</option>
         </select>
         <div class="row-fluid classe-teachers">
@@ -87,17 +104,6 @@
       </div>
     </div>
 
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">上课地点</span>
-      <div class="col-sm-9">
-        <input class="form-control"
-               type="text"
-               id="classe-address"
-               placeholder="请输入授课地点"
-               ng-model="classe.address">
-        <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
-      </div>
-    </div>
   </form>
 </div>
 <ul class="nav nav-tabs" ng-init="viewState.datetimeConfig='date'">
@@ -109,106 +115,128 @@
   </li>
 </ul>
 
-<div class="classe-times clearfix" ng-show="viewState.datetimeConfig=='date'">
+<div class="classe-times clearfix">
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-
-      <div class="form-group bud-datepicker-wrap">
-        <span class="control-label col-sm-3">报名日期</span>
-        <div class="col-sm-8">
-          从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-            datepicker-popup="'yyyy-MM-dd'"
-            ng-model="classe.enrollment.from"
-            is-open="viewState.enrollment.fromPopOpened"
-            ng-click="viewState.enrollment.fromPopOpened = true;"
-            show-button-bar="false"
-            datepicker-options="viewState.dateOptions">
-            {{(classe.enrollment.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-          </button>
-
-          到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-            datepicker-popup="'yyyy-MM-dd'"
-            ng-model="classe.enrollment.to"
-            is-open="viewState.enrollment.toPopOpened"
-            min-date="classe.enrollment.from"
-            ng-click="viewState.enrollment.toPopOpened = true;"
-            show-button-bar="false"
-            datepicker-options="viewState.dateOptions">
-            {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-group bud-datepicker-wrap">
-        <span class="control-label col-sm-3">上课日期</span>
-        <div class="col-sm-8">
-          从&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-            datepicker-popup="'yyyy-MM-dd'"
-            ng-model="classe.duration.from"
-            is-open="viewState.duration.fromPopOpened"
-            ng-click="viewState.duration.fromPopOpened = true;"
-            show-button-bar="false"
-            datepicker-options="viewState.dateOptions">
-            {{(classe.duration.from|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-          </button>
-
-          到&nbsp;<button type="button" class="btn btn-default btn-sm rounded dropdown-toggle"
-            datepicker-popup="'yyyy-MM-dd'"
-            ng-model="classe.duration.to"
-            is-open="viewState.duration.toPopOpened"
-            min-date="classe.duration.from"
-            ng-click="viewState.duration.toPopOpened = true;"
-            show-button-bar="false"
-            datepicker-options="viewState.dateOptions">
-            {{(classe.duration.to|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="classe-times clearfix" ng-show="viewState.datetimeConfig=='time'">
-  <div class="row">
-    <div class="clearfix shifts">
-
-      <div class="col-md-10 col-md-offset-1">
-        <table class="shifts-table">
-          <tr>
-            <th class="shift-rule">规则</th>
-            <th class="shift-start">开始时间</th>
-            <th class="shift-duration">用时（小时）</th>
-            <th class="shift-action"><button class="btn btn-danger btn-xs rounded" ng-click="addShift()"><i class="fa fa-plus-circle"></i>加新时段</button></th>
-          </tr>
-          <tr ng-repeat="shift in shifts" class="shift-row">
-            <td class="shift-rule">
-              <select class="form-control input-sm" ng-model="shift.weekday" ng-options="weekday.title for weekday in weekdays"></select>
-            </td>
-            <td class="shift-start">
-              <select class="form-control input-sm" ng-model="shift.start.hour" ng-options="hour for hour in hours"></select>
-              <label>:</label>
-              <select class="form-control input-sm" ng-model="shift.start.minute" ng-options="minute for minute in minutes"></select>
-            </td>
-            <td>
-              <select class="form-control input-sm" ng-model="shift.last" ng-options="duration for duration in durations"></select>
-            </td>
-            <td class="shift-action bud-datepicker-wrap">
-              <a href="" class="close" ng-click="removeShift(shift)">&times;</a>
-              <button type="button"
-                ng-if="isNaN(shift.weekday.value)"
-                class="btn btn-default btn-sm rounded dropdown-toggle"
-                datepicker-popup="'yyyy-MM-dd'"
-                ng-model="shift.date"
-                is-open="shift.$popOpened"
-                ng-click="shift.$popOpened=true;"
-                show-button-bar="false"
-                datepicker-options="viewState.dateOptions">
-                {{(shift.date|date:'yyyy/MM/dd')||'请选择时间'}} <i class="fa fa-calendar"></i>
-              </button>
-            </td>
-          </tr>
-        </table>
-      </div>
+    <div class="col-md-10 col-md-offset-1 ">
+      <table ng-show="viewState.datetimeConfig=='date'">
+        <tr>
+          <td class="td-title">报名日期</td>
+          <td class="td-label">从</td>
+          <td class="td-date bud-datepicker-wrap">
+            <button type="button" 
+                    class="btn btn-default btn-sm rounded dropdown-toggle"
+                    datepicker-popup="'yyyy-MM-dd'"
+                    ng-model="classe.enrollment.from"
+                    is-open="viewState.enrollment.fromPopOpened"
+                    ng-click="viewState.enrollment.fromPopOpened = true;"
+                    show-button-bar="false"
+                    datepicker-options="viewState.dateOptions">
+              {{(classe.enrollment.from|date:'yyyy/MM/dd')||'请选择时间'}} 
+              <i class="fa fa-calendar"></i>
+            </button>
+          </td>
+          <td class="td-label">到</td>
+          <td class="td-date bud-datepicker-wrap">
+            <button type="button" 
+                    class="btn btn-default btn-sm rounded dropdown-toggle"
+                    datepicker-popup="'yyyy-MM-dd'"
+                    ng-model="classe.enrollment.to"
+                    is-open="viewState.enrollment.toPopOpened"
+                    min-date="classe.enrollment.from"
+                    ng-click="viewState.enrollment.toPopOpened = true;"
+                    show-button-bar="false"
+                    datepicker-options="viewState.dateOptions">
+              {{(classe.enrollment.to|date:'yyyy/MM/dd')||'请选择时间'}} 
+              <i class="fa fa-calendar"></i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-title">上课日期</td>
+          <td class="td-label">从</td>
+          <td class="td-date bud-datepicker-wrap">
+            <button type="button" 
+                    class="btn btn-default btn-sm rounded dropdown-toggle"
+                    datepicker-popup="'yyyy-MM-dd'"
+                    ng-model="classe.duration.from"
+                    is-open="viewState.duration.fromPopOpened"
+                    ng-click="viewState.duration.fromPopOpened = true;"
+                    show-button-bar="false"
+                    datepicker-options="viewState.dateOptions">
+              {{(classe.duration.from|date:'yyyy/MM/dd')||'请选择时间'}} 
+              <i class="fa fa-calendar"></i>
+            </button>
+          </td>
+          <td class="td-label">到</td>
+          <td class="td-date">
+            <button type="button bud-datepicker-wrap" 
+                    class="btn btn-default btn-sm rounded dropdown-toggle"
+                    datepicker-popup="'yyyy-MM-dd'"
+                    ng-model="classe.duration.to"
+                    is-open="viewState.duration.toPopOpened"
+                    min-date="classe.duration.from"
+                    ng-click="viewState.duration.toPopOpened = true;"
+                    show-button-bar="false"
+                    datepicker-options="viewState.dateOptions">
+              {{(classe.duration.to|date:'yyyy/MM/dd')||'请选择时间'}} 
+              <i class="fa fa-calendar"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
+      <table ng-show="viewState.datetimeConfig=='time'">
+        <tr class="shift-row">
+          <th class="shift-rule">规则</th>
+          <th class="shift-start">开始时间</th>
+          <th class="shift-duration">用时（小时）</th>
+          <th class="shift-action">
+            <button class="btn btn-danger btn-xs rounded" 
+                    ng-click="addShift()">
+              <i class="fa fa-plus-circle"></i>
+              加新时段
+            </button>
+          </th>
+        </tr>
+        <tr ng-repeat="shift in shifts" class="shift-row">
+          <td class="shift-rule">
+            <select class="form-control input-sm" 
+                    ng-model="shift.weekday" 
+                    ng-options="weekday.title for weekday in weekdays">
+            </select>
+          </td>
+          <td class="shift-start">
+            <select class="form-control input-sm" 
+                    ng-model="shift.start.hour" 
+                    ng-options="hour for hour in hours"></select>
+            <label>:</label>
+            <select class="form-control input-sm" 
+                    ng-model="shift.start.minute" 
+                    ng-options="minute for minute in minutes">
+            </select>
+          </td>
+          <td>
+            <select class="form-control input-sm" 
+                    ng-model="shift.last" 
+                    ng-options="duration for duration in durations">
+            </select>
+          </td>
+          <td class="td-date bud-datepicker-wrap">
+            <button type="button"
+                    ng-if="isNaN(shift.weekday.value)"
+                    class="btn btn-default btn-sm rounded dropdown-toggle"
+                    datepicker-popup="'yyyy-MM-dd'"
+                    ng-model="shift.date"
+                    is-open="shift.$popOpened"
+                    ng-click="shift.$popOpened=true;"
+                    show-button-bar="false"
+                    datepicker-options="viewState.dateOptions">
+              {{(shift.date|date:'yyyy/MM/dd')||'请选择时间'}} 
+              <i class="fa fa-calendar"></i>
+            </button>
+            <a href class="close" ng-click="removeShift(shift)">&times;</a>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

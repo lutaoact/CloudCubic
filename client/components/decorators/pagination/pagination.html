@@ -7,6 +7,6 @@
   <li ng-if="page<=totalPages-maxSize">
     <a href="" ng-click="selectPage(totalPages);viewState.pageNum=totalPages">{{totalPages}}</a>
   </li>
-  <li><span class="text-muted">转 <input type="text" class="form-control page-input" ng-model="viewState.pageNum" ng-blur="selectPage(viewState.pageNum)"> 页</span></li>
+  <li><span class="text-muted">转 <input type="text" class="form-control page-input" ng-model="viewState.pageNum" ng-keydown="$event.keyCode==13 && selectPage(viewState.pageNum)"> 页</span></li>
   <li ng-if="directionLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(page + 1);viewState.pageNum=page"><i class="fa fa-chevron-right"></i></a></li>
 </ul>

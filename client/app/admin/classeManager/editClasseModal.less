@@ -1,9 +1,9 @@
 .edit-classe-modal {
   .edit-classe-form {
-    &.form-horizontal .control-label{
+    &.form-horizontal .control-label {
       text-align: left;
     }
-    padding: 30px 0px 20px 0px;
+    padding: 30px 0px 10px 0px;
     input {
       border-radius: 4px;
     }
@@ -17,61 +17,80 @@
       border-radius: 4px;
     }
   }
-  .nav-tabs{
-    &> li:nth-child(1){
+  .nav-tabs {
+    &> li:nth-child(1) {
       margin-left: 50px;
+    }
+    &> li > a {
+      font-size: 13px;
+      color: #989798;
     }
     &> li.active > a,
     &> li.active > a:hover,
-    &> li.active > a:focus{
+    &> li.active > a:focus {
+      color: #221714;
       background: #F2F2F2;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
     }
   }
-  .shifts{
 
-    .shifts-table{
-      margin: 10px 0 20px 0;
-      width: 100%;
-      td, th{
-        padding: 0 0 0 10px;
-      }
-      .shift-rule{
-        width: 20%;
-        .form-control {
-        }
-      }
-      .shift-start{
-        width: 25%;
-        .form-control{
-          width: 45px;
-          display: inline-block;
-        }
-      }
-      .shift-duration{
-        width: 20%;
-      }
-      .shift-action{
-        width: 30%;
-        text-align: center;
-        .close{
-          margin-right: 10px;
-        }
-      }
-      .shift-row{
-        background: #FFF;
-        height: 45px;
-        border: 1px solid @gray-lighter;
-      }
-    }
-  }
-  .classe-times {
+  .classe-times  {
     padding: 20px 0 10px 0;
     margin-bottom: 10px;
     background: #F2F2F2;
-    .form-group {
-      margin-bottom: 10px;
+    table {
+      font-size: 13px;
+      th {
+        font-weight: normal;
+      }
+      .td-title {
+        width: 98px;
+        padding-left: 22px;
+        height: 35px;
+      }
+      .td-label {
+        color: #989896; 
+        width: 39px;
+        text-align: center;
+      }
+      .td-date {
+        width: 134px;
+        .dropdown-toggle {
+          width: 120px;
+        } 
+      }
+      .form-control {
+        width: calc(~'100% - 5px');
+      }
+      .shift-rule {
+        color: #989896;
+        width: 98px;
+        padding-left: 22px;
+      }
+      .shift-start {
+        color: #989896;
+        width: 108px;
+        .form-control {
+          width: calc(~'50% - 8px');
+          display: inline-block;
+        }
+      }
+      .shift-duration {
+        color: #989896;
+        width: 90px;
+      }
+      .shift-row {
+        height: 40px;
+      }
+      .close {
+        height: 30px;
+        margin-left: 10px;
+        margin-right: -10px;
+      }
     }
   }
+
   .classe-teachers {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -89,28 +108,32 @@
       float: none;
     }
   }
-  .modal-content {
-    border-radius: 4px;
-    .modal-title {
-      margin-top: 20px;
-      .budon {
-        color: @base-color;
-        color: #5abda6;
-        font-size: 25px;
-        line-height: 25px;
-        vertical-align: top;
-        margin-right: 5px;
-        margin-left: 5px;
-      }
-    }
-    .modal-header {
+  
+  .modal-dialog {
+    width: 520px;
+    .modal-content {
       border-radius: 4px;
-      background: white;
-    }
-    .modal-footer{
-      border-top: none;
-      .btn{
-        width: 60px;
+      .modal-header {
+        border-radius: 4px;
+        background: white;
+        border-bottom: none;
+        .close {
+        }
+      }
+      .modal-title {
+        .budon {
+          color: @base-color;
+          color: #5abda6;
+          font-size: 25px;
+          line-height: 25px;
+          vertical-align: top;
+        }
+      }
+      .modal-footer{
+        border-top: none;
+        .btn{
+          width: 60px;
+        }
       }
     }
   }
