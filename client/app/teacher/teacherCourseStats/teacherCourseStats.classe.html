@@ -1,5 +1,19 @@
 <div class="overall clearfix">
-  <div class="col-md-12 pies clearfix">
+  <div class="col-md-3 course-info">
+    <h5 class="text-primary">
+      班级统计
+    </h5>
+    <p>{{viewState.classe.name}}</p>
+    <div class="clearfix status-bar">
+      <div class="pull-left status">
+        <div class="text-primary">
+          {{viewState.classe.$students.length}}
+        </div>
+        学生
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 pies clearfix">
     <div class="col-md-4">
       <highchart config="quizStats" class="bud-chart"></highchart>
       <div class="percentage quiz-percentage">

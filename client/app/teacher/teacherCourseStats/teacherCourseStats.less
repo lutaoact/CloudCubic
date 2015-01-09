@@ -23,6 +23,13 @@
         vertical-align: top;
       }
     }
+    .course-info{
+      height: 190px;
+      .status-bar{
+        position: absolute;
+        bottom: 10px;
+      }
+    }
     .pies{
       .col-md-4{
         // height: 106px;
@@ -60,7 +67,9 @@
     }
   }
   .detail-container{
+    .box-shadow(0 0 2px @gray-light);
     padding-left: 0;
+    padding-right: 0;
   }
   .detail{
     background: #FFF;
@@ -109,12 +118,43 @@
     padding-top: 10px;
   }
 }
+.status-bar{
+  .status{
+    font-size: 12px;
+    .text-primary{
+      font-size: 16px;
+    }
+    padding: 0 15px;
+    border-right: 1px dashed @gray-light;
+    &:nth-child(1){
+      padding-left: 0;
+    }
+  }
+  .btn-danger{
+    margin-top: 5px;
+  }
+}
 .teacher-stats{
+
   background: @gray-lighter;
   padding-bottom: 50px;
+  .left-side{
+    .box-shadow(0 0 2px @gray-light);
+    margin-top: 38px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .left-side-top{
+      background: #FFF;
+      padding: 8px 18px;
+
+    }
+    .student-search-bar{
+      background: @gray-lighter;
+    }
+  }
 }
 .teacher-stats .teacher-stats-subview{
-  padding-left: 0;
   padding-right: 0;
   padding-top: 38px;
 }

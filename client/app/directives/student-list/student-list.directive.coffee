@@ -7,6 +7,7 @@ angular.module('budweiserApp').directive 'studentList', ->
   scope:
     classes: '='
     selectedStudent: '='
+    selectedClasse: '='
     studentsStatus: '='
     onStudentSelect: '&'
     onClasseSelect: '&'
@@ -40,11 +41,11 @@ angular.module('budweiserApp').directive 'studentList', ->
 
       selectStudent: (student)->
         $scope.selectedStudent = student
-        $scope.selectedClass = null
+        $scope.selectedClasse = null
         $scope.onStudentSelect($student:student)
 
       selectClasse: (classe) ->
-        $scope.selectedClass = classe
+        $scope.selectedClasse = classe
         $scope.selectedStudent = null
         $scope.onClasseSelect($classe:classe)
 
@@ -56,6 +57,9 @@ angular.module('budweiserApp').directive 'studentList', ->
     $scope.$watch 'classes', (value) ->
       if value
         $scope.loadStudents()
+        selectedClasse = value.filter (classe)->
+          classe._id is $state.params.classeId
+        $scope.selectedClasse = selectedClasse?[0]
 
     $scope.$watch 'allStudentsDict', (value)->
      if value and $state.params.studentId

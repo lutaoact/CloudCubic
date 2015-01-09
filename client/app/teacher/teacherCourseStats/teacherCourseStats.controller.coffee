@@ -35,6 +35,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         studentId: student._id or student
 
     viewClasseStats: (classe)->
+      $scope.viewState.classe = classe
       $state.go 'teacher.courseStats.classe',
         courseId: $scope.course._id
         classeId: classe._id or classe
@@ -45,6 +46,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   chartUtils
 ) ->
   $scope.viewState.student = undefined
+  $scope.viewState.classe = undefined
 
   chartUtils.genStatsOnScope $scope, $state.params.courseId
 
