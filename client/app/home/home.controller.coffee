@@ -28,6 +28,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
         controller: 'TeacherNewCourseCtrl'
+        windowClass: 'new-course-modal'
         size: 'lg'
         resolve:
           categories: -> $scope.categories
