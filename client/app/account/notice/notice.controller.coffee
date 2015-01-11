@@ -29,7 +29,6 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
         Msg.readMsg()
 
     changePage: ()->
-      console.log $scope.pageConf.currentPage
       $state.go('settings.notice',
         page     :$scope.pageConf.currentPage
       )

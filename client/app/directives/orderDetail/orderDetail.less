@@ -8,74 +8,60 @@
   .box-shadow(0px 0px 2px rgba(0, 0, 0, 0.15));
   .col-img
   {
-    padding-left: 0px;
+    padding-left: 8px;
     .item-image{
-      height: 120px;
+      height: 118px;
       vertical-align: top;
     }
   }
-  .order-num {
+  .order-detail-header {
     border-bottom: 1px solid #EBEBEB;
     height: 28px;
     padding: 0 25px;
+    cursor: pointer;
   }
-  .order-footer {
+  .order-detail-footer {
     border-top: 1px solid #EBEBEB;
     padding: 0 25px;
     margin-top: -1px;
-    height: 62px;
-    line-height: 62px;
-    .total-price {
-      color:#F1582A;
-      font-size:24px;
-    }
+    height: 45px;
+    line-height: 45px;
   }
   .order-classe {
     border-bottom: 1px solid #EBEBEB;
     margin: 0px 30px;
     padding: 12px 0px;
+    .classe-info{
+      border: 2px solid @gray-light;
+      padding: 0 15px;
+      font-size: 12px;
+      .schedule-row{
+        .schedules{
+          border-left: 1px dashed @gray-light;
+          .schedules-summary{
+            .text-overflow();
+          }
+        }
+      }
+      .row{
+        padding: 8px 0;
+      }
+      .row + .row{
+        border-top: 1px dashed @gray-light;
+      }
+    }
+
+
+  }
+  .class-name {
+    padding-bottom: 10px;
     cursor: pointer;
-    .course-name {
-      height: 43px;
-      width: 90%;
-      overflow: hidden;
-    }
-    .class-name {
-      text-align: center;
-    }
-    .class-price {
-      color: #F1582A;
-      padding-right: 0;
-//      text-align: right;
-    }
-    .classe-duration {
-      margin-top: 15px;
-      padding: 12px 0px 12px 20px;
-      width: 100%;
-      height: 62px;
-      border: 2px solid @base-color;
-      .classe-col {
-        font-size: 13px;
-        display: inline-block;
-        width: 25%;
-        position: relative;
-        span {
-          font-size: 14px;
-          color: black;
-          display: block;
-        }
-      }
-      .classe-col + .classe-col {
-        width: 35%;
-        &:before {
-          content: '';
-          position: absolute;
-          border-left: 1px dashed #D3D3D3;
-          height: 30px;
-          top: 5px;
-          left: -11px;
-        }
-      }
-    }
+  }
+  .class-price {
+    color: #F1582A;
+    padding-right: 0;
+  }
+  .class-summary{
+    .text-overflow();
   }
 }

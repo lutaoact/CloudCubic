@@ -41,3 +41,20 @@ angular.module('budweiserApp').directive 'orderDetail', ->
         order.remove()
         .then ->
           $scope.onOrderDeleted()?(order)
+
+      weekdays: ['周一','周二','周三','周四','周五','周六','周日']
+      genScheduleSummary: (schedules)->
+        if schedules?.length
+          summary = ''
+          schedules.forEach (schedule)->
+            summary += if moment(schedule.end).isSame(moment(schedule.until),'day') then moment(schedule.start).format('M月D日') else "每#{$scope.weekdays[moment(schedule.start).isoWeekday()-1]}"
+            summary += moment(schedule.start).format('HH:mm')
+            summary += '-'
+            summary += moment(schedule.end).format('HH:mm')
+            summary += ', '
+          summary = summary.substr(0,summary.length-2) + '。'
+          summary
+        else
+          '无具体上课时间'
+
+    $scope.isCollapsed = (Auth.getCurrentUser().role == 'admin')

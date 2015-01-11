@@ -6,7 +6,6 @@ angular.module 'budweiserApp'
     # decorate the $delegate
     directive = $delegate[0];
     directive.templateUrl = 'components/decorators/pagination/pagination.html'
-    directive.scope.maxSize = '='
 
     compile = directive.compile;
     directive.compile = (tElement, tAttrs)->
