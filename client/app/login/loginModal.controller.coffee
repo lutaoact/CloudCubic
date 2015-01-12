@@ -16,12 +16,16 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
 
   angular.extend $scope,
     user: {}
+    org: org
     currentPage: "login"
     viewState:
       posting: false
       errors: null
 
-    changePage: (pageName)->
+    cancel: ->
+      $modalInstance.dismiss('cancel')
+
+    changePage: (pageName) ->
       if pageName == 'forget'
         $modalInstance.dismiss('cancel')
         $state.go('forgot')
@@ -49,7 +53,7 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
           $modal.open
             templateUrl: 'app/directives/loginForm/activateModal.html'
             controller: 'ActivateModalCtrl'
-            windowClass: 'center-modal'
+            windowClass: 'login-window-modal'
             size: 'sm'
             resolve:
               email: -> $scope.user.email
