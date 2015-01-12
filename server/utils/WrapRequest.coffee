@@ -106,7 +106,7 @@ class WrapRequest
   wrapCreateAndUpdate: (req, res, next, data, updateModel, updateConds, update) ->
     logger.info "wrapCreateAndUpdate =>
                 create data:", data,
-                "||| updateModel: #{updateModel.constructor.name}
+                "||| updateModel: #{updateModel?.constructor.name}
                 ||| updateConds:", updateConds,
                 "||| update:", update
     promiseAll = [@Model.createQ data]
