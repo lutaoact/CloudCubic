@@ -84,7 +84,7 @@ exports.create = (req, res, next) ->
     data.owners  = [req.user._id]
     data.orgId   = req.user.orgId
     data.forumId = forum._id
-    WrapRequest.wrapCreate req, res, next, data
+    WrapRequest.wrapCreateAndUpdate req, res, next, data
   .catch next
   .done()
 
