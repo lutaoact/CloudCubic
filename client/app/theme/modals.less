@@ -19,6 +19,7 @@
 }
 
 .bud-modal {
+  @bud-modal-padding: 40px;
   .modal-dialog {
     .modal-content {
       border-radius: 4px;
@@ -29,8 +30,8 @@
         border-bottom: none;
         padding-top: 30px;
         padding-bottom: 20px;
-        padding-left: 45px;
-        padding-right: 45px;
+        padding-left: @bud-modal-padding;
+        padding-right: @bud-modal-padding;
 
         .modal-title {
           i {
@@ -49,8 +50,8 @@
         }
       }
       .modal-body {
-        padding-left: 45px;
-        padding-right: 45px;
+        padding-left: @bud-modal-padding;
+        padding-right: @bud-modal-padding;
       }
       .modal-footer {
         padding-left: 0px;
