@@ -65,6 +65,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
         controller: 'DiscussionComposerPopupCtrl'
+        windowClass: 'bud-modal'
         resolve:
           topics: -> $scope.topics
         backdrop: 'static'
