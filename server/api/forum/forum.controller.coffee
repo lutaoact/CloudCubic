@@ -6,7 +6,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
 exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 
 exports.show = (req, res, next) ->

@@ -25,10 +25,6 @@ exports.DisTopic = BaseModel.subclass
         type: ObjectId
         ref: 'user'
         required: true
-      orgId:
-        type: ObjectId
-        ref: 'organization'
-        required: true
       forumId:
         type: ObjectId
         ref: 'forum'

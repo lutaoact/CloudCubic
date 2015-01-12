@@ -17,11 +17,19 @@ class WrapRequest
     mongoDoc.populateQ()
 
 
-  wrapPageIndex: (req, res, next, conditions, options = {}) ->
+  wrapPageIndex: (req, res, next, conditions) ->
     conditions.deleteFlag = {$ne: true}
     logger.info 'page index conditions:', conditions
 
+    #旧版的options构造都是在controller中完成，现移至此处
+    #在功能上，和旧版代码兼容，但旧版代码会残留一些与此有关的无用代码
+    #若遇到了，可酌情删除
+    options =
+      limit: req.query.limit
+      from : req.query.from
+      sort : req.query.sort
     logger.info 'page index options:', options
+
     # 若有sort参数传递，则解析结果，否则直接使用默认排序{created: -1}
     if options.sort?
       try

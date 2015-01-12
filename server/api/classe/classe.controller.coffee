@@ -22,10 +22,7 @@ exports.index = (req, res, next) ->
   conditions.teachers = req.query.teacherId if req.query.teacherId
   conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
 
-  options =
-    limit: req.query.limit
-    from : req.query.from
-    sort : req.query.sort #JSON.stringify {setTop: -1, created: -1}
+  #可能的排序参数为JSON.stringify {setTop: -1, created: -1}
 
   Q(
     if req.query.categoryId
@@ -36,7 +33,7 @@ exports.index = (req, res, next) ->
     else
       conditions.courseId = req.query.courseId if req.query.courseId
   ).then () ->
-    WrapRequest.wrapPageIndex req, res, next, conditions, options
+    WrapRequest.wrapPageIndex req, res, next, conditions
   .catch next
   .done()
 
