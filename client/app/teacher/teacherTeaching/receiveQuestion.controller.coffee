@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
     question: question
     submitted: false
 
-    close: ->
+    cancel: ->
       $modalInstance.dismiss('close')
 
     confirm: (question) ->

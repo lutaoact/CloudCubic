@@ -160,6 +160,7 @@ angular.module 'budweiserApp', [
         $modal.open
           templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
           controller: 'ReceiveQuestionCtrl'
+          windowClass: 'pub-question-modal'
           backdrop: 'static'
           resolve:
             answer: -> data.answer

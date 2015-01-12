@@ -22,7 +22,7 @@ angular.module('budweiserApp').controller 'PubQuestionCtrl', (
 
     getAnswersNum: -> _.keys($scope.submittedAnswers).length
 
-    close: ->
+    cancel: ->
       socket.removeHandler 'quiz_answer'
       $modalInstance.dismiss('close')
 

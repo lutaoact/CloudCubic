@@ -46,6 +46,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
         templateUrl: 'app/teacher/teacherTeaching/pubQuestion.html'
         controller: 'PubQuestionCtrl'
         backdrop: 'static'
+        windowClass: 'pub-question-modal'
         resolve:
           classe: -> $scope.classe
           lecture: -> $scope.lecture
