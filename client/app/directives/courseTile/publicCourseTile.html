@@ -35,8 +35,9 @@
         {{classe.duration.from|date:'yyyy.MM.dd'}} - {{classe.duration.to|date:'yyyy.MM.dd'}}
       </span>
     </div>
-    <div class="classe-info text-muted small">
-      周一、四 13:00 - 14:30
+    <div class="classe-info text-muted small" 
+         title="{{classe.schedules|scheduleSummary}}">
+      {{classe.schedules|scheduleSummary}}
     </div>
     <div class="classe-info text-muted small">
       {{classe.address || '上课地点未设置'}}

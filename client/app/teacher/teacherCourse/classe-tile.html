@@ -57,8 +57,9 @@
       </tr>
       <tr>
         <td class="tr-title text-muted">上课时间 </td>
-        <td>
-          每周三、四 13:30 - 18:00
+        <td class="classe-schedule" 
+            title="{{classe.schedules|scheduleSummary}}">
+          {{classe.schedules|scheduleSummary}}
         </td>
       </tr>
     </table>
