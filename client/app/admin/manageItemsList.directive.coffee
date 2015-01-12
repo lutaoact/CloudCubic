@@ -60,6 +60,7 @@ angular.module('budweiserApp')
       $scope.onAddBtnClicked?() or $modal.open
         templateUrl: 'app/admin/newItemModal.html'
         controller: 'NewItemModalCtrl'
+        windowClass: 'new-item-modal'
         size: 'sm'
         resolve:
           itemType: -> $scope.itemType
