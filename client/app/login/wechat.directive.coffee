@@ -15,4 +15,5 @@ angular.module 'budweiserApp'
       scope : 'snsapi_login'
       state : 'STATE'
       style : 'black'
+      #href  : 'https://www.cloud3edu.com/app/weixin.css' # weixin login css
       redirect_uri: 'http://www.cloud3edu.com/auth/weixin/callback?redirect='+redirect
