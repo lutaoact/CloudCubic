@@ -4,11 +4,9 @@
     width: 520px;
   }
   .edit-classe-form {
-    margin: 0;
     &.form-horizontal .control-label {
       text-align: left;
     }
-    padding-bottom: 15px; 
     input {
       border-radius: 4px;
     }
@@ -19,8 +17,10 @@
   }
 
   .nav-tabs {
+    margin-left: -45px;
+    margin-right: -45px;
     &> li:nth-child(1) {
-      margin-left: 50px;
+      margin-left: 30px;
     }
     &> li > a {
       font-size: 13px;
@@ -38,6 +38,8 @@
 
   .classe-times  {
     padding: 20px 0 10px 0;
+    margin-left: -45px;
+    margin-right: -45px;
     margin-bottom: 10px;
     background: #F2F2F2;
     table {
@@ -47,18 +49,18 @@
       }
       .td-title {
         width: 98px;
-        padding-left: 22px;
         height: 35px;
+        padding-left: 2px;
       }
       .td-label {
         color: #989896; 
-        width: 39px;
+        width: 35px;
         text-align: center;
       }
       .td-date {
-        width: 134px;
+        width: 130px;
         .dropdown-toggle {
-          width: 120px;
+          width: 100%;
         } 
       }
       .form-control {
@@ -66,8 +68,8 @@
       }
       .shift-rule {
         color: #989896;
-        width: 95px;
-        padding-left: 22px;
+        width: 98px;
+        padding-left: 2px;
       }
       .shift-start {
         color: #989896;
@@ -84,10 +86,11 @@
       .shift-row {
         height: 40px;
       }
-      .close {
-        line-height: 25px;
-        margin-left: 10px;
-        margin-right: -10px;
+      .td-close {
+        .close {
+          margin-top: -5px;
+          margin-right: -22px;
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 @modal-sm: 500px;
+@modal-md: 600px;
 
 .modal-content {
   border-top-left-radius: 8px;
@@ -25,21 +26,36 @@
         border-radius: 4px;
         background: white;
         border-bottom: none;
-      }
-      .modal-title {
-        padding-bottom: 30px;
-        .budon {
-          color: @base-color;
-          color: #5abda6;
-          font-size: 25px;
-          line-height: 25px;
-          vertical-align: top;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        padding-left: 45px;
+        padding-right: 45px;
+
+        .modal-title {
+          .budon {
+            color: @base-color;
+            color: #5abda6;
+            font-size: 25px;
+            line-height: 25px;
+            vertical-align: top;
+          }
+        }
+        .close {
+          position: absolute;
+          top: 15px;
+          right: 15px;
         }
       }
+      .modal-body {
+        padding-left: 45px;
+        padding-right: 45px;
+      }
       .modal-footer {
+        padding-left: 0px;
+        padding-right: 0px;
         border-top: none;
         .btn {
-          width: 60px;
+          min-width: 60px;
         }
       }
     }

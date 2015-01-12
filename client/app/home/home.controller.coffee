@@ -29,7 +29,7 @@ angular.module('budweiserApp')
         templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
         controller: 'TeacherNewCourseCtrl'
         windowClass: 'new-course-modal'
-        size: 'lg'
+        size: 'md'
         resolve:
           categories: -> $scope.categories
       .result.then (newCourse) ->
