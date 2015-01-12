@@ -63,7 +63,7 @@ pickedKeys = ["name", "courseId", "enrollment", "duration", "price", "teachers",
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.orgId = req.user.orgId
-  WrapRequest.wrapCreate req, res, next, data
+  WrapRequest.wrapCreateAndUpdate req, res, next, data
 
 pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
