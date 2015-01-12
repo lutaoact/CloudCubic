@@ -95,6 +95,25 @@ class WrapRequest
     .done()
 
 
+  wrapCreateAndUpdate: (req, res, next, data, updateModel, updateConds, update) ->
+    logger.info "wrapCreateAndUpdate =>
+                create data:", data,
+                "||| updateModel: #{updateModel.constructor.name}
+                ||| updateConds:", updateConds,
+                "||| update:", update
+    promiseAll = [@Model.createQ data]
+    if arguments.length > 4
+      promiseAll.push updateModel.updateQ updateConds, update
+
+    Q.all promiseAll
+    .spread (newDoc, updateResult) =>
+      @populateDoc newDoc, @Model.populates?.create
+    .then (doc) ->
+      res.send doc
+    .catch next
+    .done()
+
+
   wrapUpdate: (req, res, next, conditions, pickedUpdatedKeys) ->
     data = {}
     if pickedUpdatedKeys.omit
