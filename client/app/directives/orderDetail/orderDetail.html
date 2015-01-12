@@ -44,8 +44,8 @@
               <div class="text-muted">
                 上课时间
               </div>
-              <div class="schedules-summary" title="{{genScheduleSummary(classe.schedules)}}">
-                {{genScheduleSummary(classe.schedules)}}
+              <div class="schedules-summary" title="{{classe.schedules|scheduleSummary}}">
+                {{classe.schedules|scheduleSummary}}
               </div>
             </div>
           </div>
@@ -56,14 +56,14 @@
       </div>
 
       <div class="col-md-4">
-        价格：<span class="class-price">￥{{classe.price}}</span>
+        <span class="text-muted">价格：</span><span class="class-price">￥{{classe.price}}</span>
       </div>
     </div>
   </div>
 
   <div class="order-detail-footer row">
     <div class="col-md-5 col-md-offset-3">
-      <div class="class-summary" ng-show="isCollapsed">
+      <div class="class-summary fade-show-hide" ng-show="isCollapsed">
         <span class="text-muted">课程：</span>
         <a ng-repeat="classe in order.classes" ui-sref="course.detail({courseId: classe.courseId._id,classeId: classe._id})" class="class-name">
           {{classe.name}}

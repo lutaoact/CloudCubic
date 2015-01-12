@@ -26,8 +26,8 @@
                 <div class="text-muted">
                   上课时间
                 </div>
-                <div class="schedules-summary" title="{{genScheduleSummary(classe.schedules)}}">
-                  {{genScheduleSummary(classe.schedules)}}
+                <div class="schedules-summary" title="{{classe.schedules|scheduleSummary}}">
+                  {{classe.schedules|scheduleSummary}}
                 </div>
               </div>
             </div>
