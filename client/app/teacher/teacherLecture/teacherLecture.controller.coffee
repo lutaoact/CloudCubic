@@ -77,6 +77,7 @@ angular.module('budweiserApp')
       lecture = $scope.lecture
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时'
@@ -118,6 +119,7 @@ angular.module('budweiserApp')
     removeMedia: ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时视频'

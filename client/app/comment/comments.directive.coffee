@@ -51,6 +51,7 @@ angular.module('budweiserApp')
     deleteComment: (comment)->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除评论？'
@@ -89,5 +90,3 @@ angular.module('budweiserApp')
           targetElement.removeClass('active')
         , 1000
       , 100
-
-

@@ -44,6 +44,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
+        windowClass: 'message-modal'
         size: 'sm'
         resolve:
           title: -> "删除#{$scope.itemTitle}"

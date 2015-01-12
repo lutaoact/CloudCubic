@@ -41,7 +41,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         .patch setTop:setTop
         .then (newClasse) ->
           angular.extend classe, newClasse
-          
+
       deleteCallback: (classe) ->
         $scope.$emit 'classe.deleted', classe
 
@@ -52,6 +52,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
       deleteClasse: (classe)->
         $modal.open
           templateUrl: 'components/modal/messageModal.html'
+          windowClass: 'message-modal'
           controller: 'MessageModalCtrl'
           size: 'sm'
           resolve:

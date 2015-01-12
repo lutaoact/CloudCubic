@@ -34,6 +34,7 @@ angular.module('budweiserApp')
       $event?.stopPropagation()
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除帖子'

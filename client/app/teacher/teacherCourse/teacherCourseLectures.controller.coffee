@@ -65,6 +65,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     deleteLecture: (lecture) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时'
