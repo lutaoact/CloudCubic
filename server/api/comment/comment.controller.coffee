@@ -26,7 +26,7 @@ exports.create = (req, res, next) ->
   console.log 'postBy type ', typeof data.postBy
   console.log 'belongTo', typeof data.belongTo
 
-  WrapRequest.wrapCreateAndUpdate req, res, next, data
+  WrapRequest.wrapCreate req, res, next, data
 
   Model = CommentUtils.getCommentRefByType body.type
   Q.all [

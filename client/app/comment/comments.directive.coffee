@@ -44,7 +44,6 @@ angular.module('budweiserApp')
       @newComment.metadata = {}
 
     toggleLike: (comment)->
-      console.log comment
       comment.one('like').post()
       .then (res)->
         comment.likeUsers = res.likeUsers
