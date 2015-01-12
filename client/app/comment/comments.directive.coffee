@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/comment/comments.html'
   scope:
     belongTo: '='
+    extra: '='
     activeComment: '='
     type: '@'
 
@@ -29,6 +30,7 @@ angular.module('budweiserApp')
       if !$scope.belongTo
         throw 'should define belongTo'
       $scope.newComment.belongTo = $scope.belongTo
+      $scope.newComment.extra = $scope.extra
       Restangular.all('comments').post $scope.newComment
       .then (comment)->
         $scope.comments.splice 0, 0, comment

@@ -21,6 +21,7 @@ buildLikeCommentArgs = (comment) ->
       when Const.CommentType.Course
         result.noticeType = Const.NoticeType.LikeCourseComment
         result.data.courseId = comment.belongTo
+        result.data.classeId = comment.extra.classeId
 
       when Const.CommentType.Lecture
         result.noticeType = Const.NoticeType.LikeLectureComment
@@ -28,6 +29,7 @@ buildLikeCommentArgs = (comment) ->
         Course.getByLectureId result.data.lectureId
         .then (course)->
           result.data.courseId = course._id
+          result.data.classeId = comment.extra.classeId
 
       when Const.CommentType.Teacher
         console.log 'like comment for teacher...'

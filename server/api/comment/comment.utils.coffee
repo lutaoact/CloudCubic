@@ -52,12 +52,14 @@ addCommentNotice = (targetUser, data)->
     when Const.CommentType.Course
       noticeData =
         courseId: data.course._id
+        classeId: data.extra.classeId
       NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.CourseComment, noticeData
 
     when Const.CommentType.Lecture
       noticeData =
         lectureId: data.belongTo
         courseId: data.course._id
+        classeId: data.extra.classeId
       NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.LectureComment, noticeData
 
 

@@ -3,6 +3,7 @@
 mongoose = require('mongoose')
 Schema = mongoose.Schema
 ObjectId = Schema.Types.ObjectId
+Mixed = Schema.Types.Mixed
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
@@ -38,6 +39,8 @@ exports.Comment = BaseModel.subclass
       tags: [
         type: String
       ]
+      extra:
+        type: Mixed
       deleteFlag:
         type: Boolean
         default: false

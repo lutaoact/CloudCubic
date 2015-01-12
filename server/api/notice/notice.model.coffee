@@ -14,6 +14,8 @@ populateCommon = [
 ,
   path: 'data.courseId', select: 'name'
 ,
+  path: 'data.classeId', select: 'name'
+,
   path: 'data.forumId', select: 'name'
 ,
   path: 'data.commentId', select: 'content'
@@ -43,6 +45,9 @@ exports.Notice = BaseModel.subclass
         disTopicId:
            type: ObjectId
            ref: 'dis_topic'
+        classeId:
+          type : ObjectId
+          ref : 'classe'
         courseId :
            type : ObjectId
            ref : 'course'

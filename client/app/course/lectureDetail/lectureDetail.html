@@ -156,7 +156,7 @@
   <div ng-if="viewState.discussPanelnitialized"
     ng-show="viewState.showDiscussion" class="sider">
     <div class="container margin-top">
-      <comments belong-to="lecture._id" type="3" active-comment="dataId"></comments>
+      <comments belong-to="lecture._id" extra="{classeId: classe._id}" type="3" active-comment="dataId"></comments>
     </div>
   </div>
 

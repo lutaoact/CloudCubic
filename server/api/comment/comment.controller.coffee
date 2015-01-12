@@ -22,6 +22,7 @@ exports.create = (req, res, next) ->
     belongTo: body.belongTo
     type    : body.type
     tags    : body.tags
+    extra   : body.extra
 
   console.log 'postBy type ', typeof data.postBy
   console.log 'belongTo', typeof data.belongTo
