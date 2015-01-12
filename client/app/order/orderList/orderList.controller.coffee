@@ -29,3 +29,7 @@ angular.module('budweiserApp').controller 'OrderListCtrl', (
     )
     .then (orders)->
       $scope.orders = orders
+
+  Restangular.all('orders').customGET('count')
+  .then (data)->
+    $scope.count = data

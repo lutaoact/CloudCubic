@@ -26,27 +26,34 @@
     }
   }
   .head-row{
-    height: 80px;
+    height: 75px;
     background: #FFF;
-    padding-top: 20px;
-    h4{
-      margin-top: 0;
-      margin-bottom: 5px;
-      font-size: 16px;
-    }
-    .avatar-md{
-      margin-right: 10px;
-    }
+    padding-top: 15px;
     margin-bottom: 40px;
-    .my-course-count{
-      border-left: 1px solid @gray-lighter;
-      padding: 0 0 0 15px;
-      text-align: center;
-      h3{
+    .head-row-container{
+      position: relative;
+      h4{
         margin-top: 0;
-        padding-top: 0;
-        margin-bottom: 0;
-        padding-bottom: 0;
+        margin-bottom: 0px;
+        font-size: 16px;
+        line-height: 36px;
+      }
+      .user-info{
+        .my-vertical-align();
+      }
+      .avatar-md{
+        margin-right: 10px;
+      }
+      .my-course-count{
+        border-left: 1px solid @gray-lighter;
+        padding: 0 0 0 15px;
+        text-align: center;
+        h3{
+          margin-top: 0;
+          padding-top: 0;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
       }
     }
   }

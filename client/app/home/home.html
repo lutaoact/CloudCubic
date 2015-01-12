@@ -2,8 +2,8 @@
   <section class="course-list"
            id="course-list">
     <div class="head-row">
-      <div class="container">
-        <div class="pull-left">
+      <div class="container head-row-container">
+        <div class="user-info">
           <div class="avatar-md pull-left"
                src-key="getMe().avatar"
                source-attr="background-image">
@@ -12,11 +12,11 @@
             <h4>
               {{getMe().name}}
             </h4>
-            <span class="text-muted"
-                  style="font-size: 12px;"
-                  ng-if="org.location.name">
-              <i class="fa fa-map-marker"></i>{{org.location.name}}
-            </span>
+            <!--<span class="text-muted"-->
+                  <!--style="font-size: 12px;"-->
+                  <!--ng-if="org.location.name">-->
+              <!--<i class="fa fa-map-marker"></i>{{org.location.name}}-->
+            <!--</span>-->
           </div>
         </div>
         <div class="pull-right my-course-count">
