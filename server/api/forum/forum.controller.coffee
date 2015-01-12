@@ -20,7 +20,7 @@ exports.create = (req, res, next) ->
     data.postBy = req.user._id
     data.orgId = req.user.orgId
 
-    WrapRequest.wrapCreate req, res, next, data
+    WrapRequest.wrapCreateAndUpdate req, res, next, data
 
 
 pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]

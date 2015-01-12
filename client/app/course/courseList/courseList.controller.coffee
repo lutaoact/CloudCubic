@@ -13,7 +13,8 @@ angular.module('budweiserApp')
     categories: null
     allClasses: null
     search:
-      categoryId: $state.params.category
+      category: $state.params.category
+      keyword: $state.params.keyword
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
@@ -21,7 +22,10 @@ angular.module('budweiserApp')
 
     reload: (resetPage) ->
       $scope.pageConf.currentPage = 1 if resetPage?
-      $state.go('courseList', {category:$scope.search.categoryId, page:$scope.pageConf.currentPage})
+      $state.go 'courseList',
+        category:$scope.search.category
+        keyword:$scope.search.keyword
+        page:$scope.pageConf.currentPage
 
   Restangular
   .all('categories')
@@ -34,7 +38,8 @@ angular.module('budweiserApp')
   .getList(
     from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
     limit      : $scope.pageConf.itemsPerPage
-    categoryId : $scope.search.categoryId
+    categoryId : $scope.search.category
+    keyword    : $scope.search.keyword
     sort       : JSON.stringify {setTop:-1, created:-1}
   )
   .then (classes) ->

@@ -5,6 +5,7 @@ CourseUtils = _u.getUtils 'course'
 DisUtils = _u.getUtils 'dis'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
+Forum = _u.getModel 'forum'
 
 WrapRequest = new (require '../../utils/WrapRequest')(DisTopic)
 
@@ -25,24 +26,21 @@ exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions, {$inc: {viewersNum: 1}}
 
+
+pickedKeys = ["forumId", "title", "content"]
 exports.create = (req, res, next) ->
-  user     = req.user
   forumId  = req.query.forumId
-  body     = req.body
-  delete body._id
 
-  body.likeUsers = []
-  body.postBy      = user._id
-  body.forumId     = forumId
+  data = _.pick req.body, pickedKeys
+  data.postBy = req.user._id
+  data.forumId ?= req.query.forumId
+  data.orgId = req.org?._id
 
-  DisTopic.createQ body
-  .then (disTopic) ->
-    disTopic.populateQ 'postBy', '_id name avatar'
-  .then (disTopic) ->
-    logger.info disTopic
-    res.send 201, disTopic
-  .catch next
-  .done()
+  updateConds = {_id: forumId}
+  update = {$inc: {postsCount: 1}}
+
+  WrapRequest.wrapCreateAndUpdate req, res, next, data, Forum, updateConds, update
+
 
 exports.update = (req, res, next) ->
   updateBody = {}
