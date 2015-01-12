@@ -17,6 +17,7 @@ angular.module('budweiserApp')
           templateUrl: 'app/login/loginModal.html'
           controller: 'loginModalCtrl'
           windowClass: 'login-window-modal'
+          size: 'md'
         .result.then ->
           scope.loginSuccess?()
       else

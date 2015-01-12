@@ -60,6 +60,7 @@ angular.module('budweiserApp')
     removeQuestion: (question = null) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除问题'
@@ -109,4 +110,3 @@ angular.module('budweiserApp')
       finish()
       targetElement = angular.element(document.getElementById 'lecture-question')
       $document.scrollToElement(targetElement, 60, 500)
-

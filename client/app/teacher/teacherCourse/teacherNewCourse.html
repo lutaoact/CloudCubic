@@ -1,74 +1,70 @@
 <div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-add-course"></i>
+    创建新课程
+  </h4>
   <a class="close" ng-click="cancel()">&times;</a>
 </div>
 
-<form class="row form-horizontal new-course-form"
+<form class="form-horizontal new-course-form modal-body"
       name="form">
-  <div class="col-md-10 col-md-offset-1">
-    <h4 class="modal-title">
-      <i class="budon budon-add-course"></i>
-      创建新课程
-    </h4>
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">班级名</span>
-      <div class="col-sm-9">
-        <input class="form-control"
-               id="course-name"
-               name="name"
-               type="text"
-               focus-me="focusCourseNameInput"
-               ng-init="focusCourseNameInput=true"
-               ng-model="course.name"
-               placeholder="请输入课程名称"
-               required>
-        <small class="text-danger" ng-if="errors.name">
-          {{ errors.name.message }}
-        </small>
-      </div>
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">班级名</span>
+    <div class="col-sm-9">
+      <input class="form-control"
+             id="course-name"
+             name="name"
+             type="text"
+             focus-me="focusCourseNameInput"
+             ng-init="focusCourseNameInput=true"
+             ng-model="course.name"
+             placeholder="请输入课程名称"
+             required>
+      <small class="text-danger" ng-if="errors.name">
+        {{ errors.name.message }}
+      </small>
     </div>
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">专业</span>
-      <div class="col-sm-9">
-        <select class="form-control"
-                id="course-category"
-                ng-model="course.categoryId"
-                ng-options="category._id as category.name for category in categories"
-                required>
-          <option value="" class="text-muted">请选择一门专业</option>
-        </select>
-        <small class="text-danger"
-               ng-if="errors.category">请选择一个专业</small>
-      </div>
-    </div>
-
-    <div class="form-group form-group-sm image-form-group">
-      <div class="control-label col-sm-3">封面图片</div>
-      <div class="col-sm-11">
-        <img src-key="course.thumbnail"
-             holder-src="holder.js/470x270/:#9c9c99:#bbb"
-             suffix="?imageView2/2/w/470/h/270"/>
-        <uploader limit="{{imageSizeLimitation}}"
-                  class="course-img btn-danger rounded btn-sm"
-                  on-complete="onThumbUploaded($data)"
-                  accept-type="image"
-                  crop="true"
-                  crop-ratio="1.5"
-                  max-width="1000">
-          <span class="glyphicon glyphicon-picture"></span>
-          上传封面
-        </uploader>
-      </div>
+  </div>
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">专业</span>
+    <div class="col-sm-9">
+      <select class="form-control"
+              id="course-category"
+              ng-model="course.categoryId"
+              ng-options="category._id as category.name for category in categories"
+              required>
+        <option value="" class="text-muted">请选择一门专业</option>
+      </select>
+      <small class="text-danger"
+             ng-if="errors.category">请选择一个专业</small>
     </div>
   </div>
 
-  <div class="modal-footer col-md-10 col-md-offset-1">
-    <div class="pull-right">
-      <button type="button"
-              class="btn btn-sm btn-default rounded"
-              ng-click="cancel()">取消</button>
-      <button type="submit"
-              class="btn btn-sm btn-danger rounded"
-              ng-click="confirm(form)">确认</button>
+  <div class="form-group form-group-sm">
+    <div class="control-label col-sm-3">封面图片</div>
+    <div class="image-content col-sm-12">
+      <img src-key="course.thumbnail"
+           holder-src="holder.js/500x280/:#9c9c99:#bbb"
+           suffix="?imageView2/2/w/500/h/280"/>
+      <uploader limit="{{imageSizeLimitation}}"
+                class="course-img btn-danger rounded btn-sm"
+                on-complete="onThumbUploaded($data)"
+                accept-type="image"
+                crop="true"
+                crop-ratio="1.5"
+                max-width="1000">
+        <span class="glyphicon glyphicon-picture"></span>
+        上传封面
+      </uploader>
     </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-sm btn-default rounded"
+            ng-click="cancel()">取消</button>
+    <button type="submit"
+            class="btn btn-sm btn-danger rounded"
+            ng-click="confirm(form)">确认</button>
   </div>
 </form>

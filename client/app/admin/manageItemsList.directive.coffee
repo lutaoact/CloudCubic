@@ -44,6 +44,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
+        windowClass: 'message-modal'
         size: 'sm'
         resolve:
           title: -> "删除#{$scope.itemTitle}"
@@ -60,6 +61,7 @@ angular.module('budweiserApp')
       $scope.onAddBtnClicked?() or $modal.open
         templateUrl: 'app/admin/newItemModal.html'
         controller: 'NewItemModalCtrl'
+        windowClass: 'new-item-modal'
         size: 'sm'
         resolve:
           itemType: -> $scope.itemType

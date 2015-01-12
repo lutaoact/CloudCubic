@@ -45,6 +45,7 @@ angular.module('budweiserApp')
     removeQuestion: (question = null) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除题库中的问题'

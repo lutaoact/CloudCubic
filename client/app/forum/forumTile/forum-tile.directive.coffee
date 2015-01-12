@@ -29,6 +29,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
         $modal.open
           templateUrl: 'components/modal/messageModal.html'
           controller: 'MessageModalCtrl'
+          windowClass: 'message-modal'
           resolve:
             title: -> '删除讨论组'
             message: -> "确认要删除《#{forum.name}》？"
@@ -39,4 +40,3 @@ angular.module('budweiserApp').directive 'forumTile', ()->
 
       stopPropagation: ($event)->
         $event.stopPropagation()
-

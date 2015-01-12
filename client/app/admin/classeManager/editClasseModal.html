@@ -1,111 +1,109 @@
 <div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-course-classe"></i>
+    <span ng-if="!classe._id">创建新班级</span>
+    <span ng-if="classe._id">编辑班级</span>
+  </h4>
   <a class="close" ng-click="cancel()">&times;</a>
 </div>
 
-<form class="row form-horizontal edit-classe-form"
+<form class="form-horizontal edit-classe-form modal-body"
       name="form">
-  <div class="col-md-10 col-md-offset-1">
-    <h4 class="modal-title">
-      <i class="budon budon-course-classe"></i>
-      <span ng-if="!classe._id">创建新班级</span>
-      <span ng-if="classe._id">编辑班级</span>
-    </h4>
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">班级名</span>
-      <div class="col-sm-9">
-        <input class="form-control"
-               type="text"
-               id="classe-name"
-               ng-init="nameInputFocus=true"
-               focus-me="nameInputFocus"
-               placeholder="请输入班级名称"
-               ng-model="classe.name"
-               required>
-        <small class="text-danger" ng-if="errors.name">
-          {{ errors.name.message }}
-        </small>
-      </div>
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">班级名</span>
+    <div class="col-sm-9">
+      <input class="form-control"
+             type="text"
+             id="classe-name"
+             ng-init="nameInputFocus=true"
+             focus-me="nameInputFocus"
+             placeholder="请输入班级名称"
+             ng-model="classe.name"
+             required>
+      <small class="text-danger" ng-if="errors.name">
+        {{ errors.name.message }}
+      </small>
     </div>
-    <div class="form-group form-group-sm" ng-if="courses.length">
-      <span class="control-label col-sm-3">课程名</span>
-      <div class="col-sm-9">
-        <select class="form-control"
-                id="classe-course"
-                ng-model="classe.courseId"
-                ng-options="course._id as course.name for course in courses"
-                required>
-          <option value="" class="text-muted">请选择一门课程</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group form-group-sm" 
-        ng-class="{'has-error': form.price.$invalid}">
-      <span class="control-label col-sm-3">价格</span>
-      <div class="col-sm-9">
-        <div class="input-group">
-          <input class="form-control"
-                 type="number"
-                 id="classe-price"
-                 placeholder="请输入价格"
-                 type="number"
-                 min="0"
-                 ng-model="classe.price"
-                 name="price"
-                 is-alipay-set="price"
-                 required>
-          <div class="input-group-addon">元</div>
-        </div>
-        <small class="text-danger" ng-if="errors.price">{{ errors.price.message }}</small>
-        <p class="text-danger" ng-show="form.price.$error.aplipaySet">
-          <span ng-if="Auth.hasRole('admin')">
-            开设收费课程需要支付宝信息，请在
-            <a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>
-            进行设置
-          </span>
-          <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">
-            开设收费课程需要支付宝信息，请联系机构管理员进行设置
-          </span>
-        </p>
-      </div>
-    </div>
-
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">上课地点</span>
-      <div class="col-sm-9">
-        <input class="form-control"
-               type="text"
-               id="classe-address"
-               placeholder="请输入授课地点"
-               ng-model="classe.address">
-        <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
-      </div>
-    </div>
-
-    <div class="form-group form-group-sm">
-      <span class="control-label col-sm-3">授课教师</span>
-      <div class="col-sm-9">
-        <select class="form-control"
-                id="classe-teacher"
-                ng-model="selectedTeacher"
-                ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
-                ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
-          <option value="" class="text-muted">请选择授课教师</option>
-        </select>
-        <div class="row-fluid classe-teachers">
-          <span ng-repeat="teacher in classe.teachers">
-            <div class="label label-default"
-                 style="font-size: 1em; line-height:2em; margin-right:.2em">
-              {{teacher.name}}
-              <a ng-click="removeTeacher($index)"
-                 class="close">&times;</a>
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
-
   </div>
+  <div class="form-group form-group-sm" ng-if="courses.length">
+    <span class="control-label col-sm-3">课程名</span>
+    <div class="col-sm-9">
+      <select class="form-control"
+              id="classe-course"
+              ng-model="classe.courseId"
+              ng-options="course._id as course.name for course in courses"
+              required>
+        <option value="" class="text-muted">请选择一门课程</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm" 
+      ng-class="{'has-error': form.price.$invalid}">
+    <span class="control-label col-sm-3">价格</span>
+    <div class="col-sm-9">
+      <div class="input-group">
+        <input class="form-control"
+               type="number"
+               id="classe-price"
+               placeholder="请输入价格"
+               type="number"
+               min="0"
+               ng-model="classe.price"
+               name="price"
+               is-alipay-set="price"
+               required>
+        <div class="input-group-addon">元</div>
+      </div>
+      <small class="text-danger" ng-if="errors.price">{{ errors.price.message }}</small>
+      <p class="text-danger" ng-show="form.price.$error.aplipaySet">
+        <span ng-if="Auth.hasRole('admin')">
+          开设收费课程需要支付宝信息，请在
+          <a href="/a/organization" ng-click="$modalInstance.close()">机构管理页面</a>
+          进行设置
+        </span>
+        <span ng-if="Auth.hasRole('teacher') && !Auth.hasRole('admin')">
+          开设收费课程需要支付宝信息，请联系机构管理员进行设置
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">上课地点</span>
+    <div class="col-sm-9">
+      <input class="form-control"
+             type="text"
+             id="classe-address"
+             placeholder="请输入授课地点"
+             ng-model="classe.address">
+      <small class="text-danger" ng-if="errors.address">{{ errors.address.message }}</small>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <span class="control-label col-sm-3">授课教师</span>
+    <div class="col-sm-9">
+      <select class="form-control"
+              id="classe-teacher"
+              ng-model="selectedTeacher"
+              ng-change="addTeacher(selectedTeacher); selectedTeacher=null"
+              ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
+        <option value="" class="text-muted">请选择授课教师</option>
+      </select>
+      <div class="row-fluid classe-teachers">
+        <span ng-repeat="teacher in classe.teachers">
+          <div class="label label-default"
+               style="font-size: 1em; line-height:2em; margin-right:.2em">
+            {{teacher.name}}
+            <a ng-click="removeTeacher($index)"
+               class="close">&times;</a>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+
   <ul class="nav nav-tabs" ng-init="viewState.datetimeConfig='date'">
     <li ng-class="{'active':viewState.datetimeConfig=='date'}">
       <a href="" ng-click="viewState.datetimeConfig='date'">日期设置</a>
@@ -215,7 +213,7 @@
                       ng-options="minute for minute in minutes">
               </select>
             </td>
-            <td>
+            <td class="shift-duration">
               <select class="form-control input-sm" 
                       ng-model="shift.last" 
                       ng-options="duration for duration in durations">
@@ -234,6 +232,8 @@
                 {{(shift.date|date:'yyyy/MM/dd')||'请选择时间'}} 
                 <i class="fa fa-calendar"></i>
               </button>
+            </td>
+            <td class="td-close">
               <a href class="close" ng-click="removeShift(shift)">&times;</a>
             </td>
           </tr>
@@ -242,15 +242,13 @@
     </div>
   </div>
 
-  <div class="modal-footer col-md-10 col-md-offset-1">
-    <div class="pull-right">
-      <button type="button"
-              class="btn btn-sm btn-default rounded"
-              ng-click="cancel()">取消</button>
-      <button type="submit"
-              class="btn btn-sm btn-danger rounded"
-              ng-click="confirm(form)">确认</button>
-    </div>
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-sm btn-default rounded"
+            ng-click="cancel()">取消</button>
+    <button type="submit"
+            class="btn btn-sm btn-danger rounded"
+            ng-click="confirm(form)">确认</button>
   </div>
 
 </form>

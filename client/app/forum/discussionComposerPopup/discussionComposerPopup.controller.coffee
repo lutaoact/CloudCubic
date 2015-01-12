@@ -15,6 +15,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       if @myTopic.title or @myTopic.content
         $modal.open
           templateUrl: 'components/modal/messageModal.html'
+          windowClass: 'message-modal'
           controller: 'MessageModalCtrl'
           resolve:
             title: -> '警告!'
@@ -38,7 +39,3 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
 
     deleteTag: (tag)->
       $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
-
-
-
-

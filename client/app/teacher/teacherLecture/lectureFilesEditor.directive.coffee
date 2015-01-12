@@ -33,6 +33,7 @@ angular.module 'budweiserApp'
     removeSlide: (index) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         size: 'sm'
         resolve:
@@ -51,6 +52,7 @@ angular.module 'budweiserApp'
     removeFile: ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
+        windowClass: 'message-modal'
         controller: 'MessageModalCtrl'
         size: 'sm'
         resolve:
