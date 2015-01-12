@@ -15,6 +15,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
         $modal.open
           templateUrl: 'app/forum/editForum/editForumModal.html'
           controller: 'EditForumModalCtrl'
+          windowClass: 'bud-modal'
           resolve:
             forum: ->
               forum
@@ -37,9 +38,5 @@ angular.module('budweiserApp').directive 'forumTile', ()->
           $scope.deleteCallback?(forum)
 
       stopPropagation: ($event)->
-        $event.stopPropagation();
-
-    $http.get("api/forums/#{$scope.forum._id}/topicsNum")
-    .success (data)->
-      $scope.forum.$topicCount = data.count
+        $event.stopPropagation()
 

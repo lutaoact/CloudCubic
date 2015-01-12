@@ -51,6 +51,10 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   .then ()->
     $scope.loading = false
 
+  Restangular.one('forums',$state.params.forumId).get()
+  .then (forum)->
+    $scope.forum = forum
+
   $scope.$on 'forum/reloadReplyList', (event, replyId)->
     $scope.loadTopic(replyId)
     #   $scope.topic.$currentReplyId = replyId

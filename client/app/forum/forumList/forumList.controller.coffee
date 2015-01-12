@@ -50,6 +50,7 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
       $modal.open
         templateUrl: 'app/forum/editForum/editForumModal.html'
         controller: 'EditForumModalCtrl'
+        windowClass: 'bud-modal'
         resolve:
           forum: ->
             name: ''
