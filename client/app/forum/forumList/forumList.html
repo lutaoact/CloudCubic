@@ -4,27 +4,22 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 clearfix header">
-          <div class="col-sm-3 clearfix">
-            <div class="title">
+          <div class="col-sm-6 clearfix">
+            <div class="title pull-left">
               所有讨论组
               <span>|</span>
-              <span>共<span class="text-primary">{{forums.length||0}}</span>个</span>
+              <span>共<span class="text-primary">{{forumsTotalCount||0}}</span>个</span>
             </div>
-          </div>
-          <div class="col-sm-3 clearfix">
-            <ul class="nav nav-group" ng-init="viewState.orderBy='-postsCount'">
-              <li ng-class="{'active':viewState.orderBy=='-postsCount'}"><a href="" ng-click="viewState.orderBy='-postsCount'">最热&nbsp;<i class="fa fa-heart"></i></a></li>
-              <li ng-class="{'active':viewState.orderBy=='-created'}"><a href="" ng-click="viewState.orderBy='-created'">最新&nbsp;<i class="fa fa-clock-o"></i></a></li>
+            <ul class="nav nav-group pull-left">
+              <li ng-class="{'active':pageConf.sort=='postsCount'}"><a href="" ng-click="pageConf.sort='postsCount';reload()">最热&nbsp;<i class="fa fa-heart"></i></a></li>
+              <li ng-class="{'active':pageConf.sort=='created'}"><a href="" ng-click="pageConf.sort='created';reload()">最新&nbsp;<i class="fa fa-clock-o"></i></a></li>
             </ul>
           </div>
           <div class="col-sm-4 clearfix">
-            <div class="search">
-              <div class="bud input-group">
-                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
-                <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
-              </div>
-            </div>
+            <search-input keyword="viewState.keyword"
+                          on-submit="reload(true)"
+                          placeholder="班级名搜索">
+            </search-input>
           </div>
           <div class="col-sm-2 actions clearfix">
             <a href="" class="btn btn-danger btn-sm rounded" ng-click="createForum()">
@@ -38,22 +33,22 @@
 
   <div class="container">
     <div class="row all-forums">
-      <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in viewState.filteredForums = ( forums | orderBy:viewState.orderBy|filter:categoryFilter)|paging:itemsPerPage:currentForumPage">
+      <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in forums">
         <forum-tile forum="forum" >
         </forum-tile>
       </div>
     </div>
     <div class="row pagination-row text-center"
-       ng-hide="forums.$count <= itemsPerPage">
+       ng-if="forums.$count > pageConf.itemsPerPage">
       <pagination
-        total-items="viewState.filteredForums.length"
-        ng-model="currentForumPage"
-        items-per-page="itemsPerPage"
+        total-items="forums.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
         class="pagination-sm bud"
         boundary-links="true"
         rotate="false"
-        max-size="maxSize"
-        num-pages="numPages">
+        ng-change="reload()"
+        max-size="pageConf.maxSize">
       </pagination>
     </div>
   </div>

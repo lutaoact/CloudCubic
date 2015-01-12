@@ -1,5 +1,5 @@
 <div class="forum-tile" ui-sref="forum.detail({forumId:forum._id})">
-  <span dropdown class="pull-right menu-bar" ng-if="getMe()._id==forum.postBy._id" is-open="viewState.popupOpen">
+  <span dropdown class="pull-right menu-bar" ng-if="getMe()._id==forum.postBy._id||getMe().role=='admin'" is-open="viewState.popupOpen">
     <a href="" class="btn btn-xs" dropdown-toggle ng-click="stopPropagation($event)">
       <i class="budon budon-bars"></i>
     </a>

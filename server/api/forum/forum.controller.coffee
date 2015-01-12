@@ -6,6 +6,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
 exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
+  conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 
@@ -16,11 +17,11 @@ exports.show = (req, res, next) ->
 
 pickedKeys = ["name", "logo", "info", "categoryId"]
 exports.create = (req, res, next) ->
-    data = _.pick req.body, pickedKeys
-    data.postBy = req.user._id
-    data.orgId = req.user.orgId
+  data = _.pick req.body, pickedKeys
+  data.postBy = req.user._id
+  data.orgId = req.user.orgId
 
-    WrapRequest.wrapCreateAndUpdate req, res, next, data
+  WrapRequest.wrapCreateAndUpdate req, res, next, data
 
 
 pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]
