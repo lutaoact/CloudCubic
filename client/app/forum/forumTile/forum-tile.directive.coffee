@@ -16,6 +16,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
           templateUrl: 'app/forum/editForum/editForumModal.html'
           controller: 'EditForumModalCtrl'
           windowClass: 'bud-modal'
+          size: 'sm'
           resolve:
             forum: ->
               forum

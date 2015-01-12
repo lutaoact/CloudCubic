@@ -21,7 +21,7 @@
                           placeholder="班级名搜索">
             </search-input>
           </div>
-          <div class="col-sm-2 actions clearfix">
+          <div class="col-sm-2 actions clearfix" ng-if="Auth.hasRole('teacher')">
             <a href="" class="btn btn-danger btn-sm rounded" ng-click="createForum()">
               <i class="fa fa-plus"></i>&nbsp;新讨论组
             </a>

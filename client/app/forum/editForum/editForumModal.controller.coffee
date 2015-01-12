@@ -34,6 +34,8 @@ angular.module('budweiserApp')
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
+      $scope.submitted = true
+      console.log form
       if !form.$valid then return
       $scope.errors = null
       (

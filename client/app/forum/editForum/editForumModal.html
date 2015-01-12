@@ -1,44 +1,19 @@
 
 <div class="modal-header">
   <h4 class="modal-title">
+    <i class="budon budon-comments"></i>
     <span ng-if="!forum._id">添加讨论组</span>
     <span ng-if="forum._id">编辑讨论组</span>
     <a class="close" ng-click="cancel()">&times;</a>
   </h4>
 </div>
 
-<form class="form-horizontal row edit-forum-form" novalidate
+<form class="form form-horizontal edit-forum-form modal-body" novalidate
       name="form">
-  <div class="form-group">
-    <label class="control-label col-sm-3">讨论组名</label>
-    <div class="col-sm-8">
-      <input class="form-control"
-             id="forum-name"
-             ng-init="nameInputFocus=true"
-             focus-me="nameInputFocus"
-             placeholder="请输入讨论组名称"
-             ng-model="forum.name"
-             required>
-      <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
-    </div>
-  </div>
-
-  <div class="form-group" ng-if="!forum.$category">
-    <label class="control-label col-sm-3">类别</label>
-    <div class="col-sm-8">
-      <select
-        class="form-control"
-        id="forum-category"
-        ng-model="forum.categoryId"
-        ng-options="category.name for category in categories" >
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group" ng-if="!forum.$category">
-    <label class="control-label col-sm-3">类别</label>
-    <div class="col-sm-8">
+  <div class="form-group form-group-sm">
+    <div class="col-sm-8 col-sm-offset-2">
       <uploader
+        class="logo-uploder"
         limit="{{imageSizeLimitation}}"
         on-complete="onLogoUpload($data)"
         accept-type="image"
@@ -46,6 +21,12 @@
         crop-ratio="1.5"
         max-width="600">
         <div class="logo" ng-if="forum.logo" src-key="forum.logo" source-attr="background-image">
+          <div class="mask">
+            <div class="btn btn-xs btn-danger rounded">
+              <i class="fa fa-image"></i>
+              修改图片
+            </div>
+          </div>
         </div>
         <div class="drag-uploder" ng-if="!forum.logo">
           <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
@@ -58,18 +39,47 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="control-label col-sm-3">讨论组简介</label>
-    <div class="col-sm-8">
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-3">讨论组名</label>
+    <div class="col-sm-9">
       <input class="form-control"
-             id="forum-info"
-             placeholder="请输入描述..."
-             ng-model="forum.info">
-      <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
+             id="forum-name"
+             name="name"
+             ng-init="nameInputFocus=true"
+             focus-me="nameInputFocus"
+             placeholder="请输入讨论组名称"
+             ng-model="forum.name"
+             required
+             mongoose-error>
+      <small class="text-danger" ng-if="form.name.$error.mongoose">{{ errors.name.message }}</small>
+      <small class="text-danger" ng-if="form.name.$error.required && submitted">必填项</small>
     </div>
   </div>
 
-  <div class="modal-footer col-md-10 col-md-offset-1">
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-3">讨论组简介</label>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+             id="forum-info"
+             placeholder="请输入描述..."
+             msd-elastic
+             name="info"
+             ng-maxlength="200"
+             row="5"
+             required
+             ng-model="forum.info"
+             mongoose-error>
+      </textarea>
+      <small class="text-danger" ng-if="form.info.$error.mongoose">{{ errors.info.message }}</small>
+      <small class="text-danger" ng-if="form.info.$error.maxlength">字数超过限制</small>
+      <small class="text-danger" ng-if="form.info.$error.required && submitted">必填项</small>
+      <small class="pull-right text-muted" ng-if="form.info.$valid">
+        字数：{{forum.info.length||0}}/200
+      </small>
+    </div>
+  </div>
+
+  <div class="modal-footer">
     <div class="pull-right">
       <button type="button"
               class="btn btn-sm btn-default rounded"

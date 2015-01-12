@@ -13,6 +13,8 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
 
   angular.extend $scope,
 
+    Auth: Auth
+
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
@@ -27,6 +29,7 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
         templateUrl: 'app/forum/editForum/editForumModal.html'
         controller: 'EditForumModalCtrl'
         windowClass: 'bud-modal'
+        size: 'sm'
         resolve:
           forum: ->
             name: ''

@@ -1,35 +1,52 @@
 .edit-forum-form{
-  padding: 30px 30px 20px 30px;
-  input {
-    border-radius: 4px;
-  }
-  .input-group-addon {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-  .ok-btn {
-    margin-top: 15px;
-    width: 100%;
-    border-radius: 4px;
-  }
+
   .logo{
-    width: 140px;
-    height: 90px;
+    width: 100%;
+    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: @gray-lighter;
+    .mask{
+      width: 100%;
+      height: 100%;
+      background: rgb(147,147,147); /* Old browsers */
+      background: -moz-radial-gradient(center, ellipse cover,  rgba(147,147,147,0.7) 0%, rgba(61,61,61,0.7) 33%, rgba(0,0,0,0.7) 67%, rgba(28,28,28,1) 100%); /* FF3.6+ */
+      background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(147,147,147,0.7)), color-stop(33%,rgba(61,61,61,0.7)), color-stop(67%,rgba(0,0,0,0.7)), color-stop(100%,rgba(28,28,28,1))); /* Chrome,Safari4+ */
+      background: -webkit-radial-gradient(center, ellipse cover,  rgba(147,147,147,0.7) 0%,rgba(61,61,61,0.7) 33%,rgba(0,0,0,0.7) 67%,rgba(28,28,28,1) 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-radial-gradient(center, ellipse cover,  rgba(147,147,147,0.7) 0%,rgba(61,61,61,0.7) 33%,rgba(0,0,0,0.7) 67%,rgba(28,28,28,1) 100%); /* Opera 12+ */
+      background: -ms-radial-gradient(center, ellipse cover,  rgba(147,147,147,0.7) 0%,rgba(61,61,61,0.7) 33%,rgba(0,0,0,0.7) 67%,rgba(28,28,28,1) 100%); /* IE10+ */
+      background: radial-gradient(ellipse at center,  rgba(147,147,147,0.7) 0%,rgba(61,61,61,0.7) 33%,rgba(0,0,0,0.7) 67%,rgba(28,28,28,1) 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#939393', endColorstr='#1c1c1c',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+      padding: 85px 16px;
+      opacity: 0;
+      .transition();
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+  .logo-uploder{
+    padding: 0;
+    border: none;
+    width: 300px;
+    height: 200px;
+    display: block;
+    margin: auto;
   }
   .drag-uploder{
-    width: 140px;
-    height: 90px;
+    height: 100%;
+    width: 100%;
     background-color: @gray-lighter;
     border: 1px @gray-light dashed;
-    padding: 12px 16px;
+    padding: 80px 16px;
     font-size: 12px;
     .btn-danger{
       margin-top: 10px;
     }
+  }
+  #forum-info{
+    min-height: 100px;
   }
 
 }
