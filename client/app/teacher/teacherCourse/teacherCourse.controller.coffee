@@ -18,8 +18,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   angular.extend $scope,
 
     deleteCallback: (course) ->
-      Courses.splice(Courses.indexOf(course), 1)
-      $state.go('main')
+      $state.go('home')
 
     imageSizeLimitation: configs.imageSizeLimitation
 

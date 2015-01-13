@@ -134,7 +134,7 @@ class CourseUtils extends BaseUtils
     .then (classes) ->
       unless classes? and classes.length > 0
         conditions.owners = req.user._id if req.user.role is 'teacher'
-        return conditions
+      return conditions
     .catch (err) ->
       logger.error 'Failed to find class', err
 
