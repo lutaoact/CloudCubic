@@ -136,7 +136,6 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
           lectureId: $state.params.lectureId
           questionId: value._id
         .then (data)->
-          console.log data
           # right answers
           $scope.responseRateConfig.series[0].data[0].y = data.right.length
           $scope.responseRateConfig.series[0].data[0].tooltipHtml = genTooltip(data.right)

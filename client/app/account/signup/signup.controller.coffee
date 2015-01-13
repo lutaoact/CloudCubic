@@ -57,7 +57,6 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             email.$setValidity 'remote', true
             email.$remoteChecked = true
           , (err, status)->
-            console.log status
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
@@ -80,7 +79,6 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
             orgUniqueName.$setValidity 'remote', true
             orgUniqueName.$remoteChecked = true
           , (err, status)->
-            console.log status
             orgUniqueName.$setValidity 'remote', false
             orgUniqueName.$remoteChecked = false
         , 800

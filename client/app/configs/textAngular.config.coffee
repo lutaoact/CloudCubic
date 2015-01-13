@@ -178,8 +178,6 @@ angular.module 'budweiserApp'
             files: [file]
             success: (url)->
               insertAction('insertImage', url, true)
-            progress: (speed, percentage)->
-              console.log speed, percentage
             fail: (err)->
               notify
                 message: err

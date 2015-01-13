@@ -49,7 +49,6 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
-        console.log $scope.errors
 
     viewState: {}
 

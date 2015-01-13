@@ -53,12 +53,10 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
           controller: 'SchedulePopupCtrl'
         .result.then (schedules)->
           $scope.schedules.concat schedules
-          console.log $scope.schedules
           $scope.eventSouces = timetableHelper.genTimetable($scope.schedules)
 
       removeEvent: ($event, event)->
         $event.stopPropagation()
-        console.log event
         event.schedule.remove()
         .then ->
           event.$container.splice event.$container.indexOf(event), 1
@@ -198,13 +196,10 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
             until: untilMoment
 
           schedules.push schedule
-        console.log schedules
         $scope.viewState.classe.patch
           schedules: schedules
         .then (classe)->
           $modalInstance.close classe.schedules
-      else
-        console.log 'no shift found'
 
     dateOptions:
       startingDay: 0
@@ -215,7 +210,6 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       if $scope.viewState.classe
         $scope.viewState.startDate = $scope.viewState.classe.duration.from
         $scope.viewState.endDate = $scope.viewState.classe.duration.to
-        console.log $scope.viewState.classe
         $scope.shifts = $scope.viewState.classe.schedules.map (schedule)->
           weekday: if moment(schedule.end).isSame(moment(schedule.until),'day') then $scope.weekdays[0] else $scope.weekdays[moment(schedule.start).isoWeekday()]
           start:

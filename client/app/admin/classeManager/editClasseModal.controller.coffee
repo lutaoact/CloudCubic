@@ -13,8 +13,6 @@ angular.module('budweiserApp')
   $modalInstance
 ) ->
 
-  console.log Teachers
-
   angular.extend $scope,
     errors: null
     classe: Classe
@@ -24,7 +22,6 @@ angular.module('budweiserApp')
     $modalInstance: $modalInstance
 
     addTeacher: (teacher) ->
-      console.log 'addTeacher', teacher
       if !teacher? then return
       $scope.classe.teachers = _.union($scope.classe.teachers, [teacher])
 
@@ -63,14 +60,11 @@ angular.module('budweiserApp')
           startMoment = null
           endMoment = null
           untilMoment = null
-          console.log shift.weekday.value
           if isNaN(shift.weekday.value)
-            console.log 1
             startMoment = moment(shift.date).hours(shift.start.hour).minute(shift.start.minute)._d
             endMoment = moment(shift.date).hours(shift.start.hour).minute(shift.start.minute).add(shift.last,'minutes')._d
             untilMoment = endMoment
           else
-            console.log
             startMoment = moment($scope.classe.duration.from).isoWeekday(shift.weekday.value).hours(shift.start.hour).minute(shift.start.minute)._d
             endMoment = moment($scope.classe.duration.from).isoWeekday(shift.weekday.value).hours(shift.start.hour).minute(shift.start.minute).add(shift.last,'minutes')._d
             untilMoment = moment($scope.classe.duration.to).isoWeekday(shift.weekday.value)._d
