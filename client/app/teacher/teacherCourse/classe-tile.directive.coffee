@@ -8,6 +8,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
     classe: '='
     courses: '='
     plus: '@'
+    onClasseDeleted: '&'
 
   controller: (
     Auth
@@ -42,9 +43,6 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         .then (newClasse) ->
           angular.extend classe, newClasse
 
-      deleteCallback: (classe) ->
-        $scope.$emit 'classe.deleted', classe
-
       viewClasse: (classe) ->
         if $scope.plus and Auth.hasRole('admin') and classe
           $state.go('admin.classeManager.detail', classeId:classe._id)
@@ -61,4 +59,4 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         .result.then ->
           classe.remove()
         .then ->
-          $scope.deleteCallback?(classe)
+          $scope.onClasseDeleted()?(classe)

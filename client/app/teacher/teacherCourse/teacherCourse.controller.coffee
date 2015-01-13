@@ -55,6 +55,11 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         $scope.viewState.editing = false
 
     removeCourse: ()->
+      if $scope.classes.length != 0
+        notify
+          message:'删除失败，需要先删除该课程关联的班级'
+          classes: 'alert-danger'
+        return
       course = $scope.course
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
@@ -99,7 +104,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     $scope.course.$teachers = $scope.course.owners
     Restangular.all('classes').getList({courseId: $scope.course._id})
   .then (classes)->
-
+    $scope.classes = classes
     $scope.course.$teachers = _.uniq($scope.course.$teachers.concat(_.flatten(_.compact(_.pluck(classes, 'teachers')))),'_id')
 
   $scope.$on 'comments.number', (event, data)->

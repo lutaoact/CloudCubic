@@ -7,6 +7,7 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
   templateUrl: 'app/teacher/teacherCourse/teacherCourseLectures.html'
   scope:
     course: '='
+    classes: '='
 
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope
@@ -97,6 +98,12 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       .result.then (newClasse) ->
         $scope.classes.splice 0, 0, newClasse
 
+    classDeleteCallback: (classe)->
+      deleteClasseIndex = $scope.classes.indexOf(classe)
+      $scope.classes.splice deleteClasseIndex, 1
+      $scope.selectedClasse = null
+      $scope.selectClasse($scope.classes?[0])
+
   reloadLectures = (course) ->
     if !course._id? then return
     # load course
@@ -108,16 +115,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     progress = $scope.progressMap[$scope.activeProgressKey]
     $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
-  $scope.$on 'classe.deleted', (event, classe)->
-    deleteClasseIndex = $scope.classes.indexOf(classe)
-    $scope.classes.splice deleteClasseIndex, 1
-    $scope.selectedClasse = null
-    $scope.selectClasse($scope.classes?[0])
-
   $scope.$watch 'course', (value) ->
     if value
       reloadLectures($scope.course)
-      Restangular.all('classes').getList courseId: value._id
-      .then (classes) ->
-        $scope.classes = classes
-        $scope.selectClasse(classes?[0])

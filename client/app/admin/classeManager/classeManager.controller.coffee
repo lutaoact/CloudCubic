@@ -50,8 +50,8 @@ angular.module('budweiserApp')
         keyword  :$scope.search.keyword
         page     :$scope.pageConf.currentPage
 
-  $scope.$on 'classe.deleted', (event, classe)->
-    $scope.classes.splice($scope.classes.indexOf(classe),1)
+    classDeleteCallback: (classe)->
+      $scope.classes.splice($scope.classes.indexOf(classe),1)
 
   Restangular
   .all('classes')

@@ -30,7 +30,8 @@
          ng-repeat="classe in classes">
       <classe-tile classe="classe"
                    courses="courses"
-                   plus="true">
+                   plus="true"
+                   on-classe-deleted="classDeleteCallback">
       </classe-tile>
     </div>
   </div>

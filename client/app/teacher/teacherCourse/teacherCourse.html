@@ -9,9 +9,9 @@
                 <a href="" class="btn" dropdown-toggle>
                   <i class="budon budon-bars"></i>
                 </a>
-                <ul class="dropdown-menu" role="menu">
+                <ul class="dropdown-menu" role="menu" dropdown-toggle>
                   <li><a href="" ng-click="viewState.editing = true">编辑</a></li>
-                  <li><a href="" ng-click="removeCourse()">删除</a></li>
+                  <li><a href="" ng-click="removeCourse()" >删除</a></li>
                 </ul>
               </span>
             </div>
@@ -138,8 +138,10 @@
               </div>
             </div>
 
-            <teacher-course-lectures course="course" ng-show="viewState.displayView=='lectures'"
-                                     classe="selectedClasse"></teacher-course-lectures>
+            <teacher-course-lectures course="course"
+                                     classes="classes"
+                                     ng-show="viewState.displayView=='lectures'"
+                                     ></teacher-course-lectures>
 
             <comments belong-to="course._id" type="2" ng-show="viewState.displayView=='comments'" active-comment="dataId"></comments>
 
