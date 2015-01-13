@@ -53,4 +53,4 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     viewState: {}
 
     deleteTag: (tag)->
-      $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
+      $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(tag), 1

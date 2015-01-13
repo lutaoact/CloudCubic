@@ -51,16 +51,13 @@
       </div>
       <div class="media-body">
         <h4 class="media-heading">{{topic.title}}</h4>
-        <p class="topic-summary">{{topic.metadata.raw}}</p>
+        <p class="topic-summary">{{topic.content|htmlToPlaintext}}</p>
         <div class="spans">
           <span>
             <span class="poster-name">
               {{topic.postBy.name}}
             </span>
             <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
-            <span class="topic-type base-color">
-              {{topic.metadata.postType||'提问'}}
-            </span>
           </span>
           <span class="status">
             <i class="fa fa-eye"></i>
@@ -70,10 +67,10 @@
             <i class="fa fa-heart"></i>
             {{topic.likeUsers.length||0}}
           </span>
-          <div class="tag" ng-show="topic.metadata.tags.length">
+          <div class="tag" ng-show="topic.tags.length">
             标签
           </div>
-          <span class="comma-split" ng-repeat="tag in topic.metadata.tags" href="{{tag.type}}" src="{{tag.srcId}}">
+          <span class="comma-split" ng-repeat="tag in topic.tags" href="{{tag.type}}" src="{{tag.srcId}}">
             {{tag.name}}
           </span>
         </div>

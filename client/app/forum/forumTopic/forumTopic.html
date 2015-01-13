@@ -37,7 +37,7 @@
             </div>
             <div class="media-body">
               <h4 class="media-heading">{{recommendedTopic.title}}</h4>
-              <p class="media-summary">{{recommendedTopic.metadata.raw}}</p>
+              <p class="media-summary">{{recommendedTopic.content|htmlToPlaintext}}</p>
               <div class="status">
                 <i class="fa fa-eye"></i>
                 {{recommendedTopic.viewers.length||0}}

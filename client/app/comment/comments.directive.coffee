@@ -43,7 +43,6 @@ angular.module('budweiserApp')
       @newComment = {} if !@newComment
       @newComment.type = parseInt($scope.type)
       @newComment.content = ''
-      @newComment.metadata = {}
 
     toggleLike: (comment)->
       comment.one('like').post()

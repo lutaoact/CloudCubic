@@ -35,13 +35,6 @@ exports.DisTopic = BaseModel.subclass
       content:
         type: String
         required: true
-      metadata: Schema.Types.Mixed
-#        images: [
-#          type: String
-#        ]
-#        tags: [
-#          type: String
-#        ]
       commentsNum:
         type: Number
         default: 0

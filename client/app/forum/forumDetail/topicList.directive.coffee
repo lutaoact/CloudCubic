@@ -57,7 +57,7 @@ angular.module('budweiserApp')
     filterByTags: (item)->
       if $scope.filterTags?.length
         $scope.filterTags.some (tag)->
-          item.metadata.tags?.some (x)-> x.name is tag.name
+          item.tags?.some (x)-> x.name is tag.name
       else
         true
 
@@ -81,7 +81,7 @@ angular.module('budweiserApp')
     if value?.length
       $scope.queryTags = []
       $scope.topics.forEach (topic)->
-        $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
+        $scope.queryTags = $scope.queryTags.concat topic.tags
         topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
       $scope.queryTags = _.compact $scope.queryTags
       $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
