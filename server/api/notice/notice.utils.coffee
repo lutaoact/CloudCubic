@@ -1,5 +1,5 @@
 Notice = _u.getModel 'notice'
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 
 
 class NoticeUtils

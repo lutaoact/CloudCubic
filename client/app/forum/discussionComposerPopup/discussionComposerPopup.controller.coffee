@@ -35,10 +35,10 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       $scope.submitted = true
       if !form.$valid then return
       $scope.errors = null
-      Restangular.all('dis_topics').post @myTopic, {forumId: $state.params.forumId}
-      .then (dis_topic)->
+      Restangular.all('topics').post @myTopic, {forumId: $state.params.forumId}
+      .then (topic)->
         $scope.imagesToInsert = undefined
-        $modalInstance.close dis_topic
+        $modalInstance.close topic
       , (err) ->
         err = err.data
         $scope.errors = {}

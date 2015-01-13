@@ -12,7 +12,7 @@ angular.module('budweiserApp').controller 'ForumDetailCtrl', (
   if !$state.params.forumId then return
 
   $q.all [
-    Restangular.all('dis_topics').getList({forumId: $state.params.forumId})
+    Restangular.all('topics').getList({forumId: $state.params.forumId})
     .then (topics)->
       $scope.topics = topics
   ,

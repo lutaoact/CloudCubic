@@ -1,16 +1,16 @@
 BaseUtils = require('../../common/BaseUtils')
 Course = _u.getModel 'course'
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 
 
 getMoreData = (data) ->
   switch data.type
-    when Const.CommentType.DisTopic
-      DisTopic.findByIdQ data.belongTo
-      .then (disTopic)->
-        data.disTopic = disTopic
+    when Const.CommentType.Topic
+      Topic.findByIdQ data.belongTo
+      .then (topic)->
+        data.topic = topic
 
     when Const.CommentType.Course
       Course.findByIdQ data.belongTo
@@ -30,11 +30,11 @@ getMoreData = (data) ->
 # For Teacher, it will be teacher himself
 getTargetUsers = (data) ->
   switch data.type
-    when Const.CommentType.DisTopic
-      if data.disTopic.postBy.equals data.postBy
+    when Const.CommentType.Topic
+      if data.topic.postBy.equals data.postBy
         data.targetUsers = []
       else
-        data.targetUsers = [data.disTopic.postBy]
+        data.targetUsers = [data.topic.postBy]
 
     when Const.CommentType.Course, Const.CommentType.Lecture
       data.targetUsers = data.course.owners
@@ -43,11 +43,11 @@ getTargetUsers = (data) ->
 
 addCommentNotice = (targetUser, data)->
   switch data.type
-    when Const.CommentType.DisTopic
+    when Const.CommentType.Topic
       noticeData =
-        disTopicId: data.disTopic._id
-        forumId: data.disTopic.forumId
-      NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.DisTopicComment, noticeData
+        topicId: data.topic._id
+        forumId: data.topic.forumId
+      NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.TopicComment, noticeData
 
     when Const.CommentType.Course
       noticeData =

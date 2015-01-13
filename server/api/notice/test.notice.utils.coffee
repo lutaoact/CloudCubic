@@ -1,7 +1,7 @@
 require '../../common/init'
 
 NoticeUtils = _u.getUtils 'notice'
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 
 #### test code for addLectureNotices ####
 userIds = ['111111111111111111111105', '111111111111111111111104', '111111111111111111111103']

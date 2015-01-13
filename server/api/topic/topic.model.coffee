@@ -6,8 +6,8 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.DisTopic = BaseModel.subclass
-  classname: 'DisTopic'
+exports.Topic = BaseModel.subclass
+  classname: 'Topic'
   populates:
     index: [
       path: 'postBy', select: 'name avatar'

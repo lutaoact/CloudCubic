@@ -1,13 +1,13 @@
 'use strict'
 
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 CourseUtils = _u.getUtils 'course'
 DisUtils = _u.getUtils 'dis'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 Forum = _u.getModel 'forum'
 
-WrapRequest = new (require '../../utils/WrapRequest')(DisTopic)
+WrapRequest = new (require '../../utils/WrapRequest')(Topic)
 
 exports.index = (req, res, next) ->
   conditions = forumId: req.query.forumId
@@ -48,18 +48,18 @@ exports.update = (req, res, next) ->
   updateBody.content   = req.body.content   if req.body.content?
   updateBody.lectureId = req.body.lectureId if req.body.lectureId?
 
-  DisTopic.findOneQ
+  Topic.findOneQ
     _id : req.params.id
     postBy : req.user.id
-  .then (disTopic) ->
-    updated = _.extend disTopic, updateBody
+  .then (topic) ->
+    updated = _.extend topic, updateBody
     do updated.saveQ
   .then (result) ->
     logger.info result
     newValue = result[0]
     newValue.populateQ 'postBy', '_id name avatar'
-  .then (newDisTopic) ->
-    res.send newDisTopic
+  .then (newTopic) ->
+    res.send newTopic
   , next
 
 exports.destroy = (req, res, next) ->

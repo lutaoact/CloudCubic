@@ -72,9 +72,9 @@ angular.module('budweiserApp')
         backdrop: 'static'
         keyboard: false
 
-      .result.then (dis_topic)->
-        dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.commentsNum * 10 + dis_topic.likeUsers.length * 10
-        $scope.topics.splice 0, 0, dis_topic
+      .result.then (topic)->
+        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
+        $scope.topics.splice 0, 0, topic
 
   $scope.$watch 'topics', (value)->
     # pull out the tags in content

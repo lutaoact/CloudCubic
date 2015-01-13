@@ -14,7 +14,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     return
 
   if $state.params.topicId and $state.params.forumId is 'unknow'
-    Restangular.one('dis_topics', $state.params.topicId).get()
+    Restangular.one('topics', $state.params.topicId).get()
       .then (topic)->
         $state.go 'forum.topic',
           forumId: topic.forumId
@@ -30,7 +30,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     stateParams: $state.params
 
     loadTopic: (replyId)->
-      Restangular.one('dis_topics', $state.params.topicId).get()
+      Restangular.one('topics', $state.params.topicId).get()
       .then (topic)->
         $scope.topic = topic
         # $state.params.replyId will not change on reloading if reloadOnSearch is set false and only the query param changed.
@@ -40,9 +40,9 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     recommendedTopics: undefined
 
     loadRecommendedTopics: ()->
-      Restangular.all('dis_topics').getList(forumId: $state.params.forumId)
-      .then (dis_topics)->
-        $scope.recommendedTopics = dis_topics.slice 0,3
+      Restangular.all('topics').getList(forumId: $state.params.forumId)
+      .then (topics)->
+        $scope.recommendedTopics = topics.slice 0,3
 
   $q.all [
     $scope.loadTopic()
