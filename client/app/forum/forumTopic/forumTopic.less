@@ -15,8 +15,19 @@
         text-decoration: none;
       }
       .media-summary{
-        .text-overflow();
         color: @gray-light;
+      }
+      .media-left{
+        display: inline-block;
+        width: 70px;
+        overflow: hidden;
+        h6{
+          width: 100%;
+        }
+      }
+      .media-body{
+        display: inline-block;
+        width: ~"calc(100% - 80px)";
       }
     }
     .status{

@@ -154,10 +154,11 @@
         .tag{
           &:hover{
             text-decoration: none;
-            color: @gray-lighter;
+            color: @gray-light;
           }
           &.active{
             background: @base-color;
+            color: #FFF;
           }
         }
       }
@@ -192,6 +193,16 @@
     position: absolute;
     right: 10px;
     top: 10px;
+  }
+  .pagination-row {
+    .box-shadow(0 0 2px @gray-light);
+    margin-top: 18px;
+    background: #FFF;
+    height: 30px;
+    margin-bottom: 30px;
+    .pagination{
+      margin: 2px 0;
+    }
   }
 }
 

@@ -26,7 +26,7 @@
             href=""
             ng-repeat="recommendedTopic in recommendedTopics"
             ui-sref="forum.topic({topicId:recommendedTopic._id, forumId:recommendedTopic.forumId})">
-            <div class="pull-left">
+            <div class="media-left" title="{{recommendedTopic.postBy.name}}">
               <div class="media-object avatar-md"
                    source-attr="background-image"
                    src="http://placehold.it/32x32"

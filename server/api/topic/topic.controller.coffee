@@ -11,6 +11,29 @@ WrapRequest = new (require '../../utils/WrapRequest')(Topic)
 
 exports.index = (req, res, next) ->
   conditions = forumId: req.query.forumId
+
+  # filter by tags
+  queryTags = null
+  try
+    queryTags = JSON.parse(req.query.tags) if req.query.tags
+  catch e
+    queryTags = null
+
+  if queryTags?.length
+    conditions.tags = $in: queryTags
+
+  # filter by author
+  conditions.postBy = req.query.createdBy if req.query.createdBy
+
+  # filter by keyword
+  if req.query.keyword
+    regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+        'title': regex
+      ,
+        'content': regex
+    ]
+
   options = from: ~~req.query.from #from参数转为整数
 
 # 三行的版本看起来更刁，但由于耗费行数太多，不是我的风格，遂被放弃
@@ -34,7 +57,7 @@ exports.create = (req, res, next) ->
   data.forumId ?= req.query.forumId
   data.orgId = req.org?._id
 
-  updateConds = {_id: forumId}
+  updateConds = {_id: data.forumId}
   update = {$inc: {postsCount: 1}}
 
   WrapRequest.wrapCreateAndUpdate req, res, next, data, Forum, updateConds, update

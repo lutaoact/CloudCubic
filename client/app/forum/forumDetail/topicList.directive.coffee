@@ -13,22 +13,24 @@ angular.module('budweiserApp')
     onTagClick: '&'
 
 .controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state)->
+
   angular.extend $scope,
     selectTopic: (topic)->
       $scope.selectedTopic = topic
       $scope.onTopicClick()?(topic)
 
-    me: Auth.getCurrentUser()
+    me: Auth.getCurrentUser
+
+    pageConf:
+      maxSize      : 5
+      currentPage  : $state.params.page ? 1
+      itemsPerPage : 6
+      sort         : $state.params.sort ? 'heat'
+      keyword      : $state.params.keyword ? undefined
+      tags         : if $state.params.tags then JSON.parse($state.params.tags) else []
+      createdBy    : $state.params.createdBy
 
     queryTags: undefined
-
-    topicsFilter: (item)->
-      switch $scope.viewState.filterMethod
-        when 'all'
-          return true
-        when 'createdByMe'
-          return item.postBy._id is $scope.me._id
-      return true
 
     deleteTopic: (topic, $event)->
       $event?.stopPropagation()
@@ -44,22 +46,14 @@ angular.module('budweiserApp')
         .then ()->
           $scope.topics.splice $scope.topics.indexOf(topic), 1
 
-    filterTags: []
-
     searchByTag: (tag)->
-      if $scope.filterTags.indexOf(tag) > -1
-        $scope.filterTags.splice $scope.filterTags.indexOf(tag), 1
-        tag.$active = false
+      if $scope.pageConf.tags.indexOf(tag.text) > -1
+        $scope.pageConf.tags.splice $scope.pageConf.tags.indexOf(tag.text), 1
       else
-        $scope.filterTags.push tag
-        tag.$active = true
+        $scope.pageConf.tags.push tag.text
 
-    filterByTags: (item)->
-      if $scope.filterTags?.length
-        $scope.filterTags.some (tag)->
-          item.tags?.some (x)-> x.name is tag.name
-      else
-        true
+      console.log $scope.pageConf.tags
+      $scope.reload(true)
 
     createTopic: ()->
       # validate
@@ -67,26 +61,48 @@ angular.module('budweiserApp')
         templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
         controller: 'DiscussionComposerPopupCtrl'
         windowClass: 'bud-modal'
-        resolve:
-          topics: -> $scope.topics
         backdrop: 'static'
         keyboard: false
-
       .result.then (topic)->
-        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
         $scope.topics.splice 0, 0, topic
 
-  Restangular.one('forums',$state.params.forumId).one('tagsFreq','').get()
-  .then (tagsFreq)->
-    console.log tagsFreq
+    reload: (resetPageIndex) ->
+      $scope.pageConf.currentPage = 1 if resetPageIndex
+      $state.go 'forum.detail',
+        page: $scope.pageConf.currentPage
+        keyword: $scope.pageConf.keyword
+        sort: $scope.pageConf.sort
+        tags: JSON.stringify $scope.pageConf.tags
+        createdBy: $scope.pageConf.createdBy
 
-  $scope.$watch 'topics', (value)->
-    # pull out the tags in content
-    if value?.length
-      $scope.queryTags = []
-      $scope.topics.forEach (topic)->
-        $scope.queryTags = $scope.queryTags.concat topic.tags
-        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
-      $scope.queryTags = _.compact $scope.queryTags
-      $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
-  , true
+    search: ()->
+      sortObj = {}
+      if $scope.pageConf.sort is 'heat'
+        sortObj.heat = -1
+        sortObj.viewersNum = -1
+        sortObj.commentsNum = -1
+        sortObj.created = -1
+      else
+        sortObj.created = -1
+
+      Restangular.all('topics').getList
+        forumId    : $state.params.forumId
+        from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+        limit      : $scope.pageConf.itemsPerPage
+        keyword    : $scope.pageConf.keyword
+        sort       : JSON.stringify sortObj
+        tags       : JSON.stringify $scope.pageConf.tags
+        createdBy  : $scope.pageConf.createdBy
+      .then (topics)->
+        $scope.topics = topics
+        $scope.topicTotalCount = topics.$count
+
+  $scope.search()
+
+  Restangular.one('forums',$state.params.forumId).all('tagsFreq').getList()
+  .then (tagsFreq)->
+    $scope.queryTags = tagsFreq
+    if $scope.pageConf.tags
+      tagsFreq.forEach (tag)->
+        if $scope.pageConf.tags.indexOf(tag.text) > -1
+          tag.$active = true

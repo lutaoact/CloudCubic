@@ -11,16 +11,10 @@ angular.module('budweiserApp').controller 'ForumDetailCtrl', (
 
   if !$state.params.forumId then return
 
-  $q.all [
-    Restangular.all('topics').getList({forumId: $state.params.forumId})
-    .then (topics)->
-      $scope.topics = topics
-  ,
-    Restangular.one('forums',$state.params.forumId).get()
-    .then (forum)->
-      $scope.forum = forum
-  ]
-  .then ->
+
+  Restangular.one('forums',$state.params.forumId).get()
+  .then (forum)->
+    $scope.forum = forum
     $scope.loading = false
 
   angular.extend $scope,
