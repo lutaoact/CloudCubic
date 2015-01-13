@@ -80,7 +80,9 @@ angular.module('budweiserApp')
           keyPoints: -> $scope.keyPoints
           categoryId: -> $scope.categoryId._id ? $scope.categoryId
       .result.then (question) ->
-        Restangular.all('questions').post(question)
+        Restangular
+        .all('questions')
+        .post(question)
         .then $scope.pageChange
 
     addToLecture: ->
@@ -99,6 +101,7 @@ angular.module('budweiserApp')
         limit: ($scope.pageSize + if loadMore then 0 else 1)
         categoryId: $scope.categoryId._id ? $scope.categoryId
         keyword: $scope.keyword
+        sort: JSON.stringify {created: 1}
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
       ).then (questions) ->
         currentQuestions = _.pluck $scope.lecture?[$state.params.questionType], '_id'
@@ -106,7 +109,7 @@ angular.module('budweiserApp')
           q.$exists = currentQuestions.indexOf(q._id) >= 0
         $scope.questions =
           if loadMore
-            _.union $scope.questions, questions
+            _.union $scope.questions, questions, '_id'
           else
             questions
         $scope.totalItems = questions.$count
