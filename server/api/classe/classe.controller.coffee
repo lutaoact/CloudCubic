@@ -20,9 +20,13 @@ exports.index = (req, res, next) ->
 
   conditions.students = req.query.studentId if req.query.studentId
   conditions.teachers = req.query.teacherId if req.query.teacherId
-  conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
-
-  #可能的排序参数为JSON.stringify {setTop: -1, created: -1}
+  if req.query.keyword
+    keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+      name: keyword
+    ,
+      address: keyword
+    ]
 
   Q(
     if req.query.categoryId
