@@ -109,13 +109,14 @@ class WrapRequest
                 "||| updateModel: #{updateModel?.constructor.name}
                 ||| updateConds:", updateConds,
                 "||| update:", update
-    promiseAll = [@Model.createQ data]
-    if arguments.length > 4
-      promiseAll.push updateModel.updateQ updateConds, update
-
-    Q.all promiseAll
-    .spread (newDoc, updateResult) =>
-      @populateDoc newDoc, @Model.populates?.create
+    tmpResult = {}
+    @Model.createQ data
+    .then (newDoc) =>
+      tmpResult.newDoc = newDoc
+      if updateModel
+        updateModel.updateQ updateConds, update
+    .then () =>
+      @populateDoc tmpResult.newDoc, @Model.populates?.create
     .then (doc) ->
       res.send doc
     .catch next
