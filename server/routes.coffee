@@ -89,6 +89,7 @@ module.exports = (app) ->
   app.use '/api/admins', require './api/admin'
   app.use '/api/orders', require './api/order'
   app.use '/api/forums', require './api/forum'
+  app.use '/api/tags', require './api/tag'
   app.use '/api/carts', require './api/cart'
   app.use '/api/comments', require './api/comment'
   app.use '/api/org_alipays', require './api/org_alipay'

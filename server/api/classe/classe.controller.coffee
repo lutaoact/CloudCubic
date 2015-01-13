@@ -117,7 +117,7 @@ buildConditionsByUser = (user) ->
 buildSchedules = (classes) ->
   schedules = []
   for classe in classes
-    for schedule in classe.schedules
+    for schedule in (classe.schedules ? [])
       schedule.classe = _id: classe._id, name: classe.name
       schedule.course = _id: classe.courseId._id, name: classe.courseId.name
       schedules.push schedule

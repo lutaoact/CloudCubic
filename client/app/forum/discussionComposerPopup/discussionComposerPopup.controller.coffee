@@ -63,19 +63,18 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         if $scope.myTopic.tags.indexOf(search)>-1
           $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(search), 1
         $scope.myTopic.tags.push search
-        # then add to tag library
-        $scope.tags.push
-          text: search
 
-    tags: [
-        text: 'dog'
-      ,
-        text: 'cat'
-      ,
-        text: 'mouse'
-    ]
+        # then add to tag library
+        $scope.tags.post
+          text: search
+        .then (tag)->
+          $scope.tags.push tag
 
     viewState: {}
 
     deleteTag: (tag)->
       $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(tag), 1
+
+  Restangular.all('tags').getList()
+  .then (tags)->
+    $scope.tags = tags
