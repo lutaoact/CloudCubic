@@ -27,7 +27,7 @@ exports.show = (req, res, next) ->
   WrapRequest.wrapShow req, res, next, conditions, {$inc: {viewersNum: 1}}
 
 
-pickedKeys = ["forumId", "title", "content"]
+pickedKeys = ["forumId", "title", "content", "tags"]
 exports.create = (req, res, next) ->
   forumId  = req.query.forumId
 
