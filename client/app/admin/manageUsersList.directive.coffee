@@ -57,6 +57,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/admin/newUserModal.html'
         controller: 'NewUserModalCtrl'
+        windowClass: 'new-user-modal'
         resolve:
           userRole: -> $scope.userRole
       .result.then (newUser) ->

@@ -51,7 +51,7 @@ angular.module('budweiserApp')
             $scope.loading = false
             $scope.$emit 'loginSuccess', me
         , (error)->
-          console.log error
+          notify error
       , ->
         notify
           message:'登录失败'

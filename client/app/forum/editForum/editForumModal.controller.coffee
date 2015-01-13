@@ -34,6 +34,7 @@ angular.module('budweiserApp')
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
+      $scope.submitted = true
       if !form.$valid then return
       $scope.errors = null
       (
@@ -47,7 +48,7 @@ angular.module('budweiserApp')
         $scope.errors = error?.data?.errors
         notify
           message: '编辑讨论组失败'
-          forums: 'alert-danger'
+          classes: 'alert-danger'
 
   if $scope.forum.$category
     $scope.forum.categoryId = $scope.forum.$category

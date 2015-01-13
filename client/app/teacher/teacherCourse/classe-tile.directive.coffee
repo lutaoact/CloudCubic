@@ -59,7 +59,6 @@ angular.module('budweiserApp').directive 'classeTile', ()->
             title: -> '删除班级'
             message: -> "确认要删除 #{classe.name}？"
         .result.then ->
-          console.log classe
           classe.remove()
         .then ->
           $scope.deleteCallback?(classe)

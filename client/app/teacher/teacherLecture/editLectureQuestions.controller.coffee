@@ -40,6 +40,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
         controller: 'NewQuestionCtrl'
+        windowClass: 'new-question-modal'
         backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints

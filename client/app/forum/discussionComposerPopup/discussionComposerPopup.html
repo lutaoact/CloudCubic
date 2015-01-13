@@ -1,30 +1,40 @@
 <div class="modal-header">
-  新的讨论
-  <a href ng-click="close()" class="close">&times;</a>
+  <h4 class="modal-title">
+    <i class="budon budon-comments"></i>
+    新的讨论
+    <a href ng-click="close()" class="close">&times;</a>
+  </h4>
 </div>
 
-<div class="modal-body forum forum-topic-composer">
-  <div class="clearfix title-row row">
-    <div class="form-group col-xs-8">
-      <div class="bud input-group">
-        <div class="input-group-addon">主题:</div>
-        <input class="form-control" type="text" placeholder="请输入您的讨论主题" ng-model="myTopic.title">
-      </div>
-    </div>
-    <div class="form-group col-xs-4">
-      <div class="bud input-group">
-        <div class="input-group-addon">类型:</div>
-         <ui-select ng-model="myTopic.metadata.postType">
-          <ui-select-match placeholder="选择类型">{{$select.selected}}</ui-select-match>
-          <ui-select-choices repeat="option as option in ['提问','公告'] | filter: $select.search" >
-            <div ng-bind-html="option | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
-      </div>
+<form class="form form-horizontal forum-topic-composer modal-body" novalidate
+      name="form">
+
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-2" for="title">主题</label>
+    <div class="col-sm-10">
+      <input class="form-control"
+        name="title"
+        id="title"
+        type="text"
+        ng-init="titleInputFocus=true"
+        focus-me="titleInputFocus"
+        placeholder="请输入您的讨论主题"
+        ng-model="myTopic.title"
+        required
+        mongoose-error>
+      <small class="text-danger" ng-if="form.title.$error.mongoose">{{ errors.title }}</small>
+      <small class="text-danger" ng-if="form.title.$error.required && submitted">必填项</small>
     </div>
   </div>
 
-  <div class="clearfix title-row row" ng-show="myTopic.metadata.tags.length">
+  <div class="form-group form-group-sm" ng-if="tag">
+    <label class="control-label col-sm-2" for="tag">关键字</label>
+    <div class="col-sm-10">
+      <input class="form-control"
+        name="tag"
+        id="tag"
+        type="text">
+    </div>
     <div class="tags">
       <div class="tag tag-primary pull-left" ng-repeat="tag in myTopic.metadata.tags">
         <i class="fa fa-times remove" ng-click="deleteTag(tag)"></i>
@@ -33,17 +43,29 @@
     </div>
   </div>
 
-  <div class="title-row">
-    <bud-editor
-      class="topic-input"
-      content="myTopic.content"
-      metadata="myTopic.metadata">
-    </bud-editor>
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-2" for="content">内容</label>
+    <input type="hidden" ng-model="myTopic.content" name="content">
+    <div class="col-sm-10">
+      <bud-editor
+        editor-id="content"
+        on-change="onChange($text, form.content)"
+        editor-name="content"
+        content="myTopic.content">
+      </bud-editor>
+      <small class="text-danger" ng-if="form.content.$error.mongoose && submitted">{{ errors.content }}</small>
+    </div>
   </div>
 
-</div>
-<div class="forum modal-footer forum-topic-composer">
-  <button class="btn btn-danger" ng-click="create()"
-  ng-disabled="!myTopic.title||!myTopic.content">提交</button>
-  <button class="btn btn-default" ng-click="close()">取消</button>
-</div>
+  <div class="modal-footer">
+    <div class="pull-right">
+      <button type="button"
+              class="btn btn-sm btn-default rounded"
+              ng-click="close()">取消</button>
+      <button type="submit"
+              class="btn btn-sm btn-danger rounded"
+              ng-click="create(form)">确认</button>
+    </div>
+  </div>
+
+</form>

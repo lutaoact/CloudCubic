@@ -39,8 +39,8 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       choices = $scope.question.choices
       choices.splice(index, 1)
       choices.push {} if choices.length == 0
-    close: ->
-      $modalInstance.dismiss('close')
+    cancel: ->
+      $modalInstance.dismiss('cancel')
     save: (question, form) ->
       unless form.$valid then return
       question.keyPoints = _.map($scope.selectedKeyPoints, (k) -> k._id)

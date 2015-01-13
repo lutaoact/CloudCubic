@@ -39,4 +39,6 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
   .then (classe)->
     $scope.classe = classe
   , (err)->
-    console.log err
+    notify
+      message: '获取班级信息失败'
+      classes: 'alert-danger'

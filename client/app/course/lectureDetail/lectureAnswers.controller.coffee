@@ -15,6 +15,7 @@ angular.module('budweiserApp')
   $scope
   Restangular
   configs
+  notify
 ) ->
 
   angular.extend $scope,
@@ -88,7 +89,9 @@ angular.module('budweiserApp')
       $scope.offlineWork.files.splice($scope.offlineWork.files.indexOf(file), 1)
 
     onError: (err)->
-      console.log err
+      notify
+        message: '文件上传失败'
+        classes: 'alert-danger'
 
     onFilesUploadStart: ($files)->
       $scope.offlineWork.files ?= []

@@ -95,9 +95,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       else
         @viewState.showNotes = !@viewState.showNotes
 
-    disableDownload: ()->
-      console.log 'you are not allowed to download this resource'
-
   $scope.$watch 'viewState', (value)->
     if $scope.viewState.showDiscussion or $scope.viewState.showNotes
       angular.element('body').addClass 'sider-open'

@@ -45,14 +45,14 @@ angular.module('budweiserApp')
 
     reload: (resetPage) ->
       $scope.pageConf.currentPage = 1 if resetPage
-      $state.go 'admin.classeManager', 
+      $state.go 'admin.classeManager',
         category :$scope.search.category
         keyword  :$scope.search.keyword
         page     :$scope.pageConf.currentPage
 
   $scope.$on 'classe.deleted', (event, classe)->
     $scope.classes.splice($scope.classes.indexOf(classe),1)
-  
+
   Restangular
   .all('classes')
   .getList(
@@ -63,7 +63,6 @@ angular.module('budweiserApp')
     sort       : JSON.stringify {setTop : -1, created : -1}
   )
   .then (classes) ->
-    console.log 'load classes: ', classes
     $scope.classes = classes
 
 

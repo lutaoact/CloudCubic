@@ -28,7 +28,6 @@ angular.module('budweiserApp').controller 'LectureNotesCtrl',
     lectureId: $state.params.lectureId
   .then (note)->
     if note?.length
-      console.log note[0]
       $scope.note = note[0]
     else
       $scope.note = {}
