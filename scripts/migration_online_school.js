@@ -31,7 +31,7 @@ db.courses.find().forEach(function(course) {
   //新建forum
   var forum = {
     postBy: admin._id,
-    name: course.name,
+    name: "来自课程-" + course.name,
     orgId: admin.orgId,
     categoryId: course.categoryId,
     logo: course.thumbnail,
