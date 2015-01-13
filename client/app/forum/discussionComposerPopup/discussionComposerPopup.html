@@ -30,15 +30,25 @@
   <div class="form-group form-group-sm" ng-if="tag">
     <label class="control-label col-sm-2" for="tag">关键字</label>
     <div class="col-sm-10">
-      <input class="form-control"
-        name="tag"
-        id="tag"
-        type="text">
-    </div>
-    <div class="tags">
-      <div class="tag tag-primary pull-left" ng-repeat="tag in myTopic.tags">
-        <i class="fa fa-times remove" ng-click="deleteTag(tag)"></i>
-        {{tag.name}}
+      <ui-select ng-model="selectedTag"
+                 on-select="addTag(keyPoint, $item, $select.search)"
+                 class="tag-select">
+        <ui-select-match placeholder="请输入要添加的tag，然后按回车">
+          <span>{{$select.selected.name}}</span>
+        </ui-select-match>
+        <ui-select-choices repeat="tag in tags | filter:$select.search">
+          <span ng-bind-html="tag.text | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
+      <div class="row-fluid tags">
+        <span ng-repeat="tag in topic.tags">
+          <div class="label label-default"
+               style="font-size: 1em; line-height:2em; margin-right:.2em">
+            {{tag.text}}
+            <a ng-click="removeTag($index)"
+               class="close">&times;</a>
+          </div>
+        </span>
       </div>
     </div>
   </div>
