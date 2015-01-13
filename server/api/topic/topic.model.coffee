@@ -35,6 +35,7 @@ exports.Topic = BaseModel.subclass
       content:
         type: String
         required: true
+      tags: [ String ]
       commentsNum:
         type: Number
         default: 0
