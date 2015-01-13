@@ -63,9 +63,9 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
           classes: 'alert-danger'
         return
       Restangular.all('classes').one(classe._id, 'enroll').post()
-      .then ->
+      .then (data)->
         console.log 'enrolled!'
-        #TODO: redirect to course page
+        $scope.classe.students = data[0].students
 
     # only show buy class for student
     showBuyClass : ->
