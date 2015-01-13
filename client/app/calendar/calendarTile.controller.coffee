@@ -91,17 +91,6 @@ angular.module('budweiserApp')
 
   Restangular.all('classes/schedules').getList()
   .then (schedules)->
-    console.log schedules
-    # allSchedules = _.flatten(
-    #   classes.map (classe)->
-    #     classeCopy = angular.copy(classe)
-    #     schedules = classe.schedules.map (schedule)->
-    #       schedule.classe = classeCopy
-    #       schedule.course = classeCopy.courseId
-    #       schedule
-    #     schedules
-    # )
-    # Compose this week then set handle
     $scope.schedules = schedules
     bindSchedules()
 
