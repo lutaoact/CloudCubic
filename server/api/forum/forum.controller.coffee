@@ -52,8 +52,9 @@ exports.tagsFreq = (req, res, next) ->
         tagsFreq[tag] ?= 0
         tagsFreq[tag]++
 
-    return tagsFreq
-  .then (tagsFreq) ->
-    res.send tagsFreq
+    result = (for text, freq of tagsFreq
+      text: text, freq: freq
+    )
+    res.send result
   .catch next
   .done()

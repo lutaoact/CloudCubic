@@ -29,8 +29,6 @@ exports.show = (req, res, next) ->
 
 pickedKeys = ["forumId", "title", "content", "tags"]
 exports.create = (req, res, next) ->
-  forumId  = req.query.forumId
-
   data = _.pick req.body, pickedKeys
   data.postBy = req.user._id
   data.forumId ?= req.query.forumId
