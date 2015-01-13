@@ -26,7 +26,9 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       else
         $modalInstance.dismiss('close')
 
-    myTopic: {}
+    myTopic: {
+      tags: []
+    }
 
     onChange: (text, content)->
       content.$setValidity 'mongoose', text?
@@ -49,6 +51,28 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+
+    addTag: ($item, search)->
+      if $item
+        if $scope.myTopic.tags.indexOf($item.text)>-1
+          $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf($item.text), 1
+        $scope.myTopic.tags.push $item.text
+      else if search
+        # add to topic tags
+        if $scope.myTopic.tags.indexOf(search)>-1
+          $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(search), 1
+        $scope.myTopic.tags.push search
+        # then add to tag library
+        $scope.tags.push
+          text: search
+
+    tags: [
+        text: 'dog'
+      ,
+        text: 'cat'
+      ,
+        text: 'mouse'
+    ]
 
     viewState: {}
 
