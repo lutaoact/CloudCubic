@@ -9,7 +9,7 @@
       name="form"
       role="form">
   <div class="form-group form-group-sm">
-    <label for="question-title" class="control-label">问题</label>
+    <label for="question-title" class="control-label">提干</label>
     <input class="form-control"
            id="question-title"
            type="text"
@@ -17,7 +17,7 @@
            focus-me="titleInputFocus"
            ng-init="titleInputFocus=true"
            ng-model="question.body"
-           placeholder="问题描述"
+           placeholder="请输入问题描述"
            required/>
     <div class="question-image" ng-repeat="imageKey in images">
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
@@ -109,6 +109,6 @@
             ng-click="cancel()">取消</button>
     <button type="submit"
             class="btn btn-danger btn-sm"
-            ng-click="save(question, form)">确认创建新习题</button>
+            ng-click="save(question, form)">保存</button>
   </div>
 </form>

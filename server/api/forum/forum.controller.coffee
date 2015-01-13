@@ -1,7 +1,7 @@
 'use strict'
 
 Forum = _u.getModel 'forum'
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
 exports.index = (req, res, next) ->
@@ -36,8 +36,25 @@ exports.destroy = (req, res, next) ->
 
 
 exports.topicsNum = (req, res, next) ->
-  DisTopic.getTopicsNumByForumId req.params.id
+  Topic.getTopicsNumByForumId req.params.id
   .then (num) ->
     res.send {count: num}
+  .catch next
+  .done()
+
+
+exports.tagsFreq = (req, res, next) ->
+  Topic.getAllByForumId req.params.id
+  .then (topics) ->
+    tagsFreq = {}
+    for topic in topics
+      for tag in topic.tags
+        tagsFreq[tag] ?= 0
+        tagsFreq[tag]++
+
+    result = (for text, freq of tagsFreq
+      text: text, freq: freq
+    )
+    res.send result
   .catch next
   .done()

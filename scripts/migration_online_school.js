@@ -22,7 +22,7 @@ db.courses.find().forEach(function(course) {
 db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
 
 //根据course的name字段，创建相同名称的forum
-//然后在dis_topics表中，删除courseId字段，并设置为相应的forumId的值
+//然后在topics表中，删除courseId字段，并设置为相应的forumId的值
 db.courses.find().forEach(function(course) {
   print("course.id: " + course._id + ", name: " + course.name)
   admin = db.users.findOne({role: 'admin', orgId: course.orgId});
@@ -31,7 +31,7 @@ db.courses.find().forEach(function(course) {
   //新建forum
   var forum = {
     postBy: admin._id,
-    name: course.name,
+    name: "来自课程-" + course.name,
     orgId: admin.orgId,
     categoryId: course.categoryId,
     logo: course.thumbnail,
@@ -47,16 +47,16 @@ db.courses.find().forEach(function(course) {
   //设置course的forumId
   db.courses.update({_id: course._id}, {$set: {forumId: forum._id}});
 
-  //给dis_topics设置forumId
-  db.dis_topics.update({courseId: course._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}}, {multi: true});
+  //给topics设置forumId
+  db.topics.update({courseId: course._id}, {$set: {forumId: forum._id}, $unset: {courseId: ''}}, {multi: true});
 });
 
 // 删除所有未包含orgId的forum
 db.forums.remove({orgId: null})
 
-//设置dis_topics的viewersNum字段，让其值等于viewers字段的元素个数
-db.dis_topics.find().forEach(function(disTopic) {
-  db.dis_topics.update({_id: disTopic._id}, {$set: {viewersNum: disTopic.viewers.length, commentsNum: disTopic.repliesNum}});
+//设置topics的viewersNum字段，让其值等于viewers字段的元素个数
+db.topics.find().forEach(function(topic) {
+  db.topics.update({_id: topic._id}, {$set: {viewersNum: topic.viewers.length, commentsNum: topic.repliesNum}});
 });
 
 
@@ -65,7 +65,7 @@ db.dis_replies.find().forEach(function(dis_reply){
     author: dis_reply.postBy,
     content: dis_reply.content,
     type: 1,
-    belongTo: dis_reply.disTopicId,
+    belongTo: dis_reply.topicId,
     likeUsers: dis_reply.voteUpUsers,
     tags: [],
     deleteFlag: false,

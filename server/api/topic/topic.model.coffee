@@ -6,8 +6,8 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.DisTopic = BaseModel.subclass
-  classname: 'DisTopic'
+exports.Topic = BaseModel.subclass
+  classname: 'Topic'
   populates:
     index: [
       path: 'postBy', select: 'name avatar'
@@ -35,13 +35,7 @@ exports.DisTopic = BaseModel.subclass
       content:
         type: String
         required: true
-      metadata: Schema.Types.Mixed
-#        images: [
-#          type: String
-#        ]
-#        tags: [
-#          type: String
-#        ]
+      tags: [ String ]
       commentsNum:
         type: Number
         default: 0
@@ -60,3 +54,6 @@ exports.DisTopic = BaseModel.subclass
 
   getTopicsNumByForumId: (forumId) ->
     return @countQ forumId: forumId
+
+  getAllByForumId: (forumId) ->
+    return @findQ forumId: forumId

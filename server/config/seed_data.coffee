@@ -8,7 +8,7 @@ classeId     = '4444444444444444444444%02d'
 lectureId    = '5555555555555555555555%02d'
 courseId     = '6666666666666666666666%02d'
 slideId      = '7777777777777777777777%02d'
-disTopicId   = '8888888888888888888888%02d'
+topicId   = '8888888888888888888888%02d'
 disReplyId   = '9999999999999999999999%02d'
 questionId   = 'aaaaaaaaaaaaaaaaaaaaaa%02d'
 quizAnswerId = 'bbbbbbbbbbbbbbbbbbbbbb%02d'
@@ -234,8 +234,8 @@ module.exports =
       _s.sprintf lectureId, 1
     ]
   ]
-  dis_topic: [
-    _id: _s.sprintf disTopicId, 0
+  topic: [
+    _id: _s.sprintf topicId, 0
     postBy: _s.sprintf userId, 3
     courseId: _s.sprintf courseId, 0
     lectureId: _s.sprintf lectureId, 0
@@ -247,7 +247,7 @@ module.exports =
       _s.sprintf userId, 4
     ]
   ,
-    _id: _s.sprintf disTopicId, 1
+    _id: _s.sprintf topicId, 1
     postBy: _s.sprintf userId, 4
     courseId: _s.sprintf courseId, 0
     lectureId: _s.sprintf lectureId, 0

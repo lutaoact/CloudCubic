@@ -1,7 +1,7 @@
 "use strict"
 
 express = require("express")
-controller = require("./dis_topic.controller")
+controller = require("./topic.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 

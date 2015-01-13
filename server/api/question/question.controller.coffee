@@ -43,26 +43,14 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  user = req.user
-  questionId = req.params.id
-  Question.findOneQ
-    _id: questionId
-    orgId: user.orgId
-  .then (question) ->
-    res.send question
-  , (err) ->
-    console.log err
-    next err
+  conditions = {_id: req.params.id, orgId: user.orgId}
+  WrapRequest.wrapShow req, res, next, conditions
 
 exports.create = (req, res, next) ->
-  body = req.body
-  body.orgId = req.user.orgId
-  delete body._id
-
-  Question.createQ body
-  .then (question) ->
-    res.json 201, question
-  , next
+  data = req.body
+  data.orgId = req.user.orgId
+  delete data._id
+  WrapRequest.wrapCreate req, res, next, data
 
 exports.update = (req, res, next) ->
   questionId = req.params.id

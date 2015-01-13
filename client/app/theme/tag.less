@@ -1,6 +1,6 @@
 
-.tag(@background: @gray-light;@foreground: #FFFFFF){
-  color: @foreground;
+.tag(@background: @gray-lighter;@foreground: @gray-light){
+  color: @foreground !important;
   background: @background;
   margin: 2px;
   max-width: 300px;
@@ -10,6 +10,13 @@
   .label();
   .text-overflow();
   font-size: 14px;
+  display: inline-block;
+  .close{
+    .transition();
+    font-size: 18px;
+    line-height: 0px;
+    float: none;
+  }
 }
 
 tag,

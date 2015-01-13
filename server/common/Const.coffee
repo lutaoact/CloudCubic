@@ -8,7 +8,7 @@ Const =
     LikeLectureComment: 4
 
     # comment related notices
-    DisTopicComment: 5
+    TopicComment: 5
     CourseComment: 6
     LectureComment: 7
     
@@ -16,19 +16,19 @@ Const =
     Lecture : 8
 
   CommentType:
-    DisTopic: 1
+    Topic: 1
     Course: 2
     Lecture: 3
     Teacher: 4
 
   CommentRef:
-    1: 'disTopic'
+    1: 'topic'
     2: 'course'
     3: 'lecture'
     4: 'user'
 
   CommentModelRef:
-    1: 'dis_topic'
+    1: 'topic'
     2: 'course'
     3: 'lecture'
     4: 'user'
@@ -61,7 +61,7 @@ Const =
 
   PageSize:
     Default: 10
-    DisTopic: 10
+    Topic: 10
     DisReply: 36
     Lecture: 30
     Course: 10

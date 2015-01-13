@@ -5,14 +5,14 @@ angular.module 'budweiserApp'
   genMessage = (raw)->
     switch raw.type
       when Const.NoticeType.LikeTopic
-        title: '赞了你的帖子：' + raw.data.disTopicId.title
+        title: '赞了你的帖子：' + raw.data.topicId.title
         raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.disTopicId._id}'})"
+        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
         type: 'message'
       when Const.NoticeType.LikeTopicComment
         title: '赞了你的回复：' + raw.data.commentId.content
         raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.disTopicId._id}'})"
+        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
         type: 'message'
       when Const.NoticeType.LikeCourseComment
         title: '赞了你的回复：' + raw.data.commentId.content
@@ -24,10 +24,10 @@ angular.module 'budweiserApp'
         raw: raw
         link: "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
         type: 'message'
-      when Const.NoticeType.DisTopicComment
-        title: '回复了你的帖子：' + raw.data.disTopicId.title
+      when Const.NoticeType.TopicComment
+        title: '回复了你的帖子：' + raw.data.topicId.title
         raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.disTopicId._id}'})"
+        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
         type: 'message'
       when Const.NoticeType.CourseComment
         title: '回复了你的课程：' + raw.data.courseId.name

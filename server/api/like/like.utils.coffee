@@ -1,7 +1,7 @@
 BaseUtils = require '../../common/BaseUtils'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
-DisTopic = _u.getModel 'dis_topic'
+Topic = _u.getModel 'topic'
 Course = _u.getModel 'course'
 
 buildLikeCommentArgs = (comment) ->
@@ -11,12 +11,12 @@ buildLikeCommentArgs = (comment) ->
       commentId : comment._id
   
   Q(switch comment.type
-      when Const.CommentType.DisTopic
+      when Const.CommentType.Topic
         result.noticeType = Const.NoticeType.LikeTopicComment
-        result.data.disTopicId = comment.belongTo
-        DisTopic.findByIdQ result.data.disTopicId
-        .then (disTopic)->
-          result.data.forumId = disTopic.forumId
+        result.data.topicId = comment.belongTo
+        Topic.findByIdQ result.data.topicId
+        .then (topic)->
+          result.data.forumId = topic.forumId
 
       when Const.CommentType.Course
         result.noticeType = Const.NoticeType.LikeCourseComment
@@ -66,8 +66,8 @@ class LikeUtils extends BaseUtils
     noticeType = null
     
     Q(switch targetName
-        when 'DisTopic'
-          data.disTopicId = doc._id
+        when 'Topic'
+          data.topicId = doc._id
           data.forumId = doc.forumId
           targetUserId = doc.postBy
           noticeType = Const.NoticeType.LikeTopic

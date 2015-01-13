@@ -26,7 +26,9 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       else
         $modalInstance.dismiss('close')
 
-    myTopic: {}
+    myTopic: {
+      tags: []
+    }
 
     onChange: (text, content)->
       content.$setValidity 'mongoose', text?
@@ -35,10 +37,10 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       $scope.submitted = true
       if !form.$valid then return
       $scope.errors = null
-      Restangular.all('dis_topics').post @myTopic, {forumId: $state.params.forumId}
-      .then (dis_topic)->
+      Restangular.all('topics').post @myTopic, {forumId: $state.params.forumId}
+      .then (topic)->
         $scope.imagesToInsert = undefined
-        $modalInstance.close dis_topic
+        $modalInstance.close topic
       , (err) ->
         err = err.data
         $scope.errors = {}
@@ -50,7 +52,29 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
 
+    addTag: ($item, search)->
+      if $item
+        if $scope.myTopic.tags.indexOf($item.text)>-1
+          $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf($item.text), 1
+        $scope.myTopic.tags.push $item.text
+      else if search
+        # add to topic tags
+        if $scope.myTopic.tags.indexOf(search)>-1
+          $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(search), 1
+        $scope.myTopic.tags.push search
+        # then add to tag library
+        $scope.tags.push
+          text: search
+
+    tags: [
+        text: 'dog'
+      ,
+        text: 'cat'
+      ,
+        text: 'mouse'
+    ]
+
     viewState: {}
 
     deleteTag: (tag)->
-      $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
+      $scope.myTopic.tags.splice $scope.myTopic.tags.indexOf(tag), 1

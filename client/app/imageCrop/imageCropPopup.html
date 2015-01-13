@@ -1,7 +1,11 @@
-<div class="modal-header image-crop">
-  <h3 class="modal-title">图片上传</h3>
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-cut"></i>
+    调整图片的位置和尺寸
+  </h4>
+  <a class="close" ng-click="cancel()">&times;</a>
 </div>
-<div class="modal-body image-crop">
+<div class="modal-body">
   <div class="row">
     <div class="col-md-12">
       <div class="bud thumbnail">
@@ -31,9 +35,15 @@
       </div>
     </div>
   </div>
-</div>
-<div class="modal-footer image-crop">
-  <button class="btn btn-primary" ng-click="confirm()"
-  ng-disabled="!files">插入</button>
-  <button class="btn btn-warning" ng-click="close()">关闭</button>
+  <div class="modal-footer">
+    <button class="btn btn-default btn-sm" 
+            ng-click="cancel()">
+      取消
+    </button>
+    <button class="btn btn-danger btn-sm" 
+            ng-click="confirm()"
+            ng-disabled="!files">
+      应用
+    </button>
+  </div>
 </div>

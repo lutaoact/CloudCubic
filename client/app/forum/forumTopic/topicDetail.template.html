@@ -18,9 +18,6 @@
                 {{topic.postBy.name}}
               </span>
               <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
-              <span class="topic-type base-color">
-                {{topic.metadata.postType||'提问'}}
-              </span>
             </span>
             <span class="status">
               <i class="fa fa-eye"></i>
@@ -35,10 +32,10 @@
       </div>
 
       <div class="article-body">
-        <div class="clearfix title-row tags-bar" ng-if="topic.metadata.tags.length">
+        <div class="clearfix title-row tags-bar" ng-if="topic.tags.length">
           <div class="title-row-header">标签<hr></div>
           <div class="view-section all-tags clearfix">
-            <a href class="tag pull-left" ng-repeat="tag in topic.metadata.tags" tooltip="{{tag.name}}">{{tag.name}}</a>
+            <a href class="tag pull-left" ng-repeat="tag in topic.tags" tooltip="{{tag.name}}">{{tag.name}}</a>
           </div>
           <hr>
         </div>

@@ -10,7 +10,7 @@ populateCommon = [
 ,
   path: 'data.lectureId', select: 'name'
 ,
-  path: 'data.disTopicId', select: 'title'
+  path: 'data.topicId', select: 'title'
 ,
   path: 'data.courseId', select: 'name'
 ,
@@ -42,9 +42,9 @@ exports.Notice = BaseModel.subclass
         lectureId:
            type: ObjectId
            ref: 'lecture'
-        disTopicId:
+        topicId:
            type: ObjectId
-           ref: 'dis_topic'
+           ref: 'topic'
         classeId:
           type : ObjectId
           ref : 'classe'

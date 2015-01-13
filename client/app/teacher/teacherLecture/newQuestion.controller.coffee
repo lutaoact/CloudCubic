@@ -43,7 +43,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       $modalInstance.dismiss('cancel')
     save: (question, form) ->
       unless form.$valid then return
-      question.keyPoints = _.map($scope.selectedKeyPoints, (k) -> k._id)
+      question.keyPoints = _.pluck($scope.selectedKeyPoints, '_id')
       question.body += _.reduce $scope.images, (result, image) ->
         result += """<img src='#{image}' class='question-image'>"""
         result
