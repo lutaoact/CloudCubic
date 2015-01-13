@@ -41,3 +41,19 @@ exports.topicsNum = (req, res, next) ->
     res.send {count: num}
   .catch next
   .done()
+
+
+exports.tagsFreq = (req, res, next) ->
+  Topic.getAllByForumId req.params.id
+  .then (topics) ->
+    tagsFreq = {}
+    for topic in topics
+      for tag in topic.tags
+        tagsFreq[tag] ?= 0
+        tagsFreq[tag]++
+
+    return tagsFreq
+  .then (tagsFreq) ->
+    res.send tagsFreq
+  .catch next
+  .done()
