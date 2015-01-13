@@ -70,8 +70,8 @@
           <div class="tag" ng-show="topic.tags.length">
             标签
           </div>
-          <span class="comma-split" ng-repeat="tag in topic.tags" href="{{tag.type}}" src="{{tag.srcId}}">
-            {{tag.name}}
+          <span class="comma-split" ng-repeat="tag in topic.tags">
+            {{tag}}
           </span>
         </div>
       </div>

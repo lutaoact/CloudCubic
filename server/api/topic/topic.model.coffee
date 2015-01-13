@@ -56,4 +56,4 @@ exports.Topic = BaseModel.subclass
     return @countQ forumId: forumId
 
   getAllByForumId: (forumId) ->
-    return @find forumId: forumId
+    return @findQ forumId: forumId

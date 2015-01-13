@@ -76,6 +76,10 @@ angular.module('budweiserApp')
         topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.commentsNum * 10 + topic.likeUsers.length * 10
         $scope.topics.splice 0, 0, topic
 
+  Restangular.one('forums',$state.params.forumId).one('tagsFreq','').get()
+  .then (tagsFreq)->
+    console.log tagsFreq
+
   $scope.$watch 'topics', (value)->
     # pull out the tags in content
     if value?.length
