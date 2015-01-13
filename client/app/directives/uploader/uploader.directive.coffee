@@ -56,6 +56,7 @@ angular.module('budweiserApp')
         $modal.open
           templateUrl: 'app/imageCrop/imageCropPopup.html'
           controller: 'ImageCropPopupCtrl'
+          windowClass: 'image-crop-modal'
           resolve:
             files: -> files
             options: ->

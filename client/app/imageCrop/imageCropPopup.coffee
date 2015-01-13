@@ -9,12 +9,12 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
   $sce
 ) ->
   angular.extend $scope,
-    close: ->
-      $modalInstance.dismiss('close')
-
     viewState: {}
 
     files: files
+
+    cancel: ->
+      $modalInstance.dismiss('cancel')
 
     onFileSelect: ($event, files)->
       if not files?.length
