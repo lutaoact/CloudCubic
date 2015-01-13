@@ -44,7 +44,7 @@ exports.show = (req, res, next) ->
       return Q.reject
         status: 403
         errCode: ErrCode.NotFreeLecture
-        errMsg: '未登录用户无法查看非免费课时'
+        errMsg: '未登录用户无法查看收费课时'
 
     LectureUtils.checkAuthForLecture req.user, lecture
   .then (lecture) ->

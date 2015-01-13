@@ -134,13 +134,19 @@ angular.module('budweiserApp')
 
   $scope.$watch 'lecture', ->
     if !$scope.lecture then return
+
+    for question in $scope.lecture?.homeworks
+      question.$notAnswered = false
+
+    if $scope.lecture.$isFreeTryOnly
+      $scope.setQuestionType('homeworks')
+      return
+
     Restangular.all('key_points').getList()
     .then (keyPoints) ->
       $scope.keyPoints = keyPoints
     Restangular.all('homework_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
-      for question in $scope.lecture?.homeworks
-          question.$notAnswered = false
       if answers.length > 0
         # TODO: api only return the object
         # check null

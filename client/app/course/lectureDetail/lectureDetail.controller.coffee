@@ -130,6 +130,11 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         ]
       if lecture.externalMedia
         lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
+
+      enrolled = $scope.classe.students.indexOf($scope.me?._id)
+      if (enrolled == -1) && (lecture.isFreeTry == true)
+        $scope.lecture.$isFreeTryOnly = true
+
       # If student stay over 5 seconds. Send view lecture event.
       handleViewEvent = $timeout ->
         Restangular.all('activities').post

@@ -20,27 +20,29 @@ exports.index = (req, res, next) ->
   # check if user has access to the given lecture
   LectureUtils.getAuthedLectureById req.user, lectureId
   .then (lecture) ->
-  switch role
-    when 'teacher'
-      questionId = req.query.questionId # only teacher needs question ID
-      QuizAnswer.find
-        lectureId : lectureId
-        questionId : questionId
-      .populate 'userId', '_id, name, email'
-      .execQ()
-      .then (answers) ->
-        res.send answers
-      , next
-    when 'student'
-      conditions = lectureId : lectureId, userId : req.user.id
-      conditions.created = { $gt: new Date(req.query.created) } if req.query.created?
+    switch role
+      when 'teacher'
+        questionId = req.query.questionId # only teacher needs question ID
+        QuizAnswer.find
+          lectureId : lectureId
+          questionId : questionId
+        .populate 'userId', '_id, name, email'
+        .execQ()
+        .then (answers) ->
+          res.send answers
+        , next
+      when 'student'
+        conditions = lectureId : lectureId, userId : req.user.id
+        conditions.created = { $gt: new Date(req.query.created) } if req.query.created?
 
-      QuizAnswer.findQ conditions
-      .then (answers) ->
-        res.send answers
-      , next
-    else
-      res.send 404
+        QuizAnswer.findQ conditions
+        .then (answers) ->
+          res.send answers
+        , next
+      else
+        res.send 404
+  .catch next
+  .done()
 
 
 exports.show = (req, res, next) ->

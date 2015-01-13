@@ -3,7 +3,7 @@
        id="lecture-question">
     <div class="lecture-nav-tabs">
       <a ng-click="setQuestionType('quizzes')"
-         ng-if="lecture.quizzes.$submitted"
+         ng-if="lecture.quizzes.$submitted && !lecture.$isFreeTryOnly"
          ng-class="{'selected':lecture.quizzes.$active}"
          class="btn btn-default"
          du-smooth-scroll
@@ -70,14 +70,16 @@
       </div>
 
     </div>
-    <button type="button"
-            ng-show="displayQuestions==lecture.homeworks"
-            ng-disabled="displayQuestions.$submitted"
-            class="pull-right submit-btn btn btn-danger"
-            ng-click="submitAnswer()">
-      <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
-      <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
-    </button>
+    <div class="pull-right" tooltip="{{lecture.$isFreeTryOnly ? '参加课程后才能提交课后作业' : ''}}">
+      <button type="button"
+              ng-show="displayQuestions==lecture.homeworks"
+              ng-disabled="displayQuestions.$submitted || lecture.$isFreeTryOnly"
+              class="btn btn-danger"
+              ng-click="submitAnswer()">
+        <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
+        <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
+      </button>
+    </div>
     <pager
       total-items="displayQuestions.length"
       items-per-page="viewState.pageSize"
@@ -132,8 +134,11 @@
         <label for="descInput" class="base-color">留言</label>
         <textarea id="descInput" placeholder="输入留言内容..." class="form-control bud-editor-input" ng-model="offlineWork.desc" ng-disabled="offlineWork.submitted"></textarea>
       </div>
-      <div class="form-group pull-right">
-        <button type="submit" class="btn btn-danger rounded" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
+      <div class="form-group pull-right" tooltip="{{lecture.$isFreeTryOnly ? '参加课程后才能交作业' : ''}}">
+        <button type="submit" class="btn btn-danger rounded"
+                ng-disabled="offlineWork.submitted || lecture.$isFreeTryOnly">
+          {{offlineWork.submitted?'已提交':'交作业'}}
+        </button>
       </div>
     </form>
 

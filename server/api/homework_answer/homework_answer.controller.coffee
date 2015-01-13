@@ -37,6 +37,8 @@ exports.index = (req, res, next) ->
         , next
       else
         res.send 404
+  .catch next
+  .done()
 
 
 exports.show = (req, res, next) ->
