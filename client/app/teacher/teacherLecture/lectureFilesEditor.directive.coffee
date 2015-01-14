@@ -13,13 +13,13 @@ angular.module 'budweiserApp'
 
 .controller 'LectureFilesEditorCtrl', (
   $scope
-  $modal
   notify
+  configs
   $filter
   $window
   $timeout
   Restangular
-  configs
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -31,14 +31,9 @@ angular.module 'budweiserApp'
       slideActiveIndex: 0
 
     removeSlide: (index) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> '删除讲义页面'
-          message: -> """确认要删除"#{$scope.lecture.name}"中讲义的第#{index+1}页？"""
+      messageModal.open
+        title: -> '删除讲义页面'
+        message: -> """确认要删除"#{$scope.lecture.name}"中讲义的第#{index+1}页？"""
       .result.then ->
         $scope.selectedFile.fileContent.splice(index, 1)
         Restangular.one('lectures', $scope.lecture._id)
@@ -50,14 +45,9 @@ angular.module 'budweiserApp'
       .patch?(files:$scope.lecture.files)
       .then (lecture) -> $scope.onUpdate?($lecture:lecture)
     removeFile: ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> '删除课时讲义'
-          message: -> """确认要删除"#{$scope.lecture.name}"的讲义？"""
+      messageModal.open
+        title: -> '删除课时讲义'
+        message: -> """确认要删除"#{$scope.lecture.name}"的讲义？"""
       .result.then ->
         index = $scope.lecture.files.indexOf($scope.selectedFile)
         $scope.lecture.files.splice(index, 1)

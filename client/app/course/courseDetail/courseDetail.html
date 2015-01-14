@@ -19,14 +19,17 @@
                   开课日期
                 </div>
                 <div>
-                  {{(classe.duration.from | date: 'yyyy.MM.dd') || '待定'}}-{{(classe.duration.to | date: 'yyyy.MM.dd') || '待定'}}
+                  {{(classe.duration.from | date: 'yyyy.MM.dd') || '待定'}}
+                  -
+                  {{(classe.duration.to | date: 'yyyy.MM.dd') || '待定'}}
                 </div>
               </div>
               <div class="col-xs-6 schedules">
                 <div class="text-muted">
                   上课时间
                 </div>
-                <div class="schedules-summary" title="{{classe.schedules|scheduleSummary}}">
+                <div class="schedules-summary" 
+                     title="{{classe.schedules|scheduleSummary}}">
                   {{classe.schedules|scheduleSummary}}
                 </div>
               </div>
@@ -121,8 +124,12 @@
         </div>
       </div>
 
-      <div class="list-group-item desc" ng-show="courseTab.type=='comments'">
-        <comments belong-to="course._id" extra="{classeId: classe._id}" type="2" active-comment="dataId">
+      <div class="list-group-item desc" 
+           ng-show="courseTab.type=='comments'">
+        <comments belong-to="course._id" 
+                  extra="{classeId: classe._id}" 
+                  type="2" 
+                  active-comment="dataId">
         </comments>
       </div>
 
@@ -164,11 +171,11 @@
     </div>
 
     <pager ng-hide="course.lectureAssembly.length <= itemsPerPage"
-      total-items="course.lectureAssembly.length"
-      items-per-page="itemsPerPage"
-      align="false"
-      class="bud"
-      ng-model="currentPage">
+           total-items="course.lectureAssembly.length"
+           items-per-page="itemsPerPage"
+           align="false"
+           class="bud"
+           ng-model="currentPage">
     </pager>
   </div>
 

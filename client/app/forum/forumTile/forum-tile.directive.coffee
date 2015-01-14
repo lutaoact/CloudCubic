@@ -7,7 +7,7 @@ angular.module('budweiserApp').directive 'forumTile', ()->
   scope:
     forum: '='
 
-  controller: ($scope, Auth, $modal, $http)->
+  controller: ($scope, Auth, $modal, $http, messageModal)->
     angular.extend $scope,
       getMe: Auth.getCurrentUser
 
@@ -27,13 +27,9 @@ angular.module('budweiserApp').directive 'forumTile', ()->
 
       deleteForum: (forum)->
         forum = $scope.forum
-        $modal.open
-          templateUrl: 'components/modal/messageModal.html'
-          controller: 'MessageModalCtrl'
-          windowClass: 'message-modal'
-          resolve:
-            title: -> '删除讨论组'
-            message: -> "确认要删除《#{forum.name}》？"
+        messageModal.open
+          title: -> '删除讨论组'
+          message: -> "确认要删除《#{forum.name}》？"
         .result.then ->
           forum.remove()
         .then ->

@@ -27,6 +27,7 @@ angular.module('budweiserApp')
   $filter
   fileUtils
   Restangular
+  messageModal
   $rootScope
 ) ->
 
@@ -85,26 +86,33 @@ angular.module('budweiserApp')
       updateSelected()
 
     removeUsers: (users) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'AdvanceMessageModalCtrl'
-        windowClass: 'message-modal'
-        size: 'sm'
-        resolve:
-          title: -> "删除#{$scope.roleTitle}"
-          message: -> """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
-          buttons: ->
-            if _.isEmpty($scope.classe?._id)
-              ['确认']
-            else
-              ['系统中删除', '该组中删除']
-      .result.then (index) ->
+      messageModal.open
+        title: -> "删除#{$scope.roleTitle}"
+        message: -> """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
+        buttons: ->
+          if _.isEmpty($scope.classe?._id)
+            [
+              label: '取消', code: 'cancel', class: 'btn-default'
+            ,
+              label: '确认', code: 'ok',     class: 'btn-danger'
+            ]
+          else
+            [
+              label: '取消'       , code: 'cancel' , class: 'btn-default'
+            ,
+              label: '系统中删除' , code: 'ok'     , class: 'btn-danger'
+            ,
+              label: '该组中删除' , code: 'classe' , class: 'btn-danger'
+            ]
+      .result.then (code) ->
         $scope.toggledSelectAllUsers = false if $scope.toggledSelectAllUsers
         $scope.viewState.deleting = true
         (
-          if index == 0
+          if code == 'ok'
             # 从系统中删除
-            Restangular.all('users').customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
+            Restangular
+            .all('users')
+            .customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
             .then (result) ->
               $rootScope.$broadcast "removeUsersFromSystem", result
           else
@@ -113,7 +121,7 @@ angular.module('budweiserApp')
             $scope.classe.patch(students: _.pluck newUsers, '_id')
         )
         .finally ->
-          $scope.onRemoveUser?($data:users, $remove:index)
+          $scope.onRemoveUser?($data:users)
           $scope.viewState.deleting = false
 
 

@@ -18,6 +18,7 @@ angular.module('budweiserApp')
   $modal
   $rootScope
   Restangular
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -43,17 +44,13 @@ angular.module('budweiserApp')
       $scope.searchQuestions()
 
     removeQuestion: (question = null) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除题库中的问题'
-          message: ->
-            if question?
-              """确认要删除题库中的问题？"""
-            else
-              """确认要删除题库中的这#{$scope.getSelectedNum()}个问题？"""
+      messageModal.open
+        title: -> '删除题库中的问题'
+        message: ->
+          if question?
+            """确认要删除题库中的问题？"""
+          else
+            """确认要删除题库中的这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->
         questions = $scope.questions
         $scope.selectedAll = false if $scope.selectedAll
