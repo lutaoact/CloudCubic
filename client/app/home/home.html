@@ -71,7 +71,7 @@
               <h4>{{viewState.filterCategory.name || '全部'}}</h4>
             </div>
             <div class="col-md-4 col-sm-6 text-center"
-                 ng-if="Auth.hasRole('teacher')">
+                 ng-if="Auth.hasRole('teacher') && getListData().length">
               <button type="button"
                       class="btn btn-default new-course-btn"
                       ng-click="createNewCourse()">
@@ -79,6 +79,19 @@
                 <label>添加新课程</label>
                 <i class="plus">+</i>
               </button>
+            </div>
+            <div class="col-md-12 col-sm-12 text-center empty-course text-muted" 
+                 ng-if="!getListData().length">
+              <span ng-if="Auth.hasRole('teacher')">
+                <i class="budon budon-course-classe"></i>
+                您还没有添加课程，请点击
+                <a href ng-click="createNewCourse()">添加新课程</a>
+                添加。
+              </span>
+              <span ng-if="!Auth.hasRole('teacher')">
+                <i class="budon budon-course-classe"></i>
+                您还没有加入课程
+              </span>
             </div>
             <div class="col-md-4 col-sm-6"
                  ng-repeat="data in getListData()|filter:viewState.filterCategory._id">
