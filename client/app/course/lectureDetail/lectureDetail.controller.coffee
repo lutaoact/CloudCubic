@@ -22,7 +22,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 ) ->
 
   angular.extend $scope,
-    me: Auth.getCurrentUser()
+    getCurrentUser: Auth.getCurrentUser
     lecture: null
     selectedFile: null
 
@@ -59,9 +59,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       $scope.currentTime = now
       # store current time in local storage
       # localStorage.:userId.lectures.:lectureId.videoPlayTime
-      $localStorage[$scope.me._id] ?= {}
-      $localStorage[$scope.me._id]['lectures'] ?= {}
-      lectureState = $localStorage[$scope.me._id]['lectures'][$state.params.lectureId] ?= {}
+      $localStorage[$scope.getCurrentUser()._id] ?= {}
+      $localStorage[$scope.getCurrentUser()._id]['lectures'] ?= {}
+      lectureState = $localStorage[$scope.getCurrentUser()._id]['lectures'][$state.params.lectureId] ?= {}
       lectureState.videoPlayTime = $scope.currentTime
 
     mediaPlayerAPI: undefined
@@ -69,7 +69,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     onPlayerReady: (playerAPI) ->
       if playerAPI.isReady
         $scope.mediaPlayerAPI = playerAPI
-        timestamp = $localStorage[$scope.me._id]?['lectures']?[$state.params.lectureId]?.videoPlayTime
+        timestamp = $localStorage[$scope.getCurrentUser()._id]?['lectures']?[$state.params.lectureId]?.videoPlayTime
         if timestamp
           playerAPI.seekTime timestamp
 
@@ -131,25 +131,31 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       if lecture.externalMedia
         lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
 
-      enrolled = $scope.classe.students.indexOf($scope.me?._id)
+      enrolled = $scope.classe.students.indexOf($scope.getCurrentUser()?._id)
       if (enrolled == -1) && (lecture.isFreeTry == true)
         $scope.lecture.$isFreeTryOnly = true
 
-      # If student stay over 5 seconds. Send view lecture event.
-      handleViewEvent = $timeout ->
+
+  postActivity = (user)->
+    # If student stay over 5 seconds. Send view lecture event.
+    handleViewEvent = $timeout ->
+      if user.role == 'student'
         Restangular.all('activities').post
           eventType: Const.Student.ViewLecture
           data:
             lectureId: $scope.lecture._id
             courseId: $scope.course._id
-      , 5000
-      $scope.$on '$destroy', ()->
-        $timeout.cancel handleViewEvent
-      $scope.lecture
+    , 5000
+    $scope.$on '$destroy', ()->
+      $timeout.cancel handleViewEvent
 
-  loadLecture()
 
   # scroll to content-view after document ready
   $document.ready ->
     #$document.scrollToElement(ele, 60, 2000)
     $document.scrollTo(0, 80, 2000)
+
+
+  $scope.$watch Auth.getCurrentUser, (user)->
+    loadLecture()
+    postActivity(user)

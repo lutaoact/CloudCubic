@@ -23,7 +23,7 @@ angular.module('budweiserApp')
     fileSizeLimitation: configs.fileSizeLimitation
     displayQuestions: []
     questionsType: 'quizzes'
-    me: Auth.getCurrentUser()
+    getCurrentUser: Auth.getCurrentUser
     viewState:
       pageSize: 10
       currentPage:
@@ -31,14 +31,16 @@ angular.module('budweiserApp')
         homeworks: 1
 
     getSubmitBtnToolTip: ->
-      if $scope.me.role == 'teacher'
+#      console.log 'getSubmitBtnToolTip'
+#      console.log $scope.lecture?.$isFreeTryOnly
+      if $scope.getCurrentUser().role == 'teacher'
         return "教师不能提交作业"
-      else if $scope.me.role == 'admin'
+      else if $scope.getCurrentUser().role == 'admin'
         return "管理员不能提交作业"
-      else if $scope.lecture.$isFreeTryOnly
+      else if $scope.lecture?.$isFreeTryOnly
         return '参加课程后才能提交作业'
       else
-        return null
+        return ''
 
     setQuestionType: (type) ->
       $scope.offlineWorksShown = false
