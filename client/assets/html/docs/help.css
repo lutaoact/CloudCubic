@@ -1,3 +1,6 @@
+html{
+  min-width: 800px;
+}
 body{
   background: rgb(244,244,244);
 }
@@ -8,11 +11,15 @@ body{
 
 .toc{
   width: 30%;
-  top: 100px;
+  top: 50px;
   position: fixed;
-  bottom: 30px;
+  bottom: 0;
+  background: rgb(244,244,244);
   overflow: auto;
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
+
 li{
   list-style: none;
 }
@@ -26,9 +33,10 @@ ul{
 .main{
   margin-left: 30%;
   margin-bottom: 40px;
-  margin-top: 100px;
+  margin-top: 70px;
   width: calc(70% - 30px);
-  max-width: 700px;
+  max-width: 1000px;
+
   padding: 15px;
   box-shadow: 0 0 1px #999;
   -webkit-box-shadow: 0 0 1px #999;
