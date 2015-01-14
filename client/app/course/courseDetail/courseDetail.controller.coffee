@@ -10,6 +10,7 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   Category
   $rootScope
   Restangular
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -38,7 +39,11 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 
     viewLecture: (lecture) ->
       checkPermission = (done) ->
-        if lecture.isFreeTry then return done()
+        # 如果是试用课时或者免费班级或者管理员可以直接看课时
+        if lecture.isFreeTry or
+           $scope.classe.price is 0 or
+           Auth.hasRole('admin')
+          return done()
         # 如果没有登录
         if !Auth.isLoggedIn()
           $modal.open
@@ -46,29 +51,31 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
             controller: 'loginModalCtrl'
             windowClass: 'login-window-modal'
             size: 'md'
-          .result.then checkPermission
+          .result.then -> checkPermission(done)
           return
-        # 如果登录用户不是学生
-        if Auth.hasRole('teacher')
-          $modal.open
-            templateUrl: 'components/modal/messageModal.html'
-            windowClass: 'message-modal'
-            controller: 'MessageModalCtrl'
-            size: 'sm'
-            resolve:
-              title: -> '无权查看收费课时'
-              message: -> "请先登录学生账户查看收费课时"
-          return
-        # 如果登录用户没有购买
-        if $scope.classe.students.indexOf(Auth.getCurrentUser()._id) is -1
-          $modal.open
-            templateUrl: 'components/modal/messageModal.html'
-            windowClass: 'message-modal'
-            controller: 'MessageModalCtrl'
-            size: 'sm'
-            resolve:
-              title: -> '无权查看收费课时'
-              message: -> "请先购买或参加该课程"
+        # 如果登录的用户不是course的owner或者不是classe的teacher
+        # 如果登录用户没有购买或者参加
+        currentUser = Auth.getCurrentUser()._id
+        isOwnerOrTeacher = _.find(_.union($scope.classe.teachers, $scope.course.owners), _id:currentUser)
+        isUserInClasse   = $scope.classe.students.indexOf(currentUser) >= 0
+        if !isOwnerOrTeacher and !isUserInClasse
+          messageModal.open
+            title: -> "无权查看此课时"
+            message: -> """您还不能查看此收费课时，请先购买课程 “#{$scope.classe.name}”"""
+            # 消息按钮可选，默认是：取消 确认
+            buttons: -> [
+              label: '取消'      , code: 'cancel'    , class: 'btn-default'
+            ,
+              label: '直接购买'  , code: 'buyNow'    , class: 'btn-primary'
+            ,
+              label: '加入购物车', code: 'addToCart' , class: 'btn-primary'
+            ]
+          .result.then (actionCode) ->
+            switch actionCode
+              when 'buyNow'
+                $scope.makeOrder($scope.classe)
+              when 'addToCart'
+                $scope.addToCart($scope.classe)
           return
         done()
 

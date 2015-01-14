@@ -14,7 +14,7 @@ angular.module('budweiserApp')
 
     eidtingInfo: null
 
-    reloadStudents: (users, remove) ->
+    reloadStudents: (users) ->
       $scope.selectedClasse?.all?('students').getList()
       .then (students) ->
         $scope.selectedClasse.students = _.pluck students, '_id'

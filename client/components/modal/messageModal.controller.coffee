@@ -1,39 +1,37 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MessageModalCtrl', (
-  title
-  $scope
-  message
-  $modalInstance
-) ->
-  angular.extend $scope,
-    title: title
-    buttons: ['确认']
-    message: message
-    confirmButtonFocus: []
-    cancel: ->
-      $modalInstance.dismiss()
-    confirm: (confirmIndex) ->
-      $modalInstance.close(confirmIndex)
+angular.module('budweiserApp')
 
-angular.module('budweiserApp').controller 'AdvanceMessageModalCtrl', (
+.factory 'messageModal', ($modal) ->
+  open: (resolve) ->
+    $modal.open
+      templateUrl: 'components/modal/messageModal.html'
+      windowClass: 'message-modal'
+      controller: 'MessageModalCtrl'
+      size: 'sm'
+      resolve:
+        title: resolve.title
+        message: resolve.message
+        buttons: resolve.buttons ? -> [
+          label: '取消' , code: 'cancel' , class: 'btn-default'
+        ,
+          label: '确认' , code: 'ok'     , class: 'btn-danger'
+        ]
+
+.controller 'MessageModalCtrl', (
   title
   $scope
   message
   buttons
-  $controller
   $modalInstance
 ) ->
-
-  # extend controller MessageModalCtrl
-  angular.extend @, $controller('MessageModalCtrl',
-    $scope: $scope
-    title: title
-    message: message
-    $modalInstance: $modalInstance
-  )
-
-  # override the buttons property
   angular.extend $scope,
-    buttons: buttons
+    title   : title
+    buttons : buttons
+    message : message
 
+    close: (code) ->
+      if code is 'cancel'
+        $modalInstance.dismiss('cancel')
+      else
+        $modalInstance.close(code)

@@ -11,7 +11,10 @@
       <div class="col-md-3 left-side">
         <div class="left-side-top">
           <h4>
-            {{course.name}}
+            <a href="" ui-sref="teacher.courseStats.all({courseid: course._id})">
+              {{course.name}}
+            </a>
+            <i class="fa fa-question-circle hint" tooltip-placement="right" tooltip="点击课程名查看课程的统计，点击班级或学生查看班级或学生的统计。"></i>
           </h4>
           <div class="clearfix status-bar">
             <div class="pull-left status">
@@ -22,15 +25,11 @@
             </div>
             <div class="pull-left status">
               <div class="text-primary">
-                {{classes.length}}
+                {{calculateStudentsCount()}}
               </div>
               学生
             </div>
-            <div class="pull-right">
-              <a class="rounded btn btn-sm btn-danger" ui-sref="teacher.courseStats.all({courseid: course._id})">
-                课程统计
-              </a>
-            </div>
+
           </div>
         </div>
         <student-list classes="classes"

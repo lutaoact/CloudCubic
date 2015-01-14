@@ -7,7 +7,6 @@ angular.module('budweiserApp')
   $http
   $scope
   $state
-  $modal
   notify
   Navbar
   $filter
@@ -15,6 +14,7 @@ angular.module('budweiserApp')
   KeyPoints
   $rootScope
   Restangular
+  messageModal
 ) ->
 
   Restangular
@@ -75,13 +75,9 @@ angular.module('budweiserApp')
 
     deleteLecture: ->
       lecture = $scope.lecture
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课时'
-          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
+      messageModal.open
+        title: -> '删除课时'
+        message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
       .result.then ->
         $scope.deleting = true
         $scope.lecture.remove(courseId:$scope.course._id)
@@ -117,13 +113,9 @@ angular.module('budweiserApp')
           classes:'alert-success'
 
     removeMedia: ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课时视频'
-          message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
+      messageModal.open
+        title: -> '删除课时视频'
+        message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
         $scope.lecture.externalMedia = null

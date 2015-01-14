@@ -12,7 +12,7 @@ angular.module('budweiserApp')
     onTopicClick: '&'
     onTagClick: '&'
 
-.controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state)->
+.controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state, messageModal)->
 
   angular.extend $scope,
     selectTopic: (topic)->
@@ -34,13 +34,9 @@ angular.module('budweiserApp')
 
     deleteTopic: (topic, $event)->
       $event?.stopPropagation()
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除帖子'
-          message: -> "是否要删除您的帖子：\"#{topic.title}\"，删除后将无法恢复！"
+      messageModal.open
+        title: -> '删除帖子'
+        message: -> "是否要删除您的帖子：\"#{topic.title}\"，删除后将无法恢复！"
       .result.then ->
         topic.remove()
         .then ()->

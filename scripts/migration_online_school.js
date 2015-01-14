@@ -11,18 +11,31 @@ db.courses.find().forEach(function(course) {
   db.courses.update({_id: course._id}, {$set: {orgId: category.orgId}});
 });
 
-//根据course中classes的值，给相应的classe加上courseId字段
-db.courses.find().forEach(function(course) {
-  print("course.id: " + course._id)
-  if (course.classes && course.classes.length) {
-    db.classes.find({_id: {$in: course.classes}}).forEach(function(classe) {
-      print("\tclasse._id: " + classe._id + ", classe.name: " +  classe.name);
-      db.classes.update({_id: classe._id}, {$set: {courseId: course._id}});
-    });
-    print("\n");
+print("migrating classe data...")
+db.classes.find().forEach(function(classe){
+  print("classe.id: " + classe._id);
+  var courses = db.courses.find({"classes" : classe._id});
+  
+  if(courses != null && courses.length() > 0) {
+    // set classe's courseId for first course
+    print("course id: " + courses[0]._id);
+    db.classes.update({_id: classe._id}, {$set: {courseId: courses[0]._id}});
+
+    // clone classes for other courses and set courseId for each copy
+    delete classe._id;
+    for (var i = 1; i < courses.length(); i++) {
+      print("course id: " + courses[i]._id);
+      classe.courseId = courses[i]._id;
+      db.classes.insert(classe);
+    }
   }
 });
+print("migrating classe data completed")
+
+// unset classes field 
+print("unset classes for course...")
 db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
+
 
 //重命名dis_topics为topics
 db.dis_topics.renameCollection('topics');
@@ -95,3 +108,6 @@ db.courses.find().forEach(function(course) {
 db.schedules.find().forEach(function(schedule) {
   db.classes.update({_id: schedule.classe}, {$push: {schedules: {'start': schedule.start, 'end': schedule.end, 'until': schedule.until}}});
 });
+
+// remove all notices
+db.notices.remove({})
