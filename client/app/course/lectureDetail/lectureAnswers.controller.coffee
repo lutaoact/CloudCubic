@@ -16,17 +16,29 @@ angular.module('budweiserApp')
   Restangular
   configs
   notify
+  Auth
 ) ->
 
   angular.extend $scope,
     fileSizeLimitation: configs.fileSizeLimitation
     displayQuestions: []
     questionsType: 'quizzes'
+    me: Auth.getCurrentUser()
     viewState:
       pageSize: 10
       currentPage:
         quizzes: 1
         homeworks: 1
+
+    getSubmitBtnToolTip: ->
+      if $scope.me.role == 'teacher'
+        return "教师不能提交作业"
+      else if $scope.me.role == 'admin'
+        return "管理员不能提交作业"
+      else if $scope.lecture.$isFreeTryOnly
+        return '参加课程后才能提交作业'
+      else
+        return null
 
     setQuestionType: (type) ->
       $scope.offlineWorksShown = false
