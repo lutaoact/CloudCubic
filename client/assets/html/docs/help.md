@@ -17,9 +17,6 @@
       </a>
     </div>
     <ul class="nav navbar-nav navbar-left">
-      <li>
-        <a href="//www.cloud3edu.cn/blog" target="blank">博客</a>
-      </li>
       <li class="active">
         <a href="#" >帮助中心</a>
       </li>
@@ -257,9 +254,11 @@
 
 </div>
 
+<p class="bottom">
 <a href="#" class="to-top">
   回到顶部
 </a>
+</p>
   </body>
 </html>
 
