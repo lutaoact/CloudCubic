@@ -115,6 +115,7 @@ module.exports = (app) ->
       initUser: "null"
       initNotify: "#{JSON.stringify(req.query.message)}"
       org: "#{JSON.stringify(req.org)}"
+      orgObj: req.org
 
     token = (req.cookies.token ? req.query.access_token)?.replace /"/g, ''
 

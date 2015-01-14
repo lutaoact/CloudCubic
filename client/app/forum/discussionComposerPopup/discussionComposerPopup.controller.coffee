@@ -3,24 +3,20 @@
 angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
 (
   $scope
-  $modalInstance
-  Restangular
-  $modal
   $state
   notify
+  Restangular
+  messageModal
+  $modalInstance
 ) ->
 
   angular.extend $scope,
 
     close: ->
       if @myTopic.title or @myTopic.content
-        $modal.open
-          templateUrl: 'components/modal/messageModal.html'
-          windowClass: 'message-modal'
-          controller: 'MessageModalCtrl'
-          resolve:
-            title: -> '警告!'
-            message: -> "是否放弃编辑？"
+        messageModal.open
+          title: -> '警告!'
+          message: -> "是否放弃编辑？"
         .result.then ->
           $modalInstance.dismiss('close')
       else

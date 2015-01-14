@@ -21,6 +21,7 @@ angular.module('budweiserApp')
   $timeout
   $document
   Restangular
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -59,17 +60,13 @@ angular.module('budweiserApp')
       angular.forEach $scope.getQuestions(), (q) -> q.$selected = selected
 
     removeQuestion: (question = null) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除问题'
-          message: ->
-            if question?
-              """确认要删除这个问题？"""
-            else
-              """确认要删除这#{$scope.getSelectedNum()}个问题？"""
+      messageModal.open
+        title: -> '删除问题'
+        message: ->
+          if question?
+            """确认要删除这个问题？"""
+          else
+            """确认要删除这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->
         questions = $scope.getQuestions()
         deleteQuestions =

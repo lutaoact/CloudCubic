@@ -13,7 +13,16 @@ angular.module('budweiserApp')
     activeComment: '='
     type: '@'
 
-.controller 'CommentsCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
+.controller 'CommentsCtrl', (
+  Auth
+  $scope
+  $state
+  $modal
+  $timeout
+  $document
+  Restangular
+  messageModal
+)->
   if !$scope.type
     throw 'should define type of comments directive'
   angular.extend $scope,
@@ -50,13 +59,9 @@ angular.module('budweiserApp')
         comment.likeUsers = res.likeUsers
 
     deleteComment: (comment)->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除评论？'
-          message: -> "删除后将无法恢复！"
+      messageModal.open
+        title: -> '删除评论？'
+        message: -> "删除后将无法恢复！"
       .result.then ->
         comment.remove()
         .then ()->

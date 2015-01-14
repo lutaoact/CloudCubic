@@ -4,13 +4,13 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   $scope
   $state
   Navbar
-  $rootScope
-  Category
-  Restangular
   notify
-  $modal
   configs
   $timeout
+  Category
+  $rootScope
+  Restangular
+  messageModal
 ) ->
 
   $scope.$on '$destroy', Navbar.resetTitle
@@ -61,13 +61,9 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
           classes: 'alert-danger'
         return
       course = $scope.course
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课程'
-          message: -> "确认要删除《#{course.name}》？"
+      messageModal.open
+        title: -> '删除课程'
+        message: -> "确认要删除《#{course.name}》？"
       .result.then ->
         course.remove().then ->
           $scope.deleteCallback?($course:course)

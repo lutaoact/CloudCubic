@@ -15,6 +15,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $modal
   $rootScope
   Restangular
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -64,13 +65,9 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         $state.go('teacher.lecture', courseId: $scope.course._id, lectureId: newLecture._id)
 
     deleteLecture: (lecture) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        windowClass: 'message-modal'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课时'
-          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
+      messageModal.open
+        title: -> '删除课时'
+        message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
       .result.then ->
         lecture.remove(courseId:$scope.course._id)
         .then ->

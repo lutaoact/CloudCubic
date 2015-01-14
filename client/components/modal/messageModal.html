@@ -3,19 +3,17 @@
     <i class="budon budon-warning"></i>
     {{title}}
   </h4>
-  <a class="close" ng-click="cancel()">&times;</a>
+  <a class="close" ng-click="close('cancel')">&times;</a>
 </div>
 <h5 class="modal-body text-message">
   {{message}}
 </h5>
 <div class="modal-footer">
   <button type="button"
-          class="btn btn-default btn-sm rounded"
-          ng-click="cancel()">取消</button>
-  <button type="button"
           ng-repeat="btn in buttons"
-          class="btn btn-danger btn-sm rounded"
-          ng-click="confirm($index)"
-          focus-me="confirmButtonFocus[$index]"
-          ng-init="confirmButtonFocus[0] = true">{{btn}}</button>
+          class="btn btn-sm rounded"
+          ng-class="btn.class"
+          ng-click="close(btn.code)"
+          focus-me="confirmButtonFocus"
+          ng-init="confirmButtonFocus = true">{{btn.label}}</button>
 </div>

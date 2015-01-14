@@ -16,6 +16,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
     $state
     $modal
     Restangular
+    messageModal
   ) ->
     angular.extend $scope,
       Auth: Auth
@@ -48,14 +49,9 @@ angular.module('budweiserApp').directive 'classeTile', ()->
           $state.go('admin.classeManager.detail', classeId:classe._id)
 
       deleteClasse: (classe)->
-        $modal.open
-          templateUrl: 'components/modal/messageModal.html'
-          windowClass: 'message-modal'
-          controller: 'MessageModalCtrl'
-          size: 'sm'
-          resolve:
-            title: -> '删除班级'
-            message: -> "确认要删除 #{classe.name}？"
+        messageModal.open
+          title: -> '删除班级'
+          message: -> "确认要删除 #{classe.name}？"
         .result.then ->
           classe.remove()
         .then ->
