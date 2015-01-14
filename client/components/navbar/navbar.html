@@ -65,7 +65,7 @@
         <li ng-class="{active: isActive('courseList')}">
           <a href ui-sref='courseList'>所有课程</a>
         </li>
-        <li>
+        <li ng-class="{active: isActive('forum.list')}">
           <a href ui-sref="forum.list">讨论</a>
         </li>
         <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
