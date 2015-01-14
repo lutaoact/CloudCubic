@@ -13,10 +13,12 @@ angular.module('budweiserApp').directive 'orderDetail', ->
     $modal
     $rootScope
     Restangular
+    $interval
   )->
     angular.extend $scope,
       Auth: Auth
       isCollapsed: false
+      payWindow: null
       pay: ()->
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
@@ -28,7 +30,25 @@ angular.module('budweiserApp').directive 'orderDetail', ->
             resolve:
               order: -> $scope.order
           url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-          window.open url
+          $scope.payWindow = window.open url
+
+          getOrderInterval = $interval ->
+            if $scope.payWindow.closed
+              $interval.cancel(getOrderInterval)
+              return
+            console.log 'wtf'
+            $scope.order.get()
+            .then (data)->
+              console.log data
+              if data.status != 'unpaid'
+                $scope.order.status = data.status
+                $scope.payWindow?.close()
+                $interval.cancel(getOrderInterval)
+          , 1000
+
+          $scope.$on '$destroy', ->
+            $interval.cancel(getOrderInterval)
+
         .catch (err)->
           console.log err
           if err.data?.errCode == '10017'
