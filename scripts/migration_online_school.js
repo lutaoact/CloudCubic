@@ -95,3 +95,6 @@ db.courses.find().forEach(function(course) {
 db.schedules.find().forEach(function(schedule) {
   db.classes.update({_id: schedule.classe}, {$push: {schedules: {'start': schedule.start, 'end': schedule.end, 'until': schedule.until}}});
 });
+
+// remove all notices
+db.notices.remove({})

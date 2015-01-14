@@ -52,7 +52,7 @@ angular.module('budweiserApp').directive 'studentList', ->
     updateStudentsStatus = ()->
       if $scope.allStudentsDict? and $scope.studentsStatus
         $scope.studentsStatus.forEach (studentStatus)->
-          $scope.allStudentsDict[studentStatus.id].$className = studentStatus.className
+          $scope.allStudentsDict[studentStatus.id]?.$className = studentStatus.className
 
     $scope.$watch 'classes', (value) ->
       if value
@@ -66,5 +66,6 @@ angular.module('budweiserApp').directive 'studentList', ->
        $scope.selectedStudent = value[$state.params.studentId]
 
     $scope.$watch 'studentsStatus', (value)->
-      updateStudentsStatus()
+      if $scope.allStudentsDict
+        updateStudentsStatus()
 
