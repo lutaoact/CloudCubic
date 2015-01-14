@@ -221,3 +221,17 @@ angular.module('budweiserApp')
 
           for choice, index in quiz.choices
             choice.$selected = options?.indexOf(index) >= 0
+
+  getSubmitBtnToolTip= ->
+    if $scope.getCurrentUser().role == 'teacher'
+      return "教师不能提交作业"
+    else if $scope.getCurrentUser().role == 'admin'
+      return "管理员不能提交作业"
+    else
+    if $scope.lecture?.$isFreeTryOnly
+      return '参加课程后才能提交作业'
+    else
+      return ''
+
+  $scope.$watch getSubmitBtnToolTip, (submitBtnToolTip)->
+    $scope.submitBtnToolTip = submitBtnToolTip
