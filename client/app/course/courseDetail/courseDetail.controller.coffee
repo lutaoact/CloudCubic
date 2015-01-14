@@ -60,11 +60,22 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         isUserInClasse   = $scope.classe.students.indexOf(currentUser) >= 0
         if !isOwnerOrTeacher and !isUserInClasse
           messageModal.open
-            title: -> '无权查看该课时'
-            message: -> "请先购买或参加该课程"
+            title: -> "无权查看此课时"
+            message: -> """您还不能查看此收费课时，请先购买课程 “#{$scope.classe.name}”"""
+            # 消息按钮可选，默认是：取消 确认
             buttons: -> [
-              label: '关闭', code: 'cancel', class: 'btn-primary'
+              label: '取消'      , code: 'cancel'    , class: 'btn-default'
+            ,
+              label: '直接购买'  , code: 'buyNow'    , class: 'btn-primary'
+            ,
+              label: '加入购物车', code: 'addToCart' , class: 'btn-primary'
             ]
+          .result.then (actionCode) ->
+            switch actionCode
+              when 'buyNow'
+                $scope.makeOrder($scope.classe)
+              when 'addToCart'
+                $scope.addToCart($scope.classe)
           return
         done()
 
