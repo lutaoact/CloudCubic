@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-9 pies clearfix">
+  <div ng-if="viewState.classe.students.length" class="col-md-9 pies clearfix">
     <div class="col-md-4">
       <highchart config="quizStats" class="bud-chart"></highchart>
       <div class="percentage quiz-percentage">
@@ -33,9 +33,12 @@
       </div>
     </div>
   </div>
+  <div ng-if="!viewState.classe.students.length" class="col-md-9 clearfix">
+    <h3 class="text-muted">该班级暂无统计信息</h3>
+  </div>
 </div>
 
-<div class="col-md-12 clearfix detail-container">
+<div ng-if="viewState.classe.students.length" class="col-md-12 clearfix detail-container">
   <div class="detail">
     <tabset class="trend">
       <tab heading="随堂问题" select="triggerResize()">
