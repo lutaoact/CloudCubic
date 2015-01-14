@@ -19,7 +19,7 @@
 
     <li ng-repeat="classe in cartItems"
         class="shop-cart-item">
-      <img class="item-image" src="{{classe.courseId.thumbnail}}">
+      <img class="item-image" ng-src="{{classe.courseId.thumbnail}}">
       <div class="item-body">
         <h5 class="course-name"
             ui-sref="course.detail({courseId: classe.courseId._id, classeId:classe._id})">
