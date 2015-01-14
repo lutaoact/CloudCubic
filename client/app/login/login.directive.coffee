@@ -4,13 +4,11 @@ angular.module('budweiserApp')
   Auth
   $modal
 ) ->
-
   restrict: 'A'
-
   scope:
     loginSuccess: '&'
 
-  link: (scope, element)->
+  link: (scope, element) ->
     element.bind 'click', ()->
       if !Auth.isLoggedIn()
         $modal.open

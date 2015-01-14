@@ -5,10 +5,11 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
   Auth
   $scope
   $state
+  notify
+  $modal
   Category
   $rootScope
   Restangular
-  notify
 ) ->
 
   angular.extend $scope,
@@ -18,7 +19,7 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
     courseTab:
       type: 'desc'
 
-    gotoLecture: ()->
+    learnLecture: ->
       if !$scope.course.lectureAssembly?.length
         return
       viewedLectures = $scope.course.lectureAssembly.filter (x)->
@@ -30,11 +31,51 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         $state.go 'lecture.detail',
           courseId: $state.params.courseId
           lectureId: lastViewed._id
-
       else
         # Start from first lecture
         $state.go 'course.lecture',
           lectureId: $scope.course.lectureAssembly[0]._id
+
+    viewLecture: (lecture) ->
+      checkPermission = (done) ->
+        if lecture.isFreeTry then return done()
+        # 如果没有登录
+        if !Auth.isLoggedIn()
+          $modal.open
+            templateUrl: 'app/login/loginModal.html'
+            controller: 'loginModalCtrl'
+            windowClass: 'login-window-modal'
+            size: 'md'
+          .result.then checkPermission
+          return
+        # 如果登录用户不是学生
+        if Auth.hasRole('teacher')
+          $modal.open
+            templateUrl: 'components/modal/messageModal.html'
+            windowClass: 'message-modal'
+            controller: 'MessageModalCtrl'
+            size: 'sm'
+            resolve:
+              title: -> '无权查看收费课时'
+              message: -> "请先登录学生账户查看收费课时"
+          return
+        # 如果登录用户没有购买
+        if $scope.classe.students.indexOf(Auth.getCurrentUser()._id) is -1
+          $modal.open
+            templateUrl: 'components/modal/messageModal.html'
+            windowClass: 'message-modal'
+            controller: 'MessageModalCtrl'
+            size: 'sm'
+            resolve:
+              title: -> '无权查看收费课时'
+              message: -> "请先购买或参加该课程"
+          return
+        done()
+
+      checkPermission ->
+        $state.go 'course.lecture',
+          courseId:$scope.course._id
+          lectureId:lecture._id
 
     addToCart: (classe)->
       if Auth.hasRole('teacher')
@@ -67,14 +108,7 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         console.log 'enrolled!'
         $scope.classe.students = data[0].students
 
-    # only show buy class for student
-    showBuyClass : ->
-      $scope.classe.price > 0 && (Auth.userRole() is 'student' or !Auth.isLoggedIn())
+  $scope.courseTab.type = 'lecture' if !$scope.course?.desc
 
-    # only show join class for student
-    showJoinClass : ->
-      $scope.classe.price is 0 && (Auth.userRole() is 'student' or !Auth.isLoggedIn())
-      
-      
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data

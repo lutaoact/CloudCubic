@@ -62,7 +62,7 @@
               免费课程
             </span>
             <span class="pull-right"
-                  ng-show="showBuyClass()">
+                  ng-show="classe.price > 0 && !Auth.hasRole('teacher')">
               <button class="btn btn-md btn-warning rounded"
                       login-window
                       login-success="makeOrder(classe)">
@@ -75,7 +75,7 @@
               </button>
             </span>
             <span class="pull-right"
-                  ng-show="showJoinClass()" >
+                  ng-show="classe.price == 0 && !Auth.hasRole('teacher')">
               <button class="btn btn-md btn-danger rounded"
                       login-window
                       login-success="enrollFreeClass(classe)">
@@ -96,7 +96,7 @@
             </div>
             <div class="learn-btn">
               <a class="btn btn-danger btn-lg"
-                 ng-click="gotoLecture()">
+                 ng-click="learnLecture()">
                 {{viewedLectureIndex?'继续学习':'开始学习'}}
               </a>
             </div>
@@ -109,6 +109,7 @@
       <div class="list-group-header">
         <div class="btn-group">
           <label class="btn btn-toggle"
+                 ng-if="course.desc"
                  ng-model="courseTab.type"
                  btn-radio="'desc'">课程简介</label>
           <label class="btn btn-toggle"
@@ -127,7 +128,7 @@
 
 
       <div class="list-group-item desc"
-           ng-show="courseTab.type=='desc'">
+           ng-if="courseTab.type=='desc'">
         {{course.info}}
         <h3 ng-if="!course.info.length" class="text-center text-muted">暂无简介</h3>
       </div>
@@ -140,7 +141,8 @@
       <a class="list-group-item lecture"
          ng-show="courseTab.type=='lecture'"
          ng-repeat="lecture in course.lectureAssembly | paging:itemsPerPage:currentPage"
-         ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
+         href
+         ng-click="viewLecture(lecture)">
         <div class="text-center lecture-index text-muted">
           {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
         </div>
