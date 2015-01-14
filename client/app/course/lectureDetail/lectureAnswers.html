@@ -70,10 +70,11 @@
       </div>
 
     </div>
-    <div class="pull-right" tooltip="{{lecture.$isFreeTryOnly ? '参加课程后才能提交课后作业' : ''}}">
+    <div class="pull-right"
+         tooltip="{{getSubmitBtnToolTip()}}">
       <button type="button"
               ng-show="displayQuestions==lecture.homeworks"
-              ng-disabled="displayQuestions.$submitted || lecture.$isFreeTryOnly"
+              ng-disabled="getSubmitBtnToolTip()"
               class="btn btn-danger"
               ng-click="submitAnswer()">
         <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
@@ -134,9 +135,9 @@
         <label for="descInput" class="base-color">留言</label>
         <textarea id="descInput" placeholder="输入留言内容..." class="form-control bud-editor-input" ng-model="offlineWork.desc" ng-disabled="offlineWork.submitted"></textarea>
       </div>
-      <div class="form-group pull-right" tooltip="{{lecture.$isFreeTryOnly ? '参加课程后才能交作业' : ''}}">
+      <div class="form-group pull-right" tooltip="{{getSubmitBtnToolTip()}}">
         <button type="submit" class="btn btn-danger rounded"
-                ng-disabled="offlineWork.submitted || lecture.$isFreeTryOnly">
+                ng-disabled="getSubmitBtnToolTip()">
           {{offlineWork.submitted?'已提交':'交作业'}}
         </button>
       </div>

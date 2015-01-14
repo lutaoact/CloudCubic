@@ -20,6 +20,9 @@ angular.module('budweiserApp').directive 'orderDetail', ->
       pay: ()->
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
+          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+          payWindow = window.open url
+
           $modal.open
             templateUrl: 'app/directives/orderDetail/paymentConfirmModal.html'
             controller: 'PaymentConfirmModalCtrl'
@@ -27,8 +30,8 @@ angular.module('budweiserApp').directive 'orderDetail', ->
             size: 'sm'
             resolve:
               order: -> $scope.order
-          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-          window.open url
+              payWindow: -> payWindow
+
         .catch (err)->
           console.log err
           if err.data?.errCode == '10017'
