@@ -12,7 +12,6 @@ router.put '/:id', auth.hasRole('teacher'),  controller.update
 router.patch '/:id', auth.hasRole('teacher'), controller.update
 router.delete '/:id', auth.hasRole('teacher'), controller.destroy
 
-router.get '/:id/topicsNum', controller.topicsNum
 router.get '/:id/tagsFreq', controller.tagsFreq
 
 module.exports = router
