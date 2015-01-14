@@ -7,8 +7,6 @@ angular.module('budweiserApp').controller 'ResetCtrl', (
   Restangular
 ) ->
 
-  console.debug $state.params
-
   angular.extend $scope,
     viewState:
       resetting: false
@@ -31,7 +29,6 @@ angular.module('budweiserApp').controller 'ResetCtrl', (
         $scope.viewState.resetting = false
 
     checkPasswordAgain: (password, passwordAgain) ->
-      console.debug 'checkPassword...', password, passwordAgain
       passwordVal = password.$modelValue
       passwordAgainVal = passwordAgain.$modelValue
       passwordAgain.$setValidity 'sameWith', !passwordAgainVal || passwordAgainVal == passwordVal

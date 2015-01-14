@@ -12,7 +12,6 @@ angular.module('budweiserApp').config ($stateProvider) ->
         SuperuserAPI.all('organizations').getList().then (organizations) ->
           organizations
         .catch (error) ->
-          console.debug 'get organizations error', error
           []
 
   $stateProvider.state 'superuser.home.organization',

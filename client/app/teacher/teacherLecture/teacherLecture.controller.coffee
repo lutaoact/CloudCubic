@@ -140,10 +140,7 @@ angular.module('budweiserApp')
         duration: '0'
     onMediaUploadStart: ->
       notify.closeAll()
-    onMediaUploading: (speed, progress, event) ->
-      console.debug 'media uploading', speed, progress
-    onMediaConverting: ->
-      console.debug 'media converting'
+
     onMediaUploaded: (data) ->
       $scope.lecture.$externalMedia = undefined
       $scope.lecture.patch?(media: data, externalMedia: null)

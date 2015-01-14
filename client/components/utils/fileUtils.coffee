@@ -76,7 +76,7 @@ angular.module 'budweiserApp'
             success: (data, status) ->
               deferred.resolve data
             error: (xhr, desc, err) ->
-              console.log(err)
+              throw err
           deferred.promise
 
 
@@ -178,8 +178,7 @@ angular.module 'budweiserApp'
               raw: strategy.prefix + pic
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
-        .error (error) ->
-          console.debug 'error', error
+        .error opts.fail
       .error opts.fail
     , opts.fail
 
@@ -241,7 +240,6 @@ angular.module 'budweiserApp'
           .error (response)->
             deferred.reject()
         , (error)->
-          console.log error
           deferred.reject()
 
     $q.all(promises).then (result)->

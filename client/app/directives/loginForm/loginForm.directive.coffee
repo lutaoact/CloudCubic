@@ -47,7 +47,6 @@ angular.module('budweiserApp').directive 'loginForm', ->
             $scope.loggingIn = false
             $scope.$emit 'loginSuccess', me
         .catch (error) ->
-          console.debug error
           $scope.loggingIn = false
 
           if error.loginUsers

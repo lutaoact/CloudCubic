@@ -45,7 +45,6 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
           $scope.viewState.posting = false
           $scope.$emit 'loginSuccess', me
       .catch (error) ->
-        console.debug error
         $scope.viewState.errors = error
         $scope.viewState.posting = false
         if error.unactivated

@@ -31,11 +31,11 @@ calLectureStats = (lecture, summary, studentsNum, studentsList) ->
 
     summary.questionsLength += lectureStat.questionsLength
     summary.correctNum += lectureStat.correctNum
-    
+
     if lectureStat.correctNum is 0
       lectureStat.percent = 0
     else
-      lectureStat.percent = 
+      lectureStat.percent =
         lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
 
     return lectureStat
@@ -54,14 +54,14 @@ calStats = (user, courseId, studentsList) ->
     return Q.reject
       status : 400
       errCode : ErrCode.NoStudentsHere
-      errMsg : 'No student to calculate statistics data'
-    
+      errMsg : '指定的班级或课程中不包含学生，无法进行统计'
+
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
     course.populateQ 'lectureAssembly', 'name homeworks'
   .then (course) ->
     lectures = course.lectureAssembly
-    
+
     Q.all _.map lectures, (lecture) ->
       calLectureStats lecture, summary, studentsNum, studentsList
   .then (statsData) ->
@@ -81,7 +81,7 @@ exports.show = (req, res, next) ->
   courseId = req.query.courseId
   classeId = req.query.classeId
   queryUserId = req.query.studentId ? req.query.userId
-  
+
   Q(if queryUserId?
       [queryUserId]
     else
@@ -92,4 +92,4 @@ exports.show = (req, res, next) ->
   .then (statsResult) ->
     res.json 200, statsResult
   .catch next
-  .done() 
+  .done()

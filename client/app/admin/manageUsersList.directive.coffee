@@ -159,7 +159,6 @@ angular.module('budweiserApp')
           classes: 'alert-danger'
 
       success = (report) ->
-        console.debug report
         $scope.viewState.importing = false
         notify
           message: "新#{$scope.roleTitle}添加成功, 初始密码为登录邮箱。"

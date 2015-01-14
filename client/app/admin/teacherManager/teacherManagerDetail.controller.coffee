@@ -9,16 +9,16 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  resetSelectedCourse = ->
-    selectedCourse = _.find($scope.courses, _id:$scope.selectedCourse?._id) ? $scope.courses?[0]
-    angular.extend $scope.selectedCourse, selectedCourse
-    if selectedCourse?
-      chartUtils.genStatsOnScope($scope, selectedCourse?._id, $scope.teacher?._id)
+  resetSelectedClasse = ->
+    selectedClasse = _.find($scope.classes, _id:$scope.selectedClasse?._id) ? $scope.classes?[0]
+    angular.extend $scope.selectedClasse, selectedClasse
+    if selectedClasse?.students.length
+      chartUtils.genStatsOnScope($scope, selectedClasse?.courseId?._id, selectedClasse._id)
 
   angular.extend $scope,
     $state: $state
-    courses: null
-    selectedCourse: {}
+    classes: null
+    selectedClasse: {}
 
     updateTeacher: ->
       $scope.reloadTeachers()
@@ -31,10 +31,11 @@ angular.module('budweiserApp')
   .then (teacher) ->
     $scope.teacher = teacher
 
-  Restangular.all('courses').getList(teacherId: $state.params.teacherId)
-  .then (courses) ->
-    $scope.courses = courses
-    resetSelectedCourse()
+  Restangular.all('classes').getList({teacherId: $state.params.teacherId,from: 0, limit: 1000})
+  .then (classes) ->
+    $scope.classes = classes.sort (x,y)->
+      x.students.length < y.students.length
+    resetSelectedClasse()
 
-  $scope.$watch 'selectedCourse._id', resetSelectedCourse
+  $scope.$watch 'selectedClasse._id', resetSelectedClasse
 

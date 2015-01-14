@@ -9,8 +9,6 @@ angular.module('budweiserApp').controller 'DemoCtrl', (
   Restangular
 ) ->
 
-  console.debug 'get demo user token...'
-
   angular.extend $scope,
 
     demoLoading: false
