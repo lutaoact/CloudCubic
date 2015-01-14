@@ -13,15 +13,16 @@ angular.module('budweiserApp').directive 'orderDetail', ->
     $modal
     $rootScope
     Restangular
-    $interval
   )->
     angular.extend $scope,
       Auth: Auth
       isCollapsed: false
-      payWindow: null
       pay: ()->
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
+          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+          payWindow = window.open url
+
           $modal.open
             templateUrl: 'app/directives/orderDetail/paymentConfirmModal.html'
             controller: 'PaymentConfirmModalCtrl'
@@ -29,25 +30,7 @@ angular.module('budweiserApp').directive 'orderDetail', ->
             size: 'sm'
             resolve:
               order: -> $scope.order
-          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-          $scope.payWindow = window.open url
-
-          getOrderInterval = $interval ->
-            if $scope.payWindow.closed
-              $interval.cancel(getOrderInterval)
-              return
-            console.log 'wtf'
-            $scope.order.get()
-            .then (data)->
-              console.log data
-              if data.status != 'unpaid'
-                $scope.order.status = data.status
-                $scope.payWindow?.close()
-                $interval.cancel(getOrderInterval)
-          , 1000
-
-          $scope.$on '$destroy', ->
-            $interval.cancel(getOrderInterval)
+              payWindow: -> payWindow
 
         .catch (err)->
           console.log err
