@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-          <label for="organization-name"
+          <label for="organization-uniquename"
                  class="col-sm-3 control-label">机构标识</label>
           <div class="col-sm-7">
             <input class="form-control"
@@ -55,12 +55,26 @@
         </div>
 
         <div class="form-group">
+          <label for="organization-copyright"
+                 class="col-sm-3 control-label">版权信息</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-copyright"
+                   name="copyright"
+                   ng-model="editingInfo.copyright"
+                   placeholder="请输入您的版权信息以保护您的合法权益">
+            <div class="text-danger" ng-if="errors.copyright">{{ errors.copyright.message }}</div>
+            <span class="text-muted">Copyright &copy; {{editingInfo.copyright}}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="organization-custom-domain"
                  class="col-sm-3 control-label">绑定域名</label>
           <div class="col-sm-7">
             <input class="form-control"
                    id="organization-custom-domain"
-                   name="uniquename"
+                   name="customdomain"
                    ng-model="editingInfo.customDomain"
                    placeholder="您可以在这里绑定域名">
 
@@ -69,7 +83,20 @@
         </div>
 
         <div class="form-group">
-          <label for="organization-name"
+          <label for="organization-icp"
+                 class="col-sm-3 control-label">备案</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-icp"
+                   name="icp"
+                   ng-model="editingInfo.icp"
+                   placeholder="如果使用自定义域名，请务必填写您的网站备案号">
+            <div class="text-danger" ng-if="errors.icp">{{ errors.icp.message }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-desc"
                  class="col-sm-3 control-label">机构简介</label>
           <div class="col-sm-7">
             <textarea class="form-control"

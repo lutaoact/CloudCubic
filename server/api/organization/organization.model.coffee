@@ -38,6 +38,8 @@ exports.Organization = BaseModel.subclass
           text: String
         }
       ]
+      icp: String
+      copyright: String
 
     setupOrgSchema @schema
 
