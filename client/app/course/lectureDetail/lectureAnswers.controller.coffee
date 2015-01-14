@@ -30,18 +30,6 @@ angular.module('budweiserApp')
         quizzes: 1
         homeworks: 1
 
-    getSubmitBtnToolTip: ->
-#      console.log 'getSubmitBtnToolTip'
-#      console.log $scope.lecture?.$isFreeTryOnly
-      if $scope.getCurrentUser().role == 'teacher'
-        return "教师不能提交作业"
-      else if $scope.getCurrentUser().role == 'admin'
-        return "管理员不能提交作业"
-      else if $scope.lecture?.$isFreeTryOnly
-        return '参加课程后才能提交作业'
-      else
-        return ''
-
     setQuestionType: (type) ->
       $scope.offlineWorksShown = false
       $scope.questionsType = type
@@ -222,7 +210,7 @@ angular.module('budweiserApp')
           for choice, index in quiz.choices
             choice.$selected = options?.indexOf(index) >= 0
 
-  getSubmitBtnToolTip= ->
+  getSubmitBtnToolTip = ->
     if $scope.getCurrentUser().role == 'teacher'
       return "教师不能提交作业"
     else if $scope.getCurrentUser().role == 'admin'
