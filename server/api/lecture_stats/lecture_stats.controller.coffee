@@ -17,7 +17,7 @@ exports.questionStats = (req, res, next) ->
   courseId = req.query.courseId
   classeId = req.query.classeId
   questionId = req.query.questionId
-  type = req.query.type #quiz or homework
+  type = req.query.type #quizzes or homeworks
   logger.info "Get stats for lecture #{lectureId}"
 
   studentsPromise = null
@@ -34,9 +34,9 @@ exports.questionStats = (req, res, next) ->
   Q.all [studentsPromise, LectureUtils.getAuthedLectureById user, lectureId]
   .spread (students, lecture) ->
     logger.info 'students:', students
-    if findIndex(lecture.quizzes, questionId) >= 0 and type is 'quiz'
+    if findIndex(lecture.quizzes, questionId) >= 0 and type is 'quizzes'
       StatsUtils.getQuizStats lectureId, questionId, students
-    else if findIndex(lecture.homeworks, questionId) >=0 and type is 'homework'
+    else if findIndex(lecture.homeworks, questionId) >=0 and type is 'homeworks'
       StatsUtils.getHomeworkStats lectureId, questionId, students
     else
       throw new Error("question #{questionId} cannot find in lecture #{lectureId}")
