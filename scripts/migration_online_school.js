@@ -1,6 +1,9 @@
 //删除users的email唯一索引
 db.users.dropIndex("email_1");
 
+//删除掉email和orgId上的唯一索引，因为微信授权登录的时候，email为空，会导致索引失败
+//db.users.dropIndex('email_1_orgId_1');
+
 //courses数据迁移：将course的orgId设置为相应category的orgId
 db.courses.find().forEach(function(course) {
   var category = db.categories.findOne({_id: course.categoryId});
@@ -20,6 +23,9 @@ db.courses.find().forEach(function(course) {
   }
 });
 db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
+
+//重命名dis_topics为topics
+db.dis_topics.renameCollection('topics');
 
 //根据course的name字段，创建相同名称的forum
 //然后在topics表中，删除courseId字段，并设置为相应的forumId的值
@@ -52,7 +58,7 @@ db.courses.find().forEach(function(course) {
 });
 
 // 删除所有未包含orgId的forum
-db.forums.remove({orgId: null})
+//db.forums.remove({orgId: null})
 
 //设置topics的viewersNum字段，让其值等于viewers字段的元素个数
 db.topics.find().forEach(function(topic) {
@@ -74,11 +80,7 @@ db.dis_replies.find().forEach(function(dis_reply){
   };
   db.comments.save(comment);
 });
-
-//courses数据迁移：将course的isPublished设置为 true
-db.courses.find().forEach(function(course) {
-  db.courses.update({_id: course._id}, {$set: {isPublished: true}});
-});
+db.dis_replies.drop();
 
 //lecture中新增courseId字段
 db.courses.find().forEach(function(course) {
@@ -91,8 +93,5 @@ db.courses.find().forEach(function(course) {
 
 //将schedule中的start, end, until字段迁移到相应的classe中
 db.schedules.find().forEach(function(schedule) {
-  db.classes.update({_id: schedule.classe}, {$set: {'schedule.start': schedule.start, 'schedule.end': schedule.end, 'schedule.until': schedule.until}});
+  db.classes.update({_id: schedule.classe}, {$push: {schedules: {'start': schedule.start, 'end': schedule.end, 'until': schedule.until}}});
 });
-
-//删除掉email和orgId上的唯一索引，因为微信授权登录的时候，email为空，会导致索引失败
-db.users.dropIndex('email_1_orgId_1');
