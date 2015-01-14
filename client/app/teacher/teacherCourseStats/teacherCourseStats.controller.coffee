@@ -17,6 +17,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   .then (classes) ->
     $scope.classes = classes
 
+
   $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
@@ -39,6 +40,9 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
       $state.go 'teacher.courseStats.classe',
         courseId: $scope.course._id
         classeId: classe._id or classe
+
+    calculateStudentsCount: ()->
+      ($scope.classes?.map (x)-> x.students.length)?.reduce (prev, cur)-> (prev + cur)
 
 .controller 'TeacherCourseStatsMainCtrl', (
   $scope
