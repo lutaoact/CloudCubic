@@ -35,14 +35,6 @@ exports.destroy = (req, res, next) ->
   WrapRequest.wrapDestroy req, res, next, conditions
 
 
-exports.topicsNum = (req, res, next) ->
-  Topic.getTopicsNumByForumId req.params.id
-  .then (num) ->
-    res.send {count: num}
-  .catch next
-  .done()
-
-
 exports.tagsFreq = (req, res, next) ->
   Topic.getAllByForumId req.params.id
   .then (topics) ->

@@ -38,6 +38,7 @@ db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
 
 
 //重命名dis_topics为topics
+db.topics.drop();
 db.dis_topics.renameCollection('topics');
 
 //根据course的name字段，创建相同名称的forum
@@ -56,7 +57,7 @@ db.courses.find().forEach(function(course) {
     logo: course.thumbnail,
     deleteFlag: false,
     created: course.created,
-    modified: course.modified,
+    modified: course.modified
   };
   print("forum for inserting forums");
   printjson(forum);
@@ -76,6 +77,7 @@ db.courses.find().forEach(function(course) {
 //设置topics的viewersNum字段，让其值等于viewers字段的元素个数
 db.topics.find().forEach(function(topic) {
   db.topics.update({_id: topic._id}, {$set: {viewersNum: topic.viewers.length, commentsNum: topic.repliesNum}});
+  db.topics.update({_id: topic._id}, {$unset: {repliesNum : ''}});
 });
 
 
@@ -84,12 +86,12 @@ db.dis_replies.find().forEach(function(dis_reply){
     author: dis_reply.postBy,
     content: dis_reply.content,
     type: 1,
-    belongTo: dis_reply.topicId,
+    belongTo: dis_reply.disTopicId,
     likeUsers: dis_reply.voteUpUsers,
     tags: [],
     deleteFlag: false,
     created: dis_reply.created,
-    modified: dis_reply.modified,
+    modified: dis_reply.modified
   };
   db.comments.save(comment);
 });
@@ -111,3 +113,9 @@ db.schedules.find().forEach(function(schedule) {
 
 // remove all notices
 db.notices.remove({})
+
+// update forum's postsCount
+db.forums.find().forEach(function(forum) {
+  var topics = db.topics.find({forumId: forum._id});
+  db.forums.update({_id : forum._id}, {$set : {postsCount : topics.length()}});
+});
