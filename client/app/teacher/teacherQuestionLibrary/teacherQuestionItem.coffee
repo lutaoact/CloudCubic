@@ -10,6 +10,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
     keyPoints: '=keypoints'
     removeCallback: '&'
     allowStats: '@'
+    type: '@'
 
   controller: ($scope, $document, $timeout)->
 

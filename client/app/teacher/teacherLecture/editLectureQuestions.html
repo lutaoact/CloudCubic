@@ -43,6 +43,7 @@
         <teacher-question-item ng-repeat="question in getQuestions()"
                                index="{{$index+1}}"
                                question="question"
+                               type="{{questionType}}"
                                keypoints="keyPoints"
                                allow-stats="true"
                                remove-callback="removeQuestion($question)">
