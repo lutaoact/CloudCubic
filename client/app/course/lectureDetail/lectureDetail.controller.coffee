@@ -119,7 +119,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     angular.element('body').removeClass 'sider-open'
 
   loadLecture = ()->
-    Restangular.one('lectures', $state.params.lectureId).get()
+    Restangular
+    .one('lectures', $state.params.lectureId)
+    .get(classeId: $state.params.classeId)
     .then (lecture)->
       $scope.lecture = lecture
       $scope.viewState.isVideo = lecture.media or lecture.externalMedia or !lecture.files
