@@ -38,6 +38,7 @@ db.courses.update({}, {$unset: {classes: ''}}, {multi: true});
 
 
 //重命名dis_topics为topics
+db.topics.drop();
 db.dis_topics.renameCollection('topics');
 
 //根据course的name字段，创建相同名称的forum
