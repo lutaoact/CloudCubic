@@ -21,6 +21,7 @@ crypto = require 'crypto'
 sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
+auth = require('../../auth/auth.service')
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -381,9 +382,15 @@ exports.resetPassword = (req, res, next) ->
 
 
 exports.sendActivationMail = (req, res, next) ->
-  User.findOneQ
-    orgId: req.org?.id ? req.body.orgId
+  conditions =
     email: req.body.email
+
+  if req.org?.id
+    conditions.orgId = req.org?.id
+  else if req.body.orgId
+    conditions.orgId = req.body.orgId
+
+  User.findOneQ conditions
   .then (user) ->
     host = req.protocol+'://'+req.headers.host
     sendActivationMail user.email, user.activationCode, host, req.org?.name
@@ -393,19 +400,31 @@ exports.sendActivationMail = (req, res, next) ->
 
 
 exports.completeActivation = (req, res, next) ->
-  User.findOneQ
+  baseUrl = null
+  User.findOne
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
+  .populate 'orgId'
+  .execQ()
   .then (user) ->
     if not user?
       return res.redirect "/index?message=activation-none"
     req.user = user
+
+    if req.org?
+      baseUrl = ''
+    else #only for organization admin's first time registration
+      host = user.orgId.uniqueName + '.' + req.headers.host
+      baseUrl = req.protocol + '://' + host
+
     if user.status == 1
-      return res.redirect "/index?message=activation-used"
+      return res.redirect(baseUrl+"/index?message=activation-used")
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res, "/index?message=activation-success"
+    token = auth.signToken(req.user._id, req.user.role)
+    targetUrl = baseUrl + '/index?access_token=' + token
+    res.redirect targetUrl
   .catch next
   .done()
 
