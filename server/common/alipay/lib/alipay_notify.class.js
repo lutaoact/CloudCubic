@@ -97,8 +97,6 @@ AlipayNotify.prototype.verifyReturn = function(org_id, _GET, callback){
  * @return 签名验证结果
  */
 AlipayNotify.prototype.getSignVerify = function(org_id, para_temp, sign){
-  console.log(org_id);
-  console.log(this.alipay_config);
     //除去待签名参数数组中的空值和签名参数
     var para_filter = core_funcs.paraFilter(para_temp);
 

@@ -17,28 +17,17 @@ angular.module('budweiserApp').directive 'orderDetail', ->
     angular.extend $scope,
       Auth: Auth
       isCollapsed: false
+      payUrl: null
       pay: ()->
-        Restangular.all('orders').customGET("#{$scope.order._id}/pay")
-        .then (data)->
-          url = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-          payWindow = window.open url
-
-          $modal.open
-            templateUrl: 'app/directives/orderDetail/paymentConfirmModal.html'
-            controller: 'PaymentConfirmModalCtrl'
-            windowClass: 'center-modal'
-            size: 'sm'
-            resolve:
-              order: -> $scope.order
-              payWindow: -> payWindow
-
-        .catch (err)->
-          console.log err
-          if err.data?.errCode == '10017'
-            notify
-              message: "该订单已实效"
-              classes: 'alert-failed'
-              duration: 2000
+        payWindow = window.open $scope.payUrl
+        $modal.open
+          templateUrl: 'app/directives/orderDetail/paymentConfirmModal.html'
+          controller: 'PaymentConfirmModalCtrl'
+          windowClass: 'center-modal'
+          size: 'sm'
+          resolve:
+            order: -> $scope.order
+            payWindow: -> payWindow
 
       deleteOrder: (order)->
         order.remove()
@@ -47,3 +36,16 @@ angular.module('budweiserApp').directive 'orderDetail', ->
 
 
     $scope.isCollapsed = (Auth.getCurrentUser().role == 'admin')
+
+    $scope.$watch 'order', ->
+      return if !$scope.order
+      Restangular.all('orders').customGET("#{$scope.order._id}/pay")
+      .then (data)->
+        $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+      .catch (err)->
+        console.log err
+        if err.data?.errCode == '10017'
+          notify
+            message: "该订单已失效"
+            classes: 'alert-failed'
+            duration: 2000
