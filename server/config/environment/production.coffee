@@ -36,7 +36,7 @@ module.exports =
   weixinAuth:
     appkey: 'wx0b867034fb0d7f4e'
     secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-    oauth_callback_url: 'http://www.cloud3edu.com/auth/weixin/callback'
+    oauth_callback_url: 'http://demo.cloud3edu.cn/auth/weixin/callback'
 
   weiboAuth:
     appkey: '1324448620'
