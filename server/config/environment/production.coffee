@@ -3,7 +3,7 @@
 # Production specific configuration
 # =================================
 module.exports =
-  host: "http://www.cloud3edu.cn"
+  host: "http://cloud3edu.cn"
 
   wechatToken: 'woaixuezhifang'
 
