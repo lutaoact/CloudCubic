@@ -138,7 +138,9 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         console.log 'enrolled!'
         $scope.classe.students = data[0].students
 
-  $scope.courseTab.type = 'lecture' if !$scope.course?.desc
+  $scope.$watch 'course', (course) ->
+    if course && !course.info
+      $scope.courseTab.type = 'lecture'
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data

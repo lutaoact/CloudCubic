@@ -17,7 +17,16 @@ exports.Course = BaseModel.subclass
     create: [
       path: 'categoryId', select: 'name'
     ,
-      path: 'owners', select: 'name avatar title'
+      path: 'owners', select: 'name avatar title info'
+    ,
+      path: 'lectureAssembly', select: 'name isFreeTry info'
+    ]
+    update: [
+      path: 'categoryId', select: 'name'
+    ,
+      path: 'owners', select: 'name avatar title info'
+    ,
+      path: 'lectureAssembly', select: 'name isFreeTry info'
     ]
     show: [
       path: 'categoryId', select: 'name'

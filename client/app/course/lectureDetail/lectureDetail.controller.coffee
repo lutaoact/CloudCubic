@@ -19,6 +19,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $document
   Restangular
   $localStorage
+  $q
 ) ->
 
   angular.extend $scope,
@@ -119,7 +120,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     angular.element('body').removeClass 'sider-open'
 
   loadLecture = ()->
-    Restangular
+    lectureQ = Restangular
     .one('lectures', $state.params.lectureId)
     .get(classeId: $state.params.classeId)
     .then (lecture)->
@@ -132,11 +133,15 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         ]
       if lecture.externalMedia
         lecture.$externalMedia = $sce.trustAsHtml lecture.externalMedia
-
+      lecture
+    $q.all [
+      lectureQ
+      $scope.classeQ
+    ]
+    .then (result)->
       enrolled = $scope.classe.students.indexOf($scope.getCurrentUser()?._id)
-      if (enrolled == -1) && (lecture.isFreeTry == true)
+      if (enrolled == -1) && ($scope.lecture.isFreeTry == true)
         $scope.lecture.$isFreeTryOnly = true
-
 
   postActivity = (user)->
     # If student stay over 5 seconds. Send view lecture event.

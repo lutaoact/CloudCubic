@@ -27,17 +27,22 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
           viewedLecture?.$viewed = true
           $scope.viewedLectureIndex = $scope.course.lectureAssembly.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.lectureAssembly.indexOf(viewedLecture) + 1
 
+    courseQ: Restangular.one('courses', $state.params.courseId).get()
+
+    classeQ: Restangular.one('classes',$state.params.classeId).get()
 
   # 获取该课程的基本信息
-  Restangular.one('courses', $state.params.courseId).get()
+  $scope.courseQ
   .then (course) ->
     $scope.course = course
     $scope.loadProgress()
+    course
 
   # 获取班级信息
-  Restangular.one('classes',$state.params.classeId).get()
+  $scope.classeQ
   .then (classe)->
     $scope.classe = classe
+    classe
   , (err)->
     notify
       message: '获取班级信息失败'
