@@ -39,44 +39,67 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 
     viewLecture: (lecture) ->
       checkPermission = (done) ->
-        # 如果是试用课时或者免费班级或者管理员可以直接看课时
-        if lecture.isFreeTry or
-           $scope.classe.price is 0 or
-           Auth.hasRole('admin')
-          return done()
-        # 如果没有登录
-        if !Auth.isLoggedIn()
-          $modal.open
-            templateUrl: 'app/login/loginModal.html'
-            controller: 'loginModalCtrl'
-            windowClass: 'login-window-modal'
-            size: 'md'
-          .result.then -> checkPermission(done)
-          return
-        # 如果登录的用户不是course的owner或者不是classe的teacher
-        # 如果登录用户没有购买或者参加
+        return done() if lecture.isFreeTry # 如果是试用课时可以直接看课时
         currentUser = Auth.getCurrentUser()._id
-        isOwnerOrTeacher = _.find(_.union($scope.classe.teachers, $scope.course.owners), _id:currentUser)
-        isUserInClasse   = $scope.classe.students.indexOf(currentUser) >= 0
-        if !isOwnerOrTeacher and !isUserInClasse
-          messageModal.open
-            title: -> "无权查看此课时"
-            message: -> """您还不能查看此收费课时，请先购买课程 “#{$scope.classe.name}”"""
-            # 消息按钮可选，默认是：取消 确认
-            buttons: -> [
-              label: '取消'      , code: 'cancel'    , class: 'btn-default'
-            ,
-              label: '直接购买'  , code: 'buyNow'    , class: 'btn-primary'
-            ,
-              label: '加入购物车', code: 'addToCart' , class: 'btn-primary'
-            ]
-          .result.then (actionCode) ->
-            switch actionCode
-              when 'buyNow'
-                $scope.makeOrder($scope.classe)
-              when 'addToCart'
-                $scope.addToCart($scope.classe)
-          return
+        switch Auth.getCurrentUser()?.role
+          when 'admin'
+            # 如果是管理员，直接进入课时
+            done()
+          when 'teacher'
+            # 如果登录的用户不是course的owner或者不是classe的teacher
+            isOwnerOrTeacher = _.find(_.union($scope.classe.teachers, $scope.course.owners), _id:currentUser)
+            if !isOwnerOrTeacher
+              return messageModal.open
+                title: -> "无权查看此课时"
+                message: -> """您不能查看其他教师的课程"""
+                buttons: -> [
+                  label: '关闭', code: 'cancel', class: 'btn-default'
+                ]
+          when 'student'
+            # 如果登录的学生没有购买或者参加
+            isStudentInClasse = $scope.classe.students.indexOf(currentUser) >= 0
+            if !isStudentInClasse
+              isFreeClasse = $scope.classe.price is 0
+              return messageModal.open
+                title: ->
+                  if isFreeClasse then "请先参加课程" else "请先购买课程"
+                message: ->
+                  if isFreeClasse
+                    """您还不能查看此课时，请先参加此课程 “#{$scope.classe.name}”"""
+                  else
+                    """您还不能查看此课时，请先购买此课程 “#{$scope.classe.name}”"""
+                # 消息按钮可选，默认是：取消 确认
+                buttons: ->
+                  if isFreeClasse
+                    [
+                      label: '取消'      , code: 'cancel'    , class: 'btn-default'
+                    ,
+                      label: '参加课程'  , code: 'enroll'    , class: 'btn-primary'
+                    ]
+                  else
+                    [
+                      label: '取消'      , code: 'cancel'    , class: 'btn-default'
+                    ,
+                      label: '直接购买'  , code: 'buyNow'    , class: 'btn-primary'
+                    ,
+                      label: '加入购物车', code: 'addToCart' , class: 'btn-primary'
+                    ]
+              .result.then (actionCode) ->
+                switch actionCode
+                  when 'buyNow'
+                    $scope.makeOrder($scope.classe)
+                  when 'addToCart'
+                    $scope.addToCart($scope.classe)
+                  when 'enroll'
+                    $scope.enrollFreeClass($scope.classe)
+          else
+            # 未登录用户不能查看课时
+            return $modal.open
+              templateUrl: 'app/login/loginModal.html'
+              controller: 'loginModalCtrl'
+              windowClass: 'login-window-modal'
+              size: 'md'
+            .result.then -> checkPermission(done)
         done()
 
       checkPermission ->
