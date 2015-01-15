@@ -40,6 +40,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     selectClasse: (classe) ->
       if !classe
+        console.log 'return'
         return
       $scope.selectedClasse = classe
       $scope.activeProgressKey = classe._id
@@ -115,3 +116,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope.$watch 'course', (value) ->
     if value
       reloadLectures($scope.course)
+
+  $scope.$watch 'classes', (value) ->
+    if value
+      $scope.selectClasse(value[0])

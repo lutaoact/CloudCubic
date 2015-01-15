@@ -80,7 +80,7 @@
                  ng-click="startTeaching(course, lecture)">
               </a>
             </span>
-            <label class="label-danger lecture-icon-tooltip">开始上课</label>
+            <label class="label-danger lecture-icon-tooltip" ng-if="selectedClasse">开始上课</label>
           </div>
           <a class="lecture-content list-group-item">
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
