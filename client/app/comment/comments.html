@@ -41,6 +41,9 @@
     </ul>
   </div>
   <ul class="list-group ">
+    <div ng-if="!comments.length" class="col-md-12">
+      <h4 class="text-muted">还没有人评论，赶快抢个沙发!</h4>
+    </div>
     <li class="bud thumbnail media col-md-12 comment"
         ng-repeat="comment in comments|orderBy: viewState.orderBy|filter: commentsFilter" id="{{comment._id}}" >
       <a href ng-if="comment.postBy._id == me()._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
