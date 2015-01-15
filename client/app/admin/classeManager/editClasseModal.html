@@ -44,13 +44,13 @@
     <div class="col-sm-9">
       <div class="input-group">
         <input class="form-control"
-               type="number"
                id="classe-price"
                placeholder="请输入价格"
                type="number"
-               min="0"
+               min="0.00"
                ng-model="classe.price"
                name="price"
+               step="any"
                is-alipay-set="price"
                required>
         <div class="input-group-addon">元</div>
