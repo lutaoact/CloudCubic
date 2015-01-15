@@ -12,12 +12,12 @@ exports.Course = BaseModel.subclass
     index: [
       path: 'categoryId', select: 'name'
     ,
-      path: 'owners', select: 'name avatar'
+      path: 'owners', select: 'name avatar title'
     ]
     create: [
       path: 'categoryId', select: 'name'
     ,
-      path: 'owners', select: 'name avatar'
+      path: 'owners', select: 'name avatar title'
     ]
     show: [
       path: 'categoryId', select: 'name'

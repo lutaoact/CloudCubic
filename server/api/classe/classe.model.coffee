@@ -11,28 +11,28 @@ exports.Classe = BaseModel.subclass
     index: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name avatar'
+      path: 'teachers', select: 'name avatar title'
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
     show: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name avatar'
+      path: 'teachers', select: 'name avatar title'
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
     update: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name avatar'
+      path: 'teachers', select: 'name avatar title'
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
     create: [
       path: 'orgId', select: 'name'
     ,
-      path: 'teachers', select: 'name avatar'
+      path: 'teachers', select: 'name avatar title'
     ,
       path: 'courseId', select: 'name thumbnail lectureAssembly categoryId'
     ]
