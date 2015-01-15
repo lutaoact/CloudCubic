@@ -18,6 +18,8 @@ angular.module('budweiserApp')
     'customDomain'
     'description'
     'telephone'
+    'icp'
+    'copyright'
     ]
 
   angular.extend $scope,
