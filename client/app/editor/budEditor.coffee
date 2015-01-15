@@ -34,3 +34,7 @@ angular.module('budweiserApp').directive 'budEditor', ()->
         $scope.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
       $scope.onChange?($text: $scope.content)
     , true
+
+    $scope.$watch 'content', (value)->
+      if !value
+        $scope.metadata = {}

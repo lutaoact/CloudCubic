@@ -14,15 +14,8 @@
       <span class="name text-muted small">{{classe.teachers[0].name}}</span>
     </div>
     <div class="classe-price">
-      <span class="yuan"
-            ng-if="classe">
-        <span ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
-        <span ng-if="!(classe.price > 0)">Free</span>
-      </span>
-      <span class="yuan"
-            ng-if="!classe">
-        即将推出
-      </span>
+      <span class="yuan" ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
+      <span class="yuan" ng-if="!(classe.price > 0)">Free</span>
     </div>
     <h5 class="classe-name">
       {{classe.name || course.name}}<br>
@@ -30,8 +23,8 @@
     <hr>
     <div class="classe-info text-muted small">
       <div class="lecture-num">{{course.lectureAssembly.length || 0}} 课时</div>
-      <span ng-if="!classe">即将推出</span>
-      <span ng-if="classe">
+      <span ng-if="!classe.duration">即将推出</span>
+      <span ng-if="classe.duration">
         {{classe.duration.from|date:'yyyy.MM.dd'}} - {{classe.duration.to|date:'yyyy.MM.dd'}}
       </span>
     </div>
