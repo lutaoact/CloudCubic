@@ -7,7 +7,7 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
 ) ->
 
   angular.extend $scope,
-    me: Auth.getCurrentUser()
+    me: null 
 
     menu: [
       {
@@ -26,3 +26,7 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
 
     isActive: (route) ->
       _.str.trim(route, '/') is _.str.trim($location.path(), '/')
+
+  Auth.getCurrentUser()
+  .$promise?.then (me) ->
+    $scope.me = me
