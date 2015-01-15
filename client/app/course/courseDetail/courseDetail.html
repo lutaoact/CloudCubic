@@ -112,7 +112,7 @@
       <div class="list-group-header">
         <div class="btn-group">
           <label class="btn btn-toggle"
-                 ng-if="course.desc"
+                 ng-show="course.info"
                  ng-model="courseTab.type"
                  btn-radio="'desc'">课程简介</label>
           <label class="btn btn-toggle"
@@ -136,8 +136,7 @@
 
       <div class="list-group-item desc"
            ng-if="courseTab.type=='desc'">
-        {{course.info}}
-        <h3 ng-if="!course.info.length" class="text-center text-muted">暂无简介</h3>
+        <div class="blog" compile-html="course.info"></div>
       </div>
 
       <div class="list-group-item desc"
