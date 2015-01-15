@@ -76,7 +76,10 @@ angular.module('budweiserApp')
       return true
 
     scrollToEditor: ()->
-      $document.scrollToElement(angular.element('.new-comment-right'), 200, 200)
+      $timeout ->
+        targetElement = angular.element('#new-comment')
+        windowHeight = $(window).height()
+        $document.scrollToElement(targetElement, windowHeight/2, 500)
 
   $scope.$watch 'belongTo', (value)->
     if value
