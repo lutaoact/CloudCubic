@@ -82,6 +82,8 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
         $scope.viewState.previewUrl = safeUrl
       angular.element('.img-preview').on 'load', (e)->
         if e.target.clientWidth < 250
+          angular.element('.img-preview').css 'width', 250
+          angular.element('.img-preview').css 'height', ~~(e.target.clientHeight * 250 / e.target.clientWidth)
           $scope.viewState.size =
             width: 250
             height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
