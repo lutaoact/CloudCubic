@@ -29,8 +29,8 @@ angular.module 'budweiserApp', [
   baseUrl: ''
   fpUrl: 'http://54.223.144.96:9090/'
   imageSizeLimitation    : 3 * 1024 * 1024
-  fileSizeLimitation     : 30 * 1024 * 1024
-  videoSizeLimitation    : 30 * 1024 * 1024
+  fileSizeLimitation     : 128 * 1024 * 1024
+  videoSizeLimitation    : 128 * 1024 * 1024
   proVideoSizeLimitation : 1024 * 1024 * 1024
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
