@@ -111,6 +111,12 @@ setupOrgSchema = (OrgSchema) ->
 
   OrgSchema
   .path 'customDomain'
+  .validate (value) ->
+    return value.indexOf('cloud3edu') is -1
+  , '域名中不允许带有cloud3edu'
+
+  OrgSchema
+  .path 'customDomain'
   .validate (value, respond) ->
     self = this
     this.constructor.findOne
