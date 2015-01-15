@@ -61,10 +61,9 @@
           <small>{{comment.created|timeToTimeAgo}}</small>
           <small>|</small>
           <small>
-            <i
-              class="fa fa-heart vote"
-              ng-class="{'active':comment.likeUsers.indexOf(me()._id)>=0}"
-              login-window login-success="toggleLike(comment)">
+            <i class="fa fa-heart vote"
+               ng-class="{'active':comment.likeUsers.indexOf(me()._id)>=0}"
+               login-window login-success="toggleLike(comment)">
             </i>
             {{comment.likeUsers.length||0}}
           </small>

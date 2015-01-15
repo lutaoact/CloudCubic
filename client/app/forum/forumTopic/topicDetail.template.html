@@ -2,7 +2,6 @@
   <div ng-show="topic">
     <div class="bud article">
       <div class="article-header media">
-
         <div class="avatar-lg pull-left"
           source-attr="background-image"
           src-key="topic.postBy.avatar"
@@ -44,8 +43,7 @@
         <div class="article-voteup text-center"
           ng-class="{'active':topic.likeUsers.indexOf(me()._id)>=0}"
           ng-click="toggleLike(topic)">
-          <i class="fa fa-heart">
-          </i>
+          <i class="fa fa-heart"></i>
           <hr>
           {{topic.likeUsers.length||0}}
         </div>
