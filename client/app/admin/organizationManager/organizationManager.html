@@ -76,7 +76,9 @@
 
         <div class="form-group">
           <label for="organization-custom-domain"
-                 class="col-sm-3 control-label">绑定域名</label>
+                 class="col-sm-3 control-label">
+            绑定域名
+          </label>
           <div class="col-sm-7">
             <input class="form-control"
                    id="organization-custom-domain"
@@ -85,6 +87,21 @@
                    placeholder="您可以在这里绑定域名"
                    mongoose-error
                    >
+            <span dropdown>
+              <i class="fa fa-question-circle hint" dropdown-toggle>
+              </i>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  1. 必须先申请好您的域名，并且完成备案
+                </li>
+                <li>
+                  2. 在域名提供商将域名指向cloud3edu，如需支持请<a target="_blank" style="display:inline; padding:0;color:#5abda6;" href="mailto:info@cloud3edu.com?subject=绑定域名">联系我们</a>
+                </li>
+                <li>
+                  3. 配置生效后，您就可以通过你的自定义域名访问您的网校啦。
+                </li>
+              </ul>
+            </span>
             <small class="text-danger" ng-if="orgForm.customDomain.$error.mongoose">{{ errors.customDomain }}</small>
           </div>
         </div>
