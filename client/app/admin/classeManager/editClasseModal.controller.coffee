@@ -144,4 +144,18 @@ angular.module('budweiserApp')
         startingDay: 0
         "show-weeks": false
 
+    prevent: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+
   $scope.getShifts()
+
+  # set classe enrollment & duration default values
+  $scope.classe.enrollment = {} if !$scope.classe.enrollment
+  $scope.classe.duration = {}   if !$scope.classe.duration
+  enrollment = $scope.classe.enrollment
+  duration   = $scope.classe.duration
+  enrollment.from = moment().toDate()                   if !enrollment.from
+  enrollment.to   = moment().add(30*3, 'days').toDate() if !enrollment.to
+  duration.from   = moment().toDate()                   if !duration.from
+  duration.to     = moment().add(30*3, 'days').toDate() if !duration.to
