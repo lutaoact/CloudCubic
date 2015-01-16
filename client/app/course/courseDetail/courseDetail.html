@@ -28,7 +28,7 @@
                 <div class="text-muted">
                   上课时间
                 </div>
-                <div class="schedules-summary" 
+                <div class="schedules-summary"
                      title="{{classe.schedules|scheduleSummary}}">
                   {{classe.schedules|scheduleSummary}}
                 </div>
@@ -117,18 +117,18 @@
                  btn-radio="'desc'">课程简介</label>
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
-                 btn-radio="'lecture'">课时和班次({{course.lectureAssembly.length||0}})</label>
+                 btn-radio="'lecture'">课时({{course.lectureAssembly.length||0}})</label>
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
                  btn-radio="'comments'">评论({{course.commentsNum||0}})</label>
         </div>
       </div>
 
-      <div class="list-group-item desc" 
+      <div class="list-group-item desc"
            ng-show="courseTab.type=='comments'">
-        <comments belong-to="course._id" 
-                  extra="{classeId: classe._id}" 
-                  type="2" 
+        <comments belong-to="course._id"
+                  extra="{classeId: classe._id}"
+                  type="2"
                   active-comment="dataId">
         </comments>
       </div>
