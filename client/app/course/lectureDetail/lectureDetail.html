@@ -147,11 +147,11 @@
     </div>
     <div class="after-title-keypoints container">
     </div>
-    <div class="container desc-container">
+    <div class="container desc-container" ng-init="viewState.showDesc = true">
       <div class="content" ng-class="{expanded:viewState.showDesc}">
         <div class="lecture-desc">
           <div>
-            <h4><i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课时详细内容</h4>
+            <h4><i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课时资料</h4>
             <hr>
             <div compile-html="lecture.desc">
             </div>
