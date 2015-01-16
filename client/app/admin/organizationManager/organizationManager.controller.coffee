@@ -47,6 +47,7 @@ angular.module('budweiserApp')
           classes: 'alert-success'
 
     saveOrg: (form)->
+      form.$submitted = true
       if !form.$valid then return
       $scope.saving = true
       $scope.errors = null
@@ -56,9 +57,17 @@ angular.module('budweiserApp')
       .then ->
         angular.extend $scope.organization, $scope.editingInfo
         $scope.saving = false
+        form.$submitted = false
       .catch (error) ->
-        $scope.errors = error?.data?.errors
+        error = error.data
+        $scope.errors = {}
         $scope.saving = false
+        form.$submitted = false
+        # Update validity of form fields that match the mongoose errors
+        angular.forEach error.errors, (error, field) ->
+          form[field].$setValidity 'mongoose', false
+          $scope.errors[field] = error.message
+        console.log error
 
     saveOrgAlipay: ->
       $scope.alipaySaving = true
