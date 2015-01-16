@@ -4,7 +4,7 @@ passport = require 'passport'
 User = _u.getModel 'user'
 WeiboStrategy = require('passport-weibo').Strategy
 QQStrategy = require('passport-qq').Strategy
-WeixinStrategy = require('passport-weixin').Strategy
+WeixinStrategy = require('passport-weixin-plus').Strategy
 
 passport.use(new WeiboStrategy({
   clientID    : config.weiboAuth.appkey
@@ -87,9 +87,12 @@ passport.use(new QQStrategy({
 ))
 
 passport.use(new WeixinStrategy({
-  clientID    : config.weixinAuth.appkey
-  clientSecret: config.weixinAuth.secret
-  callbackURL : config.weixinAuth.oauth_callback_url
+  clientID    : (req) ->
+    return config.weixinAuth.host2appKeyMap[req.headers.host].appkey
+  clientSecret: (req) ->
+    return config.weixinAuth.host2appKeyMap[req.headers.host].secret
+  callbackURL : (req) ->
+    return "http://#{req.headers.host}#{config.weixinAuth.callbackURL}"
   requireState: false
   scope       : 'snsapi_login'
   passReqToCallback: true
