@@ -20,12 +20,12 @@
     "restangular": "~1.4.0",
     "angular-notify": "https://github.com/zhenkunou/angular-notify.git#master",
     "moment": "~2.8.4",
-    "videogular": "~0.6.0",
-    "videogular-controls": "~0.6.0",
-    "videogular-buffering": "~0.6.0",
-    "videogular-overlay-play": "~0.6.0",
-    "videogular-poster": "~0.6.0",
-    "videogular-themes-default": "~0.6.0",
+    "videogular": "*",
+    "videogular-controls": "*",
+    "videogular-buffering": "*",
+    "videogular-overlay-play": "*",
+    "videogular-poster": "*",
+    "videogular-themes-default": "*",
     "angular-scroll": "~0.6.1",
     "highcharts-ng": "~0.0.6",
     "highcharts": "~4.0.3",
@@ -83,11 +83,6 @@
         "./dist/textAngular.min.js",
         "./dist/textAngular-sanitize.min.js"
       ]
-    },
-    "videogular": {
-      "dependencies": {
-        "angular": "~1.2.0"
-      }
     }
   },
   "resolutions": {

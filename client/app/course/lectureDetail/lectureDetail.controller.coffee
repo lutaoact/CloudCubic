@@ -67,6 +67,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     mediaPlayerAPI: undefined
 
+    onVideoError: (err)->
+      if !$scope.videoPlayedTimesExceed
+        notify
+          message: '视频播放次数超过限制'
+          classes: 'alert-danger'
+      $scope.videoPlayedTimesExceed = true
+
     onPlayerReady: (playerAPI) ->
       if playerAPI.isReady
         $scope.mediaPlayerAPI = playerAPI
