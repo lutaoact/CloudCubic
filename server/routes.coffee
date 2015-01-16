@@ -42,7 +42,7 @@ orgGetter = (req, res, next) ->
       req.org = org
       next()
     else
-      res.render '404'
+      res.redirect config.host
   .catch(next)
   .done()
 
