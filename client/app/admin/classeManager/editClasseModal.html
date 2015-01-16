@@ -15,10 +15,9 @@
       <input class="form-control"
              type="text"
              id="classe-name"
-             ng-init="nameInputFocus=true"
-             focus-me="nameInputFocus"
-             placeholder="请输入班级名称"
              ng-model="classe.name"
+             focus-me
+             placeholder="请输入班级名称"
              required>
       <small class="text-danger" ng-if="errors.name">
         {{ errors.name.message }}

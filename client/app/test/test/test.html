@@ -6,8 +6,7 @@
     </span>
     <input class="form-control"
            ng-model="$storage.request"
-           focus-me="apiInputFocus"
-           ng-init="apiInputFocus=true"
+           focus-me
            ng-change="setRequest($storage.request)"
            typeahead="request as request.url for request in getRequests() | filter:{url:$viewValue} | limitTo:8"
            placeholder="输入要测试的API，然后回车"/>
