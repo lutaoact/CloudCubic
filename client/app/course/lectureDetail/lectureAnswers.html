@@ -1,7 +1,7 @@
 <div class="lecture-answers">
   <div class="text-center"
        id="lecture-question">
-    <div class="lecture-nav-tabs">
+    <div class="btn-group lecture-nav-tabs">
       <a ng-click="setQuestionType('quizzes')"
          ng-if="lecture.quizzes.$submitted && !lecture.$isFreeTryOnly"
          ng-class="{'selected':lecture.quizzes.$active}"
@@ -137,7 +137,7 @@
       </div>
       <div class="form-group pull-right" tooltip="{{submitBtnToolTip}}">
         <button type="submit" class="btn btn-danger rounded"
-                ng-disabled="submitBtnToolTip">
+                ng-disabled="offlineWork.submitted">
           {{offlineWork.submitted?'已提交':'交作业'}}
         </button>
       </div>
