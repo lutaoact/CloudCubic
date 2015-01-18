@@ -30,3 +30,5 @@ module.exports =
   NoClassesHere: 10050
 
   UnallowedDomain: 10055
+
+  ReachVideoViewTimeLimit: 10060

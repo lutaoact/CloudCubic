@@ -97,16 +97,6 @@ module.exports =
       accountName: 'cloud3educnmedia'
       accountKey: '4N+9pgfuQnlo2qYj3OpwvS0TopFStMpx139zsORMc3k='
 
-#  emailConfig:
-#    host: "smtp.office365.com"
-#    secureConnection: false
-#    port: 587
-#    auth:
-#      user: "noreply@cloud3edu.com"
-#      pass: "!nv1te01"
-#    tls:
-#      ciphers:'SSLv3'
-
   emailConfig:
     auth:
       api_user: 'cloud3edu'
@@ -115,3 +105,5 @@ module.exports =
   baiduPushService:
     ak: "d3ylollIsSvgrAKss9iD9pGt"           # API Key
     sk: "XTxRVe6SvXnx0N3CdOSu5j1swXcEoHi2"   # Secret Key
+
+  videoViewTimeLimit: 50

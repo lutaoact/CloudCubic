@@ -38,8 +38,6 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, host, token, orgName) -
 
   htmlOutput = pwdResetFn locals
 
-  console.log htmlOutput
-
   sendMail receiverEmail, htmlOutput, orgName+" -- 密码找回邮件", orgName
 
 
@@ -54,6 +52,8 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
     host: host
 
   activation_link = host+'/api/users/completeActivation?'+ activationLinkQS
+  console.log activation_link
+
   locals =
     email: receiverEmail
     activation_link: activation_link

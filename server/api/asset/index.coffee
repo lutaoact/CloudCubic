@@ -7,9 +7,9 @@ auth = require '../../auth/auth.service'
 router = express.Router()
 
 # image request will not send Authorization in header, thus, auth.isAuthenticated() fails. Consider using cookie.
-router.get  '/images/:assetType/*', controller.getImages
-router.get  '/videos/:assetType/*', controller.getVideos
-router.get  '/slides/:assetType/*', controller.getSlides
+router.get  '/images/:assetType/*', auth.verifyTokenCookie(), controller.getImages
+router.get  '/videos/:assetType/*', auth.verifyTokenCookie(), controller.getVideos
+router.get  '/slides/:assetType/*', auth.verifyTokenCookie(), controller.getSlides
 router.get  '/upload/images', auth.isAuthenticated(), controller.uploadImage
 router.get  '/upload/videos', auth.isAuthenticated(), controller.uploadVideo
 router.get  '/upload/slides', auth.isAuthenticated(), controller.uploadSlide

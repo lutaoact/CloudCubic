@@ -120,3 +120,5 @@ module.exports =
   baiduPushService:
     ak: "d3ylollIsSvgrAKss9iD9pGt"           # API Key
     sk: "XTxRVe6SvXnx0N3CdOSu5j1swXcEoHi2"   # Secret Key
+
+  videoViewTimeLimit: 50

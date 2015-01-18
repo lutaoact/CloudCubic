@@ -1,8 +1,9 @@
 AssetUtils = _u.getUtils 'asset'
 config = require '../../config/environment'
 redisClient = require '../../common/redisClient'
+VideoViewCounter = _u.getModel 'video_view_counter'
 
-retrieveAsset = (key, assetType, res) ->
+retrieveAsset = (key, assetType) ->
 
   # check cache first
   redisClient.q.get key
@@ -47,7 +48,30 @@ makeGetFunc = (type) ->
     key = decodeURI(req.url.replace(regex, ''))
     assetType = req.params.assetType
 
-    retrieveAsset key, assetType
+    startQ = Q()
+    # for video view time limit:
+    if ((req.user?) && (type=='video') && (req.headers.range.substring(0,8)=='bytes=0-'))
+      startQ = VideoViewCounter.updateQ
+        userId: req.user._id
+        mediaKey: key
+        counter: {"$lt": config.videoViewTimeLimit}
+      ,
+        $inc:
+          counter: 1
+      ,
+        upsert: true
+      .fail (err)->
+        if err.code == 11000
+          Q.reject
+            status: 400
+            errCode: ErrCode.ReachVideoViewTimeLimit
+            errMsg: '超过播放次数上限'
+        else
+          throw err
+
+    startQ
+    .then ()->
+      retrieveAsset key, assetType
     .then (downloadUrl)->
       res.redirect downloadUrl
     .catch next
