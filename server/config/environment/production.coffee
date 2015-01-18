@@ -46,6 +46,8 @@ module.exports =
         secret: '7b88d10a6a284fc9dc3881e5d32396ed'
     callbackURL: '/auth/weixin/callback'
 
+  weixinAuthCallbackURL: '/auth/weixin/callback'
+
   weiboAuth:
     appkey: '1324448620'
     secret: '3bb9527da4c087f942c7e785ddc5332a'

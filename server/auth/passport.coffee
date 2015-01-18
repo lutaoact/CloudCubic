@@ -88,11 +88,11 @@ passport.use(new QQStrategy({
 
 passport.use(new WeixinStrategy({
   clientID    : (req) ->
-    return config.weixinAuth.host2appKeyMap[req.headers.host].appkey
+    return global.weixinAuth[req.headers.host].appid
   clientSecret: (req) ->
-    return config.weixinAuth.host2appKeyMap[req.headers.host].secret
+    return global.weixinAuth[req.headers.host].secret
   callbackURL : (req) ->
-    return "http://#{req.headers.host}#{config.weixinAuth.callbackURL}"
+    return "http://#{req.headers.host}#{config.weixinAuthCallbackURL}"
   requireState: false
   scope       : 'snsapi_login'
   passReqToCallback: true

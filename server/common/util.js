@@ -1,5 +1,6 @@
 var async = require('async');
-require('./initGlobal');
+var _  = require('lodash');
+var _s = require('underscore.string');
 var random = new (require('./mt').MersenneTwister)()
 var assert = require('assert');
 
@@ -82,50 +83,6 @@ function convertToSnakeCase(key) {
     }).join('_');
 }
 exports.convertToSnakeCase = convertToSnakeCase;
-
-function saveData(modelMap, database, cb) {
-    async.eachSeries(_.keys(database), function(table, next) {
-        logger.info(">>>>> processing table " + table + " <<<<<");
-        var modelName = convertToCamelCase(table);
-        var Model = modelMap[modelName];
-        if (!Model) {
-            logger.error('can not find model: ' + modelName);
-            next();
-            return;
-        }
-        saveSpecifiedModelData(database[table], Model, next);
-    }, cb);
-}
-exports.saveData = saveData;
-
-//存储指定model的数据，只存储schema中指定的字段
-function saveSpecifiedModelData(datas, modelObj, cb) {
-    var schema = modelObj.schema;
-    async.series([
-        function(next) {
-            modelObj.remove({}, next);
-        },
-        function(next) {
-            var timeReg = /^\s*\d{4}-\d{2}-\d{2} \d{2}:\d{2}\s*$/;
-            async.eachSeries(datas, function(d, _next) {
-                var data = {};
-                LOOP:
-                for (var field in schema) {
-                    if (_.isUndefined(d[field])) {
-                        logger.error('no field: ' + field);
-                        continue LOOP;
-                    }
-                    if (timeReg.test(d[field])){
-                        d[field] = time(d[field]);
-                    }
-                    data[field] = d[field];
-                }
-                modelObj.save(data, _next);
-            }, next);
-        },
-    ], cb);
-}
-exports.saveSpecifiedModelData = saveSpecifiedModelData;
 
 function getModel(key) {
   return new (require('../api/' + key + '/' + key + '.model')[_u.convertToCamelCase(key)]);
