@@ -313,13 +313,13 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'
         $scope.keypointBarChart.loading = false
       , (err)->
-        if err.status is 403 or err.status is 400
+        if err.status is 400
           notify
             message: err.data?.errMsg
             classes: 'alert-danger'
-        else
+        else if err.status is 401 or err.status is 403
           notify
-            message: '发生错误'
+            message: '请登录'
             classes: 'alert-danger'
         $q.reject err
 

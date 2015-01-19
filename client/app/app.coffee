@@ -93,6 +93,7 @@ angular.module 'budweiserApp', [
     redirect = encodeURIComponent newRedirect
     $location.url "#{loginPath}?#{redirectKey}=#{redirect}"
 
+
   apply: ->
     if !getRedirectUrl()? then return false
     $location.url getRedirectUrl()
@@ -196,7 +197,13 @@ angular.module 'budweiserApp', [
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     if initUser? then return
-    loginRedirector.set($state.href(toState, toParams)) if !Auth.hasRole(toState.roleRequired)
+    if !Auth.hasRole(toState.roleRequired)
+      loginRedirector.set($state.href(toState, toParams))
+      $modal.open
+        templateUrl: 'app/login/loginModal.html'
+        controller: 'loginModalCtrl'
+        windowClass: 'login-window-modal'
+        size: 'md'
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
