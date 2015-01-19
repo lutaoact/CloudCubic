@@ -359,7 +359,7 @@ options: {
         files: [{
           expand: true,
           cwd: 'dist/public',
-          src: 'index.html',
+          src: ['index.html','app/**/*.css'],
           dest:'dist/public'
         }]
       }
