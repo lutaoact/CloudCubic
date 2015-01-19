@@ -343,7 +343,7 @@ options: {
     cdnify: {
       dev:{
         options: {
-          base: 'http://kaiqi.localhost:9000/'
+          base: 'http://localhost:9000/'
         },
         files: [{
           expand: true,
@@ -738,7 +738,6 @@ options: {
       'express:dev',
       'wait',
       'open',
-      'cdnify:dev',
       'watch'
       ]);
   });
