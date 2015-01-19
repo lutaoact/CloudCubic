@@ -259,6 +259,74 @@
     </div>
   </tab>
 
+  <tab heading="微信登陆">
+    <div class="row admin-ui-view">
+      <form id="org-wechat-form"
+            class="form-horizontal col-md-10 col-md-offset-1"
+            role="form"
+            name="orgWechatForm">
+        <hr/>
+
+        <div class="form-group">
+          <label for="organization-wechatAppId"
+                 class="col-sm-3 control-label">AppId</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppId"
+                   name="name"
+                   ng-model="orgWechat.appid"
+                   placeholder="AppId"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatAppSecret"
+                 class="col-sm-3 control-label">AppSecret</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppSecret"
+                   name="name"
+                   ng-model="orgWechat.secret"
+                   placeholder="AppSecret"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatDomain"
+                 class="col-sm-3 control-label">绑定域名</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatDomain"
+                   name="name"
+                   ng-model="orgWechat.domain"
+                   placeholder="绑定域名"
+                   required>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group text-center">
+          <button type="submit"
+                  class="btn btn-danger rounded save-btn"
+                  ng-disabled="wechatSaved || wechatSaving"
+                  ng-click="saveOrgWechat(orgWechatForm)">
+            <span ng-if="!wechatSaving">
+              <span ng-if="!wechatSaved">保存</span>
+              <span ng-if="wechatSaved">已保存</span>
+            </span>
+            <span ng-if="wechatSaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </tab>
   <!--机构定制化-->
   <tab heading="定制化">
     <div custom-org-banners-tile organization="organization"></div>

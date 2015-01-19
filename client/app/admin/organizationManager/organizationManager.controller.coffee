@@ -33,6 +33,10 @@ angular.module('budweiserApp')
     alipaySaved: true
     orgAlipay: null
     orignOrgAlipay: {}
+    wechatSaving: false
+    wechatSaved: true
+    orgWechat: null
+    orignOrgWechat: {}
 
     orgTypes: orgTypeService.getList()
 
@@ -79,12 +83,27 @@ angular.module('budweiserApp')
       .finally ->
         $scope.alipaySaving = false
 
+    saveOrgWechat: ->
+      $scope.wechatSaving = true
+      Restangular
+      .one('org_weixins','me')
+      .patch $scope.orgWechat
+      .then ->
+        angular.extend $scope.orignOrgWechat, $scope.orgWechat
+      .finally ->
+        $scope.wechatSaving = false
 
   Restangular
   .one('org_alipays','me').get()
   .then (data) ->
     $scope.orgAlipay = data ? {}
     angular.extend $scope.orignOrgAlipay, $scope.orgAlipay
+
+  Restangular
+  .one('org_weixins','me').get()
+  .then (data) ->
+    $scope.orgWechat = data ? {}
+    angular.extend $scope.orignOrgWechat, $scope.orgWechat
 
   Restangular
   .one('organizations', org._id)
@@ -102,3 +121,8 @@ angular.module('budweiserApp')
     _.isEqual($scope.orgAlipay, $scope.orignOrgAlipay)
   , (isEqual) ->
     $scope.alipaySaved = isEqual
+
+  $scope.$watch ->
+    _.isEqual($scope.orgWechat, $scope.orignOrgWechat)
+  , (isEqual) ->
+    $scope.wechatSaved = isEqual
