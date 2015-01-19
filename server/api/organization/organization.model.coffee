@@ -48,9 +48,6 @@ exports.Organization = BaseModel.subclass
   findByUniqueName: (uniqueName) ->
     @findOneQ uniqueName: uniqueName
 
-  findByUniqueNameI: (uniqueName) ->
-    @findOneQ uniqueName: { $regex : new RegExp(uniqueName, "i") }
-
   findByCustomDomain: (customDomain) ->
     @findOneQ customDomain: customDomain
 
