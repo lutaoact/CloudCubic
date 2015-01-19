@@ -48,8 +48,6 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
   activationLinkQS = querystring.stringify
     email: receiverEmail
     activation_code: activationCode
-    orgName: orgName
-    host: host
 
   activation_link = host+'/api/users/completeActivation?'+ activationLinkQS
   console.log activation_link
@@ -57,6 +55,8 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
   locals =
     email: receiverEmail
     activation_link: activation_link
+    orgName: orgName
+    host: host
 
   htmlOutput = pwdActivationFn locals
 
