@@ -7,12 +7,13 @@ module.exports = function (grunt) {
     express: 'grunt-express-server',
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
+    cdnify: 'grunt-cdnify',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
     replace: 'grunt-replace',
     processhtml: 'grunt-processhtml',
-    webfont: 'grunt-webfont'
+    webfont: 'grunt-webfont',
+    qiniu: 'grunt-qiniu-deploy'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -340,8 +341,43 @@ options: {
 
     // Replace Google CDN references
     cdnify: {
+      dev:{
+        options: {
+          base: 'http://localhost:9000/'
+        },
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: 'index.html',
+          dest:'client'
+        }]
+      },
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        options: {
+          base: 'http://statics.cloud3edu.cn/'
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist/public',
+          src: ['index.html','app/**/*.css'],
+          dest:'dist/public'
+        }]
+      }
+    },
+
+    qiniu: {
+      dist: {
+        options: {
+          ignoreDup: true,
+          accessKey: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
+          secretKey: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
+          bucket: 'cloud3cdn',
+          domain: 'http://cloud3cdn.qiniudn.com',
+          resources: [{
+            cwd: 'dist/public',
+            pattern: '{app|assets}/**/*.*'
+          }]
+        }
       }
     },
 
@@ -768,14 +804,15 @@ grunt.registerTask('build', [
   'autoprefixer',
   'ngtemplates',
   'concat',
-    // 'ngmin',
-    'copy:dist',
-    'cdnify',
-    'cssmin',
-    // 'uglify',
-    'rev',
-    'usemin'
-    ]);
+  // 'ngmin',
+  'copy:dist',
+  'cssmin',
+  // 'uglify',
+  'rev',
+  'usemin',
+  'cdnify:dist',
+  'qiniu:dist'
+  ]);
 
 
 grunt.registerTask('default', [

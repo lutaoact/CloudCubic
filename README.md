@@ -40,6 +40,13 @@ start redis server at localhost:6379, then
 
 `grunt serve`
 
+
+###Qiniu CDN
+to sync bower files
+#### Pre-request: install qiniu-devtool
+run `path/to/qrsync qiniu_conf.json`
+
+
 ###Troubleshooting
 + After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)  
 Fixed: add `ulimit -S -n 2048` to your `~/.bash_profile`
@@ -54,7 +61,6 @@ Install Coffee/Less
 [Coffee Syntax for Sublime](https://github.com/jashkenas/coffee-script-tmbundle)  
 HTML/CSS Coding Style: follow [Github Coding Sytle](https://github.com/styleguide/css)  
 JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)
-
 
 ## Roadmap
 ### 用户自己的域mapping orgId
@@ -93,4 +99,5 @@ JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/nod
 ## Changelog
 ### create new branch online_school
 ### create migration script: migration_20141231.js (when deploy, should run this script)
+### add qiniu sync
 
