@@ -17,7 +17,7 @@ module.exports = function (grunt) {
   });
 
   var config = {
-    cdn: 'http://statics.cloud3edu.cn/',
+    cdn: 'http://7u2mnb.com1.z0.glb.clouddn.com/',
     qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
     qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
     qiniu_cdn_bucket: 'cloud3cdn'
@@ -365,9 +365,9 @@ options: {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>/public',
+          cwd: 'dist/public',
           src: ['index.html','app/**/*.css'],
-          dest:'<%= yeoman.dist %>/public'
+          dest:'dist/public'
         }]
       }
     },
@@ -381,8 +381,8 @@ options: {
           bucket: config.qiniu_cdn_bucket,
           domain: 'http://' + config.qiniu_cdn_bucket + '.qiniudn.com',
           resources: [{
-            cwd: '<%= yeoman.dist %>/public',
-            pattern: '{app|assets}/**/*.*'
+            cwd: 'dist/public',
+            pattern: ['app/**/*.*','assets/**/*.*']
           }]
         }
       }
