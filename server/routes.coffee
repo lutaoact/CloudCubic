@@ -93,6 +93,7 @@ module.exports = (app) ->
   app.use '/api/carts', require './api/cart'
   app.use '/api/comments', require './api/comment'
   app.use '/api/org_alipays', require './api/org_alipay'
+  app.use '/api/org_weixins', require './api/org_weixin'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404
