@@ -1,0 +1,6 @@
+{
+  "src":          "./dist/public/bower_components/",
+  "dest":         "qiniu:access_key=_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_&secret_key=qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv&key_prefix=bower_components/&bucket=cloud3cdn&threshold=4194304",
+  "deletable":    1,
+  "debug_level":  1
+}
