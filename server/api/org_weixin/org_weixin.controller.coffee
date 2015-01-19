@@ -12,7 +12,9 @@ exports.upsert = (req, res, next) ->
   pickedKeys = ["domain", "appid", "secret"]
   update = _.pick req.body, pickedKeys
   OrgWeixin.findOneAndUpdateQ {orgId: req.user.orgId}, update, {upsert: true}
-  .then (result) ->
-    res.send result
+  .then (doc) ->
+    global.weixinAuth[doc.domain] = {appid: doc.appid, secret: doc.secret}
+    logger.info "current global.weixinAuth:", global.weixinAuth
+    res.send doc
   .catch next
   .done()

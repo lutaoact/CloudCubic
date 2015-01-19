@@ -5,9 +5,9 @@ global.weixinAuth = {}
 Organization = _u.getModel 'organization'
 OrgWeixin = _u.getModel 'org_weixin'
 OrgWeixin.findAllQ()
-.then (orgWeixins) ->
-  for orgWeixin in orgWeixins
-    global.weixinAuth[orgWeixin.domain] = {appid: orgWeixin.appid, secret: orgWeixin.secret}
+.then (docs) ->
+  for doc in docs
+    global.weixinAuth[doc.domain] = {appid: doc.appid, secret: doc.secret}
 
   console.log global.weixinAuth
 , (err) ->
