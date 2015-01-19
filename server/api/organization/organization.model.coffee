@@ -99,6 +99,7 @@ setupOrgSchema = (OrgSchema) ->
       'videos'
       'search'
       'static'
+      'statics'
       'public'
       'private'
       'upload'
