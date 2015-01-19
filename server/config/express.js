@@ -30,6 +30,15 @@ module.exports = function(app) {
   app.use(passport.initialize());
 
   if ('production' === env || 'online_test' === env) {
+    var allowCrossDomain = function(req, res, next) {
+      if(req.host=='statics.cloud3edu.cn') {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTION,PATCH');
+        res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+      }
+      next();
+    };
+    app.use(allowCrossDomain);
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public'), {index: 'index'}));
     app.set('appPath', config.root + '/public');
