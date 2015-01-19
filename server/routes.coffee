@@ -34,7 +34,7 @@ orgGetter = (req, res, next) ->
       matches = host.match regexp
 
       if matches?.length is 2
-        Organization.findBy matches[1]
+        Organization.findByUniqueNameI matches[1]
       else
         Organization.findByCustomDomain host
   ).then (org) ->

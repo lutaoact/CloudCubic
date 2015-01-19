@@ -2,7 +2,7 @@ Organization = _u.getModel 'organization'
 
 class OrganizationUtils
   check: (uniqueName) ->
-    Organization.findBy uniqueName
+    Organization.findByUniqueName uniqueName
     .then (org) ->
       if org?
         return Q.reject
