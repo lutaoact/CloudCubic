@@ -120,6 +120,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->
 
+    $scope.onVideoError = undefined
     # clear video
     angular.element('video').attr 'src', ''
 
