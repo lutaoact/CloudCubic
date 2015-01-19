@@ -297,12 +297,13 @@
           <label for="organization-wechatDomain"
                  class="col-sm-3 control-label">绑定域名</label>
           <div class="col-sm-7">
-            <input class="form-control"
-                   id="organization-wechatDomain"
-                   name="name"
-                   ng-model="orgWechat.domain"
-                   placeholder="绑定域名"
-                   required>
+            <select class="form-control"
+                    id="classe-course"
+                    ng-model="orgWechat.domain"
+                    ng-options="domainName for domainName in [editingInfo.customDomain, organization.uniqueName+'.cloud3edu.cn']"
+                    required>
+              <option value="" class="text-muted">请选择你要绑定的域名</option>
+            </select>
           </div>
         </div>
 

@@ -35,7 +35,7 @@ angular.module('budweiserApp')
     orignOrgAlipay: {}
     wechatSaving: false
     wechatSaved: true
-    orgWechat: null
+    orgWechat: {}
     orignOrgWechat: {}
 
     orgTypes: orgTypeService.getList()
@@ -102,7 +102,7 @@ angular.module('budweiserApp')
   Restangular
   .one('org_weixins','me').get()
   .then (data) ->
-    $scope.orgWechat = data ? {}
+    angular.extend $scope.orgWechat, data
     angular.extend $scope.orignOrgWechat, $scope.orgWechat
 
   Restangular
