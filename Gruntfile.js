@@ -16,6 +16,13 @@ module.exports = function (grunt) {
     qiniu: 'grunt-qiniu-deploy'
   });
 
+  var config = {
+    cdn: 'http://statics.cloud3edu.cn/',
+    qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
+    qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
+    qiniu_cdn_bucket: 'cloud3cdn'
+  };
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -354,13 +361,13 @@ options: {
       },
       dist: {
         options: {
-          base: 'http://statics.cloud3edu.cn/'
+          base: config.cdn
         },
         files: [{
           expand: true,
-          cwd: 'dist/public',
+          cwd: '<%= yeoman.dist %>/public',
           src: ['index.html','app/**/*.css'],
-          dest:'dist/public'
+          dest:'<%= yeoman.dist %>/public'
         }]
       }
     },
@@ -369,12 +376,12 @@ options: {
       dist: {
         options: {
           ignoreDup: true,
-          accessKey: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
-          secretKey: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
-          bucket: 'cloud3cdn',
-          domain: 'http://cloud3cdn.qiniudn.com',
+          accessKey: config.qiniu_ak,
+          secretKey: config.qiniu_sk,
+          bucket: config.qiniu_cdn_bucket,
+          domain: 'http://' + config.qiniu_cdn_bucket + '.qiniudn.com',
           resources: [{
-            cwd: 'dist/public',
+            cwd: '<%= yeoman.dist %>/public',
             pattern: '{app|assets}/**/*.*'
           }]
         }
@@ -639,6 +646,19 @@ options: {
         files: [
         {expand: true, flatten: true, src: ['client/index.html'],dest:'client/'}
         ]
+      },
+      template:{
+        options: {
+          patterns: [
+          {
+            match: /(|\/)assets\//g,
+            replacement: config.cdn + 'assets/'
+          }
+          ]
+        },
+        files: [
+        {expand: true, flatten: true, src: ['.tmp/templates.js'],dest:'.tmp/'}
+        ]
       }
     },
     processhtml: {
@@ -732,7 +752,7 @@ options: {
       'injector:less',
       'concurrent:server',
       'injector',
-      'replace',
+      'replace:dist',
       'processhtml',
       'bowerInstall',
       'autoprefixer',
@@ -798,12 +818,13 @@ grunt.registerTask('build', [
   'injector:less',
   'concurrent:dist',
   'injector',
-  'replace',
+  'replace:dist',
   'processhtml',
   'bowerInstall',
   'useminPrepare',
   'autoprefixer',
   'ngtemplates',
+  'replace:template',
   'concat',
   // 'ngmin',
   'copy:dist',
