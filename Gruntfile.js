@@ -663,6 +663,7 @@ options: {
         options: {
           font: 'bud-font',
           hashes: false,
+          relativeFontPath: '/assets/fonts/bud-font/',
           templateOptions:{
             classPrefix: 'budon-',
             baseClass: "budon"
