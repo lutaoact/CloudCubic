@@ -13,7 +13,8 @@ exports.upsert = (req, res, next) ->
   update = _.pick req.body, pickedKeys
   OrgWeixin.findOneAndUpdateQ {orgId: req.user.orgId}, update, {upsert: true}
   .then (doc) ->
-    global.weixinAuth[doc.domain] = {appid: doc.appid, secret: doc.secret}
+    # 将更新之后的新域名配置信息更新到全局对象中去
+    global.setWeixinAuth doc.domain, {appid: doc.appid, secret: doc.secret}
     logger.info "current global.weixinAuth:", global.weixinAuth
     res.send doc
   .catch next
