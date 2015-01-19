@@ -66,27 +66,31 @@
             该机构名称已被注册
           </p>
         </div>
-        <div class="form-group" ng-class="{ 'has-success': form.orgUniqueName.$valid && submitted,
-                                            'has-error': form.orgUniqueName.$invalid && submitted}">
+        <div class="form-group" ng-class="{ 'has-success': form.uniqueName.$valid && submitted,
+                                            'has-error': form.uniqueName.$invalid && submitted}">
           <label>机构唯一标识<span class="text-primary">（创建后不能修改，支持字母和数字）</span></label>
 
-          <input type="text" name="orgUniqueName"
+          <input type="text" name="uniqueName"
                  class="form-control input-sm"
                  placeholder="请输入您的机构唯一标识，比如：“cloud3edu”"
                  ng-model="organization.uniqueName"
-                 ng-change="checkOrgUniqueName(form.orgUniqueName)"
+                 ng-change="checkOrgUniqueName(form.uniqueName)"
+                 style="text-transform: lowercase;"
                  required/>
-          <p class="help-block" ng-show="form.orgUniqueName.$error.required && submitted">
+          <p class="help-block" ng-show="form.uniqueName.$error.required && submitted">
             <i class="fa fa-exclamation-triangle text-danger"></i>请输入机构域名
           </p>
-          <p class="help-block" ng-show="form.orgUniqueName.$error.remote">
+          <p class="help-block" ng-show="form.uniqueName.$error.remote">
             <i class="fa fa-exclamation-triangle text-danger"></i>该机构域名已被注册
           </p>
-          <p class="help-block" ng-show="form.orgUniqueName.$remoteChecked == 'pending'">
+          <p class="help-block" ng-show="form.uniqueName.$remoteChecked == 'pending'">
             <i class="fa fa-spin fa-spinner"></i>检查中
           </p>
-          <p class="help-block" ng-show="form.orgUniqueName.$remoteChecked == true">
+          <p class="help-block" ng-show="form.uniqueName.$remoteChecked == true">
             <i class="fa fa-check text-success"></i>该机构域名可用
+          </p>
+          <p class="help-block" ng-if="form.uniqueName.$error.mongoose">
+            <i class="fa fa-check text-success"></i>{{errors.uniqueName}}
           </p>
         </div>
 

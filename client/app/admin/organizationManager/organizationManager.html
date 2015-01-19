@@ -53,6 +53,7 @@
                    ng-model="editingInfo.uniqueName"
                    placeholder="机构唯一标识"
                    mongoose-error
+                   style="text-transform: lowercase;"
                    required>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.mongoose">{{ errors.uniqueName }}</small>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.required && orgForm.$submitted">必填项</small>

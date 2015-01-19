@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   $timeout
   Restangular
   mailAddressService
+  notify
   org
 ) ->
 
@@ -43,6 +44,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
           # Update validity of form fields that match the mongoose errors
           angular.forEach err.errors, (error, field) ->
+            console.log field
             form[field].$setValidity 'mongoose', false
             $scope.errors[field] = error.message
 
