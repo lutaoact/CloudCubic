@@ -20,18 +20,7 @@ module.exports =
 
   nodejsServer : '115.29.244.232'
 
-  weixinAuth:
-    host2appKeyMap:
-      'demo.cloud3edu.cn':
-        appkey: 'wx0b867034fb0d7f4e'
-        secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-      'cloud3edu.cloud3edu.cn':
-        appkey: 'wx0b867034fb0d7f4e'
-        secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-      'www.cloud3edu.com':
-        appkey: 'wx0b867034fb0d7f4e'
-        secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-    callbackURL: '/auth/weixin/callback'
+  weixinAuthCallbackURL: '/auth/weixin/callback'
 
   weiboAuth:
     appkey: '1324448620'
