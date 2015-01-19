@@ -15,6 +15,10 @@ exports.OrgWeixin = BaseModel.subclass
         required: true
         unique: true
         ref : 'organization'
+      domain:
+        type: String
+        required: true
+        unique: true
       appid:
         type: String
         required: true
