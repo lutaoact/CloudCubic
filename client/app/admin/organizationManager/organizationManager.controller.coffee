@@ -14,7 +14,6 @@ angular.module('budweiserApp')
   editableFields = [
     'name'
     'type'
-    'uniqueName'
     'customDomain'
     'description'
     'telephone'

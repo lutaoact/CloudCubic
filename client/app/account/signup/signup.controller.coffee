@@ -72,6 +72,8 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
     checkOrgUniqueName: (orgUniqueName)->
       $timeout.cancel($scope.checkOrgUniqueNamePromise)
+      orgUniqueName.$remoteChecked = false
+      orgUniqueName.$setValidity 'remote', true
       if orgUniqueName.$modelValue
         orgUniqueName.$remoteChecked = 'pending'
         orgUniqueName.$setValidity 'remote', true
