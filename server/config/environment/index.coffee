@@ -11,6 +11,8 @@ requiredProcessEnv = (name) ->
 # All configurations will extend these options
 # ============================================
 all =
+  appName: 'budweiser'
+
   env: process.env.NODE_ENV
 
   # Root path of server
