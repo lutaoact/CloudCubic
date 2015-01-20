@@ -76,8 +76,7 @@
                  placeholder="请输入您的机构唯一标识，比如：“cloud3edu”"
                  ng-model="organization.uniqueName"
                  ng-change="checkOrgUniqueName(form.uniqueName)"
-                 style="text-transform: lowercase;"
-                 ng-pattern="/^[a-z0-9][a-z0-9-]+[a-z0-9]$/i"
+                 ng-pattern="/^[a-z0-9][a-z0-9-]+[a-z0-9]$/"
                  mongoose-error
                  required/>
           <p class="help-block" ng-show="form.uniqueName.$error.required && submitted">

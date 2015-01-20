@@ -35,18 +35,17 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     searchUsers: ($search)->
       if $search.search
         $scope.searchedUsers.length = 0
-        Restangular.all('users/match').getList query: $search.search
+        Restangular.all('users/match').getList {keyword: $search.search, role: userRole}
         .then (users)->
           if users.length
             users.forEach (user)->
               $scope.searchedUsers.push
                 text: user.name+' '+user.email
-                user: anuglar.copy(user)
-          else
-            if /^[_a-z0-9-\+]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i.test $search.search
-              $scope.searchedUsers.push
-                text: '发送邀请给'+$search.search
-                email: $search.search
+                user: angular.copy(user)
+          else if /^[_a-z0-9-\+]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i.test $search.search
+            $scope.searchedUsers.push
+              text: '发送邀请给'+$search.search
+              email: $search.search
 
     cancel: ->
       $modalInstance.dismiss('cancel')
@@ -61,6 +60,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
       else
         newUser = angular.copy $scope.user
         newUser.email = $scope.selectedUser.email
+        newUser.name = $scope.selectedUser.email.replace(/@.*/,'')
         Restangular.all('users').post newUser
         .then $modalInstance.close, (error) ->
           $scope.errors = error?.data?.errors

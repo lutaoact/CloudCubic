@@ -115,9 +115,14 @@ exports.check = (req, res, next) ->
   .catch next
   .done()
 
-exports.matchEmail = (req, res, next) ->
+exports.match = (req, res, next) ->
   conditions = orgId: req.user.orgId
-  conditions.email = new RegExp(_u.escapeRegex(req.query.email), 'i')
+  conditions.$or = [
+    email: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ,
+    name: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ]
+  conditions.role = req.query.role
   User.findQ conditions, 'name email avatar'
   .then (users) ->
     res.send users
