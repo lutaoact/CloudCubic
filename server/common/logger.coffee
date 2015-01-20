@@ -30,8 +30,10 @@ log4js.configure
         filename: getCallerFile
     category    : logCategory
   ,
-    type        : 'file'
+    type        : 'dateFile'
     filename    : "/data/log/#{config.appName}.data.log"
+    pattern     : "-yyyy-MM-dd"
+    alwaysIncludePattern: false
     layout      :
       type      : 'pattern'
       pattern   : "%m"
