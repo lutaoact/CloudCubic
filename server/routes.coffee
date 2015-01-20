@@ -111,7 +111,7 @@ module.exports = (app) ->
   .get (req, res) ->
     # if there is no cookie token, return index.html immediately
     indexPath =
-      if req.url.indexOf('/mobile/') != -1
+      if req.url.indexOf('/mobile') is 0
         app.get('appPath') + '/mobile/index.html'
       else
         app.get('appPath') + '/index.html'
