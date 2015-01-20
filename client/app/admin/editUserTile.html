@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="form-group">
-        <uploader class="btn btn-danger btn-sm rounded"
+        <uploader class="btn btn-danger btn-sm"
                   limit="{{imageSizeLimitation}}"
                   on-complete="onAvatarUploaded($data)"
                   crop="true"
@@ -57,7 +57,7 @@
               </a>
               <div class="dropdown-menu">
                 <div style="text-align: center; padding-top: 10px;">
-                  请使用微信扫描二维码完成绑定 
+                  请使用微信扫描二维码完成绑定
                   <hr/>
                 </div>
                 <weixin-login/>
@@ -103,7 +103,7 @@
         <div class="col-xs-8 col-xs-offset-4 text-left">
           <button type="submit"
                   ng-disabled="viewState.saved || viewState.saving"
-                  class="btn btn-danger btn-sm rounded" >
+                  class="btn btn-danger btn-sm" >
             <span ng-if="!viewState.saving">
               <span ng-if="!viewState.saved">保存</span>
               <span ng-if="viewState.saved">已保存</span>

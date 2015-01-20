@@ -14,7 +14,7 @@
                source-attr="background-image"
                suffix="?imageView2/1/w/130/h/130">
           </div>
-          <uploader class="btn btn-danger btn-sm rounded"
+          <uploader class="btn btn-danger btn-sm"
                     limit="{{imageSizeLimitation}}"
                     on-complete="onLogoUpload($data)"
                     accept-type="image"
@@ -165,7 +165,7 @@
           <label class="col-sm-3 control-label">账户级别</label>
           <div class="col-sm-7">
             <label ng-if="organization.paid" class="form-control text-primary">高级账户</label>
-            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
+            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm btn-primary">升级为高级用户</a>
           </div>
         </div>
         -->
@@ -174,7 +174,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="saved || saving"
                   ng-click="saveOrg(orgForm)">
             <span ng-if="!saving">
@@ -244,7 +244,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="alipaySaved || alipaySaving"
                   ng-click="saveOrgAlipay(orgPaymentForm)">
             <span ng-if="!alipaySaving">
@@ -314,7 +314,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="wechatSaved || wechatSaving"
                   ng-click="saveOrgWechat(orgWechatForm)">
             <span ng-if="!wechatSaving">
@@ -339,7 +339,7 @@
         <h4>关于我们</h4>
         <text-angular class="bud" ng-model="organization.about" ></text-angular>
         <div class="form-group text-center">
-          <button class="btn btn-danger rounded save-btn"
+          <button class="btn btn-danger save-btn"
                   ng-disabled="aboutSaved || aboutSaving"
                   ng-click="saveOrgAbout()">
             <span ng-if="!aboutSaving">
