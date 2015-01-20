@@ -110,13 +110,18 @@ module.exports = (app) ->
   app.route '/*'
   .get (req, res) ->
     # if there is no cookie token, return index.html immediately
-    indexPath = app.get('appPath') + '/index.html'
+    indexPath =
+      if req.url.indexOf('/mobile/') != -1
+        app.get('appPath') + '/mobile/index.html'
+      else
+        app.get('appPath') + '/index.html'
     locals =
-      webview: "#{req.query.webview?}"
-      initUser: "null"
-      initNotify: "#{JSON.stringify(req.query.message)}"
-      org: "#{JSON.stringify(req.org)}"
-      orgObj: req.org
+      title      : req.org?.name ? "云立方学院"
+      icon       : req.org?.logo ? "favicon.ico"
+      webview    : "#{req.query.webview?}"
+      initUser   : "null"
+      initNotify : "#{JSON.stringify(req.query.message)}"
+      org        : "#{JSON.stringify(req.org)}"
 
     token = (req.cookies.token ? req.query.access_token)?.replace /"/g, ''
 

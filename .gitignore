@@ -25,3 +25,4 @@ npm-debug.log
 /server/utils/*.js
 !/server/common/alipay/*.js
 !/server/common/alipay/**/*.js
+!/client/mobile
