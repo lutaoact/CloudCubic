@@ -42,7 +42,10 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         classeId: classe._id or classe
 
     calculateStudentsCount: ()->
-      ($scope.classes?.map (x)-> x.students.length)?.reduce (prev, cur)-> (prev + cur)
+      if $scope.classes?.length
+        ($scope.classes?.map (x)-> x.students.length)?.reduce (prev, cur)-> (prev + cur)
+      else
+        0
 
 .controller 'TeacherCourseStatsMainCtrl', (
   $scope
