@@ -1,8 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp')
-
-.config ($stateProvider) ->
+angular.module('budweiserApp').config ($stateProvider) ->
 
   $stateProvider.state 'teacher',
     abstract: true
