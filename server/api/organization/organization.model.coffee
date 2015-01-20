@@ -40,6 +40,7 @@ exports.Organization = BaseModel.subclass
       ]
       icp: String
       copyright: String
+      about: String
 
     setupOrgSchema @schema
 

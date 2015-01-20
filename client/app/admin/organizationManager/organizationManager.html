@@ -331,7 +331,29 @@
   </tab>
   <!--机构定制化-->
   <tab heading="定制化">
-    <div custom-org-banners-tile organization="organization"></div>
+    <div class="row">
+      <div class="admin-ui-view" custom-org-banners-tile organization="organization"></div>
+      <div class="col-md-12 custom-about-us admin-ui-view">
+        <h4>关于我们</h4>
+        <text-angular class="bud" ng-model="organization.about" ></text-angular>
+        <div class="form-group text-center">
+          <button class="btn btn-danger rounded save-btn"
+                  ng-disabled="aboutSaved || aboutSaving"
+                  ng-click="saveOrgAbout()">
+            <span ng-if="!aboutSaving">
+              <span ng-if="!aboutSaved">保存</span>
+              <span ng-if="aboutSaved">已保存</span>
+            </span>
+            <span ng-if="aboutSaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+        <h4>预览</h4>
+        <div compile-html="organization.about"></div>
+      </div>
+    </div>
   </tab>
 
   <!--机构公告区-->
@@ -339,10 +361,12 @@
     <div org-broadcast-tile organization="organization"></div>
   </tab>
 
-  <tab heading="报表" ng-if="reports">
-    <reports>
+  <tab heading="报表">
+    <div class="row report-row">
+      <reports>
 
-    </reports>
+      </reports>
+    </div>
   </tab>
 
 </tabset>
