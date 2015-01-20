@@ -28,6 +28,8 @@ qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
 
+WrapRequest = new (require '../../utils/WrapRequest')(User)
+
 ###
   Get list of users
   restriction: 'admin'
@@ -110,6 +112,15 @@ exports.check = (req, res, next) ->
     email: req.query.email
   .then () ->
     res.send 200
+  .catch next
+  .done()
+
+exports.matchEmail = (req, res, next) ->
+  conditions = orgId: req.user.orgId
+  conditions.email = new RegExp(_u.escapeRegex(req.query.email), 'i')
+  User.findQ conditions, 'name email avatar'
+  .then (users) ->
+    res.send users
   .catch next
   .done()
 
