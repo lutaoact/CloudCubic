@@ -16,6 +16,7 @@ exports.init = (sockjs_server) ->
           global.socketMap[user._id] = beatAt: _u.time(), ws: conn
         else
           logger.info "userId: #{user._id}, websocket beat come"
+          loggerD.write 'beat', user._id
           global.socketMap[user._id].beatAt = _u.time()
 
 #        routes[msg.type] user, msg.payload #if we need more, uncomment this line
