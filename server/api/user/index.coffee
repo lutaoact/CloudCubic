@@ -9,7 +9,7 @@ router = express.Router()
 router.get '/', auth.hasRole('teacher'), controller.index #?standalone=true
 router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
-router.get '/matchEmail', auth.isAuthenticated(), controller.matchEmail #?email=xxxxx
+router.get '/matchEmail', auth.hasRole('admin'), controller.matchEmail #?email=xxxxx
 router.post '/sendActivationMail', controller.sendActivationMail
 router.get '/completeActivation', controller.completeActivation
 router.post '/bulk', auth.hasRole('admin'), controller.bulkImport
