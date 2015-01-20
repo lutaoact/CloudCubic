@@ -22,7 +22,7 @@
         <ui-select-match placeholder="请输入要添加的用户，然后按回车">
           {{$select.selected.text}}
         </ui-select-match>
-        <ui-select-choices refresh="searchUsers($select)" refresh-delay="300" repeat="user in searchedUsers">
+        <ui-select-choices refresh="searchUsers($select)" refresh-delay="800" repeat="user in searchedUsers">
           <span ng-bind-html="user.text | highlight: $select.search"></span>
         </ui-select-choices>
       </ui-select>

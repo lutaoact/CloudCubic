@@ -30,7 +30,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
     selectUser: ($item, search, $event)->
       $scope.selectedUser = $item
-      console.log $item, search, $event
 
     searchUsers: ($search)->
       if $search.search
