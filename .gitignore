@@ -7,6 +7,7 @@ dist
 server/**/*.map
 server/app.js.map
 client/index.html
+client/mobile
 .idea
 /server/test.coffee
 /server/test.js
@@ -25,4 +26,3 @@ npm-debug.log
 /server/utils/*.js
 !/server/common/alipay/*.js
 !/server/common/alipay/**/*.js
-!/client/mobile
