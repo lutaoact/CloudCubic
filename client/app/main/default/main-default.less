@@ -33,6 +33,7 @@
 }
 
 .home-section{
+
   padding-top: 0;
   .section_header{
     p{
@@ -59,6 +60,11 @@
     border-color: #FFF;
     color: #FFF;
     width: 115px;
+    &:hover{
+      color: #FFF;
+      background-color: @base-color;
+      border-color: @base-color;
+    }
     i{
       margin-top: 8px;
       font-size: 18px;
@@ -101,7 +107,8 @@
 }
 
 #main{
-  margin-top: -50px;
+
+  margin-top: -100px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -164,7 +171,167 @@
     top: 231px;
   }
 
-  @media screen and (max-width: @screen-xs-max) {
+  .register-form-container{
+    position: absolute;
+    top: 30%;
+    right: 10%;
+    height: 30%;
+    .register-form{
+      width: 470px;
+    }
+  }
+
+  // carousel
+  .carousel{
+    .carousel-control{
+      width: 8%;
+    }
+    .carousel-indicators{
+      right: 18%;
+      left: auto;
+      width: auto;
+      li{
+        margin: 1px 10px;
+      }
+      .active{
+        margin: 0px 9px;
+      }
+    }
+    .carousel-control{
+      .glyphicon-chevron-left, .glyphicon-chevron-right, .icon-prev, .icon-next{
+        width: 60px;
+        height: 60px;
+        margin-top: -30px;
+        font-size: 60px;
+      }
+      .glyphicon-chevron-left, .icon-prev{
+        margin-left: -30px;
+      }
+      .glyphicon-chevron-right, .icon-next{
+        margin-right: -30px;
+      }
+    }
+
+    .banner{
+      position: relative;
+      background-color: @gray-lighter;
+      background-size: cover;
+      background-position: center 50px;
+      // top 50px is covered by navbar.
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+      .center-content{
+        .title, .text{
+          text-align: left;
+          color: #FFF;
+          margin-right: 100px;
+        }
+        .title{
+          .transition(all ease-in .5s);
+          margin-right: 0;
+          font-size: 50px;
+          opacity: 0;
+        }
+        .text{
+          .transition(all ease-in .5s);
+          font-size: 20px;
+          line-height: 1.75em;
+          margin-bottom: 550px;
+          opacity: 0;
+        }
+      }
+      .widget-container{
+        .transition(all ease-in .5s);
+        left: 0;
+        position: absolute;
+        bottom: -360px;
+        right: 0;
+        opacity: 0;
+        .widget{
+          max-height: 360px;
+          padding-left: 0;
+          padding-right: 0;
+          img{
+            max-height: 100%;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+
+    .active{
+      .widget-container{
+        bottom: 0;
+        opacity: 1;
+      }
+      .banner{
+        .title{
+          opacity: 1;
+        }
+        .text{
+          margin-bottom: 250px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+  @media (max-width: 1300px) {
+    .carousel{
+      .carousel-indicators{
+        li{
+          margin: 1px 5px;
+        }
+        .active{
+          margin: 0px 4px;
+        }
+      }
+      .carousel-control{
+        .glyphicon-chevron-left, .glyphicon-chevron-right, .icon-prev, .icon-next{
+          width: 40px;
+          height: 40px;
+          margin-top: -20px;
+          font-size: 40px;
+        }
+        .glyphicon-chevron-left, .icon-prev{
+          margin-left: -20px;
+        }
+        .glyphicon-chevron-right, .icon-next{
+          margin-right: -20px;
+        }
+      }
+      .banner{
+        .center-content{
+          .title{
+            font-size: 40px;
+          }
+          .text{
+            font-size: 16px;
+            margin-bottom: 250px;
+          }
+        }
+        .widget-container{
+          .widget{
+            padding-left: 0;
+            padding-right: 50px;
+          }
+        }
+      }
+      .active{
+        .banner{
+          .text{
+            margin-bottom: 150px;
+          }
+        }
+      }
+    }
+    .register-form-container{
+      .register-form{
+        width: 370px;
+      }
+    }
+  }
+  @media (max-width: @screen-xs-max) {
     .description{
       text-align: left;
       color: #FFF;
@@ -185,9 +352,57 @@
     p{
       font-size: 14px;
     }
-  }
-}
 
+    .carousel{
+      .carousel-control{
+        display: none;
+      }
+      .carousel-indicators{
+        right: 15px;
+        bottom: 5px;
+        li{
+          margin: 1px 10px;
+        }
+        .active{
+          margin: 0px 9px;
+        }
+      }
+
+      .banner{
+        .center-content{
+          display: block;
+          margin-top: 70px;
+          .title, .text{
+            text-align: center;
+            margin-right: 0;
+            .text-shadow(6px 6px 6px rgba(51, 51, 51, 1));
+          }
+          .title{
+            font-size: 20px;
+          }
+          .text{
+            display: none;
+          }
+        }
+        .widget-container{
+          display: none;
+        }
+      }
+
+    }
+    .register-form-container{
+      right: 0;
+      width: 100%;
+      top: 25%;
+      padding: 0 15px;
+      .register-form{
+        width: 100%;
+        margin:auto;
+      }
+    }
+  }
+
+}
 
 
 #contacts{
@@ -254,6 +469,6 @@
   }
 }
 
-#courses-section.home-section{
+#courses-section.home-section {
   background: @gray-lighter;
 }

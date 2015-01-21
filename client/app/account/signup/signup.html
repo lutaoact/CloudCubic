@@ -28,8 +28,11 @@
   <div class="container"
        ng-show="!signupFinish" ng-if="isCloud3edu">
     <div class="row header">
-      <h2 class="text-center">
+      <h2 ng-if="!file" class="text-center">
         快速创建您的机构账户
+      </h2>
+      <h2 ng-if="file" class="text-center">
+        欢迎{{file.email}}，请填写您的机构信息
       </h2>
     </div>
     <div class="row">
@@ -46,7 +49,7 @@
           <div class="feature-body" src-key="'/assets/images/demo_1.png'" source-attr="background-image"></div>
         </div>
       </div>
-      <form class="form col-md-6 register-form"
+      <form class="form col-md-6 signup-form"
             name="form"
             ng-submit="registerOrg(form)" novalidate>
         <div class="form-group" ng-class="{ 'has-success': form.orgName.$valid && submitted,
@@ -99,7 +102,7 @@
           </p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+        <div class="form-group" ng-if="!file" ng-class="{ 'has-success': form.email.$valid && submitted,
                                             'has-error': form.email.$invalid && submitted }">
           <label>管理员Email</label>
 
@@ -115,7 +118,7 @@
           </p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+        <div class="form-group" ng-if="!file" ng-class="{ 'has-success': form.password.$valid && submitted,
                                             'has-error': form.password.$invalid && submitted }">
           <label>管理员密码</label>
 
@@ -133,7 +136,7 @@
           </p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-success': form.passwordAgain.$valid && submitted,
+        <div class="form-group" ng-if="!file" ng-class="{ 'has-success': form.passwordAgain.$valid && submitted,
                                             'has-error': form.passwordAgain.$invalid && submitted}">
           <label>确认密码</label>
 
@@ -198,7 +201,7 @@
           <div class="feature-body" src-key="'/assets/images/demo_1.png'" source-attr="background-image"></div>
         </div>
       </div>
-      <form class="form col-md-6 register-form"
+      <form class="form col-md-6 signup-form"
             name="form"
             ng-submit="register(form)" novalidate>
 
