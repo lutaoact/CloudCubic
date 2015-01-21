@@ -11,3 +11,10 @@ exports.save = wechat(config.wechatToken, (req, res, next) ->
   .catch next
   .done()
 )
+
+exports.index = (req, res, next) ->
+  Wechat.findAllQ()
+  .then (results) ->
+    res.send results
+  .catch next
+  .done()

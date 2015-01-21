@@ -7,5 +7,6 @@ router = express.Router()
 
 #扩展api
 router.all "/", controller.save
+router.get  "/list", controller.index
 
 module.exports = router
