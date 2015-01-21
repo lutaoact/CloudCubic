@@ -1,46 +1,27 @@
 "use strict"
 
 OrgAlipay = _u.getModel "org_alipay"
-User = _u.getModel "user"
-
+WrapRequest = new (require '../../utils/WrapRequest')(OrgAlipay)
 
 exports.show = (req, res, next) ->
-  orgId = req.org._id
-  OrgAlipay.findByOrgId orgId
-  .then (orgAlipay) ->
-    res.send orgAlipay
-  , next
+  conditions = {orgId: req.user.orgId}
+  WrapRequest.wrapShow req, res, next, conditions
 
 
-exports.update = (req, res, next) ->
-  orgId = req.org.id
-  OrgAlipay.findByOrgId orgId
-  .then (orgAlipay) ->
-    if orgAlipay == null
-      alipayInfo =
-        orgId : req.org._id
-        email : req.body.email
-        PID   : req.body.PID
-        key   : req.body.key
-      OrgAlipay.createQ alipayInfo
-    else
-      orgAlipay.PID = req.body.PID if req.body.PID
-      orgAlipay.key = req.body.key if req.body.key
-      orgAlipay.email = req.body.email if req.body.email
-      orgAlipay.saveQ()
-      .then (result)->
-        return result?[0]
-  .then (orgAlipay) ->
-    res.send orgAlipay
-  , next
+exports.upsert = (req, res, next) ->
+  pickedKeys = ["PID", "key", "email"]
+  update = _.pick req.body, pickedKeys
+  OrgAlipay.findOneAndUpdateQ {orgId: req.user.orgId}, update, {upsert: true}
+  .then (doc) ->
+    res.send doc
+  .catch next
+  .done()
 
 
 exports.isSet = (req, res, next) ->
-  orgId = req.org._id
-  OrgAlipay.findByOrgId orgId
-  .then (orgAlipay) ->
-    if orgAlipay == null
-      res.send {isSet: false}
-    else
-      res.send {isSet: true}
-  , next
+  conditions = {orgId: req.org?._id}
+  OrgAlipay.findOneQ conditions
+  .then (doc) ->
+    res.send doc?
+  .catch next
+  .done()

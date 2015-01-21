@@ -13,6 +13,7 @@ exports.OrgAlipay = BaseModel.subclass
       orgId:
         type : ObjectId
         required: true
+        unique: true
         ref : 'organization'
       PID:
         type: String

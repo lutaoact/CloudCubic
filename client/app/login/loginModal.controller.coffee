@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
   $modal
   $timeout
   Restangular
+  PromiseCache
   $modalInstance
 ) ->
 
@@ -21,6 +22,7 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
     viewState:
       posting: false
       errors: null
+      weixinLogin: false
 
     cancel: ->
       $modalInstance.dismiss('cancel')
@@ -101,3 +103,6 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
+
+  PromiseCache.checkWeixin (isSet) ->
+    $scope.viewState.weixinLogin = isSet

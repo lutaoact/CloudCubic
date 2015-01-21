@@ -72,8 +72,10 @@ angular.module('budweiserApp')
           $scope.errors[field] = error.message
         console.log error
 
-    saveOrgAlipay: ->
+    saveOrgAlipay: (form) ->
+      if !form.$valid then return
       $scope.alipaySaving = true
+      console.log 'alipay', form, $scope.orgAlipay
       Restangular
       .one('org_alipays','me')
       .patch $scope.orgAlipay
@@ -82,7 +84,8 @@ angular.module('budweiserApp')
       .finally ->
         $scope.alipaySaving = false
 
-    saveOrgWechat: ->
+    saveOrgWechat: (form) ->
+      if !form.$valid then return
       $scope.wechatSaving = true
       Restangular
       .one('org_weixins','me')

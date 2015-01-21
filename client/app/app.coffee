@@ -180,9 +180,12 @@ angular.module 'budweiserApp', [
   initNotify
   $rootScope
   socketHandler
+  PromiseCache
   loginRedirector
   org
 ) ->
+
+  PromiseCache.refresh()
 
   $rootScope.Page = Page
   $rootScope.webview = webview

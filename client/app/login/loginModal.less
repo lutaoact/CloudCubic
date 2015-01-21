@@ -3,6 +3,9 @@
   .modal-dialog {
     margin-top: 120px;
     width: 650px;
+    .modal-body {
+      min-height: 325px;
+    }
   }
   .row {
     margin-left: 0px;
@@ -36,8 +39,11 @@
   }
   .email-login-group {
     vertical-align: top;
-    width: 56%;
+    width: 80%;
     display: inline-block;
+    &.weixin {
+      width: 56%;
+    }
   }
   .weixin-login-group {
     vertical-align: top;

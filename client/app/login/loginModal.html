@@ -11,8 +11,9 @@
   <a class="close" ng-click="cancel()">&times;</a>
 </div>
 
-<div class="row modal-body">
+<div class="row modal-body text-center">
   <form class="form email-login-group"
+        ng-class="{'weixin':viewState.weixinLogin}"
         ng-submit="login(loginForm)"
         ng-if="currentPage == 'login'"
         name="loginForm">
@@ -70,8 +71,9 @@
     </div>
   </form>
   <form name="signupForm"
-        ng-submit="signup(signupForm)"
         class="form email-login-group"
+        ng-class="{'weixin':viewState.weixinLogin}"
+        ng-submit="signup(signupForm)"
         ng-if="currentPage == 'signup'">
 
     <div class="text-center login-title">邮箱注册</div>
@@ -141,7 +143,8 @@
     </div>
   </form>
   <!-- weixin-login QR code area-->
-  <div class="weixin-login-group">
+  <div class="weixin-login-group"
+       ng-if="viewState.weixinLogin">
     <weixin-login/>
   </div>
 </div>
