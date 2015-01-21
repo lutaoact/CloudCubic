@@ -53,7 +53,7 @@ angular.module('budweiserApp')
             answer
           , []
         homeworkAnswer =
-          subitted: true
+          submitted: true
           result: result
         Restangular.all('homework_answers').post(homeworkAnswer, lectureId:$scope.lecture._id)
         .then ()->
