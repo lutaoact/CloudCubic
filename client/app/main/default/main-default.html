@@ -1,66 +1,78 @@
-<section full-page
-  class="home-section center-wrap"
-  id="main"
-  src-key="'/assets/images/classroom.jpg'"
-  source-attr="background-image">
-  <div class="text-center center-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 description">
-          <div class="description-content" style="max-width: 500px;margin: auto;">
-            <h2>教育的云计算时代<br>从云立方学院开始！</h2>
-            <h5>5秒钟创建班级，1分钟课程上线；实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！</h5>
-            <div class="apps clearfix hidden-xs">
-              <div class="col-sm-4 app" dropdown>
-                <a href="" class="dropdown-toggle">
-                  <i class="fa fa-apple"></i>
-                  云立方-iPhone
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    审核中...
-                  </li>
-                </ul>
-              </div>
-              <div class="col-sm-4 app" dropdown>
-                <a href="" class="dropdown-toggle">
-                  <i class="fa fa-android"></i>
-                  云立方-Android
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="http://public-cloud3edu-com.qiniudn.com/android/v0_0_1/cloud3edu-release.apk" class="text-center" target="blank">
-                      <img src="/assets/images/androidQR.png" alt="cloud3edu-release-0.0.1.apk">
-                      <br>点击下载
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-sm-4 app" dropdown>
-                <a href="" class="dropdown-toggle">
-                  <i class="fa fa-wechat"></i>
-                  微信公众号
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <img src="/assets/images/wechatQR.jpg" alt="">
-                  </li>
-                </ul>
-              </div>
-            </div>
+
+<section
+  class="home-section"
+  id="main">
+
+  <carousel interval="myInterval" disable-animation>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner01.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-4 col-md-5 col-md-offset-2">
+            <h1 class="title">
+              “独立的机构，独立的品牌”
+            </h1>
+            <h3 class="text">
+              每个教育机构使用自己独立的域名，独立的网校入口，充分的定制化设计；帮助您在众多教育机构中脱颖而出，让全世界都知道您的品牌。
+            </h3>
           </div>
         </div>
-        <div class="col-md-6">
-          <login-form style="margin:auto;"></login-form>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner01_mac.png'" alt="">
+          </div>
         </div>
       </div>
-    </div>
+    </slide>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner02.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-4 col-md-5 col-md-offset-2">
+            <h1 class="title">
+              “快速创建机构，快速展开教学”
+            </h1>
+            <h3 class="text">
+              5秒钟创建班级，1分钟课程上线 ; 实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！
+            </h3>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner02_ipad.png'" alt="">
+          </div>
+        </div>
+      </div>
+    </slide>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner03.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-4 col-md-5 col-md-offset-2">
+            <h1 class="title">
+              “微信快速登录，公众号深度集成”
+            </h1>
+            <h3 class="text">
+              支持机构专属微信扫码登录，降低学员使用门槛；学员关注机构专属微信公众号即可开始移动学习和分享，便于机构充分利用微信进行推广营销。
+            </h3>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner03_iphone.png'" alt="">
+          </div>
+        </div>
+      </div>
+    </slide>
+  </carousel>
+
+  <div class="register-form-container">
+    <register-form></register-form>
   </div>
+
   <a href="{{org?'#courses-section':'#features-header'}}" class="btn know-more" du-smooth-scroll>
     了解更多
     <br>
     <i class="fa fa-chevron-down"></i>
   </a>
+
 </section>
 
 <feature-list title="云立方学院可以为您带来什么？" distance="{{distance}}"></feature-list>

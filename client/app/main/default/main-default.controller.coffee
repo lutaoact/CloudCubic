@@ -8,6 +8,7 @@ angular.module('budweiserApp')
   angular.extend $scope,
     ios: '<div>ios</div>'
     distance: 800
+    myInterval: 5000;
 
   resize = -> $timeout ->
     $scope.distance = $window.innerHeight * 2 - 100

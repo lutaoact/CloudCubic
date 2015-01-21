@@ -1,0 +1,106 @@
+.register-form{
+  width: 100%;
+  max-width: 500px;
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 3px;
+  padding: 40px 20px 20px 20px;
+  text-align: left;
+  .text-danger{
+    text-indent: 15px;
+    margin-top: 5px;
+    position: absolute;
+    font-size: 14px;
+    .text-shadow(1px 1px 2px rgba(0,0,0,0.3));
+  }
+  a{
+    color: #606060;
+    font-size: 12px;
+  }
+  .lines{
+    span{
+      color: #606060;
+    }
+    .left-line{
+      border-top: 1px solid #888;
+      margin-top: 12px;
+    }
+    .col-xs-5{
+      padding-left: 0;
+      padding-right: 0;
+      .col-xs-3,.col-xs-6{
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    .right-line{
+      border-top: 1px solid #888;
+      margin-top: 12px;
+    }
+    .line{
+    }
+  }
+  .form-group{
+    margin-bottom: 28px;
+  }
+  .input-group{
+    border-radius: 3px;
+    font-size: 16px;
+    .form-control:first-child{
+      border-bottom-left-radius: 3px;
+      border-top-left-radius: 3px;
+    }
+    .input-lg{
+      height: 53px;
+    }
+    .input-group-addon{
+      .budon{
+        width: 20px;
+      }
+      border-bottom-right-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+  }
+  .register{
+    padding-top: 15px;
+    .register-btn{
+      width: 100%;
+    }
+    .left-side{
+      border-right: 1px solid #888;
+    }
+    .social-btn{
+      font-size: 18px;
+      height: 30px;
+      width: 30px;
+      border-radius: 30px;
+      border: 1px solid #888;
+      padding: 1px 3px;
+      &:hover{
+        background: #888;
+        color: #FFF;
+      }
+    }
+  }
+  .btn-danger{
+    width: 100%;
+  }
+  @media screen and (max-width: 1300px) {
+    padding: 30px 15px 20px 17px;
+    .input-group{
+      font-size: 14px;
+      .input-group-addon{
+        .budon{
+          width: 16px;
+        }
+      }
+      .input-lg{
+        height: 43px;
+        padding: 8px 16px;
+      }
+    }
+    .btn.btn-lg.register-btn{
+      height: 43px;
+      padding: 8px 16px;
+    }
+  }
+}

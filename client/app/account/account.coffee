@@ -12,7 +12,7 @@ angular.module('budweiserApp')
   $stateProvider
 
   .state 'signup',
-    url: '/signup'
+    url: '/signup?file'
     templateUrl: 'app/account/signup/signup.html'
     controller: 'SignupCtrl'
 
