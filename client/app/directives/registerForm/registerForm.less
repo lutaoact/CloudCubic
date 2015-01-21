@@ -2,7 +2,6 @@
   width: 100%;
   max-width: 500px;
   background-color: rgba(255,255,255,0.3);
-  border-radius: 3px;
   padding: 40px 20px 20px 20px;
   text-align: left;
   .text-danger{
@@ -43,11 +42,8 @@
     margin-bottom: 28px;
   }
   .input-group{
-    border-radius: 3px;
     font-size: 16px;
     .form-control:first-child{
-      border-bottom-left-radius: 3px;
-      border-top-left-radius: 3px;
     }
     .input-lg{
       height: 53px;
@@ -56,8 +52,6 @@
       .budon{
         width: 20px;
       }
-      border-bottom-right-radius: 3px;
-      border-top-right-radius: 3px;
     }
   }
   .register{
@@ -67,18 +61,6 @@
     }
     .left-side{
       border-right: 1px solid #888;
-    }
-    .social-btn{
-      font-size: 18px;
-      height: 30px;
-      width: 30px;
-      border-radius: 30px;
-      border: 1px solid #888;
-      padding: 1px 3px;
-      &:hover{
-        background: #888;
-        color: #FFF;
-      }
     }
   }
   .btn-danger{
@@ -101,6 +83,32 @@
     .btn.btn-lg.register-btn{
       height: 43px;
       padding: 8px 16px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    padding: 10px 15px 1px 17px;
+    .form-group{
+      margin-bottom: 15px;
+    }
+    .input-group{
+      font-size: 14px;
+      .input-group-addon{
+        padding: 6px 8px;
+        .budon{
+          font-size: 12px;
+          width: 14px;
+        }
+      }
+      .input-lg{
+        font-size: 14px;
+        height: 30px;
+        padding: 5px 10px;
+      }
+    }
+    .btn.btn-lg.register-btn{
+      font-size: 14px;
+      height: 30px;
+      padding: 5px 10px;
     }
   }
 }
