@@ -74,11 +74,10 @@
          tooltip="{{submitBtnToolTip}}">
       <button type="button"
               ng-show="displayQuestions==lecture.homeworks"
-              ng-disabled="submitBtnToolTip"
+              ng-disabled="displayQuestions.$submitted || submitBtnToolTip"
               class="btn btn-danger"
               ng-click="submitAnswer()">
-        <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
-        <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
+        <span>{{displayQuestions.$submitted?'课后作业已提交':'提交课后作业'}}</span>
       </button>
     </div>
     <pager
@@ -137,7 +136,7 @@
       </div>
       <div class="form-group pull-right" tooltip="{{submitBtnToolTip}}">
         <button type="submit" class="btn btn-danger"
-                ng-disabled="offlineWork.submitted">
+                ng-disabled="offlineWork.submitted || submitBtnToolTip">
           {{offlineWork.submitted?'已提交':'交作业'}}
         </button>
       </div>

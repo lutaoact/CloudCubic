@@ -144,6 +144,10 @@ angular.module('budweiserApp')
       $scope.setQuestionType('homeworks')
       return
 
+    if $scope.getCurrentUser().role != 'student'
+      $scope.setQuestionType('homeworks')
+      return
+
     Restangular.all('key_points').getList()
     .then (keyPoints) ->
       $scope.keyPoints = keyPoints
