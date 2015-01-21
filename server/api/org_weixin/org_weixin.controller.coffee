@@ -19,3 +19,12 @@ exports.upsert = (req, res, next) ->
     res.send doc
   .catch next
   .done()
+
+
+exports.isSet = (req, res, next) ->
+  conditions = {orgId: req.org?._id}
+  OrgWeixin.findOneQ conditions
+  .then (doc) ->
+    res.send doc?
+  .catch next
+  .done()

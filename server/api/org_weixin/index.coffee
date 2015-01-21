@@ -9,4 +9,6 @@ router.get "/me", auth.hasRole("admin"), controller.show
 router.put "/me", auth.hasRole("admin"), controller.upsert
 router.patch "/me", auth.hasRole("admin"), controller.upsert
 
+router.get "/isSet", controller.isSet
+
 module.exports = router
