@@ -104,7 +104,7 @@
                   ng-if="!offlineWork.submitted"
                   class="file-drop-box clearfix">
           <span class="tip text-muted"><i class="fa fa-cloud-upload"></i>点击按钮或者拖拽上传作业</span>
-          <span class="btn btn-danger btn-sm rounded pull-right">
+          <span class="btn btn-danger btn-sm pull-right">
             <i class="fa fa-paperclip"></i>
             添加附件
           </span>
@@ -136,7 +136,7 @@
         <textarea id="descInput" placeholder="输入留言内容..." class="form-control bud-editor-input" ng-model="offlineWork.desc" ng-disabled="offlineWork.submitted"></textarea>
       </div>
       <div class="form-group pull-right" tooltip="{{submitBtnToolTip}}">
-        <button type="submit" class="btn btn-danger rounded"
+        <button type="submit" class="btn btn-danger"
                 ng-disabled="offlineWork.submitted">
           {{offlineWork.submitted?'已提交':'交作业'}}
         </button>

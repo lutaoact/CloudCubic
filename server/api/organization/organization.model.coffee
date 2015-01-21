@@ -40,6 +40,7 @@ exports.Organization = BaseModel.subclass
       ]
       icp: String
       copyright: String
+      about: String
 
     setupOrgSchema @schema
 
@@ -52,6 +53,8 @@ exports.Organization = BaseModel.subclass
     @findOneQ customDomain: customDomain
 
 setupOrgSchema = (OrgSchema) ->
+  subDomainRegex = /^[a-z0-9][a-z0-9-]+[a-z0-9]$/
+  domainRegex = /^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/
 
   OrgSchema
   .path 'uniqueName'
@@ -69,7 +72,7 @@ setupOrgSchema = (OrgSchema) ->
 
   # 验证唯一标识为合法字符
   .validate (value) ->
-    /^\w[\w.-]+\w$/i.test(value)
+    subDomainRegex.test(value)
   , """该机构标识不合法，请使用字母、数字、点（.）或者横线（-），不少于3个字符"""
 
   # 验证系统保留字段
@@ -108,12 +111,12 @@ setupOrgSchema = (OrgSchema) ->
     ].indexOf(value) is -1
   , '该机构唯一标识为系统保留字段，请选择其他标识'
 
-
   OrgSchema
   .path 'customDomain'
   .validate (value) ->
     return value.indexOf('cloud3edu') is -1
   , '域名中不允许带有cloud3edu'
+
   .validate (value, respond) ->
     self = this
     this.constructor.findOne

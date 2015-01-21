@@ -22,7 +22,7 @@
         max-width="600">
         <div class="logo" ng-if="forum.logo" src-key="forum.logo" source-attr="background-image">
           <div class="mask">
-            <div class="btn btn-xs btn-danger rounded">
+            <div class="btn btn-xs btn-danger">
               <i class="fa fa-image"></i>
               修改图片
             </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="drag-uploder" ng-if="!forum.logo">
           <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
-          <div class="btn btn-xs btn-danger rounded">
+          <div class="btn btn-xs btn-danger">
             <i class="fa fa-image"></i>
             上传图片
           </div>
@@ -81,10 +81,10 @@
   <div class="modal-footer">
     <div class="pull-right">
       <button type="button"
-              class="btn btn-sm btn-default rounded"
+              class="btn btn-sm btn-default"
               ng-click="cancel()">取消</button>
       <button type="submit"
-              class="btn btn-sm btn-danger rounded"
+              class="btn btn-sm btn-danger"
               ng-click="confirm(form)">确认</button>
     </div>
   </div>

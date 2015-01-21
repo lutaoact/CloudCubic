@@ -16,7 +16,7 @@
 
     <div>
       <button
-        class="btn btn-danger btn-sm rounded submit pull-right"
+        class="btn btn-danger btn-sm submit pull-right"
         login-window
         login-success="createComment()"
         ng-disabled="!newComment.content">提交</button>
@@ -73,7 +73,7 @@
     </li>
   </ul>
 
-  <a class="btn form-control btn-primary btn-md rounded back-to-editor"
+  <a class="btn form-control btn-primary btn-md back-to-editor"
     style="margin: 20px 0;border-radius: 3px;"
     ng-class="{'hide': viewState.newCommentVisible}"
     ng-click="scrollToEditor()">

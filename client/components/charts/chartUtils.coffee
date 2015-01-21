@@ -211,7 +211,7 @@ angular.module 'budweiserApp'
     $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
 
     loadQuizStats = ()->
-      Restangular.one('quiz_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
+      Restangular.one('quiz_stats','').get({courseId: courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '随堂问题'
         $scope.quizStats.series[0].data = [
@@ -230,7 +230,7 @@ angular.module 'budweiserApp'
         result
 
     loadHomeworkStats = ()->
-      Restangular.one('homework_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
+      Restangular.one('homework_stats','').get({courseId: courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '课后习题'
         $scope.homeworkStats.series[0].data = [
@@ -249,7 +249,7 @@ angular.module 'budweiserApp'
         result
 
     loadKeypointStats = ()->
-      Restangular.one('keypoint_stats','').get({courseId:courseId, classeId: classeId, userId:userId})
+      Restangular.one('keypoint_stats','').get({courseId: courseId, classeId: classeId, userId:userId})
       .then (result)->
         result.$text = '知识点掌握程度'
         $scope.keypointStats.series[0].data = [
@@ -274,7 +274,7 @@ angular.module 'budweiserApp'
         $scope.keypoints = result
 
     loadLectures = ()->
-      Restangular.all('lectures').getList(courseId:courseId)
+      Restangular.all('lectures').getList(courseId: courseId)
       .then (results)->
         results
 
@@ -315,7 +315,7 @@ angular.module 'budweiserApp'
       , (err)->
         if err.status is 400
           notify
-            message: err.data?.errMsg
+            message: if err.data?.errCode is 10050 then '该课程中没有班级' else err.data?.errMsg
             classes: 'alert-danger'
         else if err.status is 401 or err.status is 403
           notify

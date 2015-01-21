@@ -1,6 +1,6 @@
 <div class="modal-header schedule-popup">
   <h4 class="modal-title"><i class="budon budon-schedule base-color"></i>&nbsp;制定课程计划</h4>
-  <a href ng-click="close()" class="btn btn-crystal rounded close"><i class="fa fa-times"></i></a>
+  <a href ng-click="close()" class="btn btn-crystal close"><i class="fa fa-times"></i></a>
 </div>
 <div class="modal-body schedule-popup">
 
@@ -25,7 +25,7 @@
 
   <div class="clearfix title-row row">
     <div class="form-group col-xs-12 bud-datepicker-wrap">
-      从&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
+      从&nbsp;<button type="button" class="btn btn-default dropdown-toggle"
         datepicker-popup="'yyyy-MM-dd'"
         ng-model="viewState.startDate"
         is-open="viewState.fromPopOpened"
@@ -35,7 +35,7 @@
         {{viewState.startDate||'请选择时间'|date:'yyyy/MM/dd'}} <i class="fa fa-calendar"></i>
       </button>
 
-      到&nbsp;<button type="button" class="btn btn-default rounded dropdown-toggle"
+      到&nbsp;<button type="button" class="btn btn-default dropdown-toggle"
         datepicker-popup="'yyyy-MM-dd'"
         ng-model="viewState.endDate"
         is-open="viewState.toPopOpened"
@@ -52,7 +52,7 @@
   <div class="clearfix title-row row shifts">
     <div class="col-md-12 clearfix header">
       时间段<i class="fa fa-question hint-icon" tooltip="选择重复方式"></i>
-      <button class="btn btn-danger btn-xs rounded pull-right" ng-click="addShift()"><i class="fa fa-plus-circle"></i>加新时段</button>
+      <button class="btn btn-danger btn-xs pull-right" ng-click="addShift()"><i class="fa fa-plus-circle"></i>加新时段</button>
     </div>
     <div class="col-md-12">
       <table class="shifts-table">

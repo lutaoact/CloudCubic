@@ -55,7 +55,7 @@
       <ul class="pull-left"
           ng-if="$state.includes('teacher.lecture.questionLibrary')">
         <li>
-          <a class="btn btn-primary rounded"
+          <a class="btn btn-sm btn-primary"
              ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})">
             <i class="fa fa-arrow-left"></i>
           </a>
@@ -327,7 +327,7 @@
       <div class="lecture-desc">
         <h4>
           <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课时详细内容
-          <button class="btn btn-danger btn-sm pull-right rounded" ng-click="saveLectureDesc()">保存</button>
+          <button class="btn btn-danger btn-sm pull-right" ng-click="saveLectureDesc()">保存</button>
         </h4>
 
         <text-angular class="bud" ng-model="lecture.desc"></text-angular>

@@ -6,6 +6,7 @@ AssetUtils = _u.getUtils 'asset'
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
+randomstring = require 'randomstring'
 qiniu = require 'qiniu'
 path = require 'path'
 _ = require 'lodash'
@@ -27,6 +28,8 @@ qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
+
+WrapRequest = new (require '../../utils/WrapRequest')(User)
 
 ###
   Get list of users
@@ -70,26 +73,18 @@ exports.index = (req, res, next) ->
   Creates a new user
 ###
 exports.create = (req, res, next) ->
+  randomStr = randomstring.generate 6
   body = req.body
   body.provider = 'local'
-
+  body.password = randomStr
   delete body._id
   body.orgId = req.user.orgId
 
   User.createQ body
   .then (user) ->
     host = req.protocol+'://'+req.headers.host
-    sendActivationMail user.email, user.activationCode, host, req.org?.name
-    if req.user.role is 'admin'
-      res.json user
-    else
-      token = jwt.sign
-        _id: user._id,
-        config.secrets.session,
-        expiresInMinutes: 60*5
-      res.json
-        _id: user._id
-        token: token
+    sendActivationMail user.email, user.activationCode, host, req.org?.name, randomStr
+    res.json user
   , next
 
 ###
@@ -110,6 +105,20 @@ exports.check = (req, res, next) ->
     email: req.query.email
   .then () ->
     res.send 200
+  .catch next
+  .done()
+
+exports.match = (req, res, next) ->
+  conditions = orgId: req.user.orgId
+  conditions.$or = [
+    email: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ,
+    name: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ]
+  conditions.role = req.query.role
+  User.findQ conditions, 'name email avatar'
+  .then (users) ->
+    res.send users
   .catch next
   .done()
 
@@ -187,6 +196,7 @@ exports.me = (req, res, next) ->
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
+    loggerD.write 'me', user._id
     res.send user
   , next
 

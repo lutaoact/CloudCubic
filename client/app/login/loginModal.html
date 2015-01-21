@@ -12,7 +12,7 @@
 </div>
 
 <div class="row modal-body">
-  <form class="form email-login-group" 
+  <form class="form email-login-group"
         ng-submit="login(loginForm)"
         ng-if="currentPage == 'login'"
         name="loginForm">
@@ -44,19 +44,19 @@
         </div>
       </div>
     </div>
-    <span class="text-danger" 
+    <span class="text-danger"
           ng-if="viewState.errors">
       {{viewState.errors.message}}
     </span>
     <div class="text-left forgot-pwd">
-      <a ng-click="changePage('forget')" 
+      <a ng-click="changePage('forget')"
          class="login-forget" href>
          忘记密码
          <i class="fa fa-question-circle"></i>
       </a>
     </div>
     <div>
-      <button class="btn btn-danger login-btn rounded"
+      <button class="btn btn-danger login-btn"
               ng-disabled="loggingIn"
               type="submit">
         <span ng-if="!viewState.posting">
@@ -69,8 +69,8 @@
       </button>
     </div>
   </form>
-  <form name="signupForm" 
-        ng-submit="signup(signupForm)" 
+  <form name="signupForm"
+        ng-submit="signup(signupForm)"
         class="form email-login-group"
         ng-if="currentPage == 'signup'">
 
@@ -127,7 +127,7 @@
       </div>
     </div>
     <div>
-      <button class="btn btn-danger login-btn pull-right rounded"
+      <button class="btn btn-danger login-btn pull-right"
               ng-disabled="viewState.posting"
               type="submit">
         <span ng-if="!viewState.posting">

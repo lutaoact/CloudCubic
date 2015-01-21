@@ -9,11 +9,11 @@
       该<span ng-if="classe">班级</span><span ng-if="!classe">机构</span>还没有{{roleTitle}}，请添加
     </h5>
     <br/>
-    <button class="btn btn-danger btn-sm rounded"
+    <button class="btn btn-danger btn-sm"
             ng-click="addNewUser()">
       添加
     </button>
-    <label class="btn btn-danger btn-sm rounded">
+    <label class="btn btn-danger btn-sm">
       <input type="file"
              style="display:none;"
              onclick="this.value = null"
@@ -36,11 +36,11 @@
            placeholder="查找{{roleTitle}}">
     <span class="pull-right">
       <span ng-show="!(selectedUsers.length > 0)">
-        <button class="btn btn-danger btn-sm rounded"
+        <button class="btn btn-danger btn-sm"
                 ng-click="addNewUser()">
           添加
         </button>
-        <label class="btn btn-danger btn-sm rounded">
+        <label class="btn btn-danger btn-sm">
           <input type="file"
                  style="display:none;"
                  onclick="this.value = null"
@@ -59,7 +59,7 @@
              ng-if="classes.length > 0"
              is-open="viewState.moveDropDown"
              dropdown >
-          <button class="btn btn-danger btn-sm rounded dropdown-toggle"
+          <button class="btn btn-danger btn-sm dropdown-toggle"
                   ng-disabled="selectedUsers.length == 0 || viewState.moving">
            <span ng-if="!viewState.moving">
              移动到.. <span class="caret"></span>
@@ -83,7 +83,7 @@
              ng-if="classe._id.length > 0 && classes.length > 0"
              is-open="viewState.copyDropDown"
              dropdown >
-          <button class="btn btn-danger btn-sm rounded dropdown-toggle"
+          <button class="btn btn-danger btn-sm dropdown-toggle"
                   ng-disabled="selectedUsers.length == 0 || viewState.copying">
            <span ng-if="!viewState.copying">
              复制到.. <span class="caret"></span>
@@ -103,7 +103,7 @@
             </li>
           </ul>
         </div>
-        <button class="btn btn-default btn-sm rounded"
+        <button class="btn btn-default btn-sm"
                 ng-click="removeUsers(selectedUsers)"
                 ng-disabled="selectedUsers.length == 0 || viewState.deleting">
           <span ng-if="!viewState.deleting">

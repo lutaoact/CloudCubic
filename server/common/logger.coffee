@@ -11,6 +11,7 @@ getCallerFile = ->
   line  = frame.getLineNumber()
   "#{dir}/#{base}#{ext}##{line}"
 
+logCategory = "[#{config.appName.toUpperCase()}]"
 log4js.configure
   appenders: [
     type        : 'console'
@@ -27,10 +28,26 @@ log4js.configure
       pattern   : "%d{ISO8601} %x{filename} %-5p - %c %m"
       tokens    :
         filename: getCallerFile
-    category    : '[BUDWEISER]'
+    category    : logCategory
+  ,
+    type        : 'dateFile'
+    filename    : "/data/log/#{config.appName}.data.log"
+    pattern     : "-yyyy-MM-dd"
+    alwaysIncludePattern: false
+    layout      :
+      type      : 'pattern'
+      pattern   : "%m"
+    category    : 'DATA'
   ]
 
-logger = log4js.getLogger '[BUDWEISER]'
+logger = log4js.getLogger logCategory
 logger.setLevel config.logger.level
 
+loggerD = log4js.getLogger 'DATA'
+loggerD.setLevel 'TRACE'
+loggerD.write = () ->
+  Array::unshift.call arguments, new Date().toISOString()
+  loggerD.trace Array::join.call arguments, '\t'
+
 exports.logger = logger
+exports.loggerD = loggerD

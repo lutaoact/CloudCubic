@@ -14,7 +14,6 @@ angular.module('budweiserApp')
   editableFields = [
     'name'
     'type'
-    'uniqueName'
     'customDomain'
     'description'
     'telephone'
@@ -126,3 +125,15 @@ angular.module('budweiserApp')
     _.isEqual($scope.orgWechat, $scope.orignOrgWechat)
   , (isEqual) ->
     $scope.wechatSaved = isEqual
+
+  $scope.aboutSaved = true
+  $scope.$watch 'organization.about', ()->
+    $scope.aboutSaved = false
+  $scope.saveOrgAbout = ()->
+    $scope.aboutSaving = true
+    $scope.organization.patch about: $scope.organization.about
+    .then ()->
+      $scope.aboutSaved = true
+      $scope.aboutSaving = false
+
+

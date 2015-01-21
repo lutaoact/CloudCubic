@@ -243,14 +243,14 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-        '<%= yeoman.dist %>/public/{,*/}*.js',
-      '<%= yeoman.dist %>/public/{,*/}*.css',
-    '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-  '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
-  ]
-}
-}
-},
+            '<%= yeoman.dist %>/public/{,*/}*.js',
+            '<%= yeoman.dist %>/public/{,*/}*.css',
+            '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
+          ]
+        }
+      }
+    },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -397,12 +397,13 @@ options: {
           cwd: '<%= yeoman.client %>',
           dest: '<%= yeoman.dist %>/public',
           src: [
-          '*.{ico,png,txt}',
-          '.htaccess',
-          'bower_components/**/*',
-        'assets/**/*',
-        'index.html'
-        ]
+            '*.{ico,png,txt}',
+            '.htaccess',
+            'bower_components/**/*',
+            'assets/**/*',
+            'mobile/**/*',
+            'index.html'
+          ]
       }, {
         expand: true,
         cwd: '.tmp/images',

@@ -66,12 +66,12 @@
             </span>
             <span class="pull-right"
                   ng-show="classe.price > 0 && !Auth.hasRole('teacher')">
-              <button class="btn btn-md btn-warning rounded"
+              <button class="btn btn-md btn-warning"
                       login-window
                       login-success="makeOrder(classe)">
                 直接购买
               </button>
-              <button class="btn btn-md btn-danger rounded"
+              <button class="btn btn-md btn-danger"
                       login-window
                       login-success="addToCart(classe)">
                 <i class="fa fa-shopping-cart"></i>加入购物车
@@ -79,7 +79,7 @@
             </span>
             <span class="pull-right"
                   ng-show="classe.price == 0 && !Auth.hasRole('teacher')">
-              <button class="btn btn-md btn-danger rounded"
+              <button class="btn btn-md btn-danger"
                       login-window
                       login-success="enrollFreeClass(classe)">
                 参加课程

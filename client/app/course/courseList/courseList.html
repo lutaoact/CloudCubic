@@ -3,9 +3,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 header">
-          <h4 class="title">
-            <a href ng-click="search.category=null; reload()">所有课程分类</a>
+          <h4 class="title pull-left">
+            <a href ng-click="search.category=null; reload()">课程列表</a>
           </h4>
+          <div class="row info-row pull-right">
+            共<span class="total-num">{{allClasses.$count}}</span>个
+            <search-input keyword="search.keyword"
+                          on-submit="reload(true)"
+                          placeholder="班级关键字搜索">
+            </search-input>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -23,13 +30,6 @@
     </div>
   </div>
   <div class="container">
-    <div class="row info-row">
-      共<span class="total-num">{{allClasses.$count}}</span>个
-      <search-input keyword="search.keyword"
-                    on-submit="reload(true)"
-                    placeholder="班级关键字搜索">
-      </search-input>
-    </div>
     <div class="row courses-row">
       <div ng-if="!allClasses.length"
            class="text-center text-muted empty-classes">

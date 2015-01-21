@@ -210,7 +210,7 @@ angular.module 'budweiserApp', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   setupUser = (user) ->
-    _hmt?.push(['_setCustomVar', 1, 'login', user._id, 2])
+    _hmt.push(['_setCustomVar', 1, 'login', user._id, 3])
     Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply() && $state.current.name is 'main'

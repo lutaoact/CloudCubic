@@ -8,88 +8,25 @@
 </div>
 
 <form class="form-horizontal new-user-form modal-body"
-      name="form">
+      name="form" novalidate>
 
   <div class="form-group form-group-sm">
-    <div class="avatar-lg"
-         src-key="user.avatar"
-         suffix="?imageView2/1/w/64/h/64"
-         source-attr="background-image">
-    </div>
-  </div>
-  <div class="form-group form-group-sm text-center">
-    <uploader class="btn btn-danger btn-sm rounded"
-              limit="{{imageSizeLimitation}}"
-              on-complete="onAvatarUploaded($data)"
-              crop="true"
-              crop-ratio="1"
-              max-width="128"
-              accept-type="image">
-      上传头像
-    </uploader>
-  </div>
-
-  <hr>
-
-  <div class="form-group form-group-sm">
-    <span for="inputUserName" class="col-xs-3 control-label">邮箱</span>
+    <span for="inputUserName" class="col-xs-3 control-label">邮箱或昵称</span>
     <div class="col-xs-8">
-      <input class="form-control"
-             id="inputUserName"
-             type="email"
-             ng-model="user.email"
-             required
-             placeholder="输入登录邮箱">
-      <div class="text-danger" ng-if="errors.email">{{ errors.email.message }}</div>
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm">
-    <span for="inputPassword" class="col-xs-3 control-label">密码</span>
-    <div class="col-xs-8">
-      <input class="form-control"
-             id="inputPassword"
-             type="password"
-             ng-model="user.password"
-             required
-             placeholder="输入登录密码">
-    </div>
-  </div>
-
-  <hr/>
-
-  <div class="form-group form-group-sm">
-    <span for="inputName" class="col-xs-3 control-label">姓名</span>
-    <div class="col-xs-8">
-      <input type="text"
-             class="form-control"
-             id="inputName"
-             placeholder="请输入该用户的姓名"
-             required
-             ng-model="user.name">
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm">
-    <span for="inputTitle" class="col-xs-3 control-label">头衔</span>
-    <div class="col-xs-8">
-      <input type="text"
-             class="form-control"
-             id="inputTitle"
-             placeholder="请输入该用户的头衔"
-             ng-model="user.title">
-    </div>
-  </div>
-
-  <div class="form-group form-group-sm">
-    <span for="inputInfo" class="col-xs-3 control-label">备注</span>
-    <div class="col-xs-9">
-      <textarea type="text"
-                class="form-control"
-                id="inputInfo"
-                row="4"
-                placeholder="备注信息"
-                ng-model="user.info"></textarea>
+      <ui-select id="user"
+                 ng-model="targetUser"
+                 name="user"
+                 on-select="selectUser($item, $select.search, $event)"
+                 class="user-select"
+                 required>
+        <ui-select-match placeholder="请输入要添加的用户，然后按回车">
+          {{$select.selected.text}}
+        </ui-select-match>
+        <ui-select-choices refresh="searchUsers($select)" refresh-delay="800" repeat="user in searchedUsers">
+          <span ng-bind-html="user.text | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
+      <div class="text-danger" ng-if="form.user.$error.required&&submitted">请选择一个用户</div>
     </div>
   </div>
 

@@ -41,7 +41,7 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, host, token, orgName) -
   sendMail receiverEmail, htmlOutput, orgName+" -- 密码找回邮件", orgName
 
 
-exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
+exports.sendActivationMail = (receiverEmail, activationCode, host, orgName, randomPassword) ->
   if(orgName == null || orgName == undefined)
     orgName = "学之方"
 
@@ -57,6 +57,7 @@ exports.sendActivationMail = (receiverEmail, activationCode, host, orgName) ->
     activation_link: activation_link
     orgName: orgName
     host: host
+    password: randomPassword
 
   htmlOutput = pwdActivationFn locals
 

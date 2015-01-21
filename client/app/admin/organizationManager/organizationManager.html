@@ -14,7 +14,7 @@
                source-attr="background-image"
                suffix="?imageView2/1/w/130/h/130">
           </div>
-          <uploader class="btn btn-danger btn-sm rounded"
+          <uploader class="btn btn-danger btn-sm"
                     limit="{{imageSizeLimitation}}"
                     on-complete="onLogoUpload($data)"
                     accept-type="image"
@@ -50,11 +50,13 @@
             <input class="form-control"
                    id="organization-uniquename"
                    name="uniqueName"
-                   ng-model="editingInfo.uniqueName"
+                   ng-model="organization.uniqueName"
                    placeholder="机构唯一标识"
                    mongoose-error
+                   ng-disabled="'true'"
                    style="text-transform: lowercase;"
                    required>
+            <i class="fa fa-question-circle hint" tooltip="如需修改，请联系info@cloud3edu.com"></i>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.mongoose">{{ errors.uniqueName }}</small>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.required && orgForm.$submitted">必填项</small>
             <span class="text-muted">您的二级登录域名为：http://{{organization.uniqueName}}.cloud3edu.cn</span>
@@ -85,7 +87,7 @@
                    id="organization-custom-domain"
                    name="customDomain"
                    ng-model="editingInfo.customDomain"
-                   placeholder="您可以在这里绑定域名"
+                   placeholder="school.sample.com"
                    mongoose-error
                    >
             <span dropdown>
@@ -163,7 +165,7 @@
           <label class="col-sm-3 control-label">账户级别</label>
           <div class="col-sm-7">
             <label ng-if="organization.paid" class="form-control text-primary">高级账户</label>
-            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
+            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm btn-primary">升级为高级用户</a>
           </div>
         </div>
         -->
@@ -172,7 +174,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="saved || saving"
                   ng-click="saveOrg(orgForm)">
             <span ng-if="!saving">
@@ -242,7 +244,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="alipaySaved || alipaySaving"
                   ng-click="saveOrgAlipay(orgPaymentForm)">
             <span ng-if="!alipaySaving">
@@ -312,7 +314,7 @@
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="wechatSaved || wechatSaving"
                   ng-click="saveOrgWechat(orgWechatForm)">
             <span ng-if="!wechatSaving">
@@ -331,7 +333,29 @@
   </tab>
   <!--机构定制化-->
   <tab heading="定制化">
-    <div custom-org-banners-tile organization="organization"></div>
+    <div class="row">
+      <div class="admin-ui-view" custom-org-banners-tile organization="organization"></div>
+      <div class="col-md-12 custom-about-us admin-ui-view">
+        <h4>关于我们</h4>
+        <text-angular class="bud" ng-model="organization.about" ></text-angular>
+        <div class="form-group text-center">
+          <button class="btn btn-danger save-btn"
+                  ng-disabled="aboutSaved || aboutSaving"
+                  ng-click="saveOrgAbout()">
+            <span ng-if="!aboutSaving">
+              <span ng-if="!aboutSaved">保存</span>
+              <span ng-if="aboutSaved">已保存</span>
+            </span>
+            <span ng-if="aboutSaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+        <h4>预览</h4>
+        <div compile-html="organization.about"></div>
+      </div>
+    </div>
   </tab>
 
   <!--机构公告区-->
@@ -339,10 +363,12 @@
     <div org-broadcast-tile organization="organization"></div>
   </tab>
 
-  <tab heading="报表" ng-if="reports">
-    <reports>
+  <tab heading="报表" ng-if="report">
+    <div class="row report-row">
+      <reports>
 
-    </reports>
+      </reports>
+    </div>
   </tab>
 
 </tabset>

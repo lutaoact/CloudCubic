@@ -20,21 +20,47 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
     title:
       switch userRole
-        when 'student' then '添加新学生'
-        when 'teacher' then '添加新老师'
-        when 'admin'   then '添加新管理员'
+        when 'student' then '添加学生'
+        when 'teacher' then '添加老师'
+        when 'admin'   then '添加管理员'
         else $log.error "unknown user.role #{userRole}"
+
+    searchedUsers: []
+    selectedUser: null
+
+    selectUser: ($item, search, $event)->
+      $scope.selectedUser = $item
+
+    searchUsers: ($search)->
+      if $search.search
+        $scope.searchedUsers.length = 0
+        Restangular.all('users/match').getList {keyword: $search.search, role: userRole}
+        .then (users)->
+          if users.length
+            users.forEach (user)->
+              $scope.searchedUsers.push
+                text: user.name+' '+user.email
+                user: angular.copy(user)
+          else if /^[_a-z0-9-\+]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i.test $search.search
+            $scope.searchedUsers.push
+              text: '发送邀请给'+$search.search
+              email: $search.search
 
     cancel: ->
       $modalInstance.dismiss('cancel')
 
-    onAvatarUploaded: (key) ->
-      $scope.user.avatar = key
-
     confirm: (form) ->
+      $scope.submitted = true
+      if !$scope.selectedUser
+        form.user.$setValidity 'required', false
       if !form.$valid then return
-      newUser = angular.copy $scope.user
-      Restangular.all('users').post newUser
-      .then $modalInstance.close, (error) ->
-        $scope.errors = error?.data?.errors
+      if $scope.selectedUser.user
+        $modalInstance.close $scope.selectedUser.user
+      else
+        newUser = angular.copy $scope.user
+        newUser.email = $scope.selectedUser.email
+        newUser.name = $scope.selectedUser.email.replace(/@.*/,'')
+        Restangular.all('users').post newUser
+        .then $modalInstance.close, (error) ->
+          $scope.errors = error?.data?.errors
 

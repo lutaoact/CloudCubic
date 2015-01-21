@@ -1,5 +1,5 @@
-<div class="row admin-ui-view customized">
-  <div class="col-md-12 custom-banner"
+<div class="col-md-12 custom-banners">
+  <div class="custom-banner"
        sv-root
        sv-on-sort="saveBanners()"
        sv-part="organization.banners">
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="banner-edit col-md-6">
-      <uploader class="btn btn-sm rounded"
+      <uploader class="btn btn-sm"
                 limit="{{imageSizeLimitation}}"
                 on-complete="onBannerUpload($data)"
                 accept-type="image"

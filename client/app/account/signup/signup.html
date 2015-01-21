@@ -16,7 +16,7 @@
             请先登录邮箱激活您的账户。
           </p>
         </div>
-        <a class="btn btn-danger rounded"
+        <a class="btn btn-danger"
            target="_blank"
            ng-show="emailAddress"
            ng-href="{{emailAddress}}">马上去激活</a>
@@ -58,6 +58,7 @@
                  class="form-control input-sm"
                  ng-model="organization.name"
                  placeholder="请输入您的机构名称，比如：“学之方教育科技”"
+                 mongoose-error
                  required/>
           <p class="help-block" ng-show="form.orgName.$error.required && submitted">
             请输入机构名称
@@ -68,17 +69,21 @@
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.uniqueName.$valid && submitted,
                                             'has-error': form.uniqueName.$invalid && submitted}">
-          <label>机构唯一标识<span class="text-primary">（创建后不能修改，支持字母和数字）</span></label>
+          <label>机构唯一标识<span class="text-primary">（创建后不能修改，支持字母、数字或“-”）</span></label>
 
           <input type="text" name="uniqueName"
                  class="form-control input-sm"
                  placeholder="请输入您的机构唯一标识，比如：“cloud3edu”"
                  ng-model="organization.uniqueName"
                  ng-change="checkOrgUniqueName(form.uniqueName)"
-                 style="text-transform: lowercase;"
+                 ng-pattern="/^[a-z0-9][a-z0-9-]+[a-z0-9]$/"
+                 mongoose-error
                  required/>
           <p class="help-block" ng-show="form.uniqueName.$error.required && submitted">
             <i class="fa fa-exclamation-triangle text-danger"></i>请输入机构域名
+          </p>
+          <p class="help-block" ng-show="form.uniqueName.$error.pattern">
+            <i class="fa fa-exclamation-triangle text-danger"></i>格式错误，请使用字母、数字或者“-”，“-”不能放在首尾，至少三个字符。
           </p>
           <p class="help-block" ng-show="form.uniqueName.$error.remote">
             <i class="fa fa-exclamation-triangle text-danger"></i>该机构域名已被注册
@@ -99,8 +104,7 @@
           <label>管理员Email</label>
 
           <input type="email" name="email" class="form-control input-sm" ng-model="user.email"
-                 ng-model-options="{ debounce: 250 }"
-                 ng-change="checkEmail(form.email)"
+                 placeholder="sample@sample.com"
                  required
                  mongoose-error/>
           <p class="help-block" ng-show="form.email.$error.email && submitted">
@@ -108,15 +112,6 @@
           </p>
           <p class="help-block" ng-show="form.email.$error.required && submitted">
             请输入邮箱（您将通过邮箱激活账号或者重置密码）
-          </p>
-          <p class="help-block" ng-show="form.email.$error.remote">
-            <i class="fa fa-exclamation-triangle text-danger"></i>该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a ui-sref="forgot">密码找回</a>
-          </p>
-          <p class="help-block" ng-show="form.email.$remoteChecked == 'pending'">
-            <i class="fa fa-spin fa-spinner"></i>检查中
-          </p>
-          <p class="help-block" ng-show="form.email.$remoteChecked == true">
-            <i class="fa fa-check text-success"></i>该邮箱可用
           </p>
         </div>
 
@@ -145,8 +140,7 @@
           <input type="password" name="passwordAgain" class="form-control input-sm" ng-model="user.passwordAgain"
                  same-with="user.password"
                  ng-minlength="6"
-                 ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
-                 mongoose-error/>
+                 ng-change="checkPasswordAgain(form.password, form.passwordAgain)"/>
           <p class="help-block"
              ng-show="form.passwordAgain.$error.sameWith">
            两次输入密码不一致
@@ -172,7 +166,7 @@
         </div>
 
         <div>
-          <button class="btn btn-danger rounded pull-right btn-register" type="submit" ng-disabled="!user.$acceptPolicy">
+          <button class="btn btn-danger pull-right btn-register" type="submit" ng-disabled="!user.$acceptPolicy">
             提交
           </button>
         </div>
@@ -268,7 +262,7 @@
         </div>
 
         <div>
-          <button class="btn btn-danger rounded pull-right btn-register" type="submit">
+          <button class="btn btn-danger pull-right btn-register" type="submit">
             提交
           </button>
         </div>
