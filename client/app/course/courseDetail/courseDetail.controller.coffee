@@ -37,18 +37,19 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
         $state.go 'course.lecture',
           lectureId: $scope.course.lectureAssembly[0]._id
 
-    viewLecture: (lecture) ->
-      checkPermission = (done) ->
-        return done() if lecture.isFreeTry # 如果是试用课时可以直接看课时
+    viewLecture: (lecture, event) ->
+      checkPermission = () ->
+        return if lecture.isFreeTry # 如果是试用课时可以直接看课时
         currentUser = Auth.getCurrentUser()._id
         switch Auth.getCurrentUser()?.role
           when 'admin'
             # 如果是管理员，直接进入课时
-            done()
+            return
           when 'teacher'
             # 如果登录的用户不是course的owner或者不是classe的teacher
             isOwnerOrTeacher = _.find(_.union($scope.classe.teachers, $scope.course.owners), _id:currentUser)
             if !isOwnerOrTeacher
+              event.preventDefault();
               return messageModal.open
                 title: -> "无权查看此课时"
                 message: -> """您不能查看其他教师的课程"""
@@ -60,6 +61,7 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
             isStudentInClasse = $scope.classe.students.indexOf(currentUser) >= 0
             if !isStudentInClasse
               isFreeClasse = $scope.classe.price is 0
+              event.preventDefault();
               return messageModal.open
                 title: ->
                   if isFreeClasse then "请先参加课程" else "请先购买课程"
@@ -94,18 +96,15 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
                     $scope.enrollFreeClass($scope.classe)
           else
             # 未登录用户不能查看课时
+            event.preventDefault();
             return $modal.open
               templateUrl: 'app/login/loginModal.html'
               controller: 'loginModalCtrl'
               windowClass: 'login-window-modal'
               size: 'md'
-            .result.then -> checkPermission(done)
-        done()
+            .result.then -> checkPermission()
 
-      checkPermission ->
-        $state.go 'course.lecture',
-          courseId:$scope.course._id
-          lectureId:lecture._id
+      checkPermission()
 
     addToCart: (classe)->
       if Auth.hasRole('teacher')
@@ -144,3 +143,8 @@ angular.module('budweiserApp').controller 'CourseDetailCtrl', (
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
+
+  $scope.$on '$stateChangeStart', (event, toState, toParams)->
+    if toState.name == "course.lecture"
+      lecture = _.find $scope.course.lectureAssembly, {'_id': toParams.lectureId}
+      $scope.viewLecture(lecture, event)

@@ -148,7 +148,7 @@
          ng-show="courseTab.type=='lecture'"
          ng-repeat="lecture in course.lectureAssembly | paging:itemsPerPage:currentPage"
          href
-         ng-click="viewLecture(lecture)">
+         ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
         <div class="text-center lecture-index text-muted">
           {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
         </div>
