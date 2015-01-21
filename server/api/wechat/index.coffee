@@ -6,6 +6,7 @@ auth = require("../../auth/auth.service")
 router = express.Router()
 
 #扩展api
-router.post "/", controller.save
+router.all "/", controller.save
+router.get  "/list", controller.index
 
 module.exports = router

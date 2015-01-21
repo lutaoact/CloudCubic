@@ -6,7 +6,9 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   Restangular
   mailAddressService
   notify
+  $state
   org
+  $localStorage
 ) ->
 
   Restangular.all('areas').getList().then (areas) ->
@@ -21,13 +23,14 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
     organization: {}
     checkEmailPromise: null
     isCloud3edu: !org
+    file: $localStorage[$state.params.file] if $state.params.file
 
     registerOrg: (form) ->
       $scope.submitted = true
       if form.$valid
         # Account created, redirect to home
         Restangular.all('register/org').post
-          name: $scope.organization.name + '的管理员'
+          name: $scope.user.email.replace(/@.*/,'')
           email: $scope.user.email
           password: $scope.user.password
           orgName: $scope.organization.name
@@ -113,4 +116,8 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           angular.forEach err.errors, (error, field) ->
             form[field].$setValidity 'mongoose', false
             $scope.errors[field] = error.message
+
+  if $scope.file
+    $scope.user.email = $scope.file.email
+    $scope.user.password = $scope.file.password
 

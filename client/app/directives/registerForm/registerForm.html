@@ -1,0 +1,56 @@
+<form class="register-form"
+      name="form"
+      ng-submit="register(form)">
+  <div class="form-group" ng-hide="registerUsers">
+    <div class="input-group">
+      <input class="form-control input-lg"
+             type="email"
+             placeholder="管理员邮箱"
+             ng-model="user.email"
+             name="email"
+             required>
+      <div class="input-group-addon">
+        <i class="budon budon-user"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" ng-hide="registerUsers">
+    <div class="input-group">
+      <input class="form-control input-lg"
+             type="password"
+             placeholder="创建密码"
+             name="password"
+             ng-model="user.password"
+             required>
+      <div class="input-group-addon">
+        <i class="budon budon-lock"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" ng-hide="registerUsers">
+    <div class="input-group">
+      <input class="form-control input-lg"
+             type="password"
+             placeholder="确认密码"
+             same-with="user.password"
+             name="password"
+             ng-model="user.passwordAgain"
+             required>
+      <div class="input-group-addon">
+        <i class="budon budon-lock"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-danger register-btn btn-lg"
+            type="submit">
+      <span>
+        机构注册
+      </span>
+    </button>
+  </div>
+
+</form>
