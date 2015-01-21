@@ -48,10 +48,6 @@ exports.Course = BaseModel.subclass
         type: ObjectId
         ref: "category"
         required: true
-      forumId:
-        type: ObjectId
-        ref: "forum"
-        required: true
       thumbnail: String
       info: String
       lectureAssembly: [
