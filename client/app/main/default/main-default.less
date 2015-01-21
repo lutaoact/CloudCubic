@@ -172,18 +172,20 @@
   }
 
   .register-form-container{
-   position: absolute;
-   top: 35%;
-   right: 15%;
-   height: 30%;
-   width: 28%;
-   .login-form{
-    width: 100%;
+    position: absolute;
+    top: 30%;
+    right: 10%;
+    height: 30%;
+    .register-form{
+      width: 470px;
+    }
   }
-}
 
   // carousel
   .carousel{
+    .carousel-control{
+      width: 8%;
+    }
     .carousel-indicators{
       right: 18%;
       left: auto;
@@ -223,6 +225,7 @@
         .title, .text{
           text-align: left;
           color: #FFF;
+          margin-right: 100px;
         }
         .title{
           .transition(all ease-in .5s);
@@ -232,6 +235,7 @@
         .text{
           .transition(all ease-in .5s);
           font-size: 20px;
+          line-height: 1.75em;
           margin-bottom: 550px;
           opacity: 0;
         }
@@ -265,7 +269,7 @@
           opacity: 1;
         }
         .text{
-          margin-bottom: 150px;
+          margin-bottom: 250px;
           opacity: 1;
         }
       }
@@ -320,6 +324,11 @@
         }
       }
     }
+    .register-form-container{
+      .register-form{
+        width: 370px;
+      }
+    }
   }
   @media (max-width: @screen-xs-max) {
     .description{
@@ -341,6 +350,55 @@
     }
     p{
       font-size: 14px;
+    }
+
+    .carousel{
+      .carousel-control{
+        display: none;
+      }
+      .carousel-indicators{
+        right: 0;
+        width: 100%;
+        margin-left: 0;
+        bottom: 60px;
+        left: 0;
+        li{
+          margin: 1px 10px;
+        }
+        .active{
+          margin: 0px 9px;
+        }
+      }
+
+      .banner{
+        .center-content{
+          display: block;
+          margin-top: 100px;
+          .title, .text{
+            text-align: center;
+            margin-right: 0;
+          }
+          .title{
+            font-size: 20px;
+          }
+          .text{
+            display: none;
+          }
+        }
+        .widget-container{
+          display: none;
+        }
+      }
+
+    }
+    .register-form-container{
+      right: 0;
+      width: 100%;
+      padding: 0 15px;
+      .register-form{
+        width: 100%;
+        margin:auto;
+      }
     }
   }
 
