@@ -29,6 +29,19 @@ module.exports = function(app) {
   app.use(cookieParser());
   app.use(passport.initialize());
 
+  //for prerender
+//  var prerender = require('prerender-node');
+//  var redis = require("redis");
+//  var client = redis.createClient();
+//
+//  prerender.set('beforeRender', function(req, done) {
+//    client.get(req.url, done);
+//  }).set('afterRender', function(req, prerender_res) {
+//    client.set(req.url, prerender_res.body)
+//  });
+//  prerender.set('robot', 'Baiduspider|Googlebot|BingBot|Slurp!|MSNBot|YoudaoBot|JikeSpider|Sosospider|360Spider|Sogou web spider|Sogou inst spider');
+//  app.use(prerender);
+
   if ('production' === env || 'online_test' === env) {
     var allowCrossDomain = function(req, res, next) {
       if(req.host=='statics.cloud3edu.cn') {
