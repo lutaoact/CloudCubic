@@ -8,9 +8,9 @@ angular.module('budweiserApp').directive 'isAlipaySet', (Restangular, $timeout)-
       $timeout ->
         console.log c.$modelValue
         if (c.$modelValue == 0) || (c.$modelValue == undefined)
-          c.$setValidity('aplipaySet', true);
+          c.$setValidity('aplipaySet', true)
         else
           Restangular.one('org_alipays','isSet').get()
-          .then (data)->
-            c.$setValidity('aplipaySet', data['isSet']);
+          .then (isSet) ->
+            c.$setValidity('aplipaySet', isSet)
 
