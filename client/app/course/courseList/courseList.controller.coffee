@@ -18,7 +18,7 @@ angular.module('budweiserApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
-      itemsPerPage : 2
+      itemsPerPage : 8
 
     reload: (resetPage) ->
       $scope.pageConf.currentPage = 1 if resetPage?
