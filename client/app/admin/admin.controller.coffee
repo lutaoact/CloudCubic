@@ -8,7 +8,7 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
     menus: [
       stateName:'admin.home'
       className: 'budon budon-organization'
-      label: '机构管理'
+      label: '机构信息设置'
     ,
       stateName:'admin.teacherManager'
       className: 'budon budon-teacher'
