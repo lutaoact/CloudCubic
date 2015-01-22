@@ -9,15 +9,12 @@ angular.module('budweiserApp')
   templateUrl: 'app/forum/forumDetail/topicList.template.html'
   scope:
     topics: '='
-    onTopicClick: '&'
     onTagClick: '&'
 
 .controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state, messageModal)->
 
   angular.extend $scope,
-    selectTopic: (topic)->
-      $scope.selectedTopic = topic
-      $scope.onTopicClick()?(topic)
+    params: $state.params
 
     me: Auth.getCurrentUser
 

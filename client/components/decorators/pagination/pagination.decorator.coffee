@@ -4,12 +4,12 @@ angular.module 'budweiserApp'
 .config ($provide) ->
   $provide.decorator 'paginationDirective', ($delegate) ->
     # decorate the $delegate
-    directive = $delegate[0];
+    directive = $delegate[0]
     directive.templateUrl = 'components/decorators/pagination/pagination.html'
 
-    compile = directive.compile;
+    compile = directive.compile
     directive.compile = (tElement, tAttrs)->
-      link = compile.apply(this, arguments);
+      link = compile.apply(this, arguments)
       return (scope, elem, attrs, ctrls)->
         link.apply(this, arguments)
 

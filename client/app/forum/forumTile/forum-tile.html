@@ -19,7 +19,7 @@
       {{forum.courseId?'来自课程':forum.tags?forum.tags.length:'小组'}}
     </h6>
     <h5 class="forum-title" >
-      {{forum.name}}
+      <a class="none-decoration" href ui-sref="forum.detail({forumId:forum._id})">{{forum.name}}</a>
     </h5>
     <h6 class="forum-info text-muted text-overflow">
       {{forum.info}}

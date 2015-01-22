@@ -46,8 +46,11 @@ angular.module 'budweiserApp'
       $state.go($localStorage.global?.loginState or 'main')
 
     isActive: (state) ->
-      $state.is state?.replace(/\(.*?\)/g, '')
-
+      if state
+        regex = new RegExp(state)
+        regex.test $state.current.name
+      else
+        false
 #    clearAll: ()->
 #      if $scope.messages.length
 #        Restangular.all('notices/read').post ids: _.map $scope.messages, (x)-> x.raw._id

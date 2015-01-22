@@ -59,13 +59,13 @@
         <li ng-if="Auth.hasRole('student') && !Auth.hasRole('admin')" ng-class="{active: isActive('home')}">
           <a href ui-sref='home'>个人主页</a>
         </li>
-        <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin.home')}">
+        <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin')}">
           <a class="text-center" ui-sref="admin.home">机构管理</a>
         </li>
         <li ng-class="{active: isActive('courseList')}">
           <a href ui-sref='courseList'>所有课程</a>
         </li>
-        <li ng-class="{active: isActive('forum.list')}">
+        <li ng-class="{active: isActive('forum')}">
           <a href ui-sref="forum.list">讨论组</a>
         </li>
         <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">

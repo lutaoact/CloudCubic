@@ -26,12 +26,16 @@ exports.create = (req, res, next) ->
 
 pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]
 exports.update = (req, res, next) ->
-  conditions = {_id : req.params.id, postBy : req.user._id}
+  conditions = {_id : req.params.id, orgId: req.user.orgId}
+  if req.user.role isnt 'admin'
+    conditions.postBy = req.user._id
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 
 exports.destroy = (req, res, next) ->
-  conditions = {_id : req.params.id, postBy : req.user._id}
+  conditions = {_id : req.params.id, orgId: req.user.orgId}
+  if req.user.role isnt 'admin'
+    conditions.postBy = req.user._id
   WrapRequest.wrapDestroy req, res, next, conditions
 
 

@@ -70,47 +70,47 @@
   <ul class="list-group clearfix">
 
     <li class="bud col-md-12 topic media fade-repeat"
-        ng-repeat="topic in topics"
-        ng-class="{'selected':topic._id==selectedTopic._id}"
-        ng-click="selectTopic(topic)">
-      <div class="avatar pull-left"
-           source-attr="background-image"
-           src-key="topic.postBy.avatar"
-           suffix="?imageView2/1/w/64/h/64">
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{topic.title}}</h4>
-        <div class="topic-summary">{{topic.content|htmlToPlaintext}}</div>
-        <div class="spans">
-          <span>
-            <span class="poster-name">
-              {{topic.postBy.name}}
-            </span>
-            <span class="text-muted created-time">
-              发表于{{topic.created|timeToTimeAgo}}
-            </span>
-          </span>
-          <span class="status">
-            <i class="fa fa-eye"></i>
-            {{topic.viewers.length||0}}
-            <i class="fa fa-comments"></i>
-            {{topic.commentsNum||0}}
-            <i class="fa fa-heart"></i>
-            {{topic.likeUsers.length||0}}
-          </span>
-          <div class="tag" ng-show="topic.tags.length">
-            标签
-          </div>
-          <span class="comma-split" ng-repeat="tag in topic.tags">
-            {{tag}}
-          </span>
+        ng-repeat="topic in topics">
+      <a href ui-sref="forum.topic({forumId:params.forumId,topicId:topic._id})" class="none-decoration">
+        <div class="avatar pull-left"
+             source-attr="background-image"
+             src-key="topic.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
         </div>
-      </div>
-      <a href 
-         class="btn remove-topic" 
-         ng-click="deleteTopic(topic, $event)" 
-         ng-show="topic.postBy._id==me()._id">
-        <i class="fa fa-times"></i>
+        <div class="media-body">
+          <h4 class="media-heading">{{topic.title}}</h4>
+          <div class="topic-summary">{{topic.content|htmlToPlaintext}}</div>
+          <div class="spans">
+            <span>
+              <span class="poster-name">
+                {{topic.postBy.name}}
+              </span>
+              <span class="text-muted created-time">
+                发表于{{topic.created|timeToTimeAgo}}
+              </span>
+            </span>
+            <span class="status">
+              <i class="fa fa-eye"></i>
+              {{topic.viewers.length||0}}
+              <i class="fa fa-comments"></i>
+              {{topic.commentsNum||0}}
+              <i class="fa fa-heart"></i>
+              {{topic.likeUsers.length||0}}
+            </span>
+            <div class="tag" ng-show="topic.tags.length">
+              标签
+            </div>
+            <span class="comma-split" ng-repeat="tag in topic.tags">
+              {{tag}}
+            </span>
+          </div>
+        </div>
+        <a href
+           class="btn remove-topic"
+           ng-click="deleteTopic(topic, $event)"
+           ng-show="topic.postBy._id==me()._id">
+          <i class="fa fa-times"></i>
+        </a>
       </a>
     </li>
     <li class="bud col-md-12 topic media" ng-if="!topics.length">
