@@ -367,7 +367,7 @@ options: {
         files: [{
           expand: true,
           cwd: 'dist/public/mobile',
-          src: ['index.html','**/*.css'],
+          src: ['index.html'],
           dest:'dist/public/mobile'
         }]
       },
@@ -862,9 +862,7 @@ grunt.registerTask('build', [
   'rev',
   'usemin',
   'cdnify:dist',
-  'cdnify:mobile',
-  'qiniu:dist',
-  'qiniu:mobile'
+  'qiniu:dist'
   ]);
 
 
