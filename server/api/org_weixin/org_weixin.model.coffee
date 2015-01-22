@@ -25,10 +25,11 @@ exports.OrgWeixin = BaseModel.subclass
       secret:
         type: String
         required: true
+      gongappid:
+        type: String
+        required: true
+      gongsecret:
+        type: String
+        required: true
 
     $super()
-
-  getAllWithOrgPopulated: () ->
-    return @find {}
-      .populate 'orgId', 'customDomain'
-      .execQ()
