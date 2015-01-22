@@ -57,4 +57,17 @@ router.get('/weixin/callback', auth.verifyTokenCookie(), function(req, res, next
   })(req, res, next);
 });
 
+router.get('/weixin_userinfo/callback', function(req, res, next) {
+  passport.authenticate('weixin_userinfo', function(err, user, info) {
+    if (err) return next(err);
+
+    if (user) {
+      req.user = user;
+      auth.setTokenCookie(req, res, '/mobile');
+    } else {
+      res.redirect('/mobile');
+    }
+  })(req, res, next);
+});
+
 module.exports = router;
