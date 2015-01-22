@@ -688,6 +688,19 @@ options: {
         files: [
         {expand: true, flatten: true, src: ['.tmp/templates.js'],dest:'.tmp/'}
         ]
+      },
+      mobile: {
+        options: {
+          patterns: [
+          {
+            match: /..\/lib\//g,
+            replacement: 'lib/'
+          }
+          ]
+        },
+        files: [
+        {expand: true, flatten: true, src: ['dist/public/mobile/css/*.css'],dest:'dist/public/mobile/css/'}
+        ]
       }
     },
     processhtml: {
@@ -861,6 +874,7 @@ grunt.registerTask('build', [
   // 'uglify',
   'rev',
   'usemin',
+  'replace:mobile',
   'cdnify:dist',
   'cdnify:mobile',
   'qiniu:dist',
