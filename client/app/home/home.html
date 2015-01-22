@@ -68,7 +68,7 @@
         <div class="col-sm-9">
           <div class="row my-courses" style="margin-left: 0;">
             <div class="col-md-12 text-center">
-              <h4>{{viewState.filterCategory.name || '全部'}}</h4>
+              <h4>{{viewState.filterCategory.name || '我的课程'}}</h4>
             </div>
             <div class="col-md-4 col-sm-6 text-center"
                  ng-if="Auth.hasRole('teacher') && getListData().length">
@@ -80,7 +80,7 @@
                 <i class="plus">+</i>
               </button>
             </div>
-            <div class="col-md-12 col-sm-12 text-center empty-course text-muted" 
+            <div class="col-md-12 col-sm-12 text-center empty-course text-muted"
                  ng-if="!getListData().length">
               <span ng-if="Auth.hasRole('teacher')">
                 <i class="budon budon-course-classe"></i>
