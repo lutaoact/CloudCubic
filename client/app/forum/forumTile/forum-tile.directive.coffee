@@ -18,8 +18,9 @@ angular.module('budweiserApp').directive 'forumTile', ()->
           windowClass: 'bud-modal'
           size: 'sm'
           resolve:
-            forum: ->
-              forum
+            forum: -> angular.copy(forum)
+        .result.then (newForum) ->
+          angular.extend forum, newForum
         true
 
       deleteCallback: (forum) ->

@@ -10,23 +10,15 @@ exports.Forum = BaseModel.subclass
   classname: 'Forum'
   populates:
     index: [
-      path: 'categoryId', select: 'name'
-    ,
       path: 'postBy', select: 'name avatar'
     ]
     create: [
-      path: 'categoryId', select: 'name'
-    ,
       path: 'postBy', select: 'name avatar'
     ]
     update: [
-      path: 'categoryId', select: 'name'
-    ,
       path: 'postBy', select: 'name avatar'
     ]
     show: [
-      path: 'categoryId', select: 'name'
-    ,
       path: 'postBy', select: 'name avatar'
     ]
   initialize: ($super) ->
@@ -42,9 +34,6 @@ exports.Forum = BaseModel.subclass
         type: ObjectId
         ref: 'organization'
         required: true
-      categoryId:
-        type: ObjectId
-        ref: 'category'
       logo: # 板块logo
         type: String
       info: # 板块描述
@@ -61,4 +50,25 @@ exports.Forum = BaseModel.subclass
         type: Boolean
         default: false
 
+    setupSchema @schema
+
     $super()
+
+
+setupSchema = (ForumSchema) ->
+
+  ForumSchema
+  .path 'name'
+
+  # 验证名程不重复
+  .validate (value, respond) ->
+    self = this
+    this.constructor.findOne
+      name: value
+      orgId: self.orgId
+    , (err, forum) ->
+      throw err if err
+      notTaken = !forum or forum.id == self.id
+      respond notTaken
+  , '该讨论组名称已经被占用，请选择其他名称'
+
