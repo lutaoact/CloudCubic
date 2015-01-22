@@ -3,42 +3,40 @@ angular.module 'budweiserApp'
 .factory 'Msg', (Restangular)->
 
   genMessage = (raw)->
+    msg =
+      raw: raw
+      type: 'message'
+
     switch raw.type
       when Const.NoticeType.LikeTopic
-        title: '赞了你的帖子：' + raw.data.topicId.title
-        raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
-        type: 'message'
+        msg.title = '赞了你的帖子：' + raw.data.topicId.title
+        msg.link = "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
       when Const.NoticeType.LikeTopicComment
-        title: '赞了你的回复：' + raw.data.commentId.content
-        raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
-        type: 'message'
+        msg.title = '赞了你的回复：' + raw.data.commentId.content
+        msg.link = "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
       when Const.NoticeType.LikeCourseComment
-        title: '赞了你的回复：' + raw.data.commentId.content
-        raw: raw
-        link: "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
-        type: 'message'
+        msg.title = '赞了你的回复：' + raw.data.commentId.content
+        if raw.data.classeId?
+          msg.link = "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
+        else
+          msg.link = "teacher.course({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.LikeLectureComment
-        title: '赞了你的回复：' + raw.data.commentId.content
-        raw: raw
-        link: "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
-        type: 'message'
+        msg.title = '赞了你的回复：' + raw.data.commentId.content
+        msg.link = "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
       when Const.NoticeType.TopicComment
-        title: '回复了你的帖子：' + raw.data.topicId.title
-        raw: raw
-        link: "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
-        type: 'message'
+        msg.title = '回复了你的帖子：' + raw.data.topicId.title
+        msg.link = "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
       when Const.NoticeType.CourseComment
-        title: '回复了你的课程：' + raw.data.courseId.name
-        raw: raw
-        link: "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
-        type: 'message'
+        msg.title = '回复了你的课程：' + raw.data.courseId.name
+        if raw.data.classeId?
+          msg.link = "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
+        else
+          msg.link = "teacher.course({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.LectureComment
-        title: '回复了你的课时：' + raw.data.lectureId.name
-        raw: raw
-        link: "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
-        type: 'message'
+        msg.title = '回复了你的课时：' + raw.data.lectureId.name
+        msg.link = "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+
+    return msg
 
   instance =
     unreadMsgCount: 0
