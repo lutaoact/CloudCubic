@@ -23,6 +23,7 @@ angular.module 'budweiserApp', [
   'angular-sortable-view'
   'textAngular'
   'FBAngular'
+  'ngPrettyJson'
 ]
 
 .constant 'configs',

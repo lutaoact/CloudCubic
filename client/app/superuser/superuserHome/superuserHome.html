@@ -1,20 +1,24 @@
-<div class="superuser-home container">
-
-  <div class="row">
-
-
-    <ul class="nav nav-pills nav-stacked col-md-4"
-        role="tablist">
-      <h4 class="org-list-title">机构列表</h4>
-      <li role="presentation"
-          ui-sref-active="active"
-          ng-repeat="org in organizations">
-        <a ui-sref="superuser.home.organization({orgId: org._id})">{{org.name}}</a>
-      </li>
-    </ul>
-
-    <div class="fadeIn col-md-8 org-detail" ui-view></div>
-
-  </div>
-
-</div>
+<tabset class="col-md-12 tabset-non-border">
+  <tab heading="注册机构列表">
+    <div class="row admin-ui-view superuser-home">
+      <ul class="nav nav-pills nav-stacked col-md-4"
+          role="tablist">
+        <li role="presentation"
+            ui-sref-active="active"
+            ng-repeat="org in organizations">
+          <a ui-sref="superuser.home.organization({orgId: org._id})">{{org.name}}</a>
+        </li>
+      </ul>
+      <div class="fadeIn col-md-8 org-detail" ui-view></div>
+    </div>
+  </tab>
+  <tab heading="微信公众号消息列表">
+    <div class="row admin-ui-view">
+      <ul class="nav nav-pills nav-stacked" role="tablist">
+        <li class="wechat-msg" role="presentation" ng-repeat="msg in wechatMsgs">
+          <span class="text-primary">{{msg.createTime}}</span><pre pretty-json="msg.content"/>
+        </li>
+      </ul>
+    </div>
+  </tab>
+</tabset>  
