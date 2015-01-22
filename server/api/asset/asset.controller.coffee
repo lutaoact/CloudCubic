@@ -50,24 +50,24 @@ makeGetFunc = (type) ->
 
     startQ = Q()
     # for video view time limit:
-    if ((req.user?) && (type=='video') && (req.headers.range.substring(0,8)=='bytes=0-'))
-      startQ = VideoViewCounter.updateQ
-        userId: req.user._id
-        mediaKey: key
-        counter: {"$lt": config.videoViewTimeLimit}
-      ,
-        $inc:
-          counter: 1
-      ,
-        upsert: true
-      .fail (err)->
-        if err.code == 11000
-          Q.reject
-            status: 400
-            errCode: ErrCode.ReachVideoViewTimeLimit
-            errMsg: '超过播放次数上限'
-        else
-          throw err
+#    if ((req.user?) && (type=='video') && (req.headers.range.substring(0,8)=='bytes=0-'))
+#      startQ = VideoViewCounter.updateQ
+#        userId: req.user._id
+#        mediaKey: key
+#        counter: {"$lt": config.videoViewTimeLimit}
+#      ,
+#        $inc:
+#          counter: 1
+#      ,
+#        upsert: true
+#      .fail (err)->
+#        if err.code == 11000
+#          Q.reject
+#            status: 400
+#            errCode: ErrCode.ReachVideoViewTimeLimit
+#            errMsg: '超过播放次数上限'
+#        else
+#          throw err
 
     startQ
     .then ()->
