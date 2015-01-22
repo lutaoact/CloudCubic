@@ -36,7 +36,7 @@
                   vg-update-time="onUpdateTime"
                   class="bud"
                   vg-error="onVideoError"
-                  ng-if="lecture.media&&!videoPlayedTimesExceed">
+                  ng-if="lecture.media">
         <vg-video vg-src="viewState.videos">
         </vg-video>
         <vg-poster-image></vg-poster-image>
@@ -60,9 +60,6 @@
       </div>
       <div class="empty" ng-show="!lecture.media&&!lecture.externalMedia">
         该课程没有视频
-      </div>
-      <div class="empty error" ng-if="videoPlayedTimesExceed">
-        该视频观看次数超过限制
       </div>
     </div>
     <div class="container clearfix file-container"
