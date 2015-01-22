@@ -11,8 +11,18 @@
               <span>共<span class="text-primary">{{forumsTotalCount||0}}</span>个</span>
             </div>
             <ul class="nav nav-group pull-left">
-              <li ng-class="{'active':pageConf.sort=='postsCount'}"><a href="" ng-click="pageConf.sort='postsCount';reload()">最热&nbsp;<i class="fa fa-heart"></i></a></li>
-              <li ng-class="{'active':pageConf.sort=='created'}"><a href="" ng-click="pageConf.sort='created';reload()">最新&nbsp;<i class="fa fa-clock-o"></i></a></li>
+              <li ng-class="{'active':pageConf.sort=='postsCount'}">
+                <a href ng-click="pageConf.sort='postsCount';reload()">
+                  最热
+                  <i class="fa fa-heart"></i>
+                </a>
+              </li>
+              <li ng-class="{'active':pageConf.sort=='created'}">
+                <a href ng-click="pageConf.sort='created';reload()">
+                  最新
+                  <i class="fa fa-clock-o"></i>
+                </a>
+              </li>
             </ul>
           </div>
           <div class="col-sm-4 clearfix">
@@ -21,9 +31,10 @@
                           placeholder="班级名搜索">
             </search-input>
           </div>
-          <div class="col-sm-2 actions clearfix" ng-if="Auth.hasRole('teacher')">
+          <div class="col-sm-2 actions clearfix" ng-if="Auth.hasRole('student')">
             <a href="" class="btn btn-danger btn-sm pull-right" ng-click="createForum()">
-              <i class="fa fa-plus"></i>&nbsp;新讨论组
+              <i class="fa fa-plus"></i>
+              新讨论组
             </a>
           </div>
         </div>
@@ -34,8 +45,7 @@
   <div class="container">
     <div class="row all-forums">
       <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in forums">
-        <forum-tile forum="forum" >
-        </forum-tile>
+        <forum-tile forum="forum"></forum-tile>
       </div>
     </div>
     <div class="row pagination-row text-center"

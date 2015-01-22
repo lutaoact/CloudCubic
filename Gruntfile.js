@@ -20,7 +20,8 @@ module.exports = function (grunt) {
     cdn: 'http://7u2mnb.com1.z0.glb.clouddn.com/',
     qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
     qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
-    qiniu_cdn_bucket: 'cloud3cdn'
+    qiniu_cdn_bucket: 'cloud3cdn',
+    randomCdnPath: (new Date()).valueOf()+ '/'
   };
 
   // Time how long tasks take. Can help when optimizing build times
@@ -359,6 +360,17 @@ options: {
           dest:'client'
         }]
       },
+      mobile: {
+        options: {
+          base: config.cdn+config.randomCdnPath
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist/public/mobile',
+          src: ['index.html','**/*.css'],
+          dest:'dist/public/mobile'
+        }]
+      },
       dist: {
         options: {
           base: config.cdn
@@ -375,7 +387,7 @@ options: {
     qiniu: {
       dist: {
         options: {
-          ignoreDup: true,
+          ignoreDup: false,
           accessKey: config.qiniu_ak,
           secretKey: config.qiniu_sk,
           bucket: config.qiniu_cdn_bucket,
@@ -383,6 +395,22 @@ options: {
           resources: [{
             cwd: 'dist/public',
             pattern: ['app/**/*.*','assets/**/*.*']
+          }]
+        }
+      },
+      mobile: {
+        options: {
+          ignoreDup: false,
+          accessKey: config.qiniu_ak,
+          secretKey: config.qiniu_sk,
+          bucket: config.qiniu_cdn_bucket,
+          domain: 'http://' + config.qiniu_cdn_bucket + '.qiniudn.com',
+          keyGen: function(cwd, file){
+            return config.randomCdnPath+file;
+          },
+          resources: [{
+            cwd: 'dist/public/mobile',
+            pattern: ['**/*.*']
           }]
         }
       }
@@ -834,7 +862,9 @@ grunt.registerTask('build', [
   'rev',
   'usemin',
   'cdnify:dist',
-  'qiniu:dist'
+  'cdnify:mobile',
+  'qiniu:dist',
+  'qiniu:mobile'
   ]);
 
 

@@ -15,7 +15,7 @@ exports.show = (req, res, next) ->
   WrapRequest.wrapShow req, res, next, conditions
 
 
-pickedKeys = ["name", "logo", "info", "categoryId"]
+pickedKeys = ["name", "logo", "info"]
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.postBy = req.user._id
@@ -24,7 +24,7 @@ exports.create = (req, res, next) ->
   WrapRequest.wrapCreateAndUpdate req, res, next, data
 
 
-pickedUpdatedKeys = ["name", "logo", "info", "categoryId"]
+pickedUpdatedKeys = ["name", "logo", "info"]
 exports.update = (req, res, next) ->
   conditions = {_id : req.params.id, orgId: req.user.orgId}
   if req.user.role isnt 'admin'

@@ -63,7 +63,3 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
   $scope.$on 'forum.deleted', (event, forum)->
     $scope.forums.splice($scope.forums.indexOf(forum),1)
 
-
-
-
-
