@@ -62,10 +62,7 @@ makeGetFunc = (type) ->
         upsert: true
       .fail (err)->
         if err.code == 11000
-          Q.reject
-            status: 400
-            errCode: ErrCode.ReachVideoViewTimeLimit
-            errMsg: '超过播放次数上限'
+          res.redirect 'http://7u2mnb.com2.z0.glb.qiniucdn.com/test/placeholder.mp4'
         else
           throw err
 

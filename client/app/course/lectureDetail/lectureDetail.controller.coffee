@@ -20,6 +20,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   Restangular
   $localStorage
   $q
+  $http
 ) ->
 
   angular.extend $scope,
@@ -67,12 +68,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     mediaPlayerAPI: undefined
 
-    onVideoError: (err)->
-      if !$scope.videoPlayedTimesExceed
-        notify
-          message: '视频播放次数超过限制'
-          classes: 'alert-danger'
-      $scope.videoPlayedTimesExceed = true
+    onVideoError: undefined
 
     onPlayerReady: (playerAPI) ->
       if playerAPI.isReady
@@ -80,6 +76,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         timestamp = $localStorage[$scope.getCurrentUser()._id]?['lectures']?[$state.params.lectureId]?.videoPlayTime
         if timestamp
           playerAPI.seekTime timestamp
+        $scope.onVideoError = (err)->
+          if err.target
+            console.dir err
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized
@@ -164,12 +163,10 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     $scope.$on '$destroy', ()->
       $timeout.cancel handleViewEvent
 
-
   # scroll to content-view after document ready
   $document.ready ->
     #$document.scrollToElement(ele, 60, 2000)
     $document.scrollTo(0, 80, 2000)
-
 
   $scope.$watch Auth.getCurrentUser, (user)->
     loadLecture()
