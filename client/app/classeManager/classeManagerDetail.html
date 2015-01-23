@@ -1,0 +1,16 @@
+<div class="item-detail-group">
+  <div class="classe-name-item">
+    {{selectedClasse.name}}
+  </div>
+
+  <div ui-view
+       class="fadeIn"
+       manage-users-list
+       on-add-user="reloadStudents()"
+       on-remove-user="reloadStudents($data)"
+       on-view-user="viewStudent($data)"
+       user-role="student"
+       users="selectedClasse.$students"
+       classes="classes"
+       classe="selectedClasse"></div>
+</div>
