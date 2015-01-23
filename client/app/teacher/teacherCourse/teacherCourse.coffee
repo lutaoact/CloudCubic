@@ -3,7 +3,7 @@
 angular.module('budweiserApp').config ($stateProvider) ->
 
   $stateProvider.state 'teacher.course',
-    url: '/courses/:courseId/classeId/:classeId'
+    url: '/courses/:courseId'
     templateUrl: 'app/teacher/teacherCourse/teacherCourse.html'
     controller: 'TeacherCourseCtrl'
     roleRequired: 'teacher'

@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'classeTile', ()->
-  templateUrl: 'app/teacher/teacherCourse/classe-tile.html'
+angular.module('budweiserApp').directive 'classeTile', ->
+  templateUrl: 'app/classeManager/classe-tile.html'
   restrict: 'E'
   replace: true
   scope:
