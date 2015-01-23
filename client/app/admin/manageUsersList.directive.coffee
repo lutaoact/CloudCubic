@@ -35,7 +35,7 @@ angular.module('budweiserApp')
     $scope.selectedUsers =  _.filter($scope.users, '$selected':true)
 
   angular.extend $scope,
-
+    Auth: Auth
     currentPage: 1
     pageSize: 10
     selectedUsers: []

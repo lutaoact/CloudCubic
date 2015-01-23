@@ -3,6 +3,7 @@
 angular.module('budweiserApp')
 
 .controller 'ClasseManagerCtrl', (
+  Auth
   $state
   $scope
   $modal
@@ -15,8 +16,9 @@ angular.module('budweiserApp')
     courses: Restangular.all('courses').getList()
     categories: Category.find().$object
     search:
-      keyword: $state.params.keyword
-      category: $state.params.category
+      keyword  : $state.params.keyword
+      category : $state.params.category
+      course   : $state.params.course
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
@@ -24,7 +26,7 @@ angular.module('budweiserApp')
 
     createNewClasse: ->
       $modal.open
-        templateUrl: 'app/admin/classeManager/editClasseModal.html'
+        templateUrl: 'app/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         windowClass: 'edit-classe-modal'
         resolve:
@@ -45,7 +47,7 @@ angular.module('budweiserApp')
 
     reload: (resetPage) ->
       $scope.pageConf.currentPage = 1 if resetPage
-      $state.go 'admin.classeManager',
+      $state.go 'classeManager',
         category :$scope.search.category
         keyword  :$scope.search.keyword
         page     :$scope.pageConf.currentPage
@@ -53,16 +55,20 @@ angular.module('budweiserApp')
     classDeleteCallback: (classe)->
       $scope.classes.splice($scope.classes.indexOf(classe),1)
 
-  Restangular
-  .all('classes')
-  .getList(
-    from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
-    limit      : $scope.pageConf.itemsPerPage
-    keyword    : $scope.search.keyword
-    categoryId : $scope.search.category
-    sort       : JSON.stringify {setTop : -1, created : -1}
-  )
-  .then (classes) ->
-    $scope.classes = classes
+  $scope.$watch Auth.getCurrentUser, (me) ->
+    if !Auth.hasRole('teacher') then return
+    Restangular
+    .all('classes')
+    .getList(
+      from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+      limit      : $scope.pageConf.itemsPerPage
+      keyword    : $scope.search.keyword
+      categoryId : $scope.search.category
+      courseId   : $scope.search.course
+      teacherId  : if me.role is 'teacher' then me._id else null
+      sort       : JSON.stringify {setTop : -1, created : -1}
+    )
+    .then (classes) ->
+      $scope.classes = classes
 
 

@@ -33,7 +33,7 @@ log4js.configure
     type        : 'dateFile'
     filename    : "/data/log/#{config.appName}.data.log"
     pattern     : "-yyyy-MM-dd"
-    alwaysIncludePattern: false
+    alwaysIncludePattern: true
     layout      :
       type      : 'pattern'
       pattern   : "%m"

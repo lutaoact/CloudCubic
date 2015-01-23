@@ -1,0 +1,60 @@
+<div class="classe-manager-view" class="fadeIn">
+
+  <div class="classe-list-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="title">班级管理</span>
+          <span class="border-left">
+            <select class="form-control"
+                    ng-model="search.category"
+                    ng-change="reload(true)"
+                    ng-options="category._id as category.name for category in categories"
+                    required>
+              <option value="" class="text-muted">全部专业</option>
+            </select>
+          </span>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{classes.$count}}</span> 个
+          </span>
+          <search-input keyword="search.keyword"
+                        on-submit="setKeyword($keyword)"
+                        placeholder="班级关键字搜索">
+          </search-input>
+          <button class="btn btn-sm btn-danger pull-right"
+                  ng-click="createNewClasse()">
+            <i class="fa fa-plus-circle"></i>
+            开班
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ui-view>
+    <div class="row">
+      <div class="col-md-4 classe-list-item"
+           ng-repeat="classe in classes">
+        <classe-tile classe="classe"
+                     courses="courses"
+                     on-classe-deleted="classDeleteCallback">
+        </classe-tile>
+      </div>
+    </div>
+
+    <div class="row pagination-row text-center"
+         ng-if="classes.$count"
+         ng-show="classes.$count > pageConf.itemsPerPage">
+      <pagination total-items="classes.$count"
+                  ng-model="pageConf.currentPage"
+                  items-per-page="pageConf.itemsPerPage"
+                  class="pagination-sm bud"
+                  ng-change="reload()"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="pageConf.maxSize">
+      </pagination>
+    </div>
+  </div>
+
+</div>

@@ -1,13 +1,12 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'classeTile', ()->
-  templateUrl: 'app/teacher/teacherCourse/classe-tile.html'
+angular.module('budweiserApp').directive 'classeTile', ->
+  templateUrl: 'app/classeManager/classe-tile.html'
   restrict: 'E'
   replace: true
   scope:
     classe: '='
     courses: '='
-    plus: '@'
     onClasseDeleted: '&'
 
   controller: (
@@ -23,7 +22,7 @@ angular.module('budweiserApp').directive 'classeTile', ()->
 
       editClasse: (classe) ->
         $modal.open
-          templateUrl: 'app/admin/classeManager/editClasseModal.html'
+          templateUrl: 'app/classeManager/editClasseModal.html'
           controller: 'EditClasseModalCtrl'
           windowClass: 'edit-classe-modal'
           resolve:
@@ -43,10 +42,6 @@ angular.module('budweiserApp').directive 'classeTile', ()->
         .patch setTop:setTop
         .then (newClasse) ->
           angular.extend classe, newClasse
-
-      viewClasse: (classe) ->
-        if $scope.plus and Auth.hasRole('admin') and classe
-          $state.go('admin.classeManager.detail', classeId:classe._id)
 
       deleteClasse: (classe)->
         messageModal.open

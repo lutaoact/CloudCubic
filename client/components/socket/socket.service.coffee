@@ -4,6 +4,7 @@ angular.module('budweiserApp').service 'socket', (
   $timeout
   $interval
   $cookieStore
+  org
 ) ->
 
   socket = null
@@ -20,6 +21,7 @@ angular.module('budweiserApp').service 'socket', (
       socket.send JSON.stringify
         type: type
         token: $cookieStore.get('token') if $cookieStore.get('token')
+        orgId: org._id
 
     socket.onopen =  ->
       doBeat('login')

@@ -17,7 +17,7 @@ angular.module('budweiserApp')
 
     deleteStudent: ->
       $scope.reloadStudents()
-      $state.go('admin.classeManager.detail', classeId:$state.params.classeId)
+      $state.go('classeManager.detail', classeId:$state.params.classeId)
 
   Restangular.one('users', $state.params.studentId).get()
   .then (student) ->

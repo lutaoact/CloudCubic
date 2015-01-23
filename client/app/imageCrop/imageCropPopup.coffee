@@ -94,13 +94,17 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
         $scope.viewState.originSize =
           width: e.target.naturalWidth
           height: e.target.naturalHeight
+        if /(gif|svg)/i.test value[0].type
+          $scope.message = 'gif或者svg不支持裁剪'
+        else
+          $scope.message = ''
         angular.element('.img-preview').Jcrop
           onSelect: showCoords
           onChange: showCoords
           onRelease: cancelSelect
           aspectRatio: options.ratio
           keySupport: false
-          setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio
+          setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio and !$scope.message
 
 
 

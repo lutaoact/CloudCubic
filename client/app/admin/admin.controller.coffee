@@ -6,17 +6,13 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
 
   angular.extend $scope,
     menus: [
-      stateName:'admin.home'
+      stateName:'admin.orgManager'
       className: 'budon budon-organization'
       label: '机构信息设置'
     ,
       stateName:'admin.teacherManager'
       className: 'budon budon-teacher'
       label: '教师管理'
-    ,
-      stateName:'admin.classeManager'
-      className: 'budon budon-course-classe'
-      label: '开班设置'
     ,
       stateName:'admin.categoryManager'
       className: 'budon budon-category'
