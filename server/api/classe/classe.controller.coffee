@@ -17,18 +17,19 @@ WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
 exports.index = (req, res, next) ->
   user = req.user
-  console.log 'user is ', user
   conditions = orgId: req.org?._id
-
+  conditions.$and = []
+  
   conditions.students = req.query.studentId if req.query.studentId
   #conditions.teachers = req.query.teacherId if req.query.teacherId
   if req.query.keyword
     keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
-    conditions.$or = [
-      name: keyword
-    ,
-      address: keyword
-    ]
+    conditions.$and.push
+      $or : [
+        name: keyword
+      ,
+        address: keyword
+      ]
 
   Q(
     if req.query.categoryId
@@ -46,14 +47,18 @@ exports.index = (req, res, next) ->
           owners : teacherId
         .then (myCourses) ->
           myCourseIds = _.pluck myCourses, '_id'
-          console.log 'my course ids are: ', myCourseIds
-          conditions.$or = [
-            teachers : teacherId
-          ,
-            courseId : {$in : myCourseIds}
-          ]
+          conditions.$and.push
+            $or : [
+              teachers : teacherId
+            ,
+              courseId : {$in : myCourseIds}
+            ]
     )
   .then () ->
+    # if no and contions, then delete it
+    if conditions.$and.length is 0
+      delete conditions.$and
+      
     WrapRequest.wrapPageIndex req, res, next, conditions
   .catch next
   .done()
