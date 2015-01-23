@@ -38,9 +38,8 @@ angular.module('budweiserApp')
 ) ->
 
   angular.extend $scope,
+    $state: $state
     Auth: Auth
-    courseTab:
-      type: $state.$current.name.split('.').pop()
 
     learnLecture: ->
       if !$scope.course.lectureAssembly?.length
@@ -89,10 +88,6 @@ angular.module('budweiserApp')
       .then (data)->
         console.log 'enrolled!'
         $scope.classe.students = data[0].students
-
-  $scope.$watch 'course', (course) ->
-    if course && !course.info
-      $scope.courseTab.type = 'lecture'
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
@@ -148,5 +143,6 @@ angular.module('budweiserApp')
             .result.then ->
               $state.go(toState, toParams)
 
-  $scope.$watch "courseTab.type", (newType)->
-    $state.go "course.detail."+newType
+  if $state.current.name is 'course.detail'
+    $state.go 'course.detail.desc'
+

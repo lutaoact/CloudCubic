@@ -6,7 +6,6 @@ angular.module('budweiserApp').config ($urlRouterProvider, $stateProvider) ->
     url: ''
     templateUrl: 'app/course/courseDetail/courseDetail.html'
     controller: 'CourseDetailCtrl'
-    abstract: true
   .state 'course.detail.desc',
     url: ''
     templateUrl: 'app/course/courseDetail/courseDetailDesc.html'

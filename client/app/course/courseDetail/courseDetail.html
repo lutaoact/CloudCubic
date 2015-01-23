@@ -112,15 +112,20 @@
       <div class="list-group-header">
         <div class="btn-group">
           <label class="btn btn-toggle"
-                 ng-show="course.info"
-                 ng-model="courseTab.type"
-                 btn-radio="'desc'"><a href ui-sref="course.detail.desc">课程简介</a></label>
+                 ui-sref="course.detail.desc"
+                 ng-class="{active: $state.includes('course.detail.desc')}">
+            <a href ui-sref="course.detail.desc">课程简介</a>
+          </label>
           <label class="btn btn-toggle"
-                 ng-model="courseTab.type"
-                 btn-radio="'lectures'"><a href ui-sref="course.detail.lectures">课时({{course.lectureAssembly.length||0}})</a></label>
+                 ui-sref="course.detail.lectures"
+                 ng-class="{active: $state.includes('course.detail.lectures')}">
+            <a href ui-sref="course.detail.lectures">课时({{course.lectureAssembly.length||0}})</a>
+          </label>
           <label class="btn btn-toggle"
-                 ng-model="courseTab.type"
-                 btn-radio="'comments'"><a href ui-sref="course.detail.comments">评论({{course.commentsNum||0}})</a></label>
+                 ui-sref="course.detail.comments"
+                 ng-class="{active: $state.includes('course.detail.comments')}">
+            <a href ui-sref="course.detail.comments">评论({{course.commentsNum||0}})</a>
+          </label>
         </div>
       </div>
       <div ui-view class="fadeIn"></div>
