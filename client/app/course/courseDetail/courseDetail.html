@@ -114,68 +114,16 @@
           <label class="btn btn-toggle"
                  ng-show="course.info"
                  ng-model="courseTab.type"
-                 btn-radio="'desc'">课程简介</label>
+                 btn-radio="'desc'"><a href ui-sref="course.detail.desc">课程简介</a></label>
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
-                 btn-radio="'lecture'">课时({{course.lectureAssembly.length||0}})</label>
+                 btn-radio="'lectures'"><a href ui-sref="course.detail.lectures">课时({{course.lectureAssembly.length||0}})</a></label>
           <label class="btn btn-toggle"
                  ng-model="courseTab.type"
-                 btn-radio="'comments'">评论({{course.commentsNum||0}})</label>
+                 btn-radio="'comments'"><a href ui-sref="course.detail.comments">评论({{course.commentsNum||0}})</a></label>
         </div>
       </div>
-
-      <div class="list-group-item desc"
-           ng-show="courseTab.type=='comments'">
-        <comments belong-to="course._id"
-                  extra="{classeId: classe._id}"
-                  type="2"
-                  active-comment="dataId">
-        </comments>
-      </div>
-
-
-      <div class="list-group-item desc"
-           ng-if="courseTab.type=='desc'">
-        <div class="blog" compile-html="course.info"></div>
-      </div>
-
-      <div class="list-group-item desc"
-           ng-if="courseTab.type=='lecture' && !course.lectureAssembly.length">
-        <h3 class="text-center text-muted">暂无课时</h3>
-      </div>
-
-      <a class="list-group-item lecture"
-         ng-show="courseTab.type=='lecture'"
-         ng-repeat="lecture in course.lectureAssembly | paging:itemsPerPage:currentPage"
-         href
-         ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
-        <div class="text-center lecture-index text-muted">
-          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
-        </div>
-        <div class="lecture-name">
-          <span class="title">{{lecture.name}}</span>
-          <div class="info text-muted">
-            {{lecture.info}}
-          </div>
-        </div>
-        <div class="lecture-tip"
-             ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) == -1 && lecture.isFreeTry">
-          <i class="fa fa-play-circle-o"></i> 试听
-        </div>
-        <div class="lecture-tip"
-             ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) != -1 && lecture.$viewed">
-          <i class="fa fa-check-circle"></i> 完成
-        </div>
-      </a>
+      <div ui-view class="fadeIn"></div>
     </div>
-
-    <pager ng-hide="course.lectureAssembly.length <= itemsPerPage"
-           total-items="course.lectureAssembly.length"
-           items-per-page="itemsPerPage"
-           align="false"
-           class="bud"
-           ng-model="currentPage">
-    </pager>
   </div>
-
 </div>

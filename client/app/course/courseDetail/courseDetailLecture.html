@@ -1,0 +1,36 @@
+<div class="list-group-item desc"
+     ng-if="!course.lectureAssembly.length">
+  <h3 class="text-center text-muted">暂无课时</h3>
+</div>
+
+<a class="list-group-item lecture"
+   ng-repeat="lecture in course.lectureAssembly | paging:itemsPerPage:currentPage"
+   href
+   ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
+  <div class="text-center lecture-index text-muted">
+    {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
+  </div>
+  <div class="lecture-name">
+    <span class="title">{{lecture.name}}</span>
+    <div class="info text-muted">
+      {{lecture.info}}
+    </div>
+  </div>
+  <div class="lecture-tip"
+       ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) == -1 && lecture.isFreeTry">
+    <i class="fa fa-play-circle-o"></i> 试听
+  </div>
+  <div class="lecture-tip"
+       ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) != -1 && lecture.$viewed">
+    <i class="fa fa-check-circle"></i> 完成
+  </div>
+</a>
+</div>
+
+<pager ng-hide="course.lectureAssembly.length <= itemsPerPage"
+       total-items="course.lectureAssembly.length"
+       items-per-page="itemsPerPage"
+       align="false"
+       class="bud"
+       ng-model="currentPage">
+</pager>

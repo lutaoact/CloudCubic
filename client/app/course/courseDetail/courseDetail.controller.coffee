@@ -42,7 +42,7 @@ angular.module('budweiserApp')
     itemsPerPage: 10
     currentPage: 1
     courseTab:
-      type: 'desc'
+      type: $state.$current.name.split('.').pop()
 
     learnLecture: ->
       if !$scope.course.lectureAssembly?.length
@@ -149,3 +149,6 @@ angular.module('budweiserApp')
               windowClass: 'login-window-modal'
             .result.then ->
               $state.go(toState, toParams)
+
+  $scope.$watch "courseTab.type", (newType)->
+    $state.go "course.detail."+newType
