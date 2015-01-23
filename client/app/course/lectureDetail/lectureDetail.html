@@ -1,6 +1,14 @@
 <div class="navbar sub-nav">
   <div class="container">
     <div class="row">
+      <a href=""
+         ng-if="progress != null && Auth.hasRole('teacher')"
+         style="margin-top: 10px;"
+         class="btn btn-sm btn-default pull-right"
+         ui-sref="teacher.teaching({courseId: course._id, classeId:classe._id, lectureid: lecture._id})">
+        <i class="fa fa-play-circle"></i>
+        开始上课
+      </a>
       <ul class="nav navbar-nav">
         <li>
           <a href="" ui-sref="course.detail({courseId: course._id,classeId:classe._id})">

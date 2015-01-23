@@ -41,22 +41,17 @@ angular.module('budweiserApp')
     $state: $state
     Auth: Auth
 
-    learnLecture: ->
-      if !$scope.course.lectureAssembly?.length
-        return
-      viewedLectures = $scope.course.lectureAssembly.filter (x)->
-        x.$viewed
-      if viewedLectures and viewedLectures.length > 0
-        # GOTO that course
-        # TODO: last viewed should not be the last viewed item :(
-        lastViewed = viewedLectures[viewedLectures.length - 1]
-        $state.go 'lecture.detail',
+    gotoLecture: ->
+      lectures = $scope.course.lectureAssembly
+      firstUndoLecture = _.find lectures, (lecture) ->
+        $scope.progress.indexOf(lecture._id) == -1
+      firstUndoLecture = lectures[lectures.length - 1] if !firstUndoLecture?
+      if firstUndoLecture?
+        stateName = if Auth.hasRole('teacher') then 'teacher.teaching' else 'course.lecture'
+        $state.go stateName,
           courseId: $state.params.courseId
-          lectureId: lastViewed._id
-      else
-        # Start from first lecture
-        $state.go 'course.lecture',
-          lectureId: $scope.course.lectureAssembly[0]._id
+          classeId: $state.params.classeId
+          lectureId: firstUndoLecture._id
 
     addToCart: (classe)->
       if Auth.hasRole('teacher')
@@ -143,6 +138,7 @@ angular.module('budweiserApp')
             .result.then ->
               $state.go(toState, toParams)
 
-  if $state.current.name is 'course.detail'
-    $state.go 'course.detail.desc'
+  $scope.$watch (-> $state.current.name), (stateName) ->
+    if stateName is 'course.detail'
+      $state.go 'course.detail.desc'
 

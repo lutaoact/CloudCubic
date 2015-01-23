@@ -15,17 +15,31 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
     return
 
   angular.extend $scope,
+    me: null
     Auth: Auth
+    progress: null
 
     loadProgress: ->
-      $scope.viewedLectureIndex = 1
-      if !$state.params.courseId or !Auth.isLoggedIn() then return
-      Restangular.all('progresses').getList({courseId: $state.params.courseId})
-      .then (progress)->
-        progress?.forEach (lectureId)->
-          viewedLecture = _.find $scope.course.lectureAssembly, _id: lectureId
-          viewedLecture?.$viewed = true
-          $scope.viewedLectureIndex = $scope.course.lectureAssembly.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.lectureAssembly.indexOf(viewedLecture) + 1
+      $scope.progress = null
+
+      if !Auth.isLoggedIn() then return
+      me = $scope.me
+      isAdmin   = me?.role is 'admin'
+      isOwner   = _.find($scope.course?.owners, _id:me?._id)
+      isTeacher = _.find($scope.classe?.teachers, _id: me?._id)
+      isLearner = $scope.classe?.students?.indexOf(me?._id) != -1
+
+      if isAdmin or isOwner or isTeacher or isLearner
+        Restangular
+        .all('progresses')
+        .getList(
+          courseId: $state.params.courseId
+          classeId: $state.params.classeId
+        )
+        .then (progress) ->
+          # 移除不是这个课程的progress
+          $scope.progress = _.filter progress, (lectureId) ->
+            _.find($scope.course.lectureAssembly, _id:lectureId)
 
     courseQ: Restangular.one('courses', $state.params.courseId).get()
 
@@ -35,15 +49,16 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
   $scope.courseQ
   .then (course) ->
     $scope.course = course
-    $scope.loadProgress()
-    course
 
   # 获取班级信息
   $scope.classeQ
-  .then (classe)->
+  .then (classe) ->
     $scope.classe = classe
-    classe
-  , (err)->
-    notify
-      message: '获取班级信息失败'
-      classes: 'alert-danger'
+
+  $scope.$watch Auth.getCurrentUser, (me) ->
+    $scope.me = me
+    $q.all [
+      $scope.classeQ
+      $scope.courseQ
+    ]
+    .then $scope.loadProgress

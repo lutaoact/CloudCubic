@@ -17,11 +17,11 @@
     </div>
   </div>
   <div class="lecture-tip"
-       ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) == -1 && lecture.isFreeTry">
+       ng-if="!progress && lecture.isFreeTry">
     <i class="fa fa-play-circle-o"></i> 试听
   </div>
   <div class="lecture-tip"
-       ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) != -1 && lecture.$viewed">
+       ng-if="progress.indexOf(lecture._id) >= 0">
     <i class="fa fa-check-circle"></i> 完成
   </div>
 </a>

@@ -88,19 +88,20 @@
 
           </div>
           <div class="learn-progress"
-               ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) >= 0">
+               ng-if="progress != null">
             <div class="progress">
               <div class="learn-progress-inner-bar"
-                  ng-style="{'width':viewedLectureIndex / course.lectureAssembly.length * 100 + '%'}">
+                  ng-style="{'width':progress.length / course.lectureAssembly.length * 100 + '%'}">
               </div>
               <div class="tip">
-                {{+viewedLectureIndex + '/' + course.lectureAssembly.length}}课时
+                {{progress.length + '/' + course.lectureAssembly.length}}课时
               </div>
             </div>
             <div class="learn-btn">
               <a class="btn btn-danger btn-lg"
-                 ng-click="learnLecture()">
-                {{viewedLectureIndex?'继续学习':'开始学习'}}
+                 ng-click="gotoLecture()">
+                <span ng-if="Auth.hasRole('teacher')">开始上课</span>
+                <span ng-if="!Auth.hasRole('teacher')">{{progress.length?'继续学习':'开始学习'}}</span>
               </a>
             </div>
           </div>
