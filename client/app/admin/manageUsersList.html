@@ -34,6 +34,16 @@
           导入中
         </span>
     </label>
+
+    <span dropdown style="position: relative" is-open="openHint">
+      <i class="fa fa-question-circle hint" dropdown-toggle ng-mouseenter="openHint = true"></i>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <img alt="上传说明" src="assets/images/bulk_uploader_help.png" alt="">
+          <a href="assets/images/teachers.xlsx" target="blank" class="">下载模板</a>
+        </li>
+      </ul>
+    </span>
   </div>
   <div ng-if="users.length > 0">
     <strong>{{roleTitle}}列表</strong>
@@ -61,6 +71,17 @@
             导入中
           </span>
         </label>
+        <span dropdown style="position: relative" class="pull-right" is-open="openHint">
+          <a href="" class="btn btn-sm" dropdown-toggle ng-mouseenter="openHint = true">
+            <i class="fa fa-question-circle hint" ></i>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <img alt="上传说明" src="assets/images/bulk_uploader_help.png" alt="">
+              <a href="assets/images/teachers.xlsx" target="blank" class="">下载模板</a>
+            </li>
+          </ul>
+        </span>
       </span>
       <span ng-show="selectedUsers.length > 0">
         <div class="btn-group"
