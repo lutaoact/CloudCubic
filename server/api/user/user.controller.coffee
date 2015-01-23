@@ -196,7 +196,7 @@ exports.me = (req, res, next) ->
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
-    loggerD.write 'me', user._id
+    loggerD.write 'me', user.orgId, user._id
     res.send user
   , next
 

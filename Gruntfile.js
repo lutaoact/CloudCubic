@@ -21,7 +21,7 @@ module.exports = function (grunt) {
     qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
     qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
     qiniu_cdn_bucket: 'cloud3cdn',
-    randomCdnPath: (new Date()).valueOf()+ '/'
+    randomCdnPath: '8asdf6/'
   };
 
   // Time how long tasks take. Can help when optimizing build times
@@ -387,7 +387,7 @@ options: {
     qiniu: {
       dist: {
         options: {
-          ignoreDup: false,
+          ignoreDup: true,
           accessKey: config.qiniu_ak,
           secretKey: config.qiniu_sk,
           bucket: config.qiniu_cdn_bucket,
@@ -688,6 +688,19 @@ options: {
         files: [
         {expand: true, flatten: true, src: ['.tmp/templates.js'],dest:'.tmp/'}
         ]
+      },
+      mobile:{
+        options: {
+          patterns: [
+          {
+            match: /..\/lib\//g,
+            replacement: config.cdn+config.randomCdnPath+'lib/'
+          }
+          ]
+        },
+        files: [
+        {expand: true, flatten: true, src: ['dist/public/mobile/css/app.css'],dest:'dist/public/mobile/css/'}
+        ]
       }
     },
     processhtml: {
@@ -861,8 +874,11 @@ grunt.registerTask('build', [
   // 'uglify',
   'rev',
   'usemin',
+  'replace:mobile',
   'cdnify:dist',
-  'qiniu:dist'
+  'cdnify:mobile',
+  'qiniu:dist',
+  'qiniu:mobile'
   ]);
 
 
