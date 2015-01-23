@@ -4,11 +4,11 @@
 </div>
 
 <a class="list-group-item lecture"
-   ng-repeat="lecture in course.lectureAssembly | paging:pageConf.itemsPerPage:pageConf.currentPage"
+   ng-repeat="lecture in course.lectureAssembly"
    href
    ui-sref="course.lecture({courseId:course._id,lectureId:lecture._id})">
   <div class="text-center lecture-index text-muted">
-    {{$index + 1 + pageConf.itemsPerPage * ((pageConf.currentPage||1) - 1)}}
+    {{$index + 1}}
   </div>
   <div class="lecture-name">
     <span class="title">{{lecture.name}}</span>
@@ -25,17 +25,4 @@
     <i class="fa fa-check-circle"></i> 完成
   </div>
 </a>
-</div>
-
-<div class="row pagination-row text-center"
-     ng-if="course.lectureAssembly.length > pageConf.itemsPerPage">
-  <pagination
-    total-items="course.lectureAssembly.length"
-    ng-model="pageConf.currentPage"
-    items-per-page="pageConf.itemsPerPage"
-    class="pagination-sm bud"
-    boundary-links="true"
-    rotate="false"
-    max-size="pageConf.maxSize">
-  </pagination>
 </div>
