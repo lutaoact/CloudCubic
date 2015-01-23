@@ -53,6 +53,7 @@ exports.Classe = BaseModel.subclass
       courseId:
         type: ObjectId
         ref: 'course'
+        required : true
       # 报名时间段
       enrollment:
         from: Date
