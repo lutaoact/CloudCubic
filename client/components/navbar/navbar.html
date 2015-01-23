@@ -63,10 +63,10 @@
           <a class="text-center" ui-sref="admin.home">机构管理</a>
         </li>
         <li ng-class="{active: isActive('courseList')}">
-          <a href ui-sref='courseList'>所有课程</a>
+          <a href ui-sref='courseList'>机构课程</a>
         </li>
         <li ng-class="{active: isActive('forum')}">
-          <a href ui-sref="forum.list">讨论组</a>
+          <a href ui-sref="forum.list">讨论区</a>
         </li>
         <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
           <a href ui-sref="teacher.questionLibrary({courseId:$state.params.courseId})">题库</a>
