@@ -17,16 +17,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
 
   angular.extend $scope,
 
-    deleteCallback: (course) ->
-      $state.go('home')
-
     imageSizeLimitation: configs.imageSizeLimitation
-
-    togglePublish: ($event)->
-      $event.stopPropagation()
-      Restangular.one('courses', $scope.course._id).patch isPublished: !$scope.course.isPublished
-      .then ->
-        $scope.course.isPublished = !$scope.course.isPublished
 
     viewState:
       editingInfo: false
@@ -66,7 +57,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         message: -> "确认要删除《#{course.name}》？"
       .result.then ->
         course.remove().then ->
-          $scope.deleteCallback?($course:course)
+          $state.go('home')
 
     saveCourseInfo: ()->
       Restangular.one('courses', $scope.course._id).patch

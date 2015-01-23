@@ -7,17 +7,14 @@ angular.module('budweiserApp')
   $state
   $scope
   $modal
-  Category
   Restangular
 ) ->
 
   angular.extend $scope,
     classes: null
     courses: Restangular.all('courses').getList()
-    categories: Category.find().$object
     search:
       keyword  : $state.params.keyword
-      category : $state.params.category
       course   : $state.params.course
     pageConf:
       maxSize      : 5
@@ -48,7 +45,6 @@ angular.module('budweiserApp')
     reload: (resetPage) ->
       $scope.pageConf.currentPage = 1 if resetPage
       $state.go 'classeManager',
-        category :$scope.search.category
         keyword  :$scope.search.keyword
         page     :$scope.pageConf.currentPage
 
@@ -63,7 +59,6 @@ angular.module('budweiserApp')
       from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
       limit      : $scope.pageConf.itemsPerPage
       keyword    : $scope.search.keyword
-      categoryId : $scope.search.category
       courseId   : $scope.search.course
       teacherId  : if me.role is 'teacher' then me._id else null
       sort       : JSON.stringify {setTop : -1, created : -1}

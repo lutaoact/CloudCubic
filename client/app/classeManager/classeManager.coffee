@@ -5,7 +5,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider
 
   .state 'classeManager',
-    url: '/classes?category&course&keyword&page'
+    url: '/classes?course&keyword&page'
     templateUrl: 'app/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
     roleRequired: 'teacher'

@@ -7,7 +7,6 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
   templateUrl: 'app/teacher/teacherCourse/teacherCourseLectures.html'
   scope:
     course: '='
-    classes: '='
 
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope

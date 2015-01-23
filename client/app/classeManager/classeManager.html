@@ -4,16 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <span class="title">班级管理</span>
-          <span class="border-left">
-            <select class="form-control"
-                    ng-model="search.category"
-                    ng-change="reload(true)"
-                    ng-options="category._id as category.name for category in categories"
-                    required>
-              <option value="" class="text-muted">全部专业</option>
-            </select>
-          </span>
+          <a class="title" href ui-sref="{course:'', category:'', keyword:''}">开班管理</a>
           <span class="border-left">
             共 <span class="text-primary" style="font-size: 1.2em">{{classes.$count}}</span> 个
           </span>
