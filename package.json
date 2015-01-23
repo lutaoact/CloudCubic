@@ -22,7 +22,7 @@
     "express-session": "~1.0.2",
     "fileutils": "^0.1.0",
     "grunt-cdnify": "^0.1.1",
-    "grunt-qiniu-deploy": "^0.1.1",
+    "grunt-qiniu-deploy": "git://github.com/cloud3edu/grunt-qiniu-deploy",
     "jade": "^1.6.0",
     "jsonwebtoken": "^0.3.0",
     "lodash": "~2.4.1",
