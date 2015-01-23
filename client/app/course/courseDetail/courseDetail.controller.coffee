@@ -39,8 +39,6 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     Auth: Auth
-    itemsPerPage: 10
-    currentPage: 1
     courseTab:
       type: $state.$current.name.split('.').pop()
 

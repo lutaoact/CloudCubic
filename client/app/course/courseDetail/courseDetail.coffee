@@ -11,8 +11,9 @@ angular.module('budweiserApp').config ($urlRouterProvider, $stateProvider) ->
     url: ''
     templateUrl: 'app/course/courseDetail/courseDetailDesc.html'
   .state 'course.detail.lectures',
-    url: '/lectures'
-    templateUrl: 'app/course/courseDetail/courseDetailLecture.html'
+    url: '/lectures?page'
+    controller: 'CourseDetailLecturesCtrl'
+    templateUrl: 'app/course/courseDetail/courseDetailLectures.html'
   .state 'course.detail.comments',
     url: '/comments'
-    templateUrl: 'app/course/courseDetail/courseDetailComment.html'
+    templateUrl: 'app/course/courseDetail/courseDetailComments.html'
