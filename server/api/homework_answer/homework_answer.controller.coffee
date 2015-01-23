@@ -62,10 +62,16 @@ exports.show = (req, res, next) ->
       res.send 404
 
 exports.create = (req, res, next) ->
-  userId = req.user.id
+  
+  user = req.user
+  if user?.role is 'teacher' || user?.role is 'admin'
+    res.send 403, 'Teacher and admin cannot submit homework answer'
+    return
+  
+  userId = user.id
   lectureId = req.query.lectureId
 
-  LectureUtils.getAuthedLectureById req.user, lectureId
+  LectureUtils.getAuthedLectureById user, lectureId
   .then (lecture) ->
 
     body = req.body
