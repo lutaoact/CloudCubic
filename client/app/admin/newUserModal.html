@@ -11,7 +11,7 @@
       name="form" novalidate>
 
   <div class="form-group form-group-sm">
-    <span for="inputUserName" class="col-xs-3 control-label">邮箱或昵称</span>
+    <span for="inputUserName" class="col-xs-3 control-label">{{user.role=='teacher'?'邮箱':'邮箱或昵称'}}</span>
     <div class="col-xs-8">
       <ui-select id="user"
                  ng-model="targetUser"
@@ -19,10 +19,10 @@
                  on-select="selectUser($item, $select.search, $event)"
                  class="user-select"
                  required>
-        <ui-select-match placeholder="请输入要添加的用户，然后按回车">
+        <ui-select-match placeholder="请输入要添加的email或者选择一个已存在的用户">
           {{$select.selected.text}}
         </ui-select-match>
-        <ui-select-choices refresh="searchUsers($select)" refresh-delay="800" repeat="user in searchedUsers">
+        <ui-select-choices refresh="searchUsers($select)" refresh-delay="500" repeat="user in searchedUsers">
           <span ng-bind-html="user.text | highlight: $select.search"></span>
         </ui-select-choices>
       </ui-select>
@@ -40,7 +40,7 @@
             id="confirm-btn"
             class="btn btn-danger btn-sm"
             ng-click="confirm(form)">
-      保存
+      确定
     </button>
   </div>
 </form>

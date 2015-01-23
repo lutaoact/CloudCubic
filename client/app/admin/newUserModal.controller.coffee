@@ -45,6 +45,8 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
             $scope.searchedUsers.push
               text: '发送邀请给'+$search.search
               email: $search.search
+            $scope.selectedUser = $scope.searchedUsers[0]
+            $scope.targetUser = $scope.selectedUser
 
     cancel: ->
       $modalInstance.dismiss('cancel')

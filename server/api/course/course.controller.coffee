@@ -86,6 +86,13 @@ exports.update = (req, res, next) ->
 
 
 exports.destroy = (req, res, next) ->
-  CourseUtils.buildWriteConditions req
-  .then (conditions) ->
-    WrapRequest.wrapDestroy req, res, next, conditions
+  courseId = req.params.id
+  Classe.findQ
+    courseId : courseId
+  .then (classes) ->
+    if classes?.length > 0
+      res.send 403, '不能删除有关联班次的课程'
+    else
+      CourseUtils.buildWriteConditions req
+      .then (conditions) ->
+        WrapRequest.wrapDestroy req, res, next, conditions

@@ -1,5 +1,8 @@
 
 Const =
+  BeatTimeSpan: 5 #分钟
+  MeTimeSpan: 1 #分钟，这两个数值是为了利用日志统计用户活跃时长而设置的
+
   NoticeType:
     # Like related notices
     LikeTopic: 1
