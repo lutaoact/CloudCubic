@@ -80,7 +80,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     addClass: ()->
       $modal.open
-        templateUrl: 'app/admin/classeManager/editClasseModal.html'
+        templateUrl: 'app/classeManager/editClasseModal.html'
         controller: 'EditClasseModalCtrl'
         windowClass: 'edit-classe-modal'
         resolve:

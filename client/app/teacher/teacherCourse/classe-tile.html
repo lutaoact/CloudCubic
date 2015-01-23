@@ -5,7 +5,7 @@
     </a>
     <ul class="dropdown-menu" role="menu" dropdown-toggle>
       <li><a href ng-click="editClasse(classe)">编辑</a></li>
-      <li ng-if="plus">
+      <li ng-if="Auth.hasRole('admin')">
         <a href ng-click="switchSetTop(classe)">
           <span ng-if="classe.setTop">取消</span>置顶
         </a>
@@ -14,27 +14,25 @@
     </ul>
   </span>
   <div class="set-top"
-       ng-if="plus && classe.setTop">已置顶</div>
+       ng-if="Auth.hasRole('admin') && classe.setTop">已置顶</div>
   <a class="classe-title"
-     ng-class="{'plus':plus}"
      href
-     ng-click="viewClasse(classe)">
+     ui-sref="teacher.course({courseId:classe.courseId._id, classeId: classe._id})">
      {{classe.name}}
   </a>
-  <div class="divider" ng-if="plus"></div>
+  <div class="divider"></div>
   <a class="classe-info"
-     ng-if="plus && classe.courseId"
      href
-     ui-sref="course.detail({courseId:classe.courseId._id, classeId: classe._id})">
+     ui-sref="{course:classe.courseId._id}">
      {{classe.courseId.name}}
   </a>
-  <div class="classe-info text-muted" ng-if="plus && !classe.courseId">未开设课程</div>
+  <div class="classe-info text-muted" ng-if="!classe.courseId">未开设课程</div>
   <div class="classe-info">{{classe.address || '未设置上课地址'}}</div>
   <div class="text-muted teachers">
     <span ng-if="!classe.teachers.length">未设置授课教师</span>
     <span class="classe-teacher"
           ng-repeat="teacher in classe.teachers">
-          {{teacher.name}}
+      {{teacher.name}}
     </span>
   </div>
   <div class="classe-times">
@@ -57,7 +55,7 @@
       </tr>
       <tr>
         <td class="tr-title text-muted">上课时间 </td>
-        <td class="classe-schedule" 
+        <td class="classe-schedule"
             title="{{classe.schedules|scheduleSummary}}">
           {{classe.schedules|scheduleSummary}}
         </td>
@@ -67,9 +65,8 @@
   <div class="classe-footer">
     <span class="yuan" ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
     <span class="yuan" ng-if="!(classe.price > 0)">免费</span>
-    <span ng-if="!plus" class="pull-right">{{classe.students.length}} 个学生</span>
-    <a href ng-if="plus"
-       ng-click="viewClasse(classe)"
+    <a href
+       ui-sref="classeManager.detail({classeId:classe._id})"
        class="pull-right">
        {{classe.students.length}} 个学生
     </a>
