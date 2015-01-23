@@ -23,7 +23,7 @@
   <div class="divider"></div>
   <a class="classe-info"
      href
-     ui-sref="{course:classe.courseId._id}">
+     ui-sref="teacher.course({courseId:classe.courseId._id})">
      {{classe.courseId.name}}
   </a>
   <div class="classe-info text-muted" ng-if="!classe.courseId">未开设课程</div>
