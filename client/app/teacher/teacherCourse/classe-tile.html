@@ -14,7 +14,7 @@
     </ul>
   </span>
   <div class="set-top"
-       ng-if="Auth.hasRole('admin') && classe.setTop">已置顶</div>
+       ng-if="classe.setTop">已置顶</div>
   <a class="classe-title"
      href
      ui-sref="teacher.course({courseId:classe.courseId._id, classeId: classe._id})">

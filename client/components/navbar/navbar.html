@@ -62,11 +62,11 @@
         <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin')}">
           <a class="text-center" href ui-sref="admin.orgManager">机构管理</a>
         </li>
-        <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('classeManager')}">
-          <a href ui-sref='classeManager'>开班管理</a>
-        </li>
         <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('home')}">
           <a href ui-sref='home'>课程制作</a>
+        </li>
+        <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('classeManager')}">
+          <a href ui-sref='classeManager'>开班管理</a>
         </li>
         <li ng-class="{active: isActive('courseList')}" ng-if="!Auth.hasRole('teacher')">
           <a href ui-sref='courseList'>机构课程</a>
