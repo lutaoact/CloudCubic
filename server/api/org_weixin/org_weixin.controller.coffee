@@ -9,7 +9,7 @@ exports.show = (req, res, next) ->
 
 
 exports.upsert = (req, res, next) ->
-  pickedKeys = ["domain", "appid", "secret"]
+  pickedKeys = ["domain", "appid", "secret", 'gongappid', 'gongsecret']
   update = _.pick req.body, pickedKeys
   OrgWeixin.findOneAndUpdateQ {orgId: req.user.orgId}, update, {upsert: true}
   .then (doc) ->
