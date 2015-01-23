@@ -116,7 +116,12 @@
     <div class="container title-keypoints">
       <div class="lecture-title">
         <h3>{{lecture.name}}
-          <a class="comments" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()" ng-disabled="commentsLoading">
+          <a href
+             ui-sref="course.lecture.comments"
+             class="comments"
+             ng-class="{'active':viewState.showDiscussion}"
+             ng-click="toggleDiscussionPanel()"
+             ng-disabled="commentsLoading">
             <i class="" ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
           </a>
           <a class="comments" ng-class="{'active':viewState.showNotes}" ng-click="toggleNotesPanel()" ng-disabled="noteLoading">
@@ -166,8 +171,10 @@
     <div lecture-answers lecture="lecture" course="course">
     </div>
   </section>
-
-  <div class="mask fade-show-hide" ng-show="viewState.showDiscussion" ng-click="viewState.showDiscussion = false"></div>
+  <div class="mask fade-show-hide"
+       ui-sref="course.lecture"
+       ng-show="viewState.showDiscussion"
+       ng-click="viewState.showDiscussion = false"></div>
   <div ng-if="viewState.discussPanelnitialized"
     ng-show="viewState.showDiscussion" class="sider">
     <div class="container margin-top">

@@ -17,24 +17,24 @@ angular.module 'budweiserApp'
       when Const.NoticeType.LikeCourseComment
         msg.title = '赞了你的回复：' + raw.data.commentId.content
         if raw.data.classeId?
-          msg.link = "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
+          msg.link = "course.detail.comments({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
         else
           msg.link = "teacher.course({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.LikeLectureComment
         msg.title = '赞了你的回复：' + raw.data.commentId.content
-        msg.link = "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        msg.link = "course.lecture.comments({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
       when Const.NoticeType.TopicComment
         msg.title = '回复了你的帖子：' + raw.data.topicId.title
         msg.link = "forum.topic({forumId:'#{raw.data.forumId._id}',topicId:'#{raw.data.topicId._id}'})"
       when Const.NoticeType.CourseComment
         msg.title = '回复了你的课程：' + raw.data.courseId.name
         if raw.data.classeId?
-          msg.link = "course.detail({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
+          msg.link = "course.detail.comments({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}'})"
         else
           msg.link = "teacher.course({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.LectureComment
         msg.title = '回复了你的课时：' + raw.data.lectureId.name
-        msg.link = "course.lecture({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
+        msg.link = "course.lecture.comments({courseId:'#{raw.data.courseId._id}', classeId:'#{raw.data.classeId._id}', lectureId:'#{raw.data.lectureId._id}'})"
 
     return msg
 

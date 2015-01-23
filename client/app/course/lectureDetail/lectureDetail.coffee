@@ -5,3 +5,6 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/lectures/:lectureId'
     templateUrl: 'app/course/lectureDetail/lectureDetail.html'
     controller: 'LectureDetailCtrl'
+
+  $stateProvider.state 'course.lecture.comments',
+    url: '/comments'

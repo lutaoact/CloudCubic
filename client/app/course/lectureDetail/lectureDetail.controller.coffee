@@ -171,3 +171,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope.$watch Auth.getCurrentUser, (user)->
     loadLecture()
     postActivity(user)
+
+  if $state.current.name is 'course.lecture.comments'
+    $scope.toggleDiscussionPanel()
