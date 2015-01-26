@@ -42,11 +42,14 @@ class LectureUtils extends BaseUtils
     Course.findOneQ
       lectureAssembly: lecture._id
     .then (course)->
-      Classe.findQ courseId: course.courseId
+      Classe.findQ courseId: course._id
     .then (classes) ->
+      console.log classes
       # check if one of the class is free
       isFreeClasse = _.any classes, (classe)->
+        console.log classe.price
         return (classe.price == 0) && (classe.deleteFlag == false)
+      console.log isFreeClasse
       return isFreeClasse
 
 exports.LectureUtils = LectureUtils
