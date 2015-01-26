@@ -8,6 +8,10 @@ BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.ActiveTime = BaseModel.subclass
   classname: 'ActiveTime'
+  populates:
+    index: [
+      path: 'userId', select: 'name avatar'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       orgId:

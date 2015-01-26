@@ -43,19 +43,16 @@ angular.module('budweiserApp')
     loadData: ()->
       console.log $scope.selectedYear, $scope.selectedMonth
       $scope.loading = true
-      Restangular.all('login_records').getList {from: moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth).set('date', 1).format(),to:moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth).set('date', 31).format()}
-      $timeout ->
-        $scope.loading = false
-        $scope.studentAnalyses = [
-            name: '小王'
-            days: 10
-            duration: 3*360000
-          ,
-            name: '小黑'
-            days: 20
-            duration: 3.4*360000
-        ]
-      , 1000
+      $scope.studentAnalysesDict = undefined
+      Restangular.all('active_times').getList {from: moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth-1).set('date', 1).format(),to:moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth).set('date', 1).add(-1, 'days').format()}
+      .then (active_times)->
+        studentAnalysesDict = {}
+        active_times.forEach (active_time)->
+          studentAnalysesDict[active_time.userId._id] ?= {days: 0, user: active_time.userId, duration: 0, raws: []}
+          studentAnalysesDict[active_time.userId._id].days++
+          studentAnalysesDict[active_time.userId._id].duration += active_time.activeTime
+          studentAnalysesDict[active_time.userId._id].raws.push active_time
+        $scope.studentAnalysesDict = studentAnalysesDict
 
   $scope.loadData()
 
