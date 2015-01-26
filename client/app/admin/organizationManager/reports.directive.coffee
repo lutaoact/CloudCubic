@@ -41,7 +41,9 @@ angular.module('budweiserApp')
       event.stopPropagation()
 
     loadData: ()->
+      console.log $scope.selectedYear, $scope.selectedMonth
       $scope.loading = true
+      Restangular.all('login_records').getList {from: moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth).set('date', 1).format(),to:moment().set('year', $scope.selectedYear).set('month',$scope.selectedMonth).set('date', 31).format()}
       $timeout ->
         $scope.loading = false
         $scope.studentAnalyses = [
