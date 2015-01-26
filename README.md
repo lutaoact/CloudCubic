@@ -43,8 +43,10 @@ start redis server at localhost:6379, then
 
 ###安装beat_me_log的处理环境
 需要依赖perl，安装一些模块，日志存放路径/data/log
+```
 sudo cpan JSON
 sudo cpan Date::Calc
+```
 
 执行方法：
 ```
