@@ -3,6 +3,7 @@ BaseUtils = require('../../common/BaseUtils')
 CourseUtils = _u.getUtils 'course'
 Course      = _u.getModel 'course'
 Lecture     = _u.getModel 'lecture'
+Classe     = _u.getModel 'classe'
 
 class LectureUtils extends BaseUtils
   classname: 'LectureUtils'
@@ -35,5 +36,17 @@ class LectureUtils extends BaseUtils
     .then () ->
       return lecture
 
+
+  isFree: (lecture) ->
+    return Q(true) if lecture.isFreeTry
+    Course.findOneQ
+      lectureAssembly: lecture._id
+    .then (course)->
+      Classe.findQ courseId: course.courseId
+    .then (classes) ->
+      # check if one of the class is free
+      isFreeClasse = _.any classes, (classe)->
+        return (classe.price == 0) && (classe.deleteFlag == false)
+      return isFreeClasse
 
 exports.LectureUtils = LectureUtils

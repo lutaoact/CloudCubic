@@ -35,9 +35,13 @@ exports.index = (req, res, next) ->
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
+  lecture = undefined
   Lecture.findOneQ conditions
-  .then (lecture) ->
-    if lecture.isFreeTry
+  .then (data) ->
+    lecture = data
+    LectureUtils.isFree lecture
+  .then (isFree)->
+    if isFree
       return lecture
 
     unless req.user
