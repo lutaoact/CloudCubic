@@ -10,7 +10,7 @@ angular.module('budweiserApp')
     isOwner   = _.find(course?.owners, _id:user?._id)
     isTeacher = _.find(classe?.teachers, _id: user?._id)
     isLearner = classe?.students?.indexOf(user?._id) != -1
-    if isFreeTry or isAdmin or isOwner or isTeacher or isLearner
+    if isFreeTry or isAdmin or isOwner or isTeacher or isLearner or classe.price is 0
       return 'allow'
 
     switch user?.role
@@ -19,7 +19,7 @@ angular.module('budweiserApp')
         return 'ownerRequired'
       when 'student'
         # 登录的学生没有购买或者参加
-        return if classe.price is 0 then 'enrollRequired' else 'buyRequired'
+        return 'buyRequired'
       else
         return 'loginRequired'
 
@@ -101,18 +101,6 @@ angular.module('budweiserApp')
               buttons: -> [
                 label: '关闭', code: 'cancel', class: 'btn-default'
               ]
-          when 'enrollRequired'
-            messageModal.open
-              title: -> "请先参加课程"
-              message: -> """您还不能查看此课时，请先参加此课程 “#{$scope.classe.name}”"""
-              buttons: -> [
-                label: '取消'      , code: 'cancel'    , class: 'btn-default'
-              ,
-                label: '参加课程'  , code: 'enroll'    , class: 'btn-primary'
-              ]
-            .result.then (actionCode) ->
-              if actionCode is 'enroll'
-                $scope.enrollFreeClass($scope.classe)
           when 'buyRequired'
             messageModal.open
               title: -> "请先购买课程"
@@ -141,4 +129,3 @@ angular.module('budweiserApp')
   $scope.$watch (-> $state.current.name), (stateName) ->
     if stateName is 'course.detail'
       $state.go 'course.detail.desc'
-

@@ -34,15 +34,20 @@ class CourseUtils extends BaseUtils
           errMsg : 'No course found or no permission to read it'
 
   checkStudent: (user, courseId) ->
-    Classe.findQ students: user._id
+    Classe.findQ courseId: courseId
     .then (classes) ->
-      courseIds = _.pluck classes, 'courseId'
-      unless _u.contains(courseIds, courseId)
-        return Q.reject
-          status : 403
-          errCode: ErrCode.CannotReadThisCourse
-          errMsg : '学生没有学习该课程'
-
+      isFreeClasse = _.any classes, (classe)->
+        classe.price == 0
+      if !isFreeClasse
+        Classe.findQ students: user._id
+        .then (classes) ->
+          courseIds = _.pluck classes, 'courseId'
+          unless _u.contains(courseIds, courseId)
+            return Q.reject
+              status : 403
+              errCode: ErrCode.CannotReadThisCourse
+              errMsg : '学生没有学习该课程'
+    .then ->
       Course.findById courseId
             .populate 'categoryId', 'orgId'
             .execQ()

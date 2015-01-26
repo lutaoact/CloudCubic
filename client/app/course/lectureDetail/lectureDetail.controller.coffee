@@ -147,7 +147,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     ]
     .then (result)->
       enrolled = $scope.classe.students.indexOf($scope.getCurrentUser()?._id)
-      if (enrolled == -1) && ($scope.lecture.isFreeTry == true)
+      if (enrolled == -1) && (($scope.classe.price == 0) || ($scope.lecture.isFreeTry == true))
         $scope.lecture.$isFreeTryOnly = true
 
   postActivity = (user)->
