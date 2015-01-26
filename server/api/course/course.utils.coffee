@@ -37,11 +37,9 @@ class CourseUtils extends BaseUtils
     Classe.findQ courseId: courseId
     .then (classes) ->
       isFreeClasse = _.any classes, (classe)->
-        classe.price == 0 && classe.deleteFlag == false
-      console.log 'isFreeClasse'+isFreeClasse
+        return (classe.price == 0) && (classe.deleteFlag == false)
       if !isFreeClasse
-        console.log classes
-        Classe.findQ students: user._id
+        Classe.findQ {students: user._id, deleteFlag: false}
         .then (classes) ->
           courseIds = _.pluck classes, 'courseId'
           unless _u.contains(courseIds, courseId)
