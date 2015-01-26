@@ -1,0 +1,41 @@
+<div class="user-report report clearfix">
+
+  <div ng-if="studentAnalysesDict">
+    <div class="head">
+      {{display}}用户活跃度
+    </div>
+    <div class="reporting-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="name">活跃用户</th>
+            <th class="days">活跃天数</th>
+            <th class="duration">在线时长(小时)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="studentAnalysis in studentAnalysesDict">
+            <td>
+              <div class="avatar-xs pull-left" src-key="studentAnalysis.user.avatar" source-attr="background-image">
+              </div>
+              {{studentAnalysis.user.name}}
+            </td>
+            <td>
+              {{studentAnalysis.days}}
+            </td>
+            <td>
+              {{studentAnalysis.duration/60|number:0}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div ng-if="!studentAnalysesDict">
+    <div class="head text-muted">
+      <i class="fa fa-spinner fa-spin"></i>加载中...
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,39 @@
+<div class="classe-report report clearfix">
+
+  <div ng-if="classeAnalyses">
+    <div class="head">
+      {{display}}用户活跃度
+    </div>
+    <div class="reporting-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="name">班级</th>
+            <th class="days">购买人数</th>
+            <th class="duration">价格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="classeAnalysis in classeAnalyses">
+            <td>
+              {{classeAnalysis.classe.name}}
+            </td>
+            <td>
+              {{classeAnalysis.amount|number:0}}
+            </td>
+            <td>
+              ￥{{classeAnalysis.price|number:0}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div ng-if="!classeAnalyses">
+    <div class="head text-muted">
+      <i class="fa fa-spinner fa-spin"></i>加载中...
+    </div>
+  </div>
+
+</div>

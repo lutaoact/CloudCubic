@@ -21,4 +21,8 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       stateName:'admin.orderManager'
       className: 'budon budon-pay'
       label: '订单管理'
+    ,
+      stateName:'admin.reporting'
+      className: 'budon budon-pay'
+      label: '每月报表'
     ]
