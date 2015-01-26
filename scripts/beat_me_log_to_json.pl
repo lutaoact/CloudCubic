@@ -4,8 +4,10 @@ use strict;
 use JSON;
 use Data::Dumper;
 use Date::Calc qw/Today Add_Delta_Days/;
-my ($year, $month, $day) = Add_Delta_Days(Today(), -1);
-my $yesterday = sprintf '%4d-%02d-%2d', $year, $month, $day;
+
+#命令行提供，格式yyyy-MM-DD
+my $yesterday = $ARGV[0] || sprintf '%4d-%02d-%2d', Add_Delta_Days(Today(), -1);
+print "process beat me log for $yesterday\n";
 
 my $INPUT_FILE = "/data/log/budweiser.data.log-$yesterday";
 my $OUTPUT_FILE = "/data/log/budweiser.data.log-$yesterday.json";

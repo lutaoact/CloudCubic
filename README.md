@@ -41,6 +41,21 @@ start redis server at localhost:6379, then
 `grunt serve`
 
 
+###安装beat_me_log的处理环境
+需要依赖perl，安装一些模块，日志存放路径/data/log
+```
+sudo cpan JSON
+sudo cpan Date::Calc
+```
+
+执行方法：
+```
+cd PROJ_DIR/scripts
+sh process_beat_me_log_to_db.sh 2015-01-23#可以提供需要处理的日期格式，默认处理前一天的
+sh process_beat_me_log_to_db.sh
+```
+
+
 ###Qiniu CDN
 to sync bower files
 #### Pre-request: install qiniu-devtool
