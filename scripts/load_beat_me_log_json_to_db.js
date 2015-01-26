@@ -8,7 +8,8 @@
 
   ActiveTime = _u.getModel('active_time');
 
-  yesterday = moment().add(-1, 'days').format('YYYY-MM-DD');
+  yesterday = process.argv[2] || moment().add(-1, 'days').format('YYYY-MM-DD');
+  console.log("load data to db for date: " + yesterday);
 
   yesterdayDate = new Date(yesterday);
 
