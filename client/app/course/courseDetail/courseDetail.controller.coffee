@@ -41,15 +41,18 @@ angular.module('budweiserApp')
 
     gotoLecture: ->
       lectures = $scope.course.lectureAssembly
-      firstUndoLecture = _.find lectures, (lecture) ->
+      # 找到第一个需要学习的课时 / 找到第一个没有在progress里面的课时
+      lectureToLearn = _.find lectures, (lecture) ->
         $scope.progress.indexOf(lecture._id) == -1
-      firstUndoLecture = lectures[lectures.length - 1] if !firstUndoLecture?
-      if firstUndoLecture?
+      # 如果lecture都已经学习完，定位到最后一个
+      lectureToLearn = lectures[lectures.length - 1] if !lectureToLearn?
+      if lectureToLearn?
+        # 如果是老师，跳到上课界面；如果是学生，跳到课时详情
         stateName = if Auth.hasRole('teacher') then 'teacher.teaching' else 'course.lecture'
         $state.go stateName,
           courseId: $state.params.courseId
           classeId: $state.params.classeId
-          lectureId: firstUndoLecture._id
+          lectureId: lectureToLearn._id
 
     addToCart: (classe)->
       if Auth.hasRole('teacher')
