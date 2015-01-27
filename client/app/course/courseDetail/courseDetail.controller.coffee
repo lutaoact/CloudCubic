@@ -5,20 +5,18 @@ angular.module('budweiserApp')
 .factory 'Permission', ->
 
   checkViewLecture: (user, lecture, classe, course) ->
-    isFreeTry = lecture.isFreeTry
+    forFree   = lecture.isFreeTry or classe.price is 0
     isAdmin   = user?.role is 'admin'
     isOwner   = _.find(course?.owners, _id:user?._id)
     isTeacher = _.find(classe?.teachers, _id: user?._id)
     isLearner = classe?.students?.indexOf(user?._id) != -1
-    if isFreeTry or isAdmin or isOwner or isTeacher or isLearner or classe.price is 0
+    if forFree or isAdmin or isOwner or isTeacher or isLearner
       return 'allow'
 
     switch user?.role
-      when 'teacher'
-        # 登录的老师不是course的owner或者不是classe的teacher
+      when 'teacher' # 登录的老师不是course的owner或者不是classe的teacher
         return 'ownerRequired'
-      when 'student'
-        # 登录的学生没有购买或者参加
+      when 'student' # 登录的学生没有购买
         return 'buyRequired'
       else
         return 'loginRequired'
@@ -43,15 +41,18 @@ angular.module('budweiserApp')
 
     gotoLecture: ->
       lectures = $scope.course.lectureAssembly
-      firstUndoLecture = _.find lectures, (lecture) ->
+      # 找到第一个需要学习的课时 / 找到第一个没有在progress里面的课时
+      lectureToLearn = _.find lectures, (lecture) ->
         $scope.progress.indexOf(lecture._id) == -1
-      firstUndoLecture = lectures[lectures.length - 1] if !firstUndoLecture?
-      if firstUndoLecture?
+      # 如果lecture都已经学习完，定位到最后一个
+      lectureToLearn = lectures[lectures.length - 1] if !lectureToLearn?
+      if lectureToLearn?
+        # 如果是老师，跳到上课界面；如果是学生，跳到课时详情
         stateName = if Auth.hasRole('teacher') then 'teacher.teaching' else 'course.lecture'
         $state.go stateName,
           courseId: $state.params.courseId
           classeId: $state.params.classeId
-          lectureId: firstUndoLecture._id
+          lectureId: lectureToLearn._id
 
     addToCart: (classe)->
       if Auth.hasRole('teacher')

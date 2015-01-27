@@ -38,8 +38,7 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
         )
         .then (progress) ->
           # 移除不是这个课程的progress
-          $scope.progress = _.filter progress, (lectureId) ->
-            _.find($scope.course.lectureAssembly, _id:lectureId)
+          $scope.progress = _.intersection(progress, _.pluck($scope.course.lectureAssembly, '_id'))
 
     courseQ: Restangular.one('courses', $state.params.courseId).get()
 

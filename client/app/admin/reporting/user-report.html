@@ -1,6 +1,6 @@
 <div class="user-report report clearfix">
 
-  <div ng-if="studentAnalysesDict">
+  <div ng-if="studentAnalyses">
     <div class="head">
       {{display}}用户活跃度
     </div>
@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="studentAnalysis in studentAnalysesDict">
+          <tr ng-repeat="studentAnalysis in studentAnalyses|paging:itemsPerPage:currentPage">
             <td>
               <div class="avatar-xs pull-left" src-key="studentAnalysis.user.avatar" source-attr="background-image">
               </div>
@@ -30,9 +30,25 @@
         </tbody>
       </table>
     </div>
+    <div class="row pagination-row text-center">
+      <pagination ng-hide="studentAnalyses.length <= itemsPerPage"
+                  total-items="studentAnalyses.length"
+                  ng-model="currentPage"
+                  items-per-page="itemsPerPage"
+                  class="pagination-sm bud"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="maxSize"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;"
+                  >
+      </pagination>
+    </div>
   </div>
 
-  <div ng-if="!studentAnalysesDict">
+  <div ng-if="!studentAnalyses">
     <div class="head text-muted">
       <i class="fa fa-spinner fa-spin"></i>加载中...
     </div>

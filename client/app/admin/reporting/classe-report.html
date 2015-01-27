@@ -10,23 +10,39 @@
           <tr>
             <th class="name">班级</th>
             <th class="days">购买人数</th>
-            <th class="duration">价格</th>
+            <th class="price">价格</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="classeAnalysis in classeAnalyses">
+          <tr ng-repeat="classeAnalysis in classeAnalyses|paging:itemsPerPage:currentPage">
             <td>
               {{classeAnalysis.classe.name}}
             </td>
             <td>
               {{classeAnalysis.amount|number:0}}
             </td>
-            <td>
+            <td class="text-warning">
               ￥{{classeAnalysis.price|number:0}}
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="row pagination-row text-center">
+      <pagination ng-hide="classeAnalyses.length <= itemsPerPage"
+                  total-items="classeAnalyses.length"
+                  ng-model="currentPage"
+                  items-per-page="itemsPerPage"
+                  class="pagination-sm bud"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="maxSize"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;"
+                  >
+      </pagination>
     </div>
   </div>
 

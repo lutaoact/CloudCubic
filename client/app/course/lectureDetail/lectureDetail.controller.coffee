@@ -157,8 +157,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         Restangular.all('activities').post
           eventType: Const.Student.ViewLecture
           data:
-            lectureId: $scope.lecture._id
-            courseId: $scope.course._id
+            lectureId : $scope.lecture._id
+            courseId  : $scope.course._id
+            classeId  : $scope.classe._id
     , 5000
     $scope.$on '$destroy', ()->
       $timeout.cancel handleViewEvent
