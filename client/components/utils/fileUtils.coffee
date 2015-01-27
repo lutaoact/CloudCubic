@@ -46,7 +46,9 @@ angular.module 'budweiserApp'
       .success (data) ->
         _hmt?.push ['_trackEvent', 'action', 'uploadFile', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
         opts.success?(strategy.prefix+strategy.formData.key)
-      .error opts.fail
+      .error (ex) ->
+        _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'server error', JSON.stringify(ex)]
+        opts.fail(ex)
     , opts.fail
 
   doUploadVideo = (opts, file)->
@@ -119,6 +121,7 @@ angular.module 'budweiserApp'
                   genJob(defer)
                 error: (err)->
                   # retry
+                  _hmt?.push ['_trackEvent', 'error', 'onVideoUploadError', 'server error', JSON.stringify(err)]
                   segments.push seg
                   genJob(defer)
           else
@@ -183,8 +186,12 @@ angular.module 'budweiserApp'
               raw: strategy.prefix + pic
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
-        .error opts.fail
-      .error opts.fail
+        .error (ex) ->
+          _hmt?.push ['_trackEvent', 'error', 'onConvertError', 'server error', JSON.stringify(ex)]
+          opts.fail(ex)
+      .error (ex) ->
+        _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'server error', JSON.stringify(ex)]
+        opts.fail(ex)
     , opts.fail
 
   uploadFile: (opts) ->
