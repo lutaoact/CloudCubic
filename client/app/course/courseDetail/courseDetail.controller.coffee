@@ -5,20 +5,18 @@ angular.module('budweiserApp')
 .factory 'Permission', ->
 
   checkViewLecture: (user, lecture, classe, course) ->
-    isFreeTry = lecture.isFreeTry
+    forFree   = lecture.isFreeTry or classe.price is 0
     isAdmin   = user?.role is 'admin'
     isOwner   = _.find(course?.owners, _id:user?._id)
     isTeacher = _.find(classe?.teachers, _id: user?._id)
     isLearner = classe?.students?.indexOf(user?._id) != -1
-    if isFreeTry or isAdmin or isOwner or isTeacher or isLearner or classe.price is 0
+    if forFree or isAdmin or isOwner or isTeacher or isLearner
       return 'allow'
 
     switch user?.role
-      when 'teacher'
-        # 登录的老师不是course的owner或者不是classe的teacher
+      when 'teacher' # 登录的老师不是course的owner或者不是classe的teacher
         return 'ownerRequired'
-      when 'student'
-        # 登录的学生没有购买或者参加
+      when 'student' # 登录的学生没有购买
         return 'buyRequired'
       else
         return 'loginRequired'
