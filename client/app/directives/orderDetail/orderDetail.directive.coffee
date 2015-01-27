@@ -39,13 +39,18 @@ angular.module('budweiserApp').directive 'orderDetail', ->
 
     $scope.$watch 'order', ->
       return if !$scope.order
-      Restangular.all('orders').customGET("#{$scope.order._id}/pay")
-      .then (data)->
-        $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
-      .catch (err)->
-        console.log err
-        if err.data?.errCode == '10017'
-          notify
-            message: "该订单已失效"
-            classes: 'alert-failed'
-            duration: 2000
+
+      for i in [0 .. $scope.order.classes.length-1]
+        $scope.order.classes[i].$orderPrice = $scope.order.prices[i]
+
+      if $scope.order.status == 'unpaid'
+        Restangular.all('orders').customGET("#{$scope.order._id}/pay")
+        .then (data)->
+          $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
+        .catch (err)->
+          console.log err
+          if err.data?.errCode == '10017'
+            notify
+              message: "该订单已失效"
+              classes: 'alert-failed'
+              duration: 2000

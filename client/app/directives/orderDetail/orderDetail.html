@@ -56,7 +56,7 @@
       </div>
 
       <div class="col-md-4">
-        <span class="text-muted">价格：</span><span class="class-price">￥{{classe.price}}</span>
+        <span class="text-muted">价格：</span><span class="class-price">￥{{classe.$orderPrice}}</span>
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@
         <div ng-switch-when='succeed' class="pay-msg">
           已支付
         </div>
-        <div ng-switch-default>
+        <div ng-switch-when="unpaid">
           <button ng-click="pay()"
                   ng-hide="Auth.getCurrentUser().role == 'admin'"
                   class="btn btn-danger btn-sm pay-btn">
@@ -88,6 +88,9 @@
                ng-show="Auth.getCurrentUser().role == 'admin'">
             未支付
           </div>
+        </div>
+        <div ng-switch-default class="pay-msg">>
+            实效订单
         </div>
       </div>
     </div>

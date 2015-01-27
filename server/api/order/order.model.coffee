@@ -29,6 +29,10 @@ exports.Order = BaseModel.subclass
         ref: 'classe'
         required : true
       ]
+      prices: [
+        type: Number
+        required: true
+      ]
       totalFee:
         type: Number
         required : true

@@ -71,18 +71,20 @@ exports.index = (req, res, next)->
 
 
 exports.create = (req, res, next)->
-  body = req.body
-  body.userId = req.user._id
-  body.status = 'unpaid'
-  body.orgId = req.org._id
+  order = req.body
+  order.userId = req.user._id
+  order.orgId = req.org._id
+  order.status = 'unpaid'
+  order.prices = []
 
-  Q.all _.map body.classes, (classe)->
+  Q.all _.map order.classes, (classe)->
     Classe.getOneById classe
   .then (classes)->
-    body.totalFee = _.reduce classes, (sum, classe)->
+    order.totalFee = _.reduce classes, (sum, classe)->
+      order.prices.push classe.price
       return sum + classe['price']
     , 0
-    Order.createQ body
+    Order.createQ order
   .then (order) ->
     res.send 201, order
   , next
@@ -167,3 +169,19 @@ exports.count = (req, res, next)->
       unpaidCount: unpaidCount
   .fail next
   .done()
+
+
+exports.report = (req, res, next)->
+  req.query.from = "2014-01-27T11:28:58+08:00"
+  req.query.to = "2015-01-27T11:28:58+08:00"
+  conditions =
+    orgId: req.user.orgId
+    status: 'succeed'
+    modified:
+      $gte : new Date(req.query.from)
+      $lte : new Date(req.query.to)
+  Order.findQ conditions
+  .then (orders)->
+    console.log orders
+
+  res.send 204
