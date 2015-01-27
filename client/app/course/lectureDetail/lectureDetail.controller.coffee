@@ -19,9 +19,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $document
   Restangular
   $localStorage
+  $rootScope
   $q
   $http
 ) ->
+
+  # track the usages of lecture
+  _hmt?.push(['_trackEvent', 'views', 'open', 'lecture', "org: #{$rootScope.org._id},courseId:#{$state.params.courseId},lectureId:#{$state.params.lectureId}"])
 
   angular.extend $scope,
     getCurrentUser: Auth.getCurrentUser
@@ -83,6 +87,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized
         @viewState.discussPanelnitialized = true
+        _hmt?.push(['_trackEvent', 'views', 'open', 'lecture-comments', "org: #{$rootScope.org._id},courseId:#{$state.params.courseId},lectureId:#{$state.params.lectureId}"])
         $scope.commentsLoading = true
         $timeout ->
           $scope.commentsLoading = false
@@ -94,6 +99,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     toggleNotesPanel: ()->
       if !@viewState.notesPanelnitialized
         @viewState.notesPanelnitialized = true
+        _hmt?.push(['_trackEvent', 'views', 'open', 'lecture-notes', "org: #{$rootScope.org._id},courseId:#{$state.params.courseId},lectureId:#{$state.params.lectureId}"])
         $scope.noteLoading = true
         $timeout ->
           $scope.noteLoading = false
