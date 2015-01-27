@@ -17,12 +17,16 @@ angular.module('budweiserApp')
 
     format: 'YYYY年MM月'
 
+    itemsPerPage: 50
+    currentPage: 1
+    maxSize: 5
+
     prevent: (event) ->
       event.preventDefault()
       event.stopPropagation()
 
     loadData: ()->
-      $scope.studentAnalysesDict = undefined
+      $scope.studentAnalyses = undefined
       selectedMonth = moment($scope.month, $scope.format)
       $scope.display = selectedMonth.format('MM月')
       Restangular.all('active_times').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format()}
@@ -37,7 +41,7 @@ angular.module('budweiserApp')
           durationSum += active_time.activeTime
           studentAnalysesDict[active_time.userId._id].duration += active_time.activeTime
           studentAnalysesDict[active_time.userId._id].raws.push active_time
-        $scope.studentAnalysesDict = studentAnalysesDict
+        $scope.studentAnalyses = _.values studentAnalysesDict
         $scope.$emit 'reporting.active_times', [daysSum, durationSum]
 
   $scope.$watch 'month', (value)->
