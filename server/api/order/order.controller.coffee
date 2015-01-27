@@ -172,8 +172,6 @@ exports.count = (req, res, next)->
 
 
 exports.report = (req, res, next)->
-  req.query.from = "2014-01-27T11:28:58+08:00"
-  req.query.to = "2015-01-27T11:28:58+08:00"
   conditions =
     orgId: req.user.orgId
     status: 'succeed'
@@ -182,6 +180,22 @@ exports.report = (req, res, next)->
       $lte : new Date(req.query.to)
   Order.findQ conditions
   .then (orders)->
-    console.log orders
+    classe_prices = []
+    _.map orders, (order)->
+      for i in [0 .. order.classes.length-1]
+        classe_prices.push {classe: order.classes[i], price: order.prices[i]}
 
-  res.send 204
+    classe_prices_counts = _.countBy classe_prices, (classe_price)->
+      return JSON.stringify(classe_price)
+
+    Q.all _.map classe_prices_counts, (value, key)->
+      classe_price = JSON.parse(key)
+      classe_price.amount = value
+      Classe.findOneQ _id: classe_price.classe, '_id name courseId'
+      .then (classe)->
+        classe_price.classe = classe
+        return classe_price
+  .then (result)->
+    res.send result
+  .fail next
+  .done
