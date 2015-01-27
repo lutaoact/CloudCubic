@@ -32,17 +32,18 @@ exports.myCourses = (req, res, next) ->
 
   user = req.user
   userId = user.id
+  options = limit: req.query.limit, from: req.query.from
 
   switch user.role
     when 'admin'
-      WrapRequest.wrapIndex req, res, next, conditions
+      WrapRequest.wrapPageIndex req, res, next, conditions, options
 
     when 'student'
       Classe.findQ students: userId
       .then (classes) ->
         courseIds = _.pluck classes, 'courseId'
         conditions._id = $in : courseIds
-        WrapRequest.wrapIndex req, res, next, conditions
+        WrapRequest.wrapPageIndex req, res, next, conditions, options
 
     when 'teacher'
       Classe.findQ teachers : userId
@@ -53,7 +54,6 @@ exports.myCourses = (req, res, next) ->
         ,
           owners: userId
         ]
-        options = limit: req.query.limit, from: req.query.from
         WrapRequest.wrapPageIndex req, res, next, conditions, options
 
     else

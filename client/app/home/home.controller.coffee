@@ -33,7 +33,8 @@ angular.module('budweiserApp')
         resolve:
           categories: -> $scope.categories
       .result.then (newCourse) ->
-        $scope.myCourses.push newCourse
+        $scope.currentPage = 1
+        $scope.reload()
 
     getCourse: (data) ->
       if isStudent() then data.courseId else data
