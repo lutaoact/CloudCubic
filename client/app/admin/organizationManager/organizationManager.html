@@ -261,12 +261,14 @@
     </div>
   </tab>
 
-  <tab heading="微信登陆">
+  <!--微信登录和公众号-->
+  <tab heading="微信登录和公众号">
     <div class="row admin-ui-view">
       <form id="org-wechat-form"
             class="form-horizontal col-md-10 col-md-offset-1"
             role="form"
             name="orgWechatForm">
+
         <hr/>
 
         <div class="form-group">
@@ -277,7 +279,7 @@
                    id="organization-wechatAppId"
                    name="name"
                    ng-model="orgWechat.appid"
-                   placeholder="AppId"
+                   placeholder="请输入微信登录的AppId"
                    required>
           </div>
         </div>
@@ -290,7 +292,7 @@
                    id="organization-wechatAppSecret"
                    name="name"
                    ng-model="orgWechat.secret"
-                   placeholder="AppSecret"
+                   placeholder="请输入微信登录的AppSecret"
                    required>
           </div>
         </div>
@@ -306,6 +308,28 @@
                     required>
               <option value="" class="text-muted">请选择你要绑定的域名</option>
             </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">公众号AppId</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   name="name"
+                   ng-model="orgWechat.gongappid"
+                   placeholder="请输入微信公众号的AppId"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">公众号AppSecret</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   name="name"
+                   ng-model="orgWechat.gongsecret"
+                   placeholder="请输入微信公众号的AppSecret"
+                   required>
           </div>
         </div>
 
