@@ -28,29 +28,9 @@ angular.module('budweiserApp')
     loadData: ()->
       $scope.classeAnalyses = undefined
       selectedMonth = moment($scope.month, $scope.format)
-      Restangular.all('active_times').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format()}
+      Restangular.all('orders/report').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format()}
       .then (data)->
-        $scope.classeAnalyses = [
-            classe:
-              name: '物理强化班'
-            price: 200
-            amount: 321
-          ,
-            classe:
-              name: '化学强化班'
-            price: 190
-            amount: 321
-          ,
-            classe:
-              name: '数学强化班'
-            price: 100
-            amount: 521
-          ,
-            classe:
-              name: '英语强化班'
-            price: 123
-            amount: 121
-        ]
+        $scope.classeAnalyses = data
 
   $scope.$watch 'month', (value)->
     if value

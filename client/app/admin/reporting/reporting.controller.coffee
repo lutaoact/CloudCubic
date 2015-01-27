@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'ReportingCtrl', (
         title: '用户活跃度'
         type: 'active_time'
       ,
-        title: '班级购买率'
+        title: '班级购买量'
         type: 'classes'
     ]
     format: format
