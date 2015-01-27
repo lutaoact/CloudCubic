@@ -32,11 +32,10 @@
     </ul>
     <div class="col-md-9" style="padding-right:0;">
 
-      <user-report ng-if="pageConf.type=='active_time'" month="{{pageConf.month}}">
+      <user-report ng-show="pageConf.type=='active_time'" month="{{pageConf.month}}">
       </user-report>
 
-      <classe-report ng-if="pageConf.type=='classes'">
-
+      <classe-report ng-show="pageConf.type=='classes'">
       </classe-report>
     </div>
   </div>
