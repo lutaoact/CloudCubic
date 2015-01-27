@@ -13,6 +13,9 @@ requiredProcessEnv = (name) ->
 all =
   appName: 'budweiser'
 
+  morgan:
+    accessLog: '/data/log/budweiser.access.log'
+
   env: process.env.NODE_ENV
 
   # Root path of server
