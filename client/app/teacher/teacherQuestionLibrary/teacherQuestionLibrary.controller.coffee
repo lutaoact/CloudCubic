@@ -19,5 +19,3 @@ angular.module('budweiserApp').controller 'TeacherQuestionLibraryCtrl', (
   .get()
   .then (course) ->
     $scope.course = course
-    Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
-    console.log course

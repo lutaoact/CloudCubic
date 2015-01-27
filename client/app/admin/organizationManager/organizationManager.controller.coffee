@@ -70,12 +70,10 @@ angular.module('budweiserApp')
         angular.forEach error.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
-        console.log error
 
     saveOrgAlipay: (form) ->
       if !form.$valid then return
       $scope.alipaySaving = true
-      console.log 'alipay', form, $scope.orgAlipay
       Restangular
       .one('org_alipays','me')
       .patch $scope.orgAlipay

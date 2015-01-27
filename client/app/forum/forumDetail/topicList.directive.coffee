@@ -45,7 +45,6 @@ angular.module('budweiserApp')
       else
         $scope.pageConf.tags.push tag.text
 
-      console.log $scope.pageConf.tags
       $scope.reload(true)
 
     createTopic: ()->

@@ -6,7 +6,6 @@ angular.module('budweiserApp').directive 'isAlipaySet', (Restangular, $timeout)-
   link: (scope, ele, attrs, c)->
     ele.on 'blur', ->
       $timeout ->
-        console.log c.$modelValue
         if (c.$modelValue == 0) || (c.$modelValue == undefined)
           c.$setValidity('aplipaySet', true)
         else

@@ -7,6 +7,7 @@ angular.module 'budweiserApp'
   configs
   Restangular
   $timeout
+  org
 ) ->
 
   rexDict =
@@ -43,6 +44,7 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
+        _hmt?.push ['_trackEvent', 'action', 'uploadFile', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
         opts.success?(strategy.prefix+strategy.formData.key)
       .error opts.fail
     , opts.fail
@@ -144,6 +146,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request, 3)
       .then (data)->
+        _hmt?.push ['_trackEvent', 'action', 'uploadVideo', file.name, JSON.stringify({key: strategy.key, size: file.size, orgId: org._id})]
         opts.success?(strategy.prefix + strategy.key)
       , (err)->
         opts.fail?(err)
@@ -166,10 +169,12 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
+        _hmt?.push ['_trackEvent', 'action', 'uploadSlide', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
         key = strategy.formData.key
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
+          _hmt?.push ['_trackEvent', 'action', 'convertSlide', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id, content: content})]
           result =
             fileWidth: content.width
             fileHeight: content.height
@@ -185,7 +190,7 @@ angular.module 'budweiserApp'
   uploadFile: (opts) ->
     error = validate(opts.validation, opts.files)
     if error?
-      console.error error
+      _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'validation error', JSON.stringify(error)]
       return opts.fail?(error)
     # 根据后缀名匹配调用的上传方法
     file = opts.files[0]
@@ -233,6 +238,7 @@ angular.module 'budweiserApp'
             evt.$fileName = file.name
             opts.progress?(speed, percentage, evt)
           .success (data) ->
+            _hmt?.push ['_trackEvent', 'action', 'uploadFile', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
             deferred.resolve
               url: strategy.prefix+strategy.formData.key
               name: file.name

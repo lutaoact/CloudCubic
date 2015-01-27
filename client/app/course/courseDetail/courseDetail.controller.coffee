@@ -82,7 +82,6 @@ angular.module('budweiserApp')
         return
       Restangular.all('classes').one(classe._id, 'enroll').post()
       .then (data)->
-        console.log 'enrolled!'
         $scope.classe.students = data[0].students
 
   $scope.$on 'comments.number', (event, data)->
