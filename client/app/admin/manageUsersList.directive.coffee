@@ -188,7 +188,5 @@ angular.module('budweiserApp')
           .then success
           .catch fail
         fail: fail
-        progress: ->
-          console.debug 'uploading...'
 
   $scope.$watch 'users.length', updateSelected

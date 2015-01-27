@@ -48,7 +48,7 @@ angular.module('budweiserApp').directive 'orderDetail', ->
         .then (data)->
           $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         .catch (err)->
-          console.log err
+          _hmt?.push ['_trackEvent', 'error', 'onPayError', $scope.order._id, JSON.stringify(err)]
           if err.data?.errCode == '10017'
             notify
               message: "该订单已失效"
