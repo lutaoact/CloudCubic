@@ -1,8 +1,7 @@
 "use strict"
 
 Activity = _u.getModel 'activity'
-LearnProgress = _u.getModel 'learn_progress'
-TeachProgress = _u.getModel 'teach_progress'
+Progress = _u.getModel 'progress'
 
 exports.create = (req, res, next) ->
   user = req.user
@@ -16,14 +15,8 @@ exports.create = (req, res, next) ->
   .then (activity) ->
     tmpRes.activity = activity
     switch activity.eventType
-      when Const.Student.ViewLecture
-        LearnProgress.upsertProgress(
-          activity.userId
-          activity.data.courseId
-          activity.data.lectureId
-        )
-      when Const.Teacher.ViewLecture
-        TeachProgress.upsertProgress(
+      when Const.Student.ViewLecture, Const.Teacher.ViewLecture
+        Progress.upsertProgress(
           activity.userId
           activity.data.classeId
           activity.data.courseId

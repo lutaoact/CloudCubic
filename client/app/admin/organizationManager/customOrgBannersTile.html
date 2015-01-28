@@ -1,10 +1,24 @@
 <div class="col-md-12 custom-banners">
-  <div class="custom-banner"
+  <div class="custom-banner clearfix"
        sv-root
        sv-on-sort="saveBanners()"
        sv-part="organization.banners">
-    <h4>横幅 <small>您的品牌展示</small></h4>
-    <hr/>
+    <h4 class="col-md-12 clear-fix">横幅 <small>您的品牌展示</small>
+      <div class="pull-right">
+        <uploader class="btn btn-sm btn-danger"
+                  limit="{{imageSizeLimitation}}"
+                  on-complete="onBannerUpload($data)"
+                  accept-type="image"
+                  crop="true"
+                  crop-ratio="4"
+                  max-width="1920">
+          添加横幅
+        </uploader>
+        &nbsp;<i class="fa fa-question-circle hint" tooltip="推荐图片宽高比例为4:1，推荐尺寸为长1400px宽350px" tooltip-placement="left">
+        </i>
+      </div>
+    <hr>
+    </h4>
     <div class="banner-edit col-md-6"
          sv-element
          ng-repeat="banner in organization.banners">
@@ -29,19 +43,6 @@
                  ng-model="banner.text">
         </div>
       </div>
-    </div>
-    <div class="banner-edit col-md-6">
-      <uploader class="btn btn-sm"
-                limit="{{imageSizeLimitation}}"
-                on-complete="onBannerUpload($data)"
-                accept-type="image"
-                crop="true"
-                crop-ratio="4"
-                max-width="1920">
-        添加横幅
-      </uploader>
-      <i class="fa fa-question-circle hint" tooltip="推荐图片宽高比例为4:1，像素在1200*300以上" tooltip-placement="right">
-      </i>
     </div>
   </div>
   <div class="col-md-12">

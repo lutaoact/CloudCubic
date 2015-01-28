@@ -25,11 +25,15 @@ angular.module('budweiserApp')
       event.preventDefault()
       event.stopPropagation()
 
+    loading: true
+
     loadData: ()->
-      $scope.classeAnalyses = undefined
+      @loading = true
+      $scope.classeAnalyses = null
       selectedMonth = moment($scope.month, $scope.format)
       Restangular.all('orders/report').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format()}
       .then (data)->
+        $scope.loading = false
         $scope.classeAnalyses = data
 
   $scope.$watch 'month', (value)->

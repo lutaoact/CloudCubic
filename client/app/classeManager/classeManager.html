@@ -31,6 +31,11 @@
                      on-classe-deleted="classDeleteCallback">
         </classe-tile>
       </div>
+      <div ng-if="!classes||!classes.length">
+        <div class="col-md-12 text-muted">
+          暂无班级
+        </div>
+      </div>
     </div>
 
     <div class="row pagination-row text-center"

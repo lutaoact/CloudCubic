@@ -40,7 +40,6 @@ angular.module('budweiserApp').directive 'shopcart', ->
 
 
     $scope.$on 'addedToCart', (event, data)->
-      console.log data
       $scope.cartItems = data
 
     getCartItem = ()->

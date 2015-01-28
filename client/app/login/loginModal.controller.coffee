@@ -81,7 +81,6 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
           duration: 15000
         $modalInstance.close()
       .catch (err) ->
-        console.log err
         $scope.viewState.posting = false
         $scope.viewState.errors = err?.data?.errors
         # Update validity of form fields that match the mongoose errors

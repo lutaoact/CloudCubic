@@ -2,7 +2,6 @@
 
 angular.module('budweiserApp').controller 'CourseStatsCtrl', (
   Auth
-  Navbar
   $state
   $scope
   $window

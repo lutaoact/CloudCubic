@@ -4,7 +4,6 @@ angular.module('budweiserApp').controller 'ForumListCtrl', (
   $q
   $scope
   $state
-  Navbar
   Auth
   Restangular
   Category

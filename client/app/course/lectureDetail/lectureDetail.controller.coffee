@@ -14,7 +14,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope
   $state
   notify
-  Navbar
   $timeout
   $document
   Restangular
@@ -81,8 +80,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         if timestamp
           playerAPI.seekTime timestamp
         $scope.onVideoError = (err)->
-          if err.target
-            console.dir err
+          _hmt?.push ['_setCustomVar', 3, 'onVideoError', JSON.stringify(err), 1]
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized

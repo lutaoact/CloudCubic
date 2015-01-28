@@ -2,22 +2,11 @@
 
 angular.module 'budweiserApp'
 
-.factory 'Navbar', ->
-  title = null
-  getTitle: -> title
-  setTitle: (name, link) ->
-    title =
-      name: name
-      link: link
-  resetTitle: ->
-    title = null
-
 .controller 'NavbarCtrl', (
   org
   Auth
   $scope
   $state
-  Navbar
   socket
   $rootScope
   Restangular
@@ -33,8 +22,6 @@ angular.module 'budweiserApp'
     Auth: Auth
     getMsgCount: Msg.getMsgCount
     unreadMsgCount: 0
-    getTitle: Navbar.getTitle
-    getVisible: Navbar.getVisible
 
     switchMenu: (val) ->
       $scope.viewState.isCollapsed = val
@@ -51,11 +38,6 @@ angular.module 'budweiserApp'
         regex.test $state.current.name
       else
         false
-#    clearAll: ()->
-#      if $scope.messages.length
-#        Restangular.all('notices/read').post ids: _.map $scope.messages, (x)-> x.raw._id
-#        .then ()->
-#          $scope.messages.length = 0
-#
+
     displayCourseMenu: ->
       $state.params.courseId && $state.current.name.indexOf('admin') != 0

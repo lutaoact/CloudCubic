@@ -5,6 +5,7 @@ angular.module('budweiserApp')
 .controller 'TeacherNewCourseCtrl', (
   Auth
   $scope
+  $state
   configs
   categories
   Restangular
@@ -33,3 +34,4 @@ angular.module('budweiserApp')
       .post($scope.course)
       .then (newCourse) ->
         $modalInstance.close(newCourse)
+        $state.go "teacher.course", courseId: newCourse._id

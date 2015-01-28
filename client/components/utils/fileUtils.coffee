@@ -7,6 +7,7 @@ angular.module 'budweiserApp'
   configs
   Restangular
   $timeout
+  org
 ) ->
 
   rexDict =
@@ -43,8 +44,11 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
+        _hmt?.push ['_trackEvent', 'upload', 'file', strategy.formData.key, file.size]
         opts.success?(strategy.prefix+strategy.formData.key)
-      .error opts.fail
+      .error (ex) ->
+        _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(ex), 1]
+        opts.fail(ex)
     , opts.fail
 
   doUploadVideo = (opts, file)->
@@ -117,6 +121,7 @@ angular.module 'budweiserApp'
                   genJob(defer)
                 error: (err)->
                   # retry
+                  _hmt?.push ['_setCustomVar', 3, 'onVideoUploadError', JSON.stringify(err), 1]
                   segments.push seg
                   genJob(defer)
           else
@@ -144,6 +149,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request, 3)
       .then (data)->
+        _hmt?.push ['_trackEvent', 'upload', 'video', strategy.key, file.size]
         opts.success?(strategy.prefix + strategy.key)
       , (err)->
         opts.fail?(err)
@@ -166,10 +172,12 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
+        _hmt?.push ['_trackEvent', 'upload', 'slide', strategy.formData.key, file.size]
         key = strategy.formData.key
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
+          _hmt?.push ['_trackEvent', 'convert', 'slide', strategy.formData.key, file.size]
           result =
             fileWidth: content.width
             fileHeight: content.height
@@ -178,14 +186,18 @@ angular.module 'budweiserApp'
               raw: strategy.prefix + pic
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
-        .error opts.fail
-      .error opts.fail
+        .error (ex) ->
+          _hmt?.push ['_setCustomVar', 3, 'onConvertError', JSON.stringify(ex), 1]
+          opts.fail(ex)
+      .error (ex) ->
+        _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(ex), 1]
+        opts.fail(ex)
     , opts.fail
 
   uploadFile: (opts) ->
     error = validate(opts.validation, opts.files)
     if error?
-      console.error error
+      _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(error), 1]
       return opts.fail?(error)
     # 根据后缀名匹配调用的上传方法
     file = opts.files[0]
@@ -233,6 +245,7 @@ angular.module 'budweiserApp'
             evt.$fileName = file.name
             opts.progress?(speed, percentage, evt)
           .success (data) ->
+            _hmt?.push ['_trackEvent', 'upload', 'file', strategy.formData.key, file.size]
             deferred.resolve
               url: strategy.prefix+strategy.formData.key
               name: file.name

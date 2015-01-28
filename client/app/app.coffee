@@ -1,5 +1,12 @@
 'use strict'
 
+((window)->
+  preErrorHander = window.onerror
+  window.onerror = (m, u, l)->
+    preErrorHander?(m,u,l)
+    _hmt?.push ['_setCustomVar', 3, 'onJSError', JSON.stringify(m) + '|' + u + l?.toString(), 1]
+)(window)
+
 angular.module 'budweiserApp', [
   'ngCookies'
   'ngResource'
@@ -34,6 +41,13 @@ angular.module 'budweiserApp', [
   videoSizeLimitation    : 128 * 1024 * 1024
   proVideoSizeLimitation : 1024 * 1024 * 1024
 
+.config ($provide) ->
+  $provide.decorator "$exceptionHandler", ($delegate) ->
+    (exception, cause)->
+      $delegate(exception, cause)
+      exception.cause = cause
+      _hmt?.push ['_setCustomVar', 3, 'onAngularError', JSON.stringify(exception), 1]
+
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
@@ -42,6 +56,7 @@ angular.module 'budweiserApp', [
   $httpProvider.interceptors.push 'patchInterceptor'
   $httpProvider.interceptors.push 'objectIdInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
+  $httpProvider.interceptors.push 'errorHttpInterceptor'
 
 .config ($compileProvider) ->
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//)
@@ -141,6 +156,11 @@ angular.module 'budweiserApp', [
   responseError: (response) ->
     if --numLoadings is 0
       $rootScope.$loading = false
+    $q.reject response
+
+.factory 'errorHttpInterceptor', ($q) ->
+  responseError: (response) ->
+    _hmt?.push ['_setCustomVar', 3, 'onHttpError', JSON.stringify(response.config), 1]
     $q.reject response
 
 .service 'socketHandler', (

@@ -61,6 +61,31 @@ to sync bower files
 #### Pre-request: install qiniu-devtool
 run `path/to/qrsync qiniu_conf.json`
 
+### 百度统计
+trackEvents cate, event, label, value  
+```
+cate
+  event
+```
++ views 用来收集页面使用率, 页面打开，对应的label可以记录你的url
+  + open
++ upload 用来统计上传，label为key, value为文件大小
+  + file
+  + video
+  + slide
++ convert 用来统计转换，label为key, value为文件大小
+  + slide  
+
+setCustomVar index, key, value, level
++ onJSError
++ onAngularError
++ onHttpError
++ onVideoError
++ onPayError
++ onFileUploadError
++ onVideoUploadError
++ onConvertError
+
 
 ###Troubleshooting
 + After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)  

@@ -43,14 +43,11 @@ angular.module('budweiserApp').directive 'orderDetail', ->
       for i in [0 .. $scope.order.classes.length-1]
         $scope.order.classes[i].$orderPrice = $scope.order.prices[i]
 
-      if $scope.order.status == 'unpaid'
+      if $scope.order.status == 'unpaid' && Auth.getCurrentUser().role != 'admin'
         Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
           $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         .catch (err)->
-          console.log err
-          if err.data?.errCode == '10017'
-            notify
-              message: "该订单已失效"
-              classes: 'alert-failed'
-              duration: 2000
+          err.orderId = $scope.order._id
+          _hmt?.push ['_setCustomVar', 3, 'onPayError', JSON.stringify(err), 1]
+          $scope.order.status = 'invalid'

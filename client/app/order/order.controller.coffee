@@ -4,7 +4,6 @@ angular.module('budweiserApp').controller 'OrderCtrl', (
   $q
   $scope
   $state
-  Navbar
   Restangular
   notify
 ) ->

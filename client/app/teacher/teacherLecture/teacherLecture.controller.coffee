@@ -8,7 +8,6 @@ angular.module('budweiserApp')
   $scope
   $state
   notify
-  Navbar
   $filter
   configs
   KeyPoints
@@ -22,15 +21,12 @@ angular.module('budweiserApp')
   .get()
   .then (course) ->
     $scope.course = course
-    Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
   Restangular
   .all('classes')
   .getList courseId: $state.params.courseId
   .then (classes) ->
     $scope.classes = classes
-
-  $scope.$on '$destroy', Navbar.resetTitle
 
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->

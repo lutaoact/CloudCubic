@@ -1,23 +1,16 @@
 "use strict"
 
-LearnProgress = _u.getModel 'learn_progress'
-TeachProgress = _u.getModel 'teach_progress'
+Progress = _u.getModel 'progress'
 
 exports.show = (req, res, next) ->
   user = req.user
-  courseId = req.query.courseId
 
   condition =
     userId: user._id
-    courseId: courseId
+    courseId: req.query.courseId
+    classeId: req.query.classeId
 
-  (switch user.role
-    when 'teacher', 'admin'
-      condition.classeId = req.query.classeId
-      TeachProgress
-    when 'student'
-      LearnProgress
-  ).findOneQ condition
+  Progress.findOneQ condition
   .then (progressObject) ->
     res.send progressObject?.progress ? []
   , next

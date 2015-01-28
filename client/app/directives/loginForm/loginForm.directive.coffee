@@ -51,7 +51,6 @@ angular.module('budweiserApp').directive 'loginForm', ->
 
           if error.loginUsers
             $scope.loginUsers = error.loginUsers
-            console.log 'login users', error.loginUsers
             return
 
           if error.unactivated

@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'ReportingCtrl', (
+  org
   $modal
   $scope
   $state
@@ -19,7 +20,7 @@ angular.module('budweiserApp').controller 'ReportingCtrl', (
         type: 'classes'
     ]
     format: format
-    startMonth: moment().set('year', 2014).set('month',0)
+    startMonth: moment(org.created)
     pageConf:
       month: $state.params.month or moment().format(format)
       type: $state.params.type or 'active_time'
@@ -36,5 +37,3 @@ angular.module('budweiserApp').controller 'ReportingCtrl', (
   $scope.$on 'reporting.active_times', (event, data)->
     $scope.viewState.daysSum = data[0]
     $scope.viewState.durationSum = data[1]
-
-

@@ -1,6 +1,6 @@
 <div class="classe-report report clearfix">
 
-  <div ng-if="classeAnalyses">
+  <div ng-if="!loading">
     <div class="head">
       {{display}}班级购买量
     </div>
@@ -27,6 +27,9 @@
           </tr>
         </tbody>
       </table>
+      <div ng-if="!classeAnalyses.length">
+        <h3 class="text-muted">暂无数据</h3>
+      </div>
     </div>
     <div class="row pagination-row text-center">
       <pagination ng-hide="classeAnalyses.length <= itemsPerPage"
@@ -46,7 +49,7 @@
     </div>
   </div>
 
-  <div ng-if="!classeAnalyses">
+  <div ng-if="loading">
     <div class="head text-muted">
       <i class="fa fa-spinner fa-spin"></i>加载中...
     </div>

@@ -75,7 +75,7 @@
     </div>
     <div class="col-md-1">
       <div ng-switch="order.status" class="pull-right">
-        <div ng-switch-when='succeed' class="pay-msg">
+        <div ng-switch-when='succeed'>
           已支付
         </div>
         <div ng-switch-when="unpaid">
@@ -84,13 +84,12 @@
                   class="btn btn-danger btn-sm pay-btn">
             支付宝结算
           </button>
-          <div class="pay-msg"
-               ng-show="Auth.getCurrentUser().role == 'admin'">
+          <div ng-show="Auth.getCurrentUser().role == 'admin'">
             未支付
           </div>
         </div>
-        <div ng-switch-default class="pay-msg">>
-            实效订单
+        <div ng-switch-default style="width: 56px;" tooltip="该订单包含已参加课程或支付出现问题">
+            无效订单
         </div>
       </div>
     </div>

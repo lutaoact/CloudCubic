@@ -105,7 +105,7 @@ exports.show = (req, res, next) ->
   , next
 
 
-exports.pay = (req, res, next)->
+exports.paymentUrl = (req, res, next)->
   orderId = req.params.id
   userId = req.user._id
   order = null
@@ -118,7 +118,7 @@ exports.pay = (req, res, next)->
     Classe.getAllStudents order.classes
   .then (students)->
     if _u.contains students, userId
-      order.status = 'invalid'
+      order.status = 'invalid' if order.status == 'unpaid'
       order.saveQ()
       .then ->
         return Q.reject
