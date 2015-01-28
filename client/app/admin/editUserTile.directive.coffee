@@ -88,14 +88,13 @@ angular.module('budweiserApp')
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
 
-    
+
     checkEmail: (email)->
-      console.log  'check email...', email.$modelValue
       if !email.$modelValue? || email.$modelValue is ''
         email.$remoteChecked = false
         email.$setValidity 'remote', false
         return
-        
+
       $timeout.cancel($scope.checkEmailPromise)
       if email.$modelValue
         email.$remoteChecked = 'pending'
