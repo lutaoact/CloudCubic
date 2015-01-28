@@ -47,6 +47,11 @@
       <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in forums">
         <forum-tile forum="forum"></forum-tile>
       </div>
+      <div ng-if="!forums||!forums.length">
+        <div class="col-md-12 text-muted">
+          暂无讨论小组，赶快来创建一个吧，聊聊课程或者八卦一下;-)
+        </div>
+      </div>
     </div>
     <div class="row pagination-row text-center"
        ng-if="forums.$count > pageConf.itemsPerPage">
