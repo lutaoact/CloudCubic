@@ -76,6 +76,8 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
 
   $scope.$watch 'files', (value, oldValue)->
     if value
+      EXIF.getData value[0], () ->
+        console.log EXIF.pretty(this)
       url = URL.createObjectURL(value[0])
       safeUrl = $sce.trustAsResourceUrl(url)
       $timeout ()->
@@ -101,6 +103,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
         angular.element('.img-preview').Jcrop
           onSelect: showCoords
           onChange: showCoords
+          # rotate : 90
           onRelease: cancelSelect
           aspectRatio: options.ratio
           keySupport: false

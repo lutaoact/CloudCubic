@@ -16,6 +16,12 @@
       }
       .media-summary{
         color: @gray-light;
+        height: 60px;
+        margin-bottom: 0;
+        overflow: hidden;
+        .mask-image(-webkit-gradient(linear, left top, left bottom, color-stop(80%, rgba(0, 0, 0, 1)), color-stop(100%, rgba(0, 0, 0, 0.0))));
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
       }
       .media-left{
         display: inline-block;

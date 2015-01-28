@@ -5,7 +5,7 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
   link: (scope, element, attrs) ->
     element.on 'click', ->
       # get the raw url
-      rawSrc = element.attr('src').replace '-blog',''
+      rawSrc = element.attr('src').replace '-blog','?imageMogr2/auto-orient'
       imageZoomViewer.open
         rawSrc: rawSrc
 

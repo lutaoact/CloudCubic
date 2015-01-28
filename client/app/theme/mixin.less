@@ -16,7 +16,10 @@
   -moz-filter: @filter;
   -o-filter: @filter;
 }
-
+.mask-image(@mask){
+  mask-image: @mask;
+  -webkit-mask-image: @mask;
+}
 i, h1, h2, h3, h4, h5, span, label, div{
   &.base-color{
     color: @base-color;
