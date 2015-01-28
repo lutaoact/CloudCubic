@@ -47,7 +47,7 @@ angular.module 'budweiserApp'
         _hmt?.push ['_trackEvent', 'upload', 'file', strategy.formData.key, file.size]
         opts.success?(strategy.prefix+strategy.formData.key)
       .error (ex) ->
-        _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'server error', JSON.stringify(ex)]
+        _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(ex), 1]
         opts.fail(ex)
     , opts.fail
 
@@ -121,7 +121,7 @@ angular.module 'budweiserApp'
                   genJob(defer)
                 error: (err)->
                   # retry
-                  _hmt?.push ['_trackEvent', 'error', 'onVideoUploadError', 'server error', JSON.stringify(err)]
+                  _hmt?.push ['_setCustomVar', 3, 'onVideoUploadError', JSON.stringify(err), 1]
                   segments.push seg
                   genJob(defer)
           else
@@ -187,17 +187,17 @@ angular.module 'budweiserApp'
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
         .error (ex) ->
-          _hmt?.push ['_trackEvent', 'error', 'onConvertError', 'server error', JSON.stringify(ex)]
+          _hmt?.push ['_setCustomVar', 3, 'onConvertError', JSON.stringify(ex), 1]
           opts.fail(ex)
       .error (ex) ->
-        _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'server error', JSON.stringify(ex)]
+        _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(ex), 1]
         opts.fail(ex)
     , opts.fail
 
   uploadFile: (opts) ->
     error = validate(opts.validation, opts.files)
     if error?
-      _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'validation error', JSON.stringify(error)]
+      _hmt?.push ['_setCustomVar', 3, 'onFileUploadError', JSON.stringify(error), 1]
       return opts.fail?(error)
     # 根据后缀名匹配调用的上传方法
     file = opts.files[0]
