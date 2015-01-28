@@ -44,7 +44,7 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
-        _hmt?.push ['_trackEvent', 'action', 'uploadFile', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
+        _hmt?.push ['_trackEvent', 'action', 'uploadFile', strategy.formData.key, file.size]
         opts.success?(strategy.prefix+strategy.formData.key)
       .error (ex) ->
         _hmt?.push ['_trackEvent', 'error', 'onFileUploadError', 'server error', JSON.stringify(ex)]
@@ -149,7 +149,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request, 3)
       .then (data)->
-        _hmt?.push ['_trackEvent', 'action', 'uploadVideo', file.name, JSON.stringify({key: strategy.key, size: file.size, orgId: org._id})]
+        _hmt?.push ['_trackEvent', 'action', 'uploadVideo', strategy.key, file.size]
         opts.success?(strategy.prefix + strategy.key)
       , (err)->
         opts.fail?(err)
@@ -172,12 +172,12 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
-        _hmt?.push ['_trackEvent', 'action', 'uploadSlide', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
+        _hmt?.push ['_trackEvent', 'action', 'uploadSlide', strategy.formData.key, file.size]
         key = strategy.formData.key
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
-          _hmt?.push ['_trackEvent', 'action', 'convertSlide', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id, content: content})]
+          _hmt?.push ['_trackEvent', 'action', 'convertSlide', strategy.formData.key, file.size]
           result =
             fileWidth: content.width
             fileHeight: content.height
@@ -245,7 +245,7 @@ angular.module 'budweiserApp'
             evt.$fileName = file.name
             opts.progress?(speed, percentage, evt)
           .success (data) ->
-            _hmt?.push ['_trackEvent', 'action', 'uploadFile', file.name, JSON.stringify({key: strategy.formData.key, size: file.size, orgId: org._id})]
+            _hmt?.push ['_trackEvent', 'action', 'uploadFile', strategy.formData.key, file.size]
             deferred.resolve
               url: strategy.prefix+strategy.formData.key
               name: file.name
