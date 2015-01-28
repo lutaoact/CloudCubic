@@ -11,14 +11,37 @@
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }
+    .image-content-wrap{
+      height: 300px;
+      width: 100%;
+      padding-top: 1px;
+      position: relative;
+    }
     .image-content {
-      padding-top: 10px;
-      padding-left: 20px;
-      margin-bottom: -15px;
-      .course-img {
-        margin-top: -40%;
-        margin-left: calc(~'500px/2 - 45px');
+      position: absolute;
+      height: 100%;
+      left: 15px;
+      right: 15px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: @gray-lighter;
+      &.has-content{
+        .transition();
+        &.hover{
+          -webkit-filter: grayscale(0.7);
+        }
       }
+    }
+    .course-img {
+      position: absolute;
+      width: 100px;
+      display: block;
+      left: ~"calc(50% - 50px)";
+      top: 125px;
+    }
+    .has-content + .course-img {
+      opacity: 0.7;
     }
   }
 }

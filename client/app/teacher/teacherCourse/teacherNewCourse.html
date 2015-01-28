@@ -42,19 +42,20 @@
 
   <div class="form-group form-group-sm">
     <div class="control-label col-sm-3">封面图片</div>
-    <div class="image-content col-sm-12">
-      <img src-key="course.thumbnail"
-           holder-src="holder.js/500x280/:#9c9c99:#bbb"
-           suffix="?imageView2/2/w/500/h/280"/>
+    <div class="col-sm-12 image-content-wrap">
+      <div class="image-content" src-key="course.thumbnail" ng-class="{'has-content':course.thumbnail,'hover':viewState.hover}" source-attr="background-image">
+      </div>
       <uploader limit="{{imageSizeLimitation}}"
                 class="course-img btn-danger btn-sm"
                 on-complete="onThumbUploaded($data)"
                 accept-type="image"
                 crop="true"
+                ng-mouseenter="viewState.hover=true"
+                ng-mouseleave="viewState.hover=false"
                 crop-ratio="1.5"
                 max-width="1000">
         <span class="glyphicon glyphicon-picture"></span>
-        上传封面
+        {{course.thumbnail?'修改图片':'上传封面'}}
       </uploader>
     </div>
   </div>
