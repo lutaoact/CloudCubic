@@ -74,18 +74,17 @@ cate
   + video
   + slide
 + convert 用来统计转换，label为key, value为文件大小
-  + slide
+  + slide  
 
-
-+ error 用来收集production errors
-  + onJSError
-  + onAngularError
-  + onHttpError
-  + onVideoError
-  + onPayError
-  + onFileUploadError
-  + onVideoUploadError
-  + onConvertError
+setCustomVar index, key, value, level
++ onJSError
++ onAngularError
++ onHttpError
++ onVideoError
++ onPayError
++ onFileUploadError
++ onVideoUploadError
++ onConvertError
 
 
 ###Troubleshooting
