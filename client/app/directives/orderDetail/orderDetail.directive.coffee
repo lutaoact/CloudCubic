@@ -44,9 +44,10 @@ angular.module('budweiserApp').directive 'orderDetail', ->
         $scope.order.classes[i].$orderPrice = $scope.order.prices[i]
 
       if $scope.order.status == 'unpaid' && Auth.getCurrentUser().role != 'admin'
-        Restangular.all('orders').customGET("#{$scope.order._id}/paymentUrl")
+        Restangular.all('orders').customGET("#{$scope.order._id}/pay")
         .then (data)->
           $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         .catch (err)->
-          _hmt?.push ['_trackEvent', 'error', 'onPayError', $scope.order._id, JSON.stringify(err)]
+          err.orderId = $scope.order._id
+          _hmt?.push ['_setCustomVar', 3, 'onPayError', JSON.stringify(err), 1]
           $scope.order.status = 'invalid'

@@ -80,7 +80,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         if timestamp
           playerAPI.seekTime timestamp
         $scope.onVideoError = (err)->
-          _hmt?.push ['_trackEvent', 'error', 'onVideoError', $scope.lecture?.media, JSON.stringify(err)]
+          _hmt?.push ['_setCustomVar', 3, 'onVideoError', JSON.stringify(err), 1]
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized

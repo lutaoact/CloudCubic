@@ -4,7 +4,7 @@
   preErrorHander = window.onerror
   window.onerror = (m, u, l)->
     preErrorHander?(m,u,l)
-    _hmt?.push ['_trackEvent', 'error', 'onJSError', u+l?.toString(), JSON.stringify(m)]
+    _hmt?.push ['_setCustomVar', 3, 'onJSError', JSON.stringify(m) + '|' + u + l?.toString(), 1]
 )(window)
 
 angular.module 'budweiserApp', [
@@ -45,7 +45,8 @@ angular.module 'budweiserApp', [
   $provide.decorator "$exceptionHandler", ($delegate) ->
     (exception, cause)->
       $delegate(exception, cause)
-      _hmt?.push ['_trackEvent', 'error', 'onAngularError', cause, JSON.stringify(exception)]
+      exception.cause = cause
+      _hmt?.push ['_setCustomVar', 3, 'onAngularError', JSON.stringify(exception), 1]
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
@@ -159,7 +160,7 @@ angular.module 'budweiserApp', [
 
 .factory 'errorHttpInterceptor', ($q) ->
   responseError: (response) ->
-    _hmt?.push ['_trackEvent', 'error', 'onHttpError', response.status, JSON.stringify(response.config)]
+    _hmt?.push ['_setCustomVar', 3, 'onHttpError', JSON.stringify(response.config), 1]
     $q.reject response
 
 .service 'socketHandler', (
