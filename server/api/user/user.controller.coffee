@@ -207,15 +207,29 @@ exports.update = (req, res, next) ->
   body = req.body
   body = _.omit body, ['_id', 'password', 'orgId']
 
+  sendMail = false
+  activationCode = ''
+  
   User.findByIdQ req.params.id
   .then (user) ->
     return res.send 404 if not user?
 
-    updated = _.merge user , req.body
+    # binding email after using wechat login scenario
+    if !user.email? && req.body.email?
+      sendMail = true
+      activationCode = UserUtils.generateActivationCode req.body.email
+      req.body.activationCode = activationCode
+      
+    updated = _.merge user, req.body
     updated.saveQ()
   .then (result) ->
-    res.send result[0]
-  , next
+    user = result[0]
+    res.send user
+    if sendMail
+      host = req.protocol+'://'+req.headers.host
+      sendActivationMail user.email, activationCode, host, req.org?.name
+  .catch next
+  .done()
 
 
 updateClasseStudents = (classeId, studentList) ->

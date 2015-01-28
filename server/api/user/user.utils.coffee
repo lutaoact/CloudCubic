@@ -4,6 +4,8 @@ User = _u.getModel 'user'
 Course = _u.getModel 'course'
 Classe = _u.getModel 'classe'
 
+crypto = require 'crypto'
+  
 class UserUtils extends BaseUtils
   check: (userInfo) ->
     User.findBy userInfo
@@ -79,6 +81,10 @@ class UserUtils extends BaseUtils
         when 'student' then students.push u._id
 
     return [students, teachers]
-
-
+    
+  generateActivationCode : (email) ->
+    data = email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)
+    result = crypto.createHash('sha1').update(data).digest('hex')
+    return result.substr(0,8)
+    
 exports.UserUtils = UserUtils

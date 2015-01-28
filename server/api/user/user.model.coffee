@@ -1,18 +1,12 @@
 'use strict'
 
 mongoose = require 'mongoose'
+crypto = require 'crypto'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
-crypto = require 'crypto'
 authTypes = ['google']
 BaseModel = (require '../../common/BaseModel').BaseModel
 sendActivationMail = require('../../common/mail').sendActivationMail
-
-sha1 = (msg) ->
-  crypto.createHash('sha1').update(msg).digest('hex')
-
-generateActivationCode = (email) ->
-  sha1(email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
 
 exports.User = BaseModel.subclass
   classname: 'User'
@@ -168,7 +162,8 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .pre 'save', (next) ->
     if this.isNew
-      this.activationCode = generateActivationCode this.email
+      UserUtils = _u.getUtils 'user'
+      this.activationCode = UserUtils.generateActivationCode this.email
 
     next()
 

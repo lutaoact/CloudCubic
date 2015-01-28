@@ -45,6 +45,70 @@
           </div>
         </div>
       </div>
+
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.email.$valid && submitted,
+                                            'has-error': profileForm.email.$invalid && submitted }">
+        <label for="email" class="col-xs-4 control-label">邮箱</label>
+        <div class="col-xs-8">
+          <input type="email" name="email" id="email" class="form-control input-sm" ng-model="editingInfo.email"
+                 ng-model-options="{ debounce: 250 }"
+                 ng-change="checkEmail(profileForm.email)"
+                 required
+                 focus-me
+                 mongoose-error/>
+          <p class="help-block" ng-show="profileForm.email.$error.email">
+            邮箱格式不对
+          </p>
+          <p class="help-block" ng-show="profileForm.email.$error.remote && submitted">
+            <i class="fa fa-exclamation-triangle text-danger"></i>该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a
+            ui-sref="forgot">密码找回</a>
+          </p>
+          <p class="help-block" ng-show="profileForm.email.$remoteChecked == 'pending'">
+            <i class="fa fa-spin fa-spinner"></i>检查中
+          </p>
+          <p class="help-block" ng-show="!profileForm.email.$error.remote && profileForm.email.$remoteChecked === true">
+            <i class="fa fa-check text-success"></i>该邮箱可用
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.password.$valid && submitted,
+                                            'has-error': profileForm.password.$invalid && submitted }">
+        <label for="password" class="col-xs-4 control-label">密码</label>
+        <div class="col-xs-8">
+          <input type="password" id="password" name="password" class="form-control input-sm" ng-model="editingInfo.password"
+                 ng-minlength="6"
+                 ng-change="checkPasswordAgain(profileForm.password, profileForm.passwordAgain)"
+                 required
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="(profileForm.password.$error.minlength || profileForm.password.$error.required) && submitted">
+            密码最少为6位字符
+          </p>
+          <p class="help-block" ng-show="profileForm.password.$error.mongoose">
+            {{ errors.password }}
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.passwordAgain.$valid && submitted,
+                                            'has-error': profileForm.passwordAgain.$invalid && submitted}">
+        <label for="passwordAgain" class="col-xs-4 control-label">确认密码</label>
+        <div class="col-xs-8">
+          <input type="password" id="passwordAgain" name="passwordAgain" class="form-control input-sm"
+                 ng-model="editingInfo.passwordAgain"
+                 same-with="user.password"
+                 ng-minlength="6"
+                 ng-change="checkPasswordAgain(profileForm.password, profileForm.passwordAgain)"
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="profileForm.passwordAgain.$error.sameWith">
+            两次输入密码不一致
+          </p>
+        </div>
+      </div>
+      
       <div class="form-group" >
         <label class="col-xs-4 control-label">微信</label>
         <div class="col-xs-8">
