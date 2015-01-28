@@ -14,7 +14,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope
   $state
   notify
-  Navbar
   $timeout
   $document
   Restangular

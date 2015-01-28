@@ -5,7 +5,6 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   $q
   $scope
   $state
-  Navbar
   CurrentUser
   Restangular
 ) ->
@@ -20,8 +19,6 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
           forumId: topic.forumId
           topicId: $state.params.topicId
     return
-
-  $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
     loading: true

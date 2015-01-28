@@ -3,7 +3,6 @@
 angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   $scope
   $state
-  Navbar
   $window
   $timeout
   Restangular
@@ -11,14 +10,11 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course)->
     $scope.course = course
-    Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
   Restangular.all('classes').getList courseId: $state.params.courseId
   .then (classes) ->
     $scope.classes = classes
 
-
-  $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
 

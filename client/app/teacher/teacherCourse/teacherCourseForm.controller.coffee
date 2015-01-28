@@ -14,7 +14,6 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
   notify
-  Navbar
   configs
   messageModal
 ) ->
@@ -57,7 +56,6 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         $scope.editingInfo = null
         $scope.saving = false
         angular.extend course, newCourse
-        Navbar.setTitle course.name, "teacher.course({courseId:'#{course._id}'})"
         notify
           message:'课程信息已保存'
           classes:'alert-success'
