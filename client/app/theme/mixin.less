@@ -10,6 +10,13 @@
   -moz-filter: blur(@value);
 }
 
+.filter(@filter){
+  filter: @filter;
+  -webkit-filter: @filter;
+  -moz-filter: @filter;
+  -o-filter: @filter;
+}
+
 i, h1, h2, h3, h4, h5, span, label, div{
   &.base-color{
     color: @base-color;
