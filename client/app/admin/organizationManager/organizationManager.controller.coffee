@@ -45,6 +45,7 @@ angular.module('budweiserApp')
       .one('organizations', $scope.organization._id)
       .patch logo: key
       .then ->
+        org.logo = key
         notify
           message: 'Logo 修改成功'
           classes: 'alert-success'

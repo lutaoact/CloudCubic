@@ -12,13 +12,16 @@ angular.module('budweiserApp')
   $scope
   notify
   Restangular
+  org
 ) ->
 
   saveBanners = (banners, onSuccess, onFailed) ->
     Restangular
     .one('organizations', $scope.organization._id)
     .patch(banners: banners)
-    .then(onSuccess)
+    .then (data) ->
+      org.banners = data.banners
+      onSuccess?(data)
     .catch(onFailed)
 
   angular.extend $scope,
@@ -43,7 +46,7 @@ angular.module('budweiserApp')
 
     removeBanner: (banner) ->
       banners = angular.copy $scope.organization.banners
-      index = banners.indexOf(banner)
+      index = $scope.organization.banners.indexOf(banner)
       banners.splice(index, 1)
       saveBanners banners
       , (data) ->
@@ -55,7 +58,7 @@ angular.module('budweiserApp')
         notify
           message: 'banner 移除失败'
           classes: 'alert-danger'
-          
+
     saveBanners: ->
       saveBanners $scope.organization.banners
       , (data) ->
