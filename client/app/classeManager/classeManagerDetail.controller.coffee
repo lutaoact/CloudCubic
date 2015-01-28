@@ -23,5 +23,7 @@ angular.module('budweiserApp')
     viewStudent: (student) ->
       $state.go('classeManager.detail.student', classeId:$scope.selectedClasse._id, studentId:student._id)
 
-  $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId) ? $scope.other
-  $scope.reloadStudents()
+  $scope.$watch 'classes', ->
+    return if !$scope.classes
+    $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId) ? $scope.other
+    $scope.reloadStudents()
