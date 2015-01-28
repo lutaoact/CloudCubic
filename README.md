@@ -66,16 +66,17 @@ trackEvents cate, event, label, value
 ```
 cate
   event
-    label
 ```
-+ views 用来收集页面使用率
-  + open 页面打开，对应的label可以记录你的页面名称，value可以用来记录org，url等json数据
-+ action 用来检测某些功能使用率
-  + uploadFile
-  + saveProfile
-  + uploadVideo
-  + uploadSlide
-  + convertSlide
++ views 用来收集页面使用率, 页面打开，对应的label可以记录你的url
+  + open
++ upload 用来统计上传，label为key, value为文件大小
+  + file
+  + video
+  + slide
++ convert 用来统计转换，label为key, value为文件大小
+  + slide
+
+
 + error 用来收集production errors
   + onJSError
   + onAngularError

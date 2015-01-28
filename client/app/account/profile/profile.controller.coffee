@@ -15,7 +15,6 @@ angular.module('budweiserApp').controller 'ProfileCtrl',(
       again: ''
 
     saveProfile: ->
-      _hmt?.push ['_trackEvent', 'action', 'saveProfile', window.location.host]
 
     changePassword: (form) ->
       if !form.$valid then return
