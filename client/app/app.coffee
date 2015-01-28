@@ -191,7 +191,6 @@ angular.module 'budweiserApp', [
 .run (
   Msg
   Auth
-  Page
   $modal
   notify
   $state
@@ -208,7 +207,6 @@ angular.module 'budweiserApp', [
 
   PromiseCache.refresh()
 
-  $rootScope.Page = Page
   $rootScope.webview = webview
   $rootScope.org = org
   $rootScope.getMe = Auth.getCurrentUser

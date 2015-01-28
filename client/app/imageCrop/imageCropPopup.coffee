@@ -76,38 +76,40 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
 
   $scope.$watch 'files', (value, oldValue)->
     if value
-      EXIF.getData value[0], () ->
-        console.log EXIF.pretty(this)
-      url = URL.createObjectURL(value[0])
-      safeUrl = $sce.trustAsResourceUrl(url)
-      $timeout ()->
-        $scope.viewState.previewUrl = safeUrl
-      angular.element('.img-preview').on 'load', (e)->
-        if e.target.clientWidth < 250
-          angular.element('.img-preview').css 'width', 250
-          angular.element('.img-preview').css 'height', ~~(e.target.clientHeight * 250 / e.target.clientWidth)
-          $scope.viewState.size =
-            width: 250
-            height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
-        else
-          $scope.viewState.size =
-            width: e.target.clientWidth
-            height: e.target.clientHeight
-        $scope.viewState.originSize =
-          width: e.target.naturalWidth
-          height: e.target.naturalHeight
-        if /(gif|svg)/i.test value[0].type
-          $scope.message = 'gif或者svg不支持裁剪'
-        else
-          $scope.message = ''
-        angular.element('.img-preview').Jcrop
-          onSelect: showCoords
-          onChange: showCoords
-          # rotate : 90
-          onRelease: cancelSelect
-          aspectRatio: options.ratio
-          keySupport: false
-          setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio and !$scope.message
-
+      EXIF.getData value[0], (data) ->
+        orientation = this.exifdata.Orientation
+        url = URL.createObjectURL(value[0])
+        safeUrl = $sce.trustAsResourceUrl(url)
+        $timeout ()->
+          $scope.viewState.previewUrl = safeUrl
+        angular.element('.img-preview').on 'load', (e)->
+          if e.target.clientWidth < 250
+            angular.element('.img-preview').css 'width', 250
+            angular.element('.img-preview').css 'height', ~~(e.target.clientHeight * 250 / e.target.clientWidth)
+            $scope.viewState.size =
+              width: 250
+              height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
+          else
+            $scope.viewState.size =
+              width: e.target.clientWidth
+              height: e.target.clientHeight
+          $scope.viewState.originSize =
+            width: e.target.naturalWidth
+            height: e.target.naturalHeight
+          if /(gif|svg)/i.test value[0].type
+            $scope.message = 'gif或者svg不支持裁剪'
+          else
+            $scope.message = ''
+          angular.element('.img-preview').Jcrop
+            onSelect: showCoords
+            onChange: showCoords
+            onRelease: cancelSelect
+            aspectRatio: options.ratio
+            keySupport: false
+            setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio and !$scope.message
+          # if orientation
+          #   console.log orientation
+          #   angular.element('.img-preview + .jcrop-holder img').css
+          #     transform: "rotate(#{(orientation-1)*90}deg)"
 
 
