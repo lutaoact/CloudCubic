@@ -25,12 +25,16 @@ angular.module('budweiserApp')
       event.preventDefault()
       event.stopPropagation()
 
+    loading: true
+
     loadData: ()->
-      $scope.studentAnalyses = undefined
+      $scope.studentAnalyses = null
+      $scope.loading = true
       selectedMonth = moment($scope.month, $scope.format)
       $scope.display = selectedMonth.format('MM月')
       Restangular.all('active_times').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format()}
       .then (active_times)->
+        $scope.loading = false
         studentAnalysesDict = {}
         daysSum = 0
         durationSum = 0
