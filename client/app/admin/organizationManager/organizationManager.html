@@ -272,32 +272,6 @@
         <hr/>
 
         <div class="form-group">
-          <label for="organization-wechatAppId"
-                 class="col-sm-3 control-label">AppId</label>
-          <div class="col-sm-7">
-            <input class="form-control"
-                   id="organization-wechatAppId"
-                   name="name"
-                   ng-model="orgWechat.appid"
-                   placeholder="请输入微信登录的AppId"
-                   required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="organization-wechatAppSecret"
-                 class="col-sm-3 control-label">AppSecret</label>
-          <div class="col-sm-7">
-            <input class="form-control"
-                   id="organization-wechatAppSecret"
-                   name="name"
-                   ng-model="orgWechat.secret"
-                   placeholder="请输入微信登录的AppSecret"
-                   required>
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="organization-wechatDomain"
                  class="col-sm-3 control-label">绑定域名</label>
           <div class="col-sm-7">
@@ -308,6 +282,32 @@
                     required>
               <option value="" class="text-muted">请选择你要绑定的域名</option>
             </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatAppId"
+                 class="col-sm-3 control-label">开放平台AppId</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppId"
+                   name="name"
+                   ng-model="orgWechat.appid"
+                   placeholder="请输入微信开发平台的AppId"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatAppSecret"
+                 class="col-sm-3 control-label">开放平台AppSecret</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppSecret"
+                   name="name"
+                   ng-model="orgWechat.secret"
+                   placeholder="请输入微信开放平台的AppSecret"
+                   required>
           </div>
         </div>
 

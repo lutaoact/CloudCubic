@@ -9,10 +9,11 @@ angular.module('budweiserApp')
     organization: '='
 
 .controller 'CustomOrgBannersTileCtrl', (
+  org
   $scope
   notify
   Restangular
-  org
+  messageModal
 ) ->
 
   saveBanners = (banners, onSuccess, onFailed) ->
@@ -37,35 +38,39 @@ angular.module('budweiserApp')
       , (data) ->
         $scope.organization.banners.push(banner)
         notify
-          message: 'banner 添加成功'
+          message: '横幅添加成功'
           classes: 'alert-success'
       , (error) ->
         notify
-          message: 'banner 添加失败'
+          message: '横幅添加失败'
           classes: 'alert-danger'
 
     removeBanner: (banner) ->
-      banners = angular.copy $scope.organization.banners
-      index = $scope.organization.banners.indexOf(banner)
-      banners.splice(index, 1)
-      saveBanners banners
-      , (data) ->
-        $scope.organization.banners.splice(index, 1)
-        notify
-          message: 'banner 已被移除'
-          classes: 'alert-success'
-      , (error) ->
-        notify
-          message: 'banner 移除失败'
-          classes: 'alert-danger'
+      messageModal.open
+        title: -> '删除横幅'
+        message: -> "确认要删除这个横幅？"
+      .result.then ->
+        banners = angular.copy $scope.organization.banners
+        index = $scope.organization.banners.indexOf(banner)
+        banners.splice(index, 1)
+        saveBanners banners
+        , (data) ->
+          $scope.organization.banners.splice(index, 1)
+          notify
+            message: '横幅已被移除'
+            classes: 'alert-success'
+        , (error) ->
+          notify
+            message: '横幅移除失败'
+            classes: 'alert-danger'
 
     saveBanners: ->
       saveBanners $scope.organization.banners
       , (data) ->
         notify
-          message: 'banner 已保存'
+          message: '横幅已保存'
           classes: 'alert-success'
       , (error) ->
         notify
-          message: 'banner 保存失败'
+          message: '横幅保存失败'
           classes: 'alert-danger'

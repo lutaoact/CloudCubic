@@ -43,7 +43,7 @@
         <span class="teacher">
           <span ng-repeat="owner in course.owners">{{owner.name}} </span>
         </span>
-          <span class="info" tooltip="{{course.info}}">{{course.info}}</span>
+        <span class="info" tooltip="{{course.info | htmlToPlaintext}}">{{course.info | htmlToPlaintext}}</span>
         </a>
       </div>
     </div>

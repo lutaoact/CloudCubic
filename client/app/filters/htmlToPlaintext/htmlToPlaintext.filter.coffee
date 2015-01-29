@@ -2,5 +2,5 @@
 
 angular.module('budweiserApp').filter 'htmlToPlaintext', ->
   (input) ->
-    String(input).replace(/<[^>]+>/gm, '')
+    input?.replace(/<[^>]+>/gm, '')
 
