@@ -78,7 +78,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   .then (course) ->
     $scope.course = course
     Restangular.all('categories').getList()
-  .then (category) ->
+  .then (categories) ->
     $scope.categories = categories
     $scope.course.$category = _.find $scope.categories, (category)->
       category._id is $scope.course.categoryId._id
