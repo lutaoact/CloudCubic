@@ -50,6 +50,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           if options.maxWidth and options.maxWidth < (cropSize?.width || $scope.viewState.originSize.width)
             suffix += '/thumbnail/' + ~~options.maxWidth + 'x'
 
+          suffix = '' if $scope.files[0].type is 'image/svg+xml'
           result = "#{key}" + suffix
 
           $modalInstance.close result,
@@ -80,7 +81,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
       EXIF.getData value[0], (data) ->
         orientation = this.exifdata.Orientation
         deferred = $q.defer()
-        if orientation in [2,3,4,5,6,7,8]
+        if orientation in [2,4,5,6,7,8]
           # upload to qiniu then display
           $scope.viewState.uploading = true
           fileUtils.uploadFile
@@ -115,17 +116,18 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
               height: e.target.naturalHeight
             if /(gif|svg)/i.test value[0].type
               $scope.message = 'gif或者svg不支持裁剪'
+              $scope.confirm()
             else
               $scope.message = ''
-            angular.element('.img-preview').Jcrop
-              onSelect: showCoords
-              onChange: showCoords
-              onRelease: cancelSelect
-              aspectRatio: options.ratio
-              keySupport: false
-              setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio and !$scope.message
-            if orientation is 3
-              angular.element('.img-preview + .jcrop-holder img').css
-                transform: "rotate(180deg)"
+              angular.element('.img-preview').Jcrop
+                onSelect: showCoords
+                onChange: showCoords
+                onRelease: cancelSelect
+                aspectRatio: options.ratio
+                keySupport: false
+                setSelect: [0,0, $scope.viewState.size.width/2, $scope.viewState.size.width/2/options.ratio] if options.ratio and !$scope.message
+              if orientation is 3
+                angular.element('.img-preview + .jcrop-holder img').css
+                  transform: "rotate(180deg)"
 
 
