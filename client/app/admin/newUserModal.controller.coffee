@@ -41,7 +41,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
           if users.length
             existNames = _.pluck $scope.existingUsers, 'name'
             filteredUsers = _.filter users, (user) ->
-              return (_.indexOf existNames, user.name) is -1
+              return (_.indexOf existNames, user.name) < 0
               
             filteredUsers.forEach (user)->
               email = user.email ? ''
@@ -61,9 +61,10 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
     confirm: (form) ->
       $scope.submitted = true
-      if !$scope.selectedUser? && !$scope.user.email?
+      unless $scope.selectedUser? || $scope.user.email?
         form.user.$setValidity 'required', false
-      if !form.$valid then return
+      return if !form.$valid
+        
       if $scope.selectedUser?.user
         $modalInstance.close $scope.selectedUser.user
       else
