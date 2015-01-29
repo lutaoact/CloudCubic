@@ -28,7 +28,6 @@ angular.module('budweiserApp')
   $state
   notify
   $modal
-  Category
   $rootScope
   Permission
   Restangular
