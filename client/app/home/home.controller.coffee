@@ -6,7 +6,6 @@ angular.module('budweiserApp')
   Auth
   $modal
   $scope
-  Category
   Restangular
 ) ->
 
@@ -68,12 +67,14 @@ angular.module('budweiserApp')
         .then (courses) ->
           $scope.myCourses = courses
 
-  Category.find()
-  .then (categories)->
+  Restangular
+  .all('categories')
+  .getList()
+  .then (categories) ->
     $scope.categories = categories
 
   $scope.$watch Auth.getCurrentUser, ->
     $scope.reload()
-    .then (items)->
+    .then (items) ->
       $scope.viewState.total = items.$count
 

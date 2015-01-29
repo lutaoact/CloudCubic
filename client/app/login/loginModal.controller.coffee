@@ -103,5 +103,6 @@ angular.module('budweiserApp').controller 'loginModalCtrl', (
             email.$remoteChecked = false
         , 800
 
-  PromiseCache.checkWeixin (isSet) ->
+  PromiseCache.checkWeixin()
+  .then (isSet) ->
     $scope.viewState.weixinLogin = isSet
