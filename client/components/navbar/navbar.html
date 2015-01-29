@@ -84,9 +84,10 @@
           <a href ui-sref="teacher.questionLibrary({courseId:$state.params.courseId})">题库</a>
         </li>
         <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
-          <a href ui-sref="teacher.courseStats.all({courseId:$state.params.courseId})">统计</a>
+          <a href ng-if="!$state.params.classeId" ui-sref="teacher.courseStats.all({courseId:$state.params.courseId})">统计</a>
+          <a href ng-if="$state.params.classeId" ui-sref="teacher.courseStats.classe({courseId:$state.params.courseId,classeId:$state.params.classeId})">统计</a>
         </li>
-        <li ng-if="displayCourseMenu() && !Auth.hasRole('teacher')">
+        <li ng-if="displayCourseMenu() && !Auth.hasRole('teacher') && Auth.hasRole('student')">
           <a href ui-sref="course.stats()">统计</a>
         </li>
 

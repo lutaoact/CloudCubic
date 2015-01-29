@@ -11,23 +11,17 @@
 
 Category = _u.getModel "category"
 Course = _u.getModel 'course'
+WrapRequest = new (require '../../utils/WrapRequest')(Category)
 
 exports.index = (req, res, next) ->
-  Category.findQ orgId: req.org._id, deleteFlag: $ne: true
-  .then (categories) ->
-    res.send categories
-  , next
+  conditions = orgId : req.org?._id
+  WrapRequest.wrapIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
-  body = req.body
-  delete body._id
-
-  body.orgId = req.user.orgId
-  Category.createQ body
-  .then (category) ->
-    res.json 201, category
-  , next
-
+  data = req.body
+  delete data._id
+  data.orgId   = req.user.orgId
+  WrapRequest.wrapCreate req, res, next, data
 
 exports.courses = (req, res, next) ->
   Course.find categoryId: req.params.id
@@ -37,22 +31,14 @@ exports.courses = (req, res, next) ->
     res.send courses
   , next
 
+pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
-  Category.findByIdQ req.params.id
-  .then (category) ->
-    category.name = req.body.name
-    do category.saveQ
-  .then (result) ->
-    newValue = result[0]
-    res.send newValue
-  , next
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 exports.destroy = (req, res, next) ->
-  Category.removeQ
-    _id: req.params.id
-  .then () ->
-    res.send 204
-  , next
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids

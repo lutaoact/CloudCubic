@@ -317,6 +317,7 @@ angular.module 'budweiserApp'
           notify
             message: if err.data?.errCode is 10050 then '该课程中没有班级' else err.data?.errMsg
             classes: 'alert-danger'
+          $scope.err = err
         else if err.status is 401 or err.status is 403
           notify
             message: '请登录'

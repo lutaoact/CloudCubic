@@ -62,9 +62,13 @@
                  ng-model="organization.name"
                  placeholder="请输入您的机构名称，比如：“学之方教育科技”"
                  mongoose-error
+                 ng-maxlength="20"
                  required/>
           <p class="help-block" ng-show="form.orgName.$error.required && submitted">
             请输入机构名称
+          </p>
+          <p class="help-block" ng-show="form.orgName.$error.maxlength && submitted">
+            机构名称不能超过20个字
           </p>
           <p class="help-block" ng-show="form.orgName.$error.mongoose">
             该机构名称已被注册

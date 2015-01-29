@@ -38,16 +38,32 @@ log4js.configure
       type      : 'pattern'
       pattern   : "%m"
     category    : 'DATA'
+  ,
+    type        : 'dateFile'
+    filename    : "/data/log/#{config.appName}.client.log"
+    pattern     : "-yyyy-MM-dd"
+    alwaysIncludePattern: true
+    layout      :
+      type      : 'pattern'
+      pattern   : "%m"
+    category    : 'CLIENT'
   ]
 
 logger = log4js.getLogger logCategory
 logger.setLevel config.logger.level
 
-loggerD = log4js.getLogger 'DATA'
-loggerD.setLevel 'TRACE'
-loggerD.write = () ->
+write = () ->
   Array::unshift.call arguments, new Date().toISOString()
-  loggerD.trace Array::join.call arguments, '\t'
+  @info Array::join.call arguments, '\t'
+
+loggerD = log4js.getLogger 'DATA'
+loggerD.setLevel 'INFO'
+loggerD.write = write
+
+loggerC = log4js.getLogger 'CLIENT'
+loggerC.setLevel 'INFO'
+loggerC.write = write
 
 exports.logger = logger
 exports.loggerD = loggerD
+exports.loggerC = loggerC

@@ -10,7 +10,7 @@ angular.module('budweiserApp').controller 'CourseStatsCtrl', (
   Restangular
 ) ->
 
-  chartUtils.genStatsOnScope $scope, $state.params.courseId
+  chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.classeId
 
   angular.extend $scope,
     student: Auth.getCurrentUser()
