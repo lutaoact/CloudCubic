@@ -5,7 +5,6 @@ angular.module('budweiserApp').controller 'CourseCtrl', (
   Auth
   $scope
   $state
-  Category
   $rootScope
   Restangular
   notify

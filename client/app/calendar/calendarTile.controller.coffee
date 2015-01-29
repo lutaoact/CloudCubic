@@ -75,20 +75,6 @@ angular.module('budweiserApp')
 
     gotoCourse: (event)->
 
-    addSchedule: ()->
-      $modal.open
-        templateUrl: 'app/directives/timetable/schedulePopup.html'
-        controller: 'SchedulePopupCtrl'
-      .result.then (schedules)->
-        $scope.schedules.concat schedules
-        bindSchedules()
-
-    removeEvent: ($event, event)->
-      $event.stopPropagation()
-      event.schedule.remove()
-      .then ->
-        event.$container.splice event.$container.indexOf(event), 1
-
   Restangular.all('classes/schedules').getList()
   .then (schedules)->
     $scope.schedules = schedules

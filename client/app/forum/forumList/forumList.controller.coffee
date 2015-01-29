@@ -2,12 +2,11 @@
 
 angular.module('budweiserApp').controller 'ForumListCtrl', (
   $q
+  Auth
   $scope
   $state
-  Auth
-  Restangular
-  Category
   $modal
+  Restangular
 ) ->
 
   angular.extend $scope,
