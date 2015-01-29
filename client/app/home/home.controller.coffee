@@ -72,8 +72,9 @@ angular.module('budweiserApp')
   .then (categories)->
     $scope.categories = categories
 
-  $scope.$watch Auth.getCurrentUser, ->
-    $scope.reload()
-    .then (items)->
-      $scope.viewState.total = items.$count
+  $scope.$watch Auth.getCurrentUser, (user)->
+    user.$promise?.then ->
+      $scope.reload()
+      .then (items)->
+        $scope.viewState.total = items.$count
 
