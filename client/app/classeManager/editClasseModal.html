@@ -24,18 +24,6 @@
       </small>
     </div>
   </div>
-  <div class="form-group form-group-sm" ng-if="courses.length">
-    <span class="control-label col-sm-3">课程名</span>
-    <div class="col-sm-9">
-      <select class="form-control"
-              id="classe-course"
-              ng-model="classe.courseId"
-              ng-options="course._id as course.name for course in courses"
-              required>
-        <option value="" class="text-muted">请选择一门课程</option>
-      </select>
-    </div>
-  </div>
 
   <div class="form-group form-group-sm"
       ng-class="{'has-error': form.price.$invalid}">
@@ -238,6 +226,19 @@
           </tr>
         </table>
       </div>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm" ng-if="courses.length">
+    <span class="control-label col-sm-3">来至于</span>
+    <div class="col-sm-9">
+      <select class="form-control"
+              id="classe-course"
+              ng-model="classe.courseId"
+              ng-options="course._id as course.name for course in courses"
+              required>
+        <option value="" class="text-muted">请选择一门课程</option>
+      </select>
     </div>
   </div>
 
