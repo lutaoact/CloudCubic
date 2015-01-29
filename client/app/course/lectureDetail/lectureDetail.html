@@ -132,7 +132,11 @@
              ng-disabled="commentsLoading">
             <i class="" ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
           </a>
-          <a class="comments" ng-class="{'active':viewState.showNotes}" ng-click="toggleNotesPanel()" ng-disabled="noteLoading">
+          <a class="comments"
+            ng-class="{'active':viewState.showNotes}"
+            ng-disabled="noteLoading"
+            login-window
+            login-success="toggleNotesPanel()">
             <i class="fa fa-pencil-square-o" ng-class="{'fa-spinner fa-spin':noteLoading, 'fa-pencil-square-o':!noteLoading}"></i>
           </a>
         </h3>
