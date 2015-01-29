@@ -61,6 +61,7 @@ angular.module('budweiserApp')
         windowClass: 'new-user-modal'
         resolve:
           userRole: -> $scope.userRole
+          existingUsers : -> $scope.users
       .result.then (newUser) ->
         addNewUserSuccess = (newUser) ->
           notify
