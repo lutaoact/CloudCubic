@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'ForgotCtrl', (
+  org
   $scope
   $state
   $interval
@@ -9,6 +10,7 @@ angular.module('budweiserApp').controller 'ForgotCtrl', (
 
   maxTimeout = 15
   angular.extend $scope,
+    org: org
     email: null
     errors: null
     timeout: maxTimeout
