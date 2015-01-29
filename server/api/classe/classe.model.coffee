@@ -69,6 +69,7 @@ exports.Classe = BaseModel.subclass
       teachers: [
         type: ObjectId
         ref: 'user'
+        required : true
       ]
       schedules: [
         start: Date

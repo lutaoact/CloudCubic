@@ -12,7 +12,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     classes: null
-    courses: Restangular.all('courses').getList()
+    courses: Restangular.all('courses/me').getList()
     search:
       keyword  : $state.params.keyword
       course   : $state.params.course
