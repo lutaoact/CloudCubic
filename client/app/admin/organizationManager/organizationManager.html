@@ -56,7 +56,7 @@
                    ng-disabled="'true'"
                    style="text-transform: lowercase;"
                    required>
-            <i class="fa fa-question-circle hint" tooltip="如需修改，请联系info@cloud3edu.com"></i>
+            <i class="fa fa-question-circle hint" tooltip="如需修改，请联系info@cloud3edu.com" tooltip-append-to-body="true"></i>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.mongoose">{{ errors.uniqueName }}</small>
             <small class="text-danger" ng-if="orgForm.uniqueName.$error.required && orgForm.$submitted">必填项</small>
             <span class="text-muted">您的二级登录域名为：http://{{organization.uniqueName}}.cloud3edu.cn</span>
@@ -94,13 +94,11 @@
               <i class="fa fa-question-circle hint" dropdown-toggle></i>
               <ul class="dropdown-menu" role="menu">
                 <li>
-                  1. 必须先申请好您的域名，并且完成备案
-                </li>
-                <li>
-                  2. 在域名提供商将域名指向cloud3edu，如需支持请<a target="_blank" style="display:inline; padding:0;color:#5abda6;" href="mailto:info@cloud3edu.com?subject=绑定域名">联系我们</a>
-                </li>
-                <li>
-                  3. 配置生效后，您就可以通过你的自定义域名访问您的网校啦。
+                  <div style="padding: 5px 10px;">
+                    1. 必须先申请好您的域名，并且完成备案<br>
+                    2. 在域名提供商将域名指向cloud3edu，如需支持请<a target="_blank" style="display:inline; padding:0;color:#5abda6;" href="mailto:info@cloud3edu.com?subject=绑定域名">联系我们</a><br>
+                    3. 配置生效后，您就可以通过你的自定义域名访问您的网校啦
+                  </div>
                 </li>
               </ul>
             </span>
