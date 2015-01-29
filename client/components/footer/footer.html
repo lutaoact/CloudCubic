@@ -18,7 +18,7 @@
       <span ng-if="org.icp">| {{org.icp}}</span>
       <span ng-if="org.telephone">| {{org.telephone}}</span>
       <!-- <span>| <a href="/assets/html/docs/help.html" target="blank">帮助文档</a></span> -->
-      <span>| <a ui-sref="about">关于我们</a></span>
+      <span ng-if="org.about">| <a ui-sref="about">关于我们</a></span>
       <span ng-repeat="link in org.links">| <a href="{{link.url}}" target="blank">{{link.name}}</a></span>
     </p>
   </div>

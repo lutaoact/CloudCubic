@@ -68,8 +68,10 @@ angular.module('budweiserApp')
         .then (courses) ->
           $scope.myCourses = courses
 
-  Category.find()
-  .then (categories)->
+  Restangular
+  .all('categories')
+  .getList()
+  .then (categories) ->
     $scope.categories = categories
 
   $scope.$watch Auth.getCurrentUser, (user)->
