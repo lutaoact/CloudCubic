@@ -74,7 +74,7 @@
         <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('classeManager|course.detail|course.lecture')}">
           <a href ui-sref='classeManager'>开班管理</a>
         </li>
-        <li ng-class="{active: isActive('courseList')}" ng-if="!Auth.hasRole('teacher')">
+        <li ng-class="{active: isActive('courseList|course.detail|course.lecture')}" ng-if="!Auth.hasRole('teacher')">
           <a href ui-sref='courseList'>机构课程</a>
         </li>
         <li ng-class="{active: isActive('forum')}">
