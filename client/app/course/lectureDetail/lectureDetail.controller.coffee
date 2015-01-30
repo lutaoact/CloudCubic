@@ -24,8 +24,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 ) ->
 
   # track the usages of lecture
-  console.log 'views', 'lectures', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
-  _hmt?.push(['_trackEvent', 'views', 'open', 'lecture', ])
+  console.remote 'views', 'lectures', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
 
   angular.extend $scope,
     getCurrentUser: Auth.getCurrentUser
@@ -81,12 +80,12 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         if timestamp
           playerAPI.seekTime timestamp
         $scope.onVideoError = (err)->
-          _hmt?.push ['_setCustomVar', 3, 'onVideoError', JSON.stringify(err), 1]
+          console.remote? 'error', 'onVideoError', err
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized
         @viewState.discussPanelnitialized = true
-        console.log 'views', 'lectures-comments', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
+        console.remote 'views', 'lectures-comments', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
         $scope.commentsLoading = true
         $timeout ->
           $scope.commentsLoading = false
@@ -98,7 +97,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     toggleNotesPanel: ()->
       if !@viewState.notesPanelnitialized
         @viewState.notesPanelnitialized = true
-        console.log 'views', 'lectures-notes', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
+        console.remote 'views', 'lectures-notes', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
         $scope.noteLoading = true
         $timeout ->
           $scope.noteLoading = false
