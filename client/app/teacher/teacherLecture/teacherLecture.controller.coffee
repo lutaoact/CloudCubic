@@ -207,7 +207,3 @@ angular.module('budweiserApp')
     $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
-
-  # 删除未保存过的课时
-  $scope.$on '$destroy', ->
-    $scope.lecture.remove(courseId:$scope.course._id) if $scope.lecture?.__v == 0
