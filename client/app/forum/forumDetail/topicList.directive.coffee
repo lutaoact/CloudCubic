@@ -36,8 +36,8 @@ angular.module('budweiserApp')
         message: -> "是否要删除您的帖子：\"#{topic.title}\"，删除后将无法恢复！"
       .result.then ->
         topic.remove()
-        .then ()->
-          $scope.topics.splice $scope.topics.indexOf(topic), 1
+      .then ()->
+        $scope.topics.splice $scope.topics.indexOf(topic), 1
 
     searchByTag: (tag)->
       if $scope.pageConf.tags.indexOf(tag.text) > -1
