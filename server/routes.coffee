@@ -112,11 +112,8 @@ module.exports = (app) ->
   app.route '/*'
   .get (req, res) ->
     # if there is no cookie token, return index.html immediately
-    indexPath =
-      if req.url.indexOf('/mobile') is 0
-        app.get('appPath') + '/mobile/index.html'
-      else
-        app.get('appPath') + '/index.html'
+    domainPath = if req.url.indexOf('/mobile') is 0 then '/mobile' else '/'
+    indexFile = app.get('appPath') + domainPath + '/index.html'
     locals =
       title      : req.org?.name ? "云立方学院"
       icon       : req.org?.logo ? "favicon.ico"
@@ -128,7 +125,7 @@ module.exports = (app) ->
     token = (req.cookies.token ? req.query.access_token)?.replace /"/g, ''
 
     if !token?
-      res.send(_u.render indexPath, locals)
+      res.send(_u.render indexFile, locals)
     else
       logger.info 'refreshing, token:'
       logger.info token
@@ -137,8 +134,8 @@ module.exports = (app) ->
         logger.info "after verity token, we get user:"
         logger.info user
 
-        unless err?
-          res.cookie('token', JSON.stringify(token))
+        if !err?
+          res.cookie('token', JSON.stringify(token), path: domainPath)
           locals.initUser = JSON.stringify  _id: user._id, role: user.role
 
-        res.send(_u.render indexPath, locals)
+        res.send(_u.render indexFile, locals)
