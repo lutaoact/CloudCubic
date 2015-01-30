@@ -1,5 +1,13 @@
 'use strict'
 
+((console)->
+  oldLog = console.log
+  console.log = (message)->
+    xmlhttp.open('POST',"/api/loggers",true)
+    xmlhttp.send(arguments)
+    oldLog.apply(console, arguments)
+)
+
 ((window)->
   preErrorHander = window.onerror
   window.onerror = (m, u, l)->
@@ -160,7 +168,7 @@ angular.module 'budweiserApp', [
 
 .factory 'errorHttpInterceptor', ($q) ->
   responseError: (response) ->
-    _hmt?.push ['_setCustomVar', 3, 'onHttpError', JSON.stringify(response.config), 1]
+    console.log 'error', 'onHttpError', response
     $q.reject response
 
 .service 'socketHandler', (
