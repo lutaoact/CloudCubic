@@ -42,20 +42,30 @@
 
   <div class="form-group form-group-sm">
     <div class="control-label col-sm-3">封面图片</div>
-    <div class="col-sm-12 image-content-wrap">
-      <div class="image-content" src-key="course.thumbnail" ng-class="{'has-content':course.thumbnail,'hover':viewState.hover}" source-attr="background-image">
-      </div>
-      <uploader limit="{{imageSizeLimitation}}"
-                class="course-img btn-danger btn-sm"
-                on-complete="onThumbUploaded($data)"
-                accept-type="image"
-                crop="true"
-                ng-mouseenter="viewState.hover=true"
-                ng-mouseleave="viewState.hover=false"
-                crop-ratio="1.5"
-                max-width="1000">
-        <span class="glyphicon glyphicon-picture"></span>
-        {{course.thumbnail?'修改图片':'上传封面'}}
+    <div class="col-sm-9 image-content-wrap">
+      <uploader
+        class="cover-uploder"
+        limit="{{imageSizeLimitation}}"
+        on-complete="onThumbUploaded($data)"
+        accept-type="image"
+        crop="true"
+        crop-ratio="1.5"
+        max-width="600">
+        <div class="cover" ng-if="course.thumbnail" src-key="course.thumbnail" source-attr="background-image">
+          <div class="mask">
+            <div class="btn btn-xs btn-danger">
+              <i class="fa fa-image"></i>
+              修改图片
+            </div>
+          </div>
+        </div>
+        <div class="drag-uploder" ng-if="!course.thumbnail">
+          <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
+          <div class="btn btn-xs btn-danger">
+            <i class="fa fa-image"></i>
+            上传图片
+          </div>
+        </div>
       </uploader>
     </div>
   </div>
