@@ -50,7 +50,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           if options.maxWidth and options.maxWidth < (cropSize?.width || $scope.viewState.originSize.width)
             suffix += '/thumbnail/' + ~~options.maxWidth + 'x'
 
-          suffix = '' if $scope.files[0].type is 'image/svg+xml'
+          suffix = '' if ($scope.files[0].type is 'image/svg+xml')
           result = "#{key}" + suffix
 
           $modalInstance.close result,
@@ -89,7 +89,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
             rename: 'temp'
             success: (key) ->
               $scope.viewState.uploading = false
-              suffix = '?imageMogr2/auto-orient/thumbnail/500x'
+              suffix = '?imageMogr2/auto-orient'
               url = key + suffix
               deferred.resolve url
         else
