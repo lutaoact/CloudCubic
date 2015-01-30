@@ -13,7 +13,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
   angular.extend $scope,
     imageSizeLimitation: configs.imageSizeLimitation
-    errors: null
+
     user:
       role: userRole
       email: ''
@@ -28,11 +28,10 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     searchedUsers: []
     selectedUser: null
     existingUsers : existingUsers
-    
+
     selectUser: ($item, search, $event)->
       $scope.selectedUser = $item
 
-      
     searchUsers: ($search)->
       if $search.search
         $scope.searchedUsers.length = 0
@@ -42,7 +41,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
             existNames = _.pluck $scope.existingUsers, 'name'
             filteredUsers = _.filter users, (user) ->
               return (_.indexOf existNames, user.name) < 0
-              
+
             filteredUsers.forEach (user)->
               email = user.email ? ''
               $scope.searchedUsers.push
@@ -50,21 +49,20 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
                 user: angular.copy(user)
           else if /^[_a-z0-9-\+]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i.test $search.search
             $scope.searchedUsers.push
-              text: '发送邀请给'+ email
-              email: email
+              text: '发送邀请给' + $search.search
+              email: $search.search
             $scope.selectedUser = $scope.searchedUsers[0]
             $scope.targetUser = $scope.selectedUser
 
-        
     cancel: ->
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
       $scope.submitted = true
       unless $scope.selectedUser? || $scope.user.email?
-        form.user.$setValidity 'required', false
+        form.email.$setValidity 'required', false
       return if !form.$valid
-        
+
       if $scope.selectedUser?.user
         $modalInstance.close $scope.selectedUser.user
       else
@@ -76,5 +74,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
           newUser.name = newUser.email.replace(/@.*/,'')
         Restangular.all('users').post newUser
         .then $modalInstance.close, (error) ->
-          $scope.errors = error?.data?.errors
-
+          # Update validity of form fields that match the mongoose errors
+          angular.forEach error.data.errors, (error, field) ->
+            form[field].$setValidity 'mongoose', false
