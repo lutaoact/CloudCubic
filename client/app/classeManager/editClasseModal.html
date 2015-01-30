@@ -89,6 +89,9 @@
               ng-options="teacher as teacher.name for teacher in teachers | without:classe.teachers:'_id'">
         <option value="" class="text-muted">请选择授课教师</option>
       </select>
+      <small class="text-danger" ng-if="errors.teachers && !classe.teachers.length">
+        {{ errors.teachers.message }}
+      </small>
       <div class="row-fluid classe-teachers">
         <span ng-repeat="teacher in classe.teachers">
           <div class="label label-default"
