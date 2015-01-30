@@ -44,7 +44,7 @@ angular.module('budweiserApp').directive 'orderDetail', ->
         $scope.order.classes[i].$orderPrice = $scope.order.prices[i]
 
       if $scope.order.status == 'unpaid' && Auth.getCurrentUser().role != 'admin'
-        Restangular.all('orders').customGET("#{$scope.order._id}/pay")
+        Restangular.all('orders').customGET("#{$scope.order._id}/paymentUrl")
         .then (data)->
           $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         .catch (err)->
