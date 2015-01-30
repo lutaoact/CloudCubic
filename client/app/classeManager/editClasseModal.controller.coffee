@@ -21,6 +21,9 @@ angular.module('budweiserApp')
     Auth: Auth
     $modalInstance: $modalInstance
 
+    setCourse: (course) ->
+      console.log 'setCourse', course
+
     addTeacher: (teacher) ->
       if !teacher? then return
       $scope.classe.teachers = _.union($scope.classe.teachers, [teacher])
@@ -35,11 +38,6 @@ angular.module('budweiserApp')
     confirm: (form) ->
       if !form.$valid then return
       $scope.errors = null
-      if $scope.classe.teachers.length is 0
-        notify
-          message: '至少选择一个老师'
-          classes: 'alert-danger'
-        return
       $scope.classe.schedules = $scope.getSchedules()
       $scope.classe.teachers = _.map $scope.classe.teachers, (t) -> t._id
       (

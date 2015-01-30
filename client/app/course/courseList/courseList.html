@@ -1,34 +1,28 @@
 <div class="course-list-view">
-  <div class="head-row">
+
+  <div class="header-row">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 header">
-          <h4 class="title pull-left">
-            <a href ng-click="search.category=null; reload()">课程列表</a>
-          </h4>
-          <div class="row info-row pull-right">
-            共<span class="total-num">{{allClasses.$count}}</span>个
-            <search-input keyword="search.keyword"
-                          on-submit="reload(true)"
-                          placeholder="班级关键字搜索">
-            </search-input>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 categories">
-          <div class="btn-group">
-            <label class="btn btn-toggle"
-                   ng-repeat="category in categories"
-                   ng-model="search.category"
-                   ng-change="reload(true)"
-                   uncheckable
-                   btn-radio="category._id">{{category.name}}</label>
-          </div>
+        <div class="col-md-12">
+          <a class="title" href ui-sref="{page:'', category:'', keyword:''}">机构课程</a>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{allClasses.$count}}</span> 个
+          </span>
+          <search-input keyword="search.keyword"
+                        on-submit="reload(true)"
+                        placeholder="班级关键字搜索">
+          </search-input>
+          <select class="form-control pull-right"
+                  ng-change="reload(true)"
+                  ng-model="search.category"
+                  ng-options="category._id as category.name for category in categories">
+            <option value="">全部专业</option>
+          </select>
         </div>
       </div>
     </div>
   </div>
+
   <div class="container">
     <div class="row courses-row">
       <div ng-if="!allClasses.length"

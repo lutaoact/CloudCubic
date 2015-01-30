@@ -33,6 +33,7 @@ angular.module('budweiserApp')
           Classe: ->
             name: ''
             price: 0
+            teachers: []
             enrollment: {}
             duration: {}
       .result.then (newClasse) ->

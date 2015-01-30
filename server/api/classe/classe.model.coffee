@@ -89,6 +89,9 @@ exports.Classe = BaseModel.subclass
     @schema
     .path 'name'
     .validate (name, respond) ->
+      respond(name?.length > 0)
+    , '班级名字不能为空'
+    .validate (name, respond) ->
       self = this
       this.constructor.findOne
         name : name
@@ -98,6 +101,12 @@ exports.Classe = BaseModel.subclass
         notTaken = !data or data.id == self.id
         respond notTaken
     , '该班级名称已被占用，请选择其他名称'
+
+    @schema
+    .path 'teachers'
+    .validate (teachers, respond) ->
+      respond(teachers.length > 0)
+    , '请至少选择一个授课教师'
 
     $super()
 
