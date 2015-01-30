@@ -6,7 +6,6 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   notify
   configs
   $timeout
-  Category
   $rootScope
   Restangular
   messageModal
@@ -78,7 +77,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
-    Category.find()
+    Restangular.all('categories').getList()
   .then (categories) ->
     $scope.categories = categories
     $scope.course.$category = _.find $scope.categories, (category)->

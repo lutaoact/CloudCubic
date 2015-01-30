@@ -12,7 +12,15 @@
 
   <div class="form-group form-group-sm">
     <span for="inputUserName" class="col-xs-3 control-label">{{user.role=='teacher'?'邮箱':'邮箱或昵称'}}</span>
-    <div class="col-xs-8">
+    <div class="col-xs-8" ng-if="user.role=='teacher'">
+      <input type="email"
+             class="form-control input-sm"
+             name="user"
+             ng-model="user.email"
+             required
+             placeholder="请输入要添加的email"/>
+    </div>
+    <div class="col-xs-8" ng-if="user.role=='student'">
       <ui-select id="user"
                  ng-model="targetUser"
                  name="user"

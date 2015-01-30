@@ -67,25 +67,12 @@ trackEvents cate, event, label, value
 cate
   event
 ```
-+ views 用来收集页面使用率, 页面打开，对应的label可以记录你的url
-  + open
-+ upload 用来统计上传，label为key, value为文件大小
-  + file
-  + video
-  + slide
-+ convert 用来统计转换，label为key, value为文件大小
-  + slide  
 
-setCustomVar index, key, value, level
-+ onJSError
-+ onAngularError
-+ onHttpError
-+ onVideoError
-+ onPayError
-+ onFileUploadError
-+ onVideoUploadError
-+ onConvertError
-
+### remote log
+在非localhost下。log会发送到服务器端。  
+localhost下 console.remote 会打印在console中  
+console.remote `category`, `label`, `value1`[, `value2`, `value3`...]  
+category: 'view', 'error', 'upload', 'convert'  
 
 ###Troubleshooting
 + After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)  

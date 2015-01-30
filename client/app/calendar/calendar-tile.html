@@ -1,11 +1,6 @@
 <div class="calendar-block">
   <div class="calendar-block-up">
     <div class="clearfix calendar-header">
-      <a href="" class="btn btn-xs" ng-if="Auth.hasRole('teacher')" ng-click="addSchedule()">
-        <i class="fa fa-plus">
-
-        </i>
-      </a>
       <div class="pull-right">
         <a ng-click="prevClick()"><i class="fa fa-caret-left"></i></a>
         <span class="title month">{{selectedDate._d | date:'MM月'}}</span>

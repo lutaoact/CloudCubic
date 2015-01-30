@@ -88,7 +88,13 @@ exports.destroy = (req, res, next) ->
     _id: req.params.id
     postBy : req.user.id
 
-  WrapRequest.wrapDestroy req, res, next, conditions
+  Topic.findOneAndRemoveQ conditions
+  .then (topic) ->
+    Forum.updateQ {_id: topic.forumId}, {$inc: {postsCount: -1}}
+  .then () ->
+    res.send 204
+  .catch next
+  .done()
 
 
 exports.like = (req, res, next) ->

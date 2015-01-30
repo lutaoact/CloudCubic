@@ -25,7 +25,7 @@
     </div>
   </div>
   <div class="form-group form-group-sm" ng-if="courses.length">
-    <span class="control-label col-sm-3">课程名</span>
+    <span class="control-label col-sm-3">所授课程</span>
     <div class="col-sm-9">
       <select class="form-control"
               id="classe-course"
@@ -36,7 +36,6 @@
       </select>
     </div>
   </div>
-
   <div class="form-group form-group-sm"
       ng-class="{'has-error': form.price.$invalid}">
     <span class="control-label col-sm-3">价格</span>
@@ -240,6 +239,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="modal-footer">
     <button type="button"

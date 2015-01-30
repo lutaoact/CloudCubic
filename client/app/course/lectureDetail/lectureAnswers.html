@@ -101,6 +101,7 @@
                   on-progress="onFilesUploading($speed, $percentage, $event)"
                   on-error="onError($error)"
                   ng-if="!offlineWork.submitted"
+                  ng-disabled="submitBtnToolTip"
                   class="file-drop-box clearfix">
           <span class="tip text-muted"><i class="fa fa-cloud-upload"></i>点击按钮或者拖拽上传作业</span>
           <span class="btn btn-danger btn-sm pull-right">

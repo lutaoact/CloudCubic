@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
   notify
   configs
   userRole
+  existingUsers
   Restangular
   $modalInstance
 ) ->
@@ -13,7 +14,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
   angular.extend $scope,
     imageSizeLimitation: configs.imageSizeLimitation
     errors: null
-
     user:
       role: userRole
       email: ''
@@ -27,41 +27,53 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
     searchedUsers: []
     selectedUser: null
-
+    existingUsers : existingUsers
+    
     selectUser: ($item, search, $event)->
       $scope.selectedUser = $item
 
+      
     searchUsers: ($search)->
       if $search.search
         $scope.searchedUsers.length = 0
         Restangular.all('users/match').getList {keyword: $search.search, role: userRole}
         .then (users)->
           if users.length
-            users.forEach (user)->
+            existNames = _.pluck $scope.existingUsers, 'name'
+            filteredUsers = _.filter users, (user) ->
+              return (_.indexOf existNames, user.name) < 0
+              
+            filteredUsers.forEach (user)->
+              email = user.email ? ''
               $scope.searchedUsers.push
-                text: user.name+' '+user.email
+                text: user.name + ' ' + email
                 user: angular.copy(user)
           else if /^[_a-z0-9-\+]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i.test $search.search
             $scope.searchedUsers.push
-              text: '发送邀请给'+$search.search
-              email: $search.search
+              text: '发送邀请给'+ email
+              email: email
             $scope.selectedUser = $scope.searchedUsers[0]
             $scope.targetUser = $scope.selectedUser
 
+        
     cancel: ->
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
       $scope.submitted = true
-      if !$scope.selectedUser
+      unless $scope.selectedUser? || $scope.user.email?
         form.user.$setValidity 'required', false
-      if !form.$valid then return
-      if $scope.selectedUser.user
+      return if !form.$valid
+        
+      if $scope.selectedUser?.user
         $modalInstance.close $scope.selectedUser.user
       else
         newUser = angular.copy $scope.user
-        newUser.email = $scope.selectedUser.email
-        newUser.name = $scope.selectedUser.email.replace(/@.*/,'')
+        if $scope.selectedUser?
+          newUser.email = $scope.selectedUser.email
+          newUser.name = $scope.selectedUser.email.replace(/@.*/,'')
+        else
+          newUser.name = newUser.email.replace(/@.*/,'')
         Restangular.all('users').post newUser
         .then $modalInstance.close, (error) ->
           $scope.errors = error?.data?.errors

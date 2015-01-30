@@ -28,7 +28,6 @@ angular.module('budweiserApp')
   $state
   notify
   $modal
-  Category
   $rootScope
   Permission
   Restangular
@@ -36,8 +35,28 @@ angular.module('budweiserApp')
 ) ->
 
   angular.extend $scope,
-    $state: $state
-    Auth: Auth
+    progress: null
+
+    loadProgress: ->
+      $scope.progress = null
+
+      if !Auth.isLoggedIn() then return
+      me = $scope.me
+      isAdmin   = me?.role is 'admin'
+      isOwner   = _.find($scope.course?.owners, _id:me?._id)
+      isTeacher = _.find($scope.classe?.teachers, _id: me?._id)
+      isLearner = $scope.classe?.students?.indexOf(me?._id) != -1
+
+      if isAdmin or isOwner or isTeacher or isLearner
+        Restangular
+        .all('progresses')
+        .getList(
+          courseId: $state.params.courseId
+          classeId: $state.params.classeId
+        )
+        .then (progress) ->
+          # 移除不是这个课程的progress
+          $scope.progress = _.intersection(progress, _.pluck($scope.course.lectureAssembly, '_id'))
 
     gotoLecture: ->
       lectures = $scope.course.lectureAssembly
@@ -83,11 +102,25 @@ angular.module('budweiserApp')
       Restangular.all('classes').one(classe._id, 'enroll').post()
       .then (data)->
         $scope.classe.students = data[0].students
+        $scope.loadProgress()
+
+  $scope.$watch Auth.getCurrentUser, (me) ->
+    $q.all [
+      $scope.classeQ
+      $scope.courseQ
+    ]
+    .then $scope.loadProgress
 
   $scope.$on 'comments.number', (event, data)->
     $scope.course.commentsNum = data
 
+  if $state.current.name is 'course.detail'
+    $state.go 'course.detail.desc'
+
   $scope.$on '$stateChangeStart', (event, toState, toParams)->
+    if toState.name is 'course.detail'
+      event.preventDefault()
+      $state.go 'course.detail.desc'
     if toState.name is "course.lecture"
       lecture = _.find $scope.course.lectureAssembly, {'_id': toParams.lectureId}
       permission = Permission.checkViewLecture(Auth.getCurrentUser(), lecture, $scope.classe, $scope.coruse)
@@ -126,6 +159,3 @@ angular.module('budweiserApp')
             .result.then ->
               $state.go(toState, toParams)
 
-  $scope.$watch (-> $state.current.name), (stateName) ->
-    if stateName is 'course.detail'
-      $state.go 'course.detail.desc'

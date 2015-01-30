@@ -21,11 +21,6 @@
      {{classe.name}}
   </a>
   <div class="divider"></div>
-  <a class="classe-info"
-     href
-     ui-sref="teacher.course({courseId:classe.courseId._id})">
-     {{classe.courseId.name}}
-  </a>
   <div class="classe-info text-muted" ng-if="!classe.courseId">未开设课程</div>
   <div class="classe-info">{{classe.address || '未设置上课地址'}}</div>
   <div class="text-muted teachers">
@@ -71,4 +66,9 @@
        {{classe.students.length}} 个学生
     </a>
   </div>
+  <a class="classe-info"
+     href
+     ui-sref="teacher.course({courseId:classe.courseId._id})">
+     所授课程：{{classe.courseId.name}}
+  </a>
 </div>
