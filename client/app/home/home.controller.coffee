@@ -6,7 +6,6 @@ angular.module('budweiserApp')
   Auth
   $modal
   $scope
-  Category
   Restangular
 ) ->
 
