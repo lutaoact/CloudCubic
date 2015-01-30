@@ -6,7 +6,13 @@ WrapRequest = new (require '../../utils/WrapRequest')(Forum)
 
 exports.index = (req, res, next) ->
   conditions = orgId: req.org?._id
-  conditions.name = new RegExp(_u.escapeRegex(req.query.keyword), 'i') if req.query.keyword
+  if req.query.keyword
+    keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+        name: keyword
+      ,
+        info: keyword
+      ]
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 
