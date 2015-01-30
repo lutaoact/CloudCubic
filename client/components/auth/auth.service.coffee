@@ -42,8 +42,9 @@ angular.module('budweiserApp').factory 'Auth', (
 
   @param {String} token
   ###
+  # TODO: remove this function, use backend-set token
   setToken: (token) ->
-    $cookieStore.put 'token', token
+#    $cookieStore.put 'token', token
     currentUser = User.get()
 
   ###

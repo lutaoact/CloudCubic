@@ -48,6 +48,7 @@ angular.module 'budweiserApp', [
   'textAngular'
   'FBAngular'
   'ngPrettyJson'
+  'ipCookie'
 ]
 
 .constant 'configs',
@@ -133,14 +134,14 @@ angular.module 'budweiserApp', [
     $location.replace()
     true
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector, initUser) ->
+.factory 'authInterceptor', ($rootScope, ipCookie, $q, $cookieStore, $location, loginRedirector, initUser) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
     if config.withCredentials is false
       return config
     config.headers = config.headers or {}
-    config.headers.Authorization = 'Bearer ' + $cookieStore.get('token')  if $cookieStore.get('token')
+    config.headers.Authorization = 'Bearer ' + ipCookie('token') if ipCookie('token')
     config
 
   # Intercept 401s
