@@ -25,6 +25,7 @@ angular.module('budweiserApp')
     confirm: (form) ->
       $scope.submitted = true
       if !form.$valid then return
+      $scope.forum.logo or= '/assets/images/discussion-boards.jpg'
       (
         if $scope.forum._id?
           Restangular.one('forums', $scope.forum._id).patch($scope.forum)

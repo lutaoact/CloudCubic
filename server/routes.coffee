@@ -8,6 +8,7 @@ byline = require 'byline'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
 Organization = _u.getModel "organization"
+auth = require('./auth/auth.service')
 
 errorHandler = (err, req, res, next) ->
   logger.error err
@@ -135,7 +136,8 @@ module.exports = (app) ->
         logger.info user
 
         if !err?
-          res.cookie('token', JSON.stringify(token), {path: domainPath, expires: new Date(Date.now() + 60*24*7*60000)})
+          token = auth.signToken(user._id, user.role)
+          res.cookie('token', JSON.stringify(token), {expires: new Date(Date.now() + config.tokenExpireTime*60000)})
           locals.initUser = JSON.stringify  _id: user._id, role: user.role
 
         res.send(_u.render indexFile, locals)

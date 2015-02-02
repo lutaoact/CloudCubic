@@ -1,4 +1,5 @@
 'use strict';
+var randomstring = require('randomstring');
 
 module.exports = function (grunt) {
 
@@ -21,7 +22,7 @@ module.exports = function (grunt) {
     qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
     qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
     qiniu_cdn_bucket: 'cloud3cdn',
-    randomCdnPath: '8asdf6/'
+    randomCdnPath: randomstring.generate(6)+'/'
   };
 
   // Time how long tasks take. Can help when optimizing build times

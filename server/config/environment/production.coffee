@@ -109,3 +109,5 @@ module.exports =
     sk: "XTxRVe6SvXnx0N3CdOSu5j1swXcEoHi2"   # Secret Key
 
   videoViewTimeLimit: 50
+
+  tokenExpireTime: 60*24*7 # in minute

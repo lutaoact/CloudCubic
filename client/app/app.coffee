@@ -2,7 +2,6 @@
 
 ((console)->
   if /localhost/.test window.location.hostname
-    console.remote = console.log
     return
   methods = ['log', 'error', 'remote']
   methods.map (method) ->
@@ -13,6 +12,8 @@
       else
         xmlhttp= new ActiveXObject("Microsoft.XMLHTTP")
       xmlhttp.open('POST',"/api/loggers",true)
+      xmlhttp.setRequestHeader('Accept', '*')
+      xmlhttp.setRequestHeader('Content-Type', 'application/json')
       xmlhttp.send(JSON.stringify(_.values(arguments)))
       oldFn?.apply(console, arguments)
 )(console)
@@ -90,7 +91,7 @@ angular.module 'budweiserApp', [
     else
       data
 
-.factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
+.factory 'urlInterceptor', ($rootScope, $q, $location, configs) ->
   # Add authorization token to headers
   request: (config) ->
     config.url = configs.baseUrl + config.url if /^(|\/)(api|auth)/.test config.url
@@ -134,7 +135,7 @@ angular.module 'budweiserApp', [
     $location.replace()
     true
 
-.factory 'authInterceptor', ($rootScope, ipCookie, $q, $cookieStore, $location, loginRedirector, initUser) ->
+.factory 'authInterceptor', ($rootScope, ipCookie, $q, $location, loginRedirector, initUser) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
@@ -150,7 +151,7 @@ angular.module 'budweiserApp', [
       # todo: should clear initUser?
       # remove any stale tokens
       initUser = undefined
-      $cookieStore.remove 'token'
+      ipCookie.remove 'token'
 
       $q.reject response
     else

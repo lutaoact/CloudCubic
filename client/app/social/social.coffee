@@ -17,7 +17,7 @@ angular.module('budweiserApp')
 
 .controller 'SocialCtrl', (
   $scope
-  $cookieStore
+  ipCookie
   $http
   Auth
   Restangular
@@ -25,8 +25,8 @@ angular.module('budweiserApp')
   notify
 )->
 
-  weiboProfile = $cookieStore.get 'weibo_profile'
-  qqProfile = $cookieStore.get 'qq_profile'
+  weiboProfile = ipCookie 'weibo_profile'
+  qqProfile = ipCookie 'qq_profile'
 
   angular.extend $scope,
     socials: []

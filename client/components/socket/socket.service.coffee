@@ -3,7 +3,7 @@
 angular.module('budweiserApp').service 'socket', (
   $timeout
   $interval
-  $cookieStore
+  ipCookie
   org
 ) ->
 
@@ -20,7 +20,7 @@ angular.module('budweiserApp').service 'socket', (
     doBeat = (type = 'beat') ->
       socket.send JSON.stringify
         type: type
-        token: $cookieStore.get('token') if $cookieStore.get('token')
+        token: ipCookie('token') if ipCookie('token')
         orgId: org._id
 
     socket.onopen =  ->
@@ -51,7 +51,7 @@ angular.module('budweiserApp').service 'socket', (
     handler = {}
 
   send: (data) ->
-    data.token = $cookieStore.get('token') if $cookieStore.get('token')
+    data.token = ipCookie('token') if ipCookie('token')
     socket?.send(data)
 
   close: ->
