@@ -89,6 +89,7 @@ exports.destroy = (req, res, next) ->
   courseId = req.params.id
   Classe.findQ
     courseId : courseId
+    deleteFlag: {$ne : true}
   .then (classes) ->
     if classes?.length > 0
       res.send 403, '不能删除有关联班次的课程'
