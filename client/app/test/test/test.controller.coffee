@@ -8,7 +8,6 @@ angular.module('budweiserApp').controller 'TestCtrl', (
   $filter
   $upload
   Restangular
-  $cookieStore
   $localStorage
 ) ->
 

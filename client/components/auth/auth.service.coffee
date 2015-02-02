@@ -6,11 +6,11 @@ angular.module('budweiserApp').factory 'Auth', (
   $http
   $rootScope
   Restangular
-  $cookieStore
+  ipCookie
 ) ->
 
   currentUser =
-    if $cookieStore.get('token') then User.get() else {}
+    if ipCookie('token') then User.get() else {}
 
   ###
   Authenticate user and save token
@@ -43,7 +43,7 @@ angular.module('budweiserApp').factory 'Auth', (
   @param  {Function}
   ###
   logout: ->
-    $cookieStore.remove 'token'
+    ipCookie.remove 'token'
     currentUser = {}
     Tinycon.reset()
     $rootScope.$emit 'logoutSuccess'
@@ -88,4 +88,4 @@ angular.module('budweiserApp').factory 'Auth', (
   Get auth token
   ###
   getToken: ->
-    $cookieStore.get 'token'
+    ipCookie 'token'
