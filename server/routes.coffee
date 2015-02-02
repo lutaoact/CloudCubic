@@ -135,7 +135,7 @@ module.exports = (app) ->
         logger.info user
 
         if !err?
-          res.cookie('token', JSON.stringify(token), {path: domainPath, expires: new Date(Date.now() + 60*24*7*60000)})
+          res.cookie('token', JSON.stringify(token), {expires: new Date(Date.now() + 60*24*7*60000)})
           locals.initUser = JSON.stringify  _id: user._id, role: user.role
 
         res.send(_u.render indexFile, locals)
