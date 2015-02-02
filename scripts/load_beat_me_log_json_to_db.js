@@ -25,7 +25,7 @@
         orgId: orgId,
         userId: userId,
         date: yesterdayDate,
-        activeTime: stat.beat * Const.BeatTimeSpan + stat.me * Const.MeTimeSpan
+        activeTime: ~~stat.beat * Const.BeatTimeSpan + ~~stat.me * Const.MeTimeSpan
       });
     }
   }
