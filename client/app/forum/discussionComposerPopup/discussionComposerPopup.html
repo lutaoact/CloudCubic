@@ -57,7 +57,8 @@
         editor-id="content"
         on-change="onChange($text, form.content)"
         editor-name="content"
-        content="myTopic.content">
+        content="myTopic.content"
+        on-init="editorInit">
       </bud-editor>
       <small class="text-danger" ng-if="form.content.$error.mongoose && submitted">{{ errors.content }}</small>
     </div>
