@@ -1,10 +1,6 @@
 'use strict'
 
 Topic = _u.getModel 'topic'
-CourseUtils = _u.getUtils 'course'
-DisUtils = _u.getUtils 'dis'
-NoticeUtils = _u.getUtils 'notice'
-SocketUtils = _u.getUtils 'socket'
 Forum = _u.getModel 'forum'
 
 WrapRequest = new (require '../../utils/WrapRequest')(Topic)

@@ -23,7 +23,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       else
         $modalInstance.dismiss('close')
 
-    myTopic: topic or {tags: []}
+    myTopic: topic or {content:'', tags: []}
 
     onChange: (text, content)->
       content.$setValidity 'mongoose', text?

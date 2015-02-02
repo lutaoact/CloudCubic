@@ -38,7 +38,7 @@
               <span class="text-danger">等待激活</span>
               <a class="btn-link"
                  ng-click="sendActiveCode()">
-                <span ng-if="!viewState.sending">重发激活邮件</span>
+                <span ng-if="!viewState.sending" style="cursor: pointer">重发激活邮件</span>
                 <span ng-if="viewState.sending"><i class="fa fa-spinner fa-spin"></i> 发送中</span>
               </a>
             </small>
