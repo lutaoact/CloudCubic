@@ -12,6 +12,8 @@
       else
         xmlhttp= new ActiveXObject("Microsoft.XMLHTTP")
       xmlhttp.open('POST',"/api/loggers",true)
+      xmlhttp.setRequestHeader('Accept', '*')
+      xmlhttp.setRequestHeader('Content-Type', 'application/json')
       xmlhttp.send(JSON.stringify(_.values(arguments)))
       oldFn?.apply(console, arguments)
 )(console)
