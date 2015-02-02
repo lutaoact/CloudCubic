@@ -179,6 +179,7 @@ angular.module 'budweiserApp', [
 
 .factory 'errorHttpInterceptor', ($q) ->
   responseError: (response) ->
+    return if response.status is 401 # for privacy
     console.remote? 'error', 'onHttpError', response
     $q.reject response
 

@@ -39,7 +39,7 @@ angular.module('budweiserApp')
         backdrop: 'static'
         keyboard: false
         resolve:
-          topic: -> topic
+          topic: -> angular.copy(topic)
       .result.then (newTopic)->
         angular.extend topic, newTopic
 

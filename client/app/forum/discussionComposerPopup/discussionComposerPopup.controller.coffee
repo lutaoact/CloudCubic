@@ -34,7 +34,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       $scope.errors = null
       @myTopic.forumId = $state.params.forumId
       if @myTopic._id
-        @myTopic.put()
+        @myTopic.patch @myTopic
         .then (topic)->
           $scope.imagesToInsert = undefined
           $modalInstance.close topic

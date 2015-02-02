@@ -64,6 +64,7 @@ exports.update = (req, res, next) ->
   updateBody.title     = req.body.title     if req.body.title?
   updateBody.content   = req.body.content   if req.body.content?
   updateBody.lectureId = req.body.lectureId if req.body.lectureId?
+  updateBody.tags = req.body.tags
 
   Topic.findOneQ
     _id : req.params.id
