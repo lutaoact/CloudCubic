@@ -26,7 +26,7 @@ angular.module('budweiserApp').factory 'Auth', (
       if data.targetUrl
         window.location.href = data.targetUrl
         return
-      @setToken(data.token)
+      currentUser = User.get() # reset User cookie is set by server in response header
       deferred.resolve currentUser
       cb()
     ).bind(@)
@@ -36,16 +36,6 @@ angular.module('budweiserApp').factory 'Auth', (
       cb err
     ).bind(@)
     deferred.promise
-
-  ###
-  Save token and reset User
-
-  @param {String} token
-  ###
-  # TODO: remove this function, use backend-set token
-  setToken: (token) ->
-#    $cookieStore.put 'token', token
-    currentUser = User.get()
 
   ###
   Delete access token and user info
