@@ -29,6 +29,7 @@ angular.module('budweiserApp')
 
     confirm: (form) ->
       unless form.$valid then return
+      $scope.course.thumbnail or= '/assets/images/course-default.jpg'
       Restangular
       .all('courses')
       .post($scope.course)
