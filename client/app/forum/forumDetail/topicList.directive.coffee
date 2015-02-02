@@ -55,6 +55,8 @@ angular.module('budweiserApp')
         windowClass: 'bud-modal'
         backdrop: 'static'
         keyboard: false
+        resolve:
+          topic: -> undefined
       .result.then (topic)->
         $scope.topics.splice 0, 0, topic
 

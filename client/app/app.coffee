@@ -2,7 +2,6 @@
 
 ((console)->
   if /localhost/.test window.location.hostname
-    console.remote = console.log
     return
   methods = ['log', 'error', 'remote']
   methods.map (method) ->

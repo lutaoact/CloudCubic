@@ -29,6 +29,19 @@
           </div>
         </div>
       </div>
+      <span dropdown class="pull-right menu-bar" ng-if="me()._id==topic.postBy._id" is-open="viewState.popupOpen">
+        <a href="" class="btn btn-xs" dropdown-toggle ng-click="stopPropagation($event)">
+          <i class="budon budon-bars"></i>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="" ng-click="editTopic(topic);viewState.popupOpen=false">编辑</a>
+          </li>
+          <li>
+            <a href="" ng-click="deleteTopic(topic);viewState.popupOpen=false">删除</a>
+          </li>
+        </ul>
+      </span>
 
       <div class="article-body">
         <div class="clearfix title-row tags-bar" ng-if="topic.tags.length">

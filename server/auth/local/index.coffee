@@ -3,6 +3,7 @@
 express = require('express')
 passport = require('passport')
 auth = require('../auth.service')
+config = require('../../config/environment')
 
 router = express.Router()
 
@@ -15,7 +16,7 @@ router.post '/', (req, res, next) ->
     token = auth.signToken(user._id, user.role)
     domainPath = if req.url.indexOf('/mobile') is 0 then '/mobile' else '/'
     #TODO: config the cookie & token expiration time
-    res.cookie('token', JSON.stringify(token), {path: domainPath, expires: new Date(Date.now() + 60*24*7*60000)})
+    res.cookie('token', JSON.stringify(token), {path: domainPath, expires: new Date(Date.now() + config.tokenExpireTime*60000)})
     res.json(
       if req.org?
         token: token

@@ -11,7 +11,17 @@ angular.module('budweiserApp')
     topic: '='
     activeReply: '@'
 
-.controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
+.controller 'TopicDetailCtrl',
+(
+  $scope
+  Auth
+  Restangular
+  $timeout
+  $document
+  $state
+  $modal
+  messageModal
+)->
   angular.extend $scope,
 
     me: Auth.getCurrentUser
@@ -20,17 +30,27 @@ angular.module('budweiserApp')
       topic.one('like').post()
       .then (res)->
         topic.likeUsers = res.likeUsers
-# TODO: wtf is this?
-#  $scope.$on 'message.notice', (event, raw)->
-#    switch raw.type
-#      when Const.NoticeType.TopicVoteUp
-#        if raw.data.topic._id is $scope.topic._id
-#          $scope.topic.likeUsers = raw.data.topic.likeUsers
-#      when Const.NoticeType.TopicCommentVoteUp
-#        myReplie = $scope.topic.$comments.filter (item)->
-#          item._id is raw.data.disReply._id
-#        if myReplie?.length
-#          myReplie[0].likeUsers = raw.data.disReply.likeUsers
+
+    editTopic: (topic)->
+      $modal.open
+        templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
+        controller: 'DiscussionComposerPopupCtrl'
+        windowClass: 'bud-modal'
+        backdrop: 'static'
+        keyboard: false
+        resolve:
+          topic: -> topic
+      .result.then (newTopic)->
+        angular.extend topic, newTopic
+
+    deleteTopic: (topic)->
+      messageModal.open
+        title: -> '删除帖子'
+        message: -> "是否要删除您的帖子：\"#{topic.title}\"，删除后将无法恢复！"
+      .result.then ->
+        topic.remove()
+      .then ()->
+        $state.go 'forum.detail', forumId: $state.params.forumId
 
   $scope.$watch 'activeReply', (value)->
     $scope.dataId = value
