@@ -1,6 +1,5 @@
 passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
-WeiboStrategy = require('passport-weibo').Strategy
 
 exports.setup = (User, config) ->
   passport.use new LocalStrategy(
