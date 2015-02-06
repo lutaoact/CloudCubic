@@ -3,7 +3,8 @@
 # Development specific configuration
 # ==================================
 module.exports =
-  host: 'http://localhost:9000'
+  #host: 'http://localhost:9000'
+  host: 'http://cloud3edu.cn'
 
   wechatToken: 'woaixuezhifang'
 

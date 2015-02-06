@@ -113,6 +113,19 @@
             <div class="index">{{$index+1}}</div>
           </a>
         </div>
+        <div class="live-stream-window">
+          <div id="live-stream-window"></div>
+          <div class="live-control-buttons">
+            <button class="btn btn-primary tool-btn"
+                    ng-click="startLiveStream()">
+              开启直播
+            </button>
+            <button class="btn btn-primary tool-btn"
+                    ng-click="stopLiveStream()">
+              关闭直播
+            </button>
+          </div>
+        </div>
       </div>
       <div class="empty" ng-if="!(lecture.files.length > 0)">
         该课程没有讲义

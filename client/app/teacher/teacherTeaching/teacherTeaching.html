@@ -24,6 +24,16 @@
   
   <div class="live-stream" ng-show="showLive">
     <div id="live-stream-window"></div>
+    <div class="live-control-buttons">
+      <button class="btn btn-primary tool-btn"
+              ng-click="startLiveStream()">
+        开启直播
+      </button>
+      <button class="btn btn-primary tool-btn"
+              ng-click="stopLiveStream()">
+        关闭直播
+      </button>
+    </div>
   </div>
   
   <div class="video-group" ng-if="showVideo">
@@ -116,11 +126,12 @@
             ng-click="toggleVideo()">
       <i class="glyphicon glyphicon-film fa-2x"></i>
     </button>
+    <span class="split-v"></span>
     <button class="btn btn-primary tool-btn"
             tooltip="打开直播窗口"
             ng-class="{'active':showVideo}"
             ng-click="toggleLive()">
-      <i class="glyphicon glyphicon-film fa-2x"></i>
+      <i class="glyphicon glyphicon-facetime-video fa-2x"></i>
     </button>
     <span class="split-v"></span>
     <button class="btn btn-primary tool-btn"

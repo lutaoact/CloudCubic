@@ -34,6 +34,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     viewState:
       isVideo: true
       videos: null
+      
       # Should not set to ```false```, once it is set to ```true```,
       # because ```ng-if="false"``` will destroy the controller and view
       discussPanelnitialized: false
@@ -106,11 +107,37 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       else
         @viewState.showNotes = !@viewState.showNotes
 
+    startLiveStream: () ->
+      lssHandle.startPlay()
+      
+    stopLiveStream: () ->
+      lssHandle.stopPlayer()
+      lssHandle.closeConnect()
+      
   $scope.$watch 'viewState', (value)->
     if $scope.viewState.showDiscussion or $scope.viewState.showNotes
       angular.element('body').addClass 'sider-open'
     else
       angular.element('body').removeClass 'sider-open'
+      
+    if !value.isVideo
+      user = Auth.getCurrentUser()
+      console.log 'user', user
+      console.log 'viewState', $scope.viewState.isVideo
+      if user.role is 'student'
+        console.log 'open live stream window...'
+        aodianPlayer(
+          container: 'live-stream-window'
+          rtmpUrl:'rtmp://1093.lssplay.aodianyun.com/cloud3edu/stream'
+          player:
+            name:'lssplayer'
+            width: '360'
+            height: '240'
+            autostart: false
+            bufferlength: '3'
+            stretching: '1'
+            controlbardisplay: 'enable'
+        )
   , true
 
   findNextStamp = (keypoint)->
@@ -179,3 +206,4 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
   if $state.current.name is 'course.lecture.comments'
     $scope.toggleDiscussionPanel()
+    

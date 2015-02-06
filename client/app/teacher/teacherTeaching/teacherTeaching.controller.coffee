@@ -44,11 +44,8 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       $scope.showVideo = !$scope.showVideo
 
     toggleLive: ->
-      $scope.showLive = !$scope.showLiv
-      if $scope.showLive
-        @openLiveStream()
-      else
-        @closeLiveStream()
+      console.log 'toggleLive...'
+      $scope.showLive = !$scope.showLive
       
     pushQuestion: (quizze) ->
       $modal.open
@@ -75,8 +72,8 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
           $scope.moving = false
         , 500
 
-    openLiveStream : () ->
-      console.log 'open live stream...'
+    startLiveStream : () ->
+      console.log 'start live stream...'
       
       $scope.lss.initConnect()
 
@@ -102,7 +99,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       
       $scope.lss.startPublish(publishConf);
     
-    closeLiveStream : () ->
+    stopLiveStream : () ->
       console.log 'close live stream...'
       $scope.lss.closeConnect()
       
