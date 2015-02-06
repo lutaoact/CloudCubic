@@ -21,8 +21,10 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     currentNum: 1
     showAllSlide: false
     showVideo: false
+    showLive : false
     lecture: null
     selectedFile: null
+    lss : null
 
     changeCurrentIndex: (index) ->
       $scope.currentIndex = index
@@ -41,6 +43,13 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       $scope.showAllSlide = false
       $scope.showVideo = !$scope.showVideo
 
+    toggleLive: ->
+      $scope.showLive = !$scope.showLiv
+      if $scope.showLive
+        @openLiveStream()
+      else
+        @closeLiveStream()
+      
     pushQuestion: (quizze) ->
       $modal.open
         templateUrl: 'app/teacher/teacherTeaching/pubQuestion.html'
@@ -66,6 +75,37 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
           $scope.moving = false
         , 500
 
+    openLiveStream : () ->
+      console.log 'open live stream...'
+      
+      $scope.lss.initConnect()
+
+      cam = $scope.lss.getCam()
+      console.log 'cam is: ', cam
+      
+      mic = $scope.lss.getMic()
+      console.log 'mic is: ', mic
+      
+      publishConf =
+        micID:0
+        camID:0
+        audioKBitrate:44
+        audioSamplerate:44100
+        videoFPS:10
+        keyFrameInterval:30
+        videoKBitrate:256
+        videoQuality:80
+        volume:80
+        isUseCam:true
+        isUseMic:true
+        isMute:false
+      
+      $scope.lss.startPublish(publishConf);
+    
+    closeLiveStream : () ->
+      console.log 'close live stream...'
+      $scope.lss.closeConnect()
+      
   $scope.$watch 'currentIndex', ->
     $scope.currentNum = $scope.currentIndex + 1
 
@@ -90,4 +130,15 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'
     ]
+
+  $scope.lss = new aodianLss(
+    container: 'live-stream-window'
+    #url : "rtmp://1093.lsspublish.aodianyun.com/#{$scope.classe._id}/stream"
+    url : "rtmp://1093.lsspublish.aodianyun.com/cloud3edu/stream"
+    width: '640'
+    height: '480'
+    #autoconnect: true
+  )
+
+  
 

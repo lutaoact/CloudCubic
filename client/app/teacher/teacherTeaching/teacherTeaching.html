@@ -21,6 +21,11 @@
       </div>
     </div>
   </div>
+  
+  <div class="live-stream" ng-show="showLive">
+    <div id="live-stream-window"></div>
+  </div>
+  
   <div class="video-group" ng-if="showVideo">
     <videogular class="video-content" ng-mousemove="onMouseMove()">
       <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">
@@ -109,6 +114,12 @@
             tooltip="切换到视频视图"
             ng-class="{'active':showVideo}"
             ng-click="toggleVideo()">
+      <i class="glyphicon glyphicon-film fa-2x"></i>
+    </button>
+    <button class="btn btn-primary tool-btn"
+            tooltip="打开直播窗口"
+            ng-class="{'active':showVideo}"
+            ng-click="toggleLive()">
       <i class="glyphicon glyphicon-film fa-2x"></i>
     </button>
     <span class="split-v"></span>
