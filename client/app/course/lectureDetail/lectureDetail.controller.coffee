@@ -80,7 +80,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         if timestamp
           playerAPI.seekTime timestamp
         $scope.onVideoError = (err)->
-          console.remote? 'error', 'onVideoError', err
+          console.remote 'error', 'onVideoError', err
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized
