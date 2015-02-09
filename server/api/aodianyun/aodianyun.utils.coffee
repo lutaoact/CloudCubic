@@ -1,4 +1,5 @@
 BaseUtils = require('../../common/BaseUtils')
+crypto = require 'crypto'
 
 APPID     = '838914989936'
 APPSECRET = '3sy9I2jw3qmjqAudaQM1HrSBhbL3mCez'
@@ -11,64 +12,62 @@ closeAppUrl   = 'http://openapi.aodianyun.com/v2/LSS.CloseApp'
 restartAppUrl = 'http://openapi.aodianyun.com/v2/LSS.RestartApp'
 
 class AodianyunUtils extends BaseUtils
-  openThenStart: (classeId) ->
+  openThenStart: (appid, appname) ->
     @getAppQ()
     .then (appids) =>
-      if _u.contains appids, classeId
-        @restartAppQ classeId
-      else
-        @openAppQ classeId
+      unless _u.contains appids, appid
+        @openAppQ appid, appname
 
   getApp: (cb) ->
     parameter = JSON.stringify({access_id: APPID, access_key: APPSECRET})
     #json: true这个参数会将相应的body自动解析
     request.post getAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb null, _.pluck body.List, 'appid'
 
   getAppQ: () ->
     return Q.nfapply (Q.nbind @getApp, @), arguments
 
-  openApp: (classeId, cb) ->
+  openApp: (appid, appname, cb) ->
     parameter = JSON.stringify(
       access_id: APPID
       access_key: APPSECRET
-      appid: classeId
-      appname: classeId
+      appid: appid
+      appname: appname
     )
     #json: true这个参数会将相应的body自动解析
     request.post openAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb()
 
   openAppQ: () ->
     return Q.nfapply (Q.nbind @openApp, @), arguments
 
-  closeApp: (classeId, cb) ->
+  closeApp: (appid, cb) ->
     parameter = JSON.stringify(
       access_id: APPID
       access_key: APPSECRET
-      appid: classeId
+      appid: appid
     )
     #json: true这个参数会将相应的body自动解析
     request.post closeAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb()
 
   closeAppQ: () ->
     return Q.nfapply (Q.nbind @closeApp, @), arguments
 
-  restartApp: (classeId, cb) ->
+  restartApp: (appid, cb) ->
     parameter = JSON.stringify(
       access_id: APPID
       access_key: APPSECRET
-      appid: classeId
+      appid: appid
     )
     #json: true这个参数会将相应的body自动解析
     request.post restartAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
@@ -79,6 +78,12 @@ class AodianyunUtils extends BaseUtils
 
   restartAppQ: () ->
     return Q.nfapply (Q.nbind @restartApp, @), arguments
+
+
+  # deprecated
+  generateAppid: (data) ->
+    result = crypto.createHash('sha1').update(data).digest('hex')
+    return result.substr(0, 20)
 
 exports.Class = AodianyunUtils
 exports.Instance = new AodianyunUtils()
