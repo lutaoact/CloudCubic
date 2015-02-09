@@ -128,7 +128,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         console.log 'open live stream window...'
         aodianPlayer(
           container: 'live-stream-window'
-          rtmpUrl:'rtmp://1093.lssplay.aodianyun.com/cloud3edu/stream'
+          rtmpUrl:"rtmp://1093.lssplay.aodianyun.com/#{$rootScope.org._id}/#{$state.params.classeId}"
           player:
             name:'lssplayer'
             width: '360'
