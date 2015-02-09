@@ -123,7 +123,7 @@ angular.module('budweiserApp')
       $state.go 'course.detail.desc'
     if toState.name is "course.lecture"
       lecture = _.find $scope.course.lectureAssembly, {'_id': toParams.lectureId}
-      permission = Permission.checkViewLecture(Auth.getCurrentUser(), lecture, $scope.classe, $scope.coruse)
+      permission = Permission.checkViewLecture(Auth.getCurrentUser(), lecture, $scope.classe, $scope.course)
       if permission isnt 'allow'
         event.preventDefault()
         switch permission

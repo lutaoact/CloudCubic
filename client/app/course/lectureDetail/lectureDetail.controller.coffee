@@ -30,7 +30,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     getCurrentUser: Auth.getCurrentUser
     lecture: null
     selectedFile: null
-
     viewState:
       isVideo: true
       videos: null
@@ -105,6 +104,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         , 1000
       else
         @viewState.showNotes = !@viewState.showNotes
+
+    canTeach: ->
+      me = $scope.me
+      isAdmin   = me?.role is 'admin'
+      isOwner   = _.find($scope.course?.owners, _id:me?._id)
+      isTeacher = _.find($scope.classe?.teachers, _id: me?._id)
+      return isAdmin or isOwner or isTeacher
 
   $scope.$watch 'viewState', (value)->
     if $scope.viewState.showDiscussion or $scope.viewState.showNotes
