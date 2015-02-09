@@ -23,8 +23,8 @@ class AodianyunUtils extends BaseUtils
     parameter = JSON.stringify({access_id: APPID, access_key: APPSECRET})
     #json: true这个参数会将相应的body自动解析
     request.post getAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb null, _.pluck body.List, 'appid'
 
@@ -40,8 +40,8 @@ class AodianyunUtils extends BaseUtils
     )
     #json: true这个参数会将相应的body自动解析
     request.post openAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb()
 
@@ -56,8 +56,8 @@ class AodianyunUtils extends BaseUtils
     )
     #json: true这个参数会将相应的body自动解析
     request.post closeAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
-      if err then return cb err
-      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+      if err then return cb {errMsg: err}
+      unless body.Flag is 100 then return cb {errMsg: body.FlagString} #body.Flag不为100，则表示出错
 
       cb()
 
