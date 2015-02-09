@@ -132,8 +132,8 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     container: 'live-stream-window'
     #url : "rtmp://1093.lsspublish.aodianyun.com/#{$scope.classe._id}/stream"
     url : "rtmp://1093.lsspublish.aodianyun.com/cloud3edu/stream"
-    width: '640'
-    height: '480'
+    width: '320'
+    height: '240'
     #autoconnect: true
   )
 

@@ -46,17 +46,25 @@
       }
     }
     .live-stream {
-      width: 640px !important;
-      height: 480px !important;
+      width: 320px !important;
+      height: 240px !important;
       overflow: auto;
       position: absolute;
       right: 50px;
       bottom: 50px;
       z-index: 100;
-      .live-control-buttons {
+      .live-control-button-panel {
+        width : 100% !important;
+        height: 100% !important;
+        cursor : 'move';
         bottom: 0px;
-        right : 0px;
+        right: 0px;
         position: absolute;
+        .live-control-buttons {
+          bottom: 0px;
+          right: 0px;
+          position: absolute;
+        }
       }
     }
     .video-group {
