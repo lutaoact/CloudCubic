@@ -12,13 +12,11 @@ closeAppUrl   = 'http://openapi.aodianyun.com/v2/LSS.CloseApp'
 restartAppUrl = 'http://openapi.aodianyun.com/v2/LSS.RestartApp'
 
 class AodianyunUtils extends BaseUtils
-  openThenStart: (appid) ->
+  openThenStart: (appid, appname) ->
     @getAppQ()
     .then (appids) =>
-      if _u.contains appids, appid
-        @restartAppQ appid
-      else
-        @openAppQ appid
+      unless _u.contains appids, appid
+        @openAppQ appid, appname
 
   getApp: (cb) ->
     parameter = JSON.stringify({access_id: APPID, access_key: APPSECRET})
@@ -32,12 +30,12 @@ class AodianyunUtils extends BaseUtils
   getAppQ: () ->
     return Q.nfapply (Q.nbind @getApp, @), arguments
 
-  openApp: (appid, cb) ->
+  openApp: (appid, appname, cb) ->
     parameter = JSON.stringify(
       access_id: APPID
       access_key: APPSECRET
       appid: appid
-      appname: appid
+      appname: appname
     )
     #json: true这个参数会将相应的body自动解析
     request.post openAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
@@ -82,8 +80,9 @@ class AodianyunUtils extends BaseUtils
     return Q.nfapply (Q.nbind @restartApp, @), arguments
 
 
-  generateAppid: (classeId) ->
-    result = crypto.createHash('sha1').update(classeId).digest('hex')
+  # deprecated
+  generateAppid: (data) ->
+    result = crypto.createHash('sha1').update(data).digest('hex')
     return result.substr(0, 20)
 
 exports.Class = AodianyunUtils

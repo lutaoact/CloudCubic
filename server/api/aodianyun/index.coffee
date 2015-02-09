@@ -8,18 +8,20 @@ request = require 'request'
 AodianyunUtils = _u.getUtils 'aodianyun'
 
 router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
-  classeId = req.body.classeId
-  AodianyunUtils.openThenStart classeId
+  appid   = req.org._id
+  appname = req.org.name
+  # appname 长度在20字符以内
+  AodianyunUtils.openThenStart appid, appname.substr 0, 20
   .then () ->
-    res.send result: 'ok'
+    res.send appid: appid
   .catch next
   .done()
 
 router.post "/close", auth.isAuthenticated(), (req, res, next) ->
-  classeId = req.body.classeId
-  AodianyunUtils.closeAppQ classeId
+  appid   = req.org._id
+  AodianyunUtils.closeAppQ appid
   .then () ->
-    res.send result: 'ok'
+    res.send appid: appid
   .catch next
   .done()
 

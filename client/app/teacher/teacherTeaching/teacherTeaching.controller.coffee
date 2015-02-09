@@ -128,14 +128,16 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       type: 'video/mp4'
     ]
 
-  $scope.lss = new aodianLss(
-    container: 'live-stream-window'
-    #url : "rtmp://1093.lsspublish.aodianyun.com/#{$scope.classe._id}/stream"
-    url : "rtmp://1093.lsspublish.aodianyun.com/cloud3edu/stream"
-    width: '640'
-    height: '480'
-    #autoconnect: true
-  )
-
-  
-
+  Restangular.all('aodianyuns').customPOST {}, 'openThenStart'
+  .then (result) ->
+    url = "rtmp://1093.lsspublish.aodianyun.com/#{result.appid}/#{$state.params.classeId}"
+    console.log url
+    $scope.lss = new aodianLss(
+      container: 'live-stream-window'
+      url : url
+      width: '640'
+      height: '480'
+      #autoconnect: true
+    )
+  .catch (err) ->
+    console.log err
