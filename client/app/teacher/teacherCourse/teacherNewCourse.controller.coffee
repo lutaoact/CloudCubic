@@ -21,6 +21,18 @@ angular.module('budweiserApp')
     course:
       owners: [Auth.getCurrentUser()]
 
+    setCategory: (category, input) ->
+      if category?
+        $scope.course.categoryId = category._id
+        return
+      if input?
+        Restangular
+          .all('categories')
+          .post(name: input)
+          .then (newCategory) ->
+            categories.push newCategory
+            $scope.course.categoryId = newCategory._id
+
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key
 
