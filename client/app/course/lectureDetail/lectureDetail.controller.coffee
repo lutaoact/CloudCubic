@@ -30,7 +30,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     getCurrentUser: Auth.getCurrentUser
     lecture: null
     selectedFile: null
-
     viewState:
       isVideo: true
       videos: null
@@ -81,7 +80,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         if timestamp
           playerAPI.seekTime timestamp
         $scope.onVideoError = (err)->
-          console.remote? 'error', 'onVideoError', err
+          console.remote 'error', 'onVideoError', err
 
     toggleDiscussionPanel: ()->
       if !@viewState.discussPanelnitialized
@@ -114,6 +113,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       lssHandle.stopPlayer()
       lssHandle.closeConnect()
       
+    canTeach: ->
+      me = $scope.me
+      isAdmin   = me?.role is 'admin'
+      isOwner   = _.find($scope.course?.owners, _id:me?._id)
+      isTeacher = _.find($scope.classe?.teachers, _id: me?._id)
+      return isAdmin or isOwner or isTeacher
+
   $scope.$watch 'viewState', (value)->
     if $scope.viewState.showDiscussion or $scope.viewState.showNotes
       angular.element('body').addClass 'sider-open'

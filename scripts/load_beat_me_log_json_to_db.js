@@ -31,7 +31,8 @@
   }
 
   ActiveTime.createQ(datas).then(function(results) {
-    console.log(results);
+    console.log(_.pluck(results, '_id'));
+    console.log("load success: " + yesterday);
     return process.exit(0);
   }, function(err) {
     console.log(err);
