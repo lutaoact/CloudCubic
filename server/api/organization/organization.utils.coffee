@@ -21,13 +21,14 @@ class OrganizationUtils
 
     tmpResult = {}
     timeString = new Date().toISOString()
-    Category.createQ {name: '示例课程' + timeString, orgId: org._id}
+    Category.createQ {name: '其它' + timeString, orgId: org._id}
     .then (category) ->
       tmpResult.category = category
       lectureData =
         name: '示例课时' + timeString
         thumbnail: lectureThumbnail
         desc: '这是示例课时，支持上传视频或者ppt作为课时内容'
+        media: '/api/assets/videos/3/nb:cid:UUID:c6418209-e36d-4671-a5c1-502f89bff710/origin'
         isFreeTry: true
       Lecture.createQ lectureData
     .then (lecture) ->
