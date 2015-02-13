@@ -88,7 +88,7 @@ exports.create = (req, res, next) ->
   data.orgId = req.user.orgId
   WrapRequest.wrapCreateAndUpdate req, res, next, data
 
-pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
+pickedUpdatedKeys = omit: ['_id', 'orgId']
 exports.update = (req, res, next) ->
   conditions = {_id: req.params.id, orgId: req.user.orgId}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys

@@ -30,6 +30,7 @@ exports.createOrg = (req, res, next) ->
   body = req.body
   logger.info "body: ", body
 
+  tmpResult = {}
   OrgUtils.check body.uniqueName
   .then () ->
     organization =
@@ -40,19 +41,24 @@ exports.createOrg = (req, res, next) ->
 
     Organization.createQ organization
   .then (org) ->
-    admin =
+    tmpResult.org = org
+    adminData =
       email   : body.email
       password: body.password
       name    : body.name
       orgId   : org._id
       role    : 'admin'
 
-    User.createQ admin
-  .then (result) ->
+    User.createQ adminData
+  .then (admin) ->
+    tmpResult.admin = admin
     host = req.protocol+'://'+req.headers.host
-    sendActivationMail result.email, result.activationCode, host, req.org?.name
+    sendActivationMail admin.email, admin.activationCode, host, req.org?.name
+  .then () ->
+    OrgUtils.init tmpResult.admin, tmpResult.org
+  .then () ->
     res.send
-      email   : result.email
-      role    : result.role
+      email   : tmpResult.admin.email
+      role    : tmpResult.admin.role
   .catch next
   .done()

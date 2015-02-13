@@ -82,9 +82,6 @@ exports.Classe = BaseModel.subclass
         default: 0
       setTop:
         type: Date
-      deleteFlag:
-        type: Boolean
-        default: false
 
     @schema
     .path 'name'
@@ -111,7 +108,7 @@ exports.Classe = BaseModel.subclass
     $super()
 
   getOneById: (classeId) ->
-    @findOneQ {_id: classeId, deleteFlag: {$ne: true}}
+    @findOneQ {_id: classeId}
     .then (classe) ->
       return classe if classe?
       return Q.reject
