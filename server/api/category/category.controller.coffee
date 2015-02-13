@@ -31,7 +31,7 @@ exports.courses = (req, res, next) ->
     res.send courses
   , next
 
-pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
+pickedUpdatedKeys = omit: ['_id', 'orgId']
 exports.update = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
@@ -42,13 +42,9 @@ exports.destroy = (req, res, next) ->
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
-  Category.updateQ
+  Category.removeQ
     orgId: req.user.orgId
     _id: $in: ids
-  ,
-    deleteFlag: true
-  ,
-    multi: true
   .then () ->
     res.send 204
   , next

@@ -17,9 +17,6 @@ exports.Category = BaseModel.subclass
         type : ObjectId
         required: true
         ref : 'organization'
-      deleteFlag:
-        type: Boolean
-        default: false
 
     @schema
     .path 'name'
@@ -28,7 +25,6 @@ exports.Category = BaseModel.subclass
       this.constructor.findOne
         name : name
         orgId: self.orgId
-        deleteFlag: $ne: true
       , (err, data) ->
         throw err if err
         notTaken = !data or data.id == self.id
