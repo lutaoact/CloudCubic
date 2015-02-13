@@ -1,6 +1,6 @@
 {
   "name": "budweiser",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "server/app.js",
   "dependencies": {
     "apn": "^1.6.2",
