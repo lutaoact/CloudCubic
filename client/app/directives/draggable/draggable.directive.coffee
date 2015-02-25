@@ -3,16 +3,22 @@
 angular.module('budweiserApp')
 
 .directive 'draggable', ($document) ->
-  (scope, element) ->
+  restrict: 'A'
+  link: (scope, element, attrs) ->
     startX = 0
     startY = 0
     x = 0
     y = 0
+
+    toggleClasseName = document.getElementsByClassName(attrs.draggable)
+    toggleElement = angular.element(toggleClasseName) ? element
+
     element.css
       position: 'fixed'
+    toggleElement.css
       cursor: 'move'
 
-    element.on 'mousedown', (event) ->
+    toggleElement.on 'mousedown', (event) ->
       # Prevent default dragging of selected content
       event.preventDefault()
       startX = event.screenX - x
@@ -27,6 +33,6 @@ angular.module('budweiserApp')
         top: y + 'px'
         left: x + 'px'
 
-    mouseup = () ->
+    mouseup = ->
       $document.unbind 'mousemove', mousemove
       $document.unbind 'mouseup', mouseup

@@ -21,23 +21,7 @@
       </div>
     </div>
   </div>
-  
-  <div class="live-stream" draggable="" ng-show="showLive">
-    <div id="live-stream-window"></div>
-    <div class="live-control-button-panel">
-      <div class="live-control-buttons">
-        <button class="btn btn-primary tool-btn"
-                ng-click="startLiveStream()">
-          开启直播
-        </button>
-        <button class="btn btn-primary tool-btn"
-                ng-click="stopLiveStream()">
-          关闭直播
-        </button>
-      </div>
-    </div>
-  </div>
-  
+
   <div class="video-group" ng-if="showVideo">
     <videogular class="video-content" ng-mousemove="onMouseMove()">
       <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">

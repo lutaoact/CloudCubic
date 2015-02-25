@@ -24,7 +24,6 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     showLive : false
     lecture: null
     selectedFile: null
-    lss : null
 
     changeCurrentIndex: (index) ->
       $scope.currentIndex = index
@@ -45,8 +44,16 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
 
     toggleLive: ->
       console.log 'toggleLive...'
-      $scope.showLive = !$scope.showLive
-      
+      $modal.open
+        templateUrl: 'app/livestream/pubLiveStreamModal.html'
+        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowClass: 'live-stream-modal'
+        controller: 'PubLiveStreamCtrl'
+        backdrop: false
+        resolve:
+          streamId: -> $state.params.classeId
+          streamName: -> $scope.classe.name
+
     pushQuestion: (quizze) ->
       $modal.open
         templateUrl: 'app/teacher/teacherTeaching/pubQuestion.html'
@@ -72,37 +79,6 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
           $scope.moving = false
         , 500
 
-    startLiveStream : () ->
-      console.log 'start live stream...'
-      
-      $scope.lss.initConnect()
-
-      cam = $scope.lss.getCam()
-      console.log 'cam is: ', cam
-      
-      mic = $scope.lss.getMic()
-      console.log 'mic is: ', mic
-      
-      publishConf =
-        micID:0
-        camID:0
-        audioKBitrate:44
-        audioSamplerate:44100
-        videoFPS:10
-        keyFrameInterval:30
-        videoKBitrate:256
-        videoQuality:80
-        volume:80
-        isUseCam:true
-        isUseMic:true
-        isMute:false
-      
-      $scope.lss.startPublish(publishConf);
-    
-    stopLiveStream : () ->
-      console.log 'close live stream...'
-      $scope.lss.closeConnect()
-      
   $scope.$watch 'currentIndex', ->
     $scope.currentNum = $scope.currentIndex + 1
 
@@ -127,31 +103,3 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'
     ]
-
-    ###
-  $scope.lss = new aodianLss(
-    container: 'live-stream-window'
-    #url : "rtmp://1093.lsspublish.aodianyun.com/#{$scope.classe._id}/stream"
-    url : "rtmp://1093.lsspublish.aodianyun.com/cloud3edu/stream"
-    width: '320'
-    height: '240'
-    #autoconnect: true
-  )
-
-  
-###
-  
-
-  Restangular.all('aodianyuns').customPOST {}, 'openThenStart'
-  .then (result) ->
-    url = "rtmp://1093.lsspublish.aodianyun.com/#{result.appid}/#{$state.params.classeId}"
-    console.log url
-    $scope.lss = new aodianLss(
-      container: 'live-stream-window'
-      url : url
-      width: '320'
-      height: '240'
-      #autoconnect: true
-    )
-  .catch (err) ->
-    console.log err

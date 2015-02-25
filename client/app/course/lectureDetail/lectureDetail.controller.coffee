@@ -9,18 +9,16 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         fn scope, {$event:event}
 
 .controller 'LectureDetailCtrl' , (
+  $q
   $sce
   Auth
+  $modal
   $scope
   $state
-  notify
   $timeout
   $document
   Restangular
   $localStorage
-  $rootScope
-  $q
-  $http
 ) ->
 
   # track the usages of lecture
@@ -97,7 +95,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     toggleNotesPanel: ()->
       if !@viewState.notesPanelnitialized
         @viewState.notesPanelnitialized = true
-        console.remote 'views', 'lectures-notes', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
+        console.remote 'views', 'lectures-notes',
+          courseId: $state.params.courseId
+          lectureId: $state.params.lectureId
         $scope.noteLoading = true
         $timeout ->
           $scope.noteLoading = false
@@ -106,13 +106,21 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       else
         @viewState.showNotes = !@viewState.showNotes
 
-    startLiveStream: () ->
-      lssHandle.startPlay()
-      
-    stopLiveStream: () ->
-      lssHandle.stopPlayer()
-      lssHandle.closeConnect()
-      
+    toggleLiveStream: ->
+      if $scope.viewState.showLiveStream then return
+      $scope.viewState.showLiveStream = true
+      $modal.open
+        templateUrl: 'app/livestream/playLiveStreamModal.html'
+        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowClass: 'live-stream-modal'
+        controller: 'PlayLiveStreamCtrl'
+        backdrop: false
+        resolve:
+          streamId: -> $state.params.classeId
+          streamName: -> $scope.classe.name
+      .result.then ->
+        $scope.viewState.showLiveStream = false
+
     canTeach: ->
       me = $scope.me
       isAdmin   = me?.role is 'admin'
@@ -125,25 +133,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       angular.element('body').addClass 'sider-open'
     else
       angular.element('body').removeClass 'sider-open'
-      
-    if !value.isVideo
-      user = Auth.getCurrentUser()
-      console.log 'user', user
-      console.log 'viewState', $scope.viewState.isVideo
-      if user.role is 'student'
-        console.log 'open live stream window...'
-        aodianPlayer(
-          container: 'live-stream-window'
-          rtmpUrl:"rtmp://1093.lssplay.aodianyun.com/#{$rootScope.org._id}/#{$state.params.classeId}"
-          player:
-            name:'lssplayer'
-            width: '360'
-            height: '240'
-            autostart: false
-            bufferlength: '3'
-            stretching: '1'
-            controlbardisplay: 'enable'
-        )
   , true
 
   findNextStamp = (keypoint)->

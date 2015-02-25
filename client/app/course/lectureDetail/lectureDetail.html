@@ -113,19 +113,6 @@
             <div class="index">{{$index+1}}</div>
           </a>
         </div>
-        <div class="live-stream-window">
-          <div id="live-stream-window"></div>
-          <div class="live-control-buttons">
-            <button class="btn btn-primary tool-btn"
-                    ng-click="startLiveStream()">
-              开启直播
-            </button>
-            <button class="btn btn-primary tool-btn"
-                    ng-click="stopLiveStream()">
-              关闭直播
-            </button>
-          </div>
-        </div>
       </div>
       <div class="empty" ng-if="!(lecture.files.length > 0)">
         该课程没有讲义
@@ -137,20 +124,26 @@
     <div class="container title-keypoints">
       <div class="lecture-title">
         <h3>{{lecture.name}}
-          <a href
-             ui-sref="course.lecture.comments"
+          <a ui-sref="course.lecture.comments"
              class="comments"
              ng-class="{'active':viewState.showDiscussion}"
              ng-click="toggleDiscussionPanel()"
              ng-disabled="commentsLoading">
-            <i class="" ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
+            <i ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
           </a>
           <a class="comments"
-            ng-class="{'active':viewState.showNotes}"
-            ng-disabled="noteLoading"
-            login-window
-            login-success="toggleNotesPanel()">
-            <i class="fa fa-pencil-square-o" ng-class="{'fa-spinner fa-spin':noteLoading, 'fa-pencil-square-o':!noteLoading}"></i>
+             ng-class="{'active':viewState.showNotes}"
+             ng-disabled="noteLoading"
+             login-window
+             login-success="toggleNotesPanel()">
+            <i class="fa fa-pencil-square-o"
+               ng-class="{'fa-spinner fa-spin':noteLoading, 'fa-pencil-square-o':!noteLoading}"></i>
+          </a>
+          <a class="comments"
+             ng-class="{'active':viewState.showLiveStream}"
+             login-window
+             login-success="toggleLiveStream()" >
+            <i class="fa fa-video-camera"></i>
           </a>
         </h3>
         <div class="text-muted">{{lecture.info}}</div>
