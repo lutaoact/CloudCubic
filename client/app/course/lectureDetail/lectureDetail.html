@@ -125,6 +125,7 @@
       <div class="lecture-title">
         <h3>{{lecture.name}}
           <a ui-sref="course.lecture.comments"
+             tooltip="打开评论面板"
              class="comments"
              ng-class="{'active':viewState.showDiscussion}"
              ng-click="toggleDiscussionPanel()"
@@ -134,6 +135,7 @@
           <a class="comments"
              ng-class="{'active':viewState.showNotes}"
              ng-disabled="noteLoading"
+             tooltip="打开笔记面板"
              login-window
              login-success="toggleNotesPanel()">
             <i class="fa fa-pencil-square-o"
@@ -141,6 +143,7 @@
           </a>
           <a class="comments"
              ng-class="{'active':viewState.showLiveStream}"
+             tooltip="打开直播窗口"
              login-window
              login-success="toggleLiveStream()" >
             <i class="fa fa-video-camera"></i>

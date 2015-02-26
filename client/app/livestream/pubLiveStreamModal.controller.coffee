@@ -23,7 +23,6 @@ angular.module('budweiserApp')
           height: scope.height
           autoconnect: true
         pubStreamAPI = new aodianLss(conf)
-        #console.log 'api', pubStreamAPI, conf
         scope.onReady?($liveStreamAPI: pubStreamAPI)
       .catch (err) ->
         console.log err
@@ -49,8 +48,6 @@ angular.module('budweiserApp')
       #$scope.size = size
 
     startPub: ->
-      console.log 'start live stream...'
-
       publishConf =
         micID: 0
         camID: 0
