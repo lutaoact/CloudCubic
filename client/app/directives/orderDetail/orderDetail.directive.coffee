@@ -49,5 +49,5 @@ angular.module('budweiserApp').directive 'orderDetail', ->
           $scope.payUrl = "https://mapi.alipay.com/gateway.do?" + $.param(data.plain())
         .catch (err)->
           err.orderId = $scope.order._id
-          console.remote? 'error', 'onPayError', orderId: $scope.order._id, err
+          console.remote 'error', 'onPayError', orderId: $scope.order._id, err
           $scope.order.status = 'invalid'

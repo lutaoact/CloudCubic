@@ -2,6 +2,7 @@
 
 ((console)->
   if /localhost/.test window.location.hostname
+    console.remote = console.log
     return
   methods = ['log', 'error', 'remote']
   methods.map (method) ->
@@ -14,7 +15,10 @@
       xmlhttp.open('POST',"/api/loggers",true)
       xmlhttp.setRequestHeader('Accept', '*')
       xmlhttp.setRequestHeader('Content-Type', 'application/json')
-      xmlhttp.send(JSON.stringify(_.values(arguments)))
+      try
+        xmlhttp.send(JSON.stringify(_.values(arguments)))
+      catch e
+        xmlhttp.send(JSON.stringify(["error","JSON_convert",e?.toString()]))
       oldFn?.apply(console, arguments)
 )(console)
 
@@ -22,7 +26,7 @@
   preErrorHander = window.onerror
   window.onerror = (m, u, l)->
     preErrorHander?(m,u,l)
-    console.remote? 'error', 'onJSError', m, u, l
+    console.remote 'error', 'onJSError', m, u, l
 )(window)
 
 angular.module 'budweiserApp', [
@@ -65,7 +69,7 @@ angular.module 'budweiserApp', [
     (exception, cause)->
       $delegate(exception, cause)
       exception.cause = cause
-      console.remote? 'error','onAngularError', exception
+      console.remote 'error','onAngularError', exception
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
@@ -180,7 +184,7 @@ angular.module 'budweiserApp', [
 .factory 'errorHttpInterceptor', ($q) ->
   responseError: (response) ->
     if response.status isnt 401 # for privacy
-      console.remote? 'error', 'onHttpError', response
+      console.remote 'error', 'onHttpError', response
     $q.reject response
 
 .service 'socketHandler', (

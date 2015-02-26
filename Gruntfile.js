@@ -1,6 +1,6 @@
 'use strict';
 var randomstring = require('randomstring');
-
+var version = require('./package.json').version;
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically, when needed
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
     qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
     qiniu_cdn_bucket: 'cloud3cdn',
-    randomCdnPath: randomstring.generate(6)+'/'
+    randomCdnPath: version.split('.').join('_') + '/'
   };
 
   // Time how long tasks take. Can help when optimizing build times
@@ -401,7 +401,7 @@ options: {
       },
       mobile: {
         options: {
-          ignoreDup: false,
+          ignoreDup: true,
           accessKey: config.qiniu_ak,
           secretKey: config.qiniu_sk,
           bucket: config.qiniu_cdn_bucket,
