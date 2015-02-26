@@ -6,12 +6,19 @@
   </h4>
   <a class="close" ng-click="stopPlay()">&times;</a>
 </div>
-<div class="modal-body text-center">
+<div class="modal-body text-center"
+     on-resize="resize($size)"
+     min-width="500"
+     min-height="380"
+     resizable="modal-resizer">
   <div sub-live-stream
        on-ready="ready($liveStreamAPI)"
        stream-id="streamId"
-       height="240"
-       width="320">
+       height="400"
+       width="300">
+  </div>
+  <div class="modal-resizer">
+    <i class="fa fa-arrows-alt"></i>
   </div>
 </div>
 <div class="modal-footer">

@@ -9,6 +9,8 @@ angular.module('budweiserApp')
   scope:
     onReady: '&'
     streamId: '='
+    width: '@'
+    height: '@'
   link: (scope, elem, attrs) ->
     Restangular
       .all('aodianyuns')
@@ -17,11 +19,11 @@ angular.module('budweiserApp')
         conf =
           container: 'live-stream-window'
           url: "rtmp://1093.lsspublish.aodianyun.com/#{org._id}/#{scope.streamId}"
-          width: attrs.width
-          height: attrs.height
-          autoconnect: false
+          width: scope.width
+          height: scope.height
+          autoconnect: true
         pubStreamAPI = new aodianLss(conf)
-        console.log 'api', pubStreamAPI, conf
+        #console.log 'api', pubStreamAPI, conf
         scope.onReady?($liveStreamAPI: pubStreamAPI)
       .catch (err) ->
         console.log err
@@ -43,13 +45,11 @@ angular.module('budweiserApp')
     ready: (api) ->
       $scope.pubStreamAPI = api
 
+    resize: (size) ->
+      #$scope.size = size
+
     startPub: ->
       console.log 'start live stream...'
-      $scope.pubStreamAPI.initConnect()
-      cam = $scope.pubStreamAPI.getCam()
-      mic = $scope.pubStreamAPI.getMic()
-
-      console.log 'cam is: ', cam, 'mic is: ', mic
 
       publishConf =
         micID: 0

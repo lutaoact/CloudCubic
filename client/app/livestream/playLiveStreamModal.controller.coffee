@@ -9,14 +9,16 @@ angular.module('budweiserApp')
   scope:
     onReady: '&'
     streamId: '='
+    width: '@'
+    height: '@'
   link: (scope, elem, attrs) ->
     aodianPlayer(
       container: 'live-stream-window'
       rtmpUrl:"rtmp://1093.lssplay.aodianyun.com/#{org._id}/#{scope.streamId}"
       player:
         name:'lssplayer'
-        width: '360'
-        height: '240'
+        width: scope.width
+        height: scope.height
         autostart: true
         bufferlength: '3'
         stretching: '1'
@@ -45,6 +47,9 @@ angular.module('budweiserApp')
 
     ready: (subStreamAPI) ->
       $scope.subStreamAPI = subStreamAPI
+
+    resize: (size) ->
+      #$scope.size = size
 
     startPlay: ->
       $scope.subStreamAPI.pause()

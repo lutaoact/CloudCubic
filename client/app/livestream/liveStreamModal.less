@@ -5,7 +5,7 @@
     pointer-events: auto;
   }
   .modal-dialog {
-    width: 440px;
+    width: 450px;
   }
   .modal-header {
     margin-left: @bud-modal-padding;
@@ -23,9 +23,22 @@
     padding-right: 0;
     border-top: 1px solid #e5e5e5 !important;
   }
+  .modal-resizer {
+    position: absolute;
+    right: 5px;
+    bottom: -69px;
+  }
   .modal-body {
-    padding: 10px;
-    .live-stream {
+    padding: 0;
+    padding-top: -1px;
+    padding-bottom: -1px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 500px;
+    height: 380px;
+    object {
+      height: 100%;
+      width: 100%;
     }
   }
 }
