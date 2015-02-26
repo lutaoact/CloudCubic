@@ -18,7 +18,7 @@ angular.module('budweiserApp')
     console.log 'resizable', toggleElement, domElement
 
     toggleElement.css
-      cursor: 'move'
+      cursor: 'nwse-resize'
 
     resetStartInfo = (event) ->
       startX = event.pageX
