@@ -1034,10 +1034,13 @@ function aodianLss(conf){
   var _flashVersion = '';//flash版本
   var _videoCodec = "h264";//视频编码
   var _audioCodec = "Nellymoser";//音频编码
+  var _stateWatch = null
   var thisHandle = this;
 
   var player1 = new Video(conf.container,width,height,
     function(type, info){
+      if (typeof _stateWatch == 'function')
+        _stateWatch(info);
       switch(type)
       {
         case RTMP_MEDIA_INFO:
@@ -1113,6 +1116,10 @@ function aodianLss(conf){
       return false;
     }
     return true;
+  }
+
+  this.setStateWatch = function(watch){
+    _stateWatch = watch
   }
 
   //swf准备完毕
