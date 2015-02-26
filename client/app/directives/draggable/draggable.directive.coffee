@@ -10,8 +10,9 @@ angular.module('budweiserApp')
     x = 0
     y = 0
 
-    toggleClasseName = document.getElementsByClassName(attrs.draggable)
-    toggleElement = angular.element(toggleClasseName) ? element
+    domElements = element[0].getElementsByClassName(attrs.draggable)[0]
+    console.log element, domElements
+    toggleElement = angular.element(domElements) ? element
 
     element.css
       position: 'fixed'
@@ -23,6 +24,7 @@ angular.module('budweiserApp')
       event.preventDefault()
       startX = event.screenX - x
       startY = event.screenY - y
+      console.log event
       $document.on 'mousemove', mousemove
       $document.on 'mouseup', mouseup
 

@@ -68,5 +68,5 @@ angular.module('budweiserApp')
       $scope.pubStreamAPI.startPublish(publishConf)
 
     stopPub: ->
-      $modalInstance.dismiss('cancel')
+      $modalInstance.close('cancel')
       $scope.pubStreamAPI.closeConnect()
