@@ -1,8 +1,8 @@
 BaseUtils = require('../../common/BaseUtils')
 crypto = require 'crypto'
 
-APPID     = '838914989936'
-APPSECRET = '3sy9I2jw3qmjqAudaQM1HrSBhbL3mCez'
+APPID     = '737539036116'
+APPSECRET = 'PUye0M27PhZxg6FVo20seI9646G1xGy6'
 
 request = require 'request'
 
