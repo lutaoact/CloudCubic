@@ -9,18 +9,16 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         fn scope, {$event:event}
 
 .controller 'LectureDetailCtrl' , (
+  $q
   $sce
   Auth
+  $modal
   $scope
   $state
-  notify
   $timeout
   $document
   Restangular
   $localStorage
-  $rootScope
-  $q
-  $http
 ) ->
 
   # track the usages of lecture
@@ -33,6 +31,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     viewState:
       isVideo: true
       videos: null
+      
       # Should not set to ```false```, once it is set to ```true```,
       # because ```ng-if="false"``` will destroy the controller and view
       discussPanelnitialized: false
@@ -96,7 +95,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     toggleNotesPanel: ()->
       if !@viewState.notesPanelnitialized
         @viewState.notesPanelnitialized = true
-        console.remote 'views', 'lectures-notes', {courseId:$state.params.courseId,lectureId:$state.params.lectureId}
+        console.remote 'views', 'lectures-notes',
+          courseId: $state.params.courseId
+          lectureId: $state.params.lectureId
         $scope.noteLoading = true
         $timeout ->
           $scope.noteLoading = false
@@ -104,6 +105,21 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         , 1000
       else
         @viewState.showNotes = !@viewState.showNotes
+
+    toggleLiveStream: ->
+      if $scope.viewState.showLiveStream then return
+      $scope.viewState.showLiveStream = true
+      $modal.open
+        templateUrl: 'app/livestream/playLiveStreamModal.html'
+        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowClass: 'live-stream-modal'
+        controller: 'PlayLiveStreamCtrl'
+        backdrop: false
+        resolve:
+          streamId: -> $state.params.classeId
+          streamName: -> $scope.classe.name
+      .result.then ->
+        $scope.viewState.showLiveStream = false
 
     canTeach: ->
       me = $scope.me
@@ -185,3 +201,4 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
   if $state.current.name is 'course.lecture.comments'
     $scope.toggleDiscussionPanel()
+    

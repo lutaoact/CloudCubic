@@ -21,6 +21,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     currentNum: 1
     showAllSlide: false
     showVideo: false
+    showLive : false
     lecture: null
     selectedFile: null
 
@@ -40,6 +41,21 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     toggleVideo: ->
       $scope.showAllSlide = false
       $scope.showVideo = !$scope.showVideo
+
+    toggleLive: ->
+      if $scope.showLiveStream then return
+      $scope.showLiveStream = true
+      $modal.open
+        templateUrl: 'app/livestream/pubLiveStreamModal.html'
+        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowClass: 'live-stream-modal'
+        controller: 'PubLiveStreamCtrl'
+        backdrop: false
+        resolve:
+          streamId: -> $state.params.classeId
+          streamName: -> $scope.classe.name
+      .result.then ->
+        $scope.showLiveStream = false
 
     pushQuestion: (quizze) ->
       $modal.open
@@ -90,4 +106,3 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'
     ]
-

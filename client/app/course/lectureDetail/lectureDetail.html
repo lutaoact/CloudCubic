@@ -124,20 +124,29 @@
     <div class="container title-keypoints">
       <div class="lecture-title">
         <h3>{{lecture.name}}
-          <a href
-             ui-sref="course.lecture.comments"
+          <a ui-sref="course.lecture.comments"
+             tooltip="打开评论面板"
              class="comments"
              ng-class="{'active':viewState.showDiscussion}"
              ng-click="toggleDiscussionPanel()"
              ng-disabled="commentsLoading">
-            <i class="" ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
+            <i ng-class="{'fa fa-spinner fa-spin':commentsLoading,'budon budon-comments':!commentsLoading}"></i>
           </a>
           <a class="comments"
-            ng-class="{'active':viewState.showNotes}"
-            ng-disabled="noteLoading"
-            login-window
-            login-success="toggleNotesPanel()">
-            <i class="fa fa-pencil-square-o" ng-class="{'fa-spinner fa-spin':noteLoading, 'fa-pencil-square-o':!noteLoading}"></i>
+             ng-class="{'active':viewState.showNotes}"
+             ng-disabled="noteLoading"
+             tooltip="打开笔记面板"
+             login-window
+             login-success="toggleNotesPanel()">
+            <i class="fa fa-pencil-square-o"
+               ng-class="{'fa-spinner fa-spin':noteLoading, 'fa-pencil-square-o':!noteLoading}"></i>
+          </a>
+          <a class="comments"
+             ng-class="{'active':viewState.showLiveStream}"
+             tooltip="打开直播窗口"
+             login-window
+             login-success="toggleLiveStream()" >
+            <i class="fa fa-video-camera"></i>
           </a>
         </h3>
         <div class="text-muted">{{lecture.info}}</div>

@@ -96,6 +96,7 @@ exports.Classe = BaseModel.subclass
       this.constructor.findOne
         name : name
         orgId: self.orgId
+        deleteFlag: {$ne: true}
       , (err, data) ->
         throw err if err
         notTaken = !data or data.id == self.id

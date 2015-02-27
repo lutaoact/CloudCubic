@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="fa fa-video-camera"></i>
+    播放视频直播
+    <small class="text-muted">- {{streamName}}</small>
+  </h4>
+  <a class="close" ng-click="stopPlay()">&times;</a>
+</div>
+<div class="modal-body text-center"
+     on-resize="resize($size)"
+     min-width="500"
+     min-height="380"
+     resizable="modal-resizer">
+  <div sub-live-stream
+       on-ready="ready($liveStreamAPI)"
+       stream-id="streamId"
+       height="400"
+       width="300">
+  </div>
+  <div class="modal-resizer text-muted">
+    <i class="budon budon-resize"></i>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-sm btn-default"
+          ng-click="stopPlay()">
+    关闭
+  </button>
+  <button type="button"
+          class="btn btn-sm btn-primary"
+          ng-click="startPlay()"
+          focus-me>
+    <span ng-if="!subStreamAPI">
+      <i class="fa fa-spin fa-spinner"></i>
+      加载中...
+    </span>
+    <span ng-if="subStreamAPI">播放</span>
+  </button>
+</div>
