@@ -189,14 +189,14 @@ exports.changePassword = (req, res, next) ->
 ###
 exports.me = (req, res, next) ->
   userId = req.user.id
-  User.findOne
-    _id: userId
-    '-salt -hashedPassword'
+  User.findOneAndUpdate {_id: userId}, {lastLoginAt: new Date()}
   .populate 'orgId'
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
     loggerD.write 'me', user.orgId?._id, user._id
+    user.salt = null
+    user.hashedPassword = null
     res.send user
   , next
 

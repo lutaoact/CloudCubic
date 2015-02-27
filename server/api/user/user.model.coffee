@@ -58,6 +58,8 @@ exports.User = BaseModel.subclass
         type: String
       resetPasswordExpires :
         type: Date
+      lastLoginAt:
+        type: Date
 
 # 这里必须删掉索引，否则微信授权登录的时候，因为相应email字段都为空，会导致索引失败
 #    @schema.index {email: 1, orgId: 1}, {unique: true}
