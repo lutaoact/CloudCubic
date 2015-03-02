@@ -21,7 +21,7 @@
          collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-right">
         <li dropdown class="know-us">
-          <a class="dropdown-toggle"> 了解我们 <i class="fa fa-chevron-down"></i></a>
+          <a class="dropdown-toggle" dropdown-toggle> 了解我们 <i class="fa fa-chevron-down"></i></a>
           <div class="dropdown-menu" role="menu">
             <img src="assets/images/wechatQR.jpg" alt="学之方教育科技微信公众号">
           </div>
@@ -97,7 +97,7 @@
         </li>
         <li ng-if="Auth.isLoggedIn()"
             dropdown>
-          <div class="dropdown-toggle avatar-name">
+          <div class="dropdown-toggle avatar-name" dropdown-toggle>
             <a class="navbar-avatar"
                src-key="Auth.getCurrentUser().avatar"
                suffix="?imageView2/1/w/64/h/64"
@@ -105,7 +105,7 @@
             </a>
             <span class="user-name">{{Auth.getCurrentUser().name}}<span class="caret"></span></span>
           </div>
-          <ul class="dropdown-menu profile-menu dropdown-toggle" role="menu">
+          <ul class="dropdown-menu profile-menu" role="menu">
             <li ng-if="Auth.getCurrentUser().role == 'student'">
               <a ui-sref="orderList"
                  ui-sref-opts="{reload: true}"

@@ -108,7 +108,7 @@
           </p>
         </div>
       </div>
-      
+
       <div class="form-group" >
         <label class="col-xs-4 control-label">微信</label>
         <div class="col-xs-8">
@@ -116,7 +116,7 @@
             <span ng-if="user.weixin.id" class="text-success">{{user.weixin.name}}</span>
             <span ng-if="!user.weixin.id && Auth.getCurrentUser()._id != user._id">未绑定</span>
             <span class="dropdown" ng-if="!user.weixin.id && Auth.getCurrentUser()._id == user._id">
-              <a href class="dropdown-toggle">
+              <a href class="dropdown-toggle" dropdown-toggle>
                 点击绑定微信登录
               </a>
               <div class="dropdown-menu">

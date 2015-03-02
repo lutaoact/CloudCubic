@@ -28,7 +28,7 @@
   <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
     <div class="pull-left">
       <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
-        <a type="button" class="btn btn-sm dropdown-toggle" style="color: #000;">
+        <a type="button" class="btn btn-sm dropdown-toggle" style="color: #000;" dropdown-toggle>
           {{viewState.filterMethod=='all'?'全部':'只看我的'}}&nbsp;<span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">

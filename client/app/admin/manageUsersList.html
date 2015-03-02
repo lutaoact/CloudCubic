@@ -88,7 +88,7 @@
              ng-if="classes.length > 0"
              is-open="viewState.moveDropDown"
              dropdown >
-          <button class="btn btn-danger btn-sm dropdown-toggle"
+          <button class="btn btn-danger btn-sm dropdown-toggle" dropdown-toggle
                   ng-disabled="selectedUsers.length == 0 || viewState.moving">
            <span ng-if="!viewState.moving">
              移动到.. <span class="caret"></span>
@@ -112,7 +112,7 @@
              ng-if="classe._id.length > 0 && classes.length > 0"
              is-open="viewState.copyDropDown"
              dropdown >
-          <button class="btn btn-danger btn-sm dropdown-toggle"
+          <button class="btn btn-danger btn-sm dropdown-toggle" dropdown-toggle
                   ng-disabled="selectedUsers.length == 0 || viewState.copying">
            <span ng-if="!viewState.copying">
              复制到.. <span class="caret"></span>

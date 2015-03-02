@@ -1,15 +1,15 @@
 <div class="bud topic-list clearfix">
-  <div class="clearfix title-row search-bar" 
+  <div class="clearfix title-row search-bar"
        id="forum-header">
-    <div class="pull-left actions-bar" 
+    <div class="pull-left actions-bar"
          style="margin-right: 20px">
       <div class="pull-left">
-        <div class="btn-group" 
-             dropdown 
-             is-open="status.isopen" 
+        <div class="btn-group"
+             dropdown
+             is-open="status.isopen"
              ng-if="me()._id">
-          <a type="button" 
-             class="btn btn-sm dropdown-toggle text-muted">
+          <a type="button"
+             class="btn btn-sm dropdown-toggle text-muted" dropdown-toggle>
             {{pageConf.createdBy==me()._id?'只看我的':'全部'}}
             <span class="caret"></span>
           </a>
@@ -19,21 +19,21 @@
           </ul>
         </div>
       </div>
-      <span class="pull-left text-muted" 
+      <span class="pull-left text-muted"
             style="line-height: 30px;">
         &nbsp;|&nbsp;
       </span>
       <div class="pull-left">
         <ul class="nav nav-group">
           <li ng-class="{'active':pageConf.sort=='heat'}">
-            <a href 
+            <a href
                ng-click="pageConf.sort='heat';reload()">
               最热&nbsp;
               <i class="fa fa-heart"></i>
             </a>
           </li>
           <li ng-class="{'active':pageConf.sort=='created'}">
-            <a href 
+            <a href
                ng-click="pageConf.sort='created';reload()">
               最新&nbsp;
               <i class="fa fa-clock-o"></i>
@@ -48,8 +48,8 @@
                     placeholder="话题搜索">
       </search-input>
     </div>
-    <button class="bud btn btn-sm btn-danger pull-right" 
-            login-window 
+    <button class="bud btn btn-sm btn-danger pull-right"
+            login-window
             login-success="createTopic()">
       <i class="fa fa-plus"></i>&nbsp;新讨论
     </button>
@@ -58,9 +58,9 @@
   <div class="clearfix title-row tags-bar" ng-if="queryTags.length">
     <div class="title-row-header">标签<hr></div>
     <div class="view-section all-tags clearfix">
-      <a href class="tag pull-left" 
-         ng-class="{'active':tag.$active}" 
-         ng-repeat="tag in queryTags|orderBy:'-freq'" 
+      <a href class="tag pull-left"
+         ng-class="{'active':tag.$active}"
+         ng-repeat="tag in queryTags|orderBy:'-freq'"
          ng-click="searchByTag(tag)" title="{{tag.text}}">
         {{tag.text}}&nbsp;<small>({{tag.freq||0}})</small>
       </a>
