@@ -1206,7 +1206,7 @@ function aodianLss(conf){
     }
     var mode = /^\d+$/;
     var micID = mode.test(conf.micID)&&typeof(_micIndexArray[conf.micID])!='undefined'?conf.micID:'';
-    var camID = mode.test(conf.camID)&&typeof(_micIndexArray[conf.camID])!='undefined'?conf.camID:'';
+    var camID = mode.test(conf.camID)&&typeof(_camIndexArray[conf.camID])!='undefined'?conf.camID:'';
     var audioKBitrate = mode.test(conf.audioKBitrate)&&conf.audioKBitrate>=16&&conf.audioKBitrate<=48?conf.audioKBitrate:44;
     var audioSamplerate = mode.test(conf.audioSamplerate)&&conf.audioSamplerate>=16000&&conf.audioSamplerate<=48000?conf.audioSamplerate:44100;
     var videoFPS = mode.test(conf.videoFPS)&&conf.videoFPS>=1&&conf.videoFPS<=25?conf.videoFPS:10;

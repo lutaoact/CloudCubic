@@ -22,6 +22,20 @@
   </div>
 </div>
 <div class="modal-footer">
+  <span class="mic-cam">
+    <span>麦克风：
+      <select ng-options="mic as mic.name for mic in micArray"
+              ng-model="selectedMic">
+        <option value="">-- 请选择麦克风 --</option>
+      </select>
+    </span>
+    <span>摄像头：
+      <select ng-options="cam as cam.name for cam in camArray"
+              ng-model="selectedCam">
+        <option value="">-- 请选择摄像头 --</option>
+      </select>
+    </span>
+  </span>
   <button class="btn btn-sm btn-default"
           ng-click="stopPub()">
     关闭

@@ -1,9 +1,12 @@
 BaseUtils = require('../../common/BaseUtils')
 crypto = require 'crypto'
 
+# PRODUCTION APPID
 APPID     = '737539036116'
 APPSECRET = 'PUye0M27PhZxg6FVo20seI9646G1xGy6'
-
+# Test APPID
+#APPID     = '838914989936'
+#APPSECRET = '3sy9I2jw3qmjqAudaQM1HrSBhbL3mCez'
 request = require 'request'
 
 getAppUrl     = 'http://openapi.aodianyun.com/v2/LSS.GetApp'

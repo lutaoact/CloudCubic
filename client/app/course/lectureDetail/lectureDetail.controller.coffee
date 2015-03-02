@@ -31,7 +31,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     viewState:
       isVideo: true
       videos: null
-      
+
       # Should not set to ```false```, once it is set to ```true```,
       # because ```ng-if="false"``` will destroy the controller and view
       discussPanelnitialized: false
