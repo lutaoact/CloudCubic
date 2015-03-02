@@ -7,8 +7,8 @@ exports.index = (req, res, next) ->
 
   condition =
     userId: req.query.userId or user._id
-    courseId: req.query.courseId if req.query.courseId
-    classeId: req.query.classeId if req.query.classeId
+  condition.courseId = req.query.courseId if req.query.courseId
+  condition.classeId = req.query.classeId if req.query.classeId
 
   Progress.findOneQ condition
   .then (progressObject) ->
