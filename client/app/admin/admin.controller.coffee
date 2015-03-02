@@ -14,6 +14,10 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       className: 'budon budon-teacher'
       label: '教师管理'
     ,
+      stateName:'admin.studentManager'
+      className: 'budon budon-user'
+      label: '学生管理'
+    ,
       stateName:'admin.categoryManager'
       className: 'budon budon-category'
       label: '专业管理'

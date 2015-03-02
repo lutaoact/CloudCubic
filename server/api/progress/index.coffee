@@ -5,6 +5,6 @@ controller = require("./progress.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 
-router.get "/", auth.isAuthenticated(), controller.show #courseId=xxxxx&[classeId=yyyy]
+router.get "/", auth.isAuthenticated(), controller.index #courseId=xxxxx&[classeId=yyyy]
 
 module.exports = router

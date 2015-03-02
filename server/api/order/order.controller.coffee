@@ -40,6 +40,7 @@ alipay
 exports.index = (req, res, next)->
   if req.user.role == 'admin'
     conditions = orgId: req.org._id
+    conditions.userId = req.query.userId if req.query.userId
   else
     conditions = userId: req.user._id
   conditions.status = req.query.status if req.query.status

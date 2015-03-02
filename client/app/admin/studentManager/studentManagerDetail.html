@@ -1,0 +1,98 @@
+<div class="student-manager-detail row">
+  <a ui-sref="admin.studentManager"><strong>返回学生列表</strong></a>
+  <div class="panel panel-default clearfix" style="margin-top: 20px;">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-3 border-left padding-vertical">
+          <div class="avatar-lg"
+               src-key="student.avatar"
+               suffix="?imageView2/1/w/64/h/64"
+               source-attr="background-image">
+          </div>
+        </div>
+        <div class="col-sm-9 border-left">
+          <div class="row">
+            <div class="col-xs-5 border-left padding-vertical">
+              <small class="text-muted">姓名</small>
+              <div>{{student.name}}</div>
+            </div>
+            <div class="col-xs-7 border-left padding-vertical">
+              <small class="text-muted">上次登陆时间</small>
+              <div>{{student.lastLoginAt|date}}&nbsp;</div>
+            </div>
+          </div>
+          <div class="row border-top padding-vertical">
+            <div class="col-md-12">
+              <small class="text-muted">邮箱</small>
+              <div>{{student.email}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row border-top">
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+          <h3 class="text-primary">
+            {{classes.length|number}}
+          </h3>
+          <small class="text-muted">购买课程（个）</small>
+        </div>
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+          <h3 class="text-primary">
+            {{(classes|filter:{$finished:true}).length|number}}
+          </h3>
+          <small class="text-muted">学习中（个）</small>
+        </div>
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+          <h3 class="text-primary">
+           {{(classes|filter:{$finished:false}).length|number}}
+          </h3>
+          <small class="text-muted">已学完（个）</small>
+        </div>
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+          <h3 class="text-primary">
+            {{totalPay||0|number}}
+          </h3>
+          <small class="text-muted">总消费（元）</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 border-left padding-vertical" style="height: 206px;">
+      <small class="text-muted">登录时长</small>
+    </div>
+  </div>
+
+  <div class="panel panel-default clearfix">
+    <div class="panel-body padding-vertical">
+      课程进度
+      <ul class="nav nav-group pull-right" ng-init="viewState.classeProgress=''">
+        <li ng-class="{'active':viewState.classeProgress===''}"><a href="" ng-click="viewState.classeProgress=''">全部</li></a>
+        <li ng-class="{'active':viewState.classeProgress===false}"><a href="" ng-click="viewState.classeProgress=false">学习中</li></a>
+        <li ng-class="{'active':viewState.classeProgress===true}"><a href="" ng-click="viewState.classeProgress=true">已学完</li></a>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4" ng-repeat="classe in classes|filter:{$finished:viewState.classeProgress}">
+      <div class="thumbnail">
+        <h5>
+          {{classe.name}}
+        </h5>
+        <div class="text-muted teachers">
+          <span ng-if="!classe.teachers.length">未设置授课教师</span>
+          <span class="classe-teacher"
+                ng-repeat="teacher in classe.teachers">
+            {{teacher.name}}
+          </span>
+        </div>
+        <br>
+        {{classe.$progress.length||0}} / {{classe.courseId.lectureAssembly.length}}
+        <div class="pull-right">
+          {{classe.$progress.length==classe.courseId.lectureAssembly.length?'已完成':'学习中'}}
+        </div>
+        <progressbar max="100" value="classe.$progress.length/classe.courseId.lectureAssembly.length*100"></progressbar>
+      </div>
+    </div>
+  </div>
+
+</div>
