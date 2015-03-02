@@ -8,7 +8,7 @@ request = require 'request'
 AodianyunUtils = _u.getUtils 'aodianyun'
 
 router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
-  appid   = req.org._id
+  appid   = 'orgId_' + req.org._id
   appname = req.org.name
   # appname 长度在20字符以内
   AodianyunUtils.openThenStart appid, appname.substr 0, 20
@@ -18,7 +18,7 @@ router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
   .done()
 
 router.post "/close", auth.isAuthenticated(), (req, res, next) ->
-  appid   = req.org._id
+  appid = 'orgId_' + req.org._id
   AodianyunUtils.closeAppQ appid
   .then () ->
     res.send appid: appid

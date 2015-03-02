@@ -14,7 +14,7 @@ angular.module('budweiserApp')
   link: (scope, elem, attrs) ->
     aodianPlayer(
       container: 'live-stream-window'
-      rtmpUrl:"rtmp://1093.lssplay.aodianyun.com/#{org._id}/#{scope.streamId}"
+      rtmpUrl:"rtmp://1093.lssplay.aodianyun.com/orgId_#{org._id}/classeId_#{scope.streamId}"
       player:
         name:'lssplayer'
         width: scope.width

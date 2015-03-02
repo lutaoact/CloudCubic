@@ -18,7 +18,7 @@ angular.module('budweiserApp')
       .then (result) ->
         conf =
           container: 'live-stream-window'
-          url: "rtmp://1093.lsspublish.aodianyun.com/#{org._id}/#{scope.streamId}"
+          url: "rtmp://1093.lsspublish.aodianyun.com/orgId_#{org._id}/classeId_#{scope.streamId}"
           width: scope.width
           height: scope.height
           autoconnect: true
