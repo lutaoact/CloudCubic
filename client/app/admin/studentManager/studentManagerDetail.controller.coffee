@@ -8,6 +8,7 @@ angular.module('budweiserApp')
   chartUtils
   Restangular
   $q
+  org
 ) ->
 
   resetSelectedClasse = ->
@@ -60,6 +61,7 @@ angular.module('budweiserApp')
         classe.$finished = progress.length is classe.courseId.lectureAssembly.length
         classe.$progress = progress
 
+
   Restangular.all('orders').getList({userId: $state.params.studentId,from: 0, limit: 1000})
   .then (orders)->
     $scope.orders = orders
@@ -68,6 +70,74 @@ angular.module('budweiserApp')
       $scope.totalPay = _.pluck(paidOrders, 'totalFee').reduce (pre, cur, index)->
         pre ?= 0
         pre += cur
+
+
+  format = 'YYYY年MM月'
+  $scope.startMonth = moment(org.created)
+
+  $scope.months = [0..moment().diff($scope.startMonth.clone(), 'months')+1].map (num)->
+    $scope.startMonth.clone().add(num, 'months').format(format)
+  .reverse()
+
+  $scope.getActiveTimes = (month)->
+    selectedMonth = moment(month, format)
+    $scope.viewState.selectedMonth = month
+    $scope.display = selectedMonth
+    Restangular.all('active_times').getList {from: selectedMonth.clone().set('date', 1).format(),to:selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').format(), userId:$state.params.studentId}
+    .then (active_times)->
+      trendChart =
+        options:
+          # hide legend
+          legend:
+            enabled: false
+          chart:
+            type: 'area'
+            zoomType: 'x'
+            height: 200
+          # Hide watermark
+          credits:
+            enabled: false
+
+          plotOptions:
+            series:
+              color: '#E6505F'
+              fillOpacity: 0.1
+              dataLabels:
+                enabled: true
+                format: '{y}'
+          tooltip:
+            useHTML: true
+            headerFormat: ''
+            pointFormat: '{point.name}: {point.y:.1f}小时'
+        series: [
+        ]
+        xAxis:
+          title:
+            text: '日期'
+          tickInterval: 2
+        yAxis:
+          title:
+            text: '时长(小时)'
+          max: 12
+          min: 0
+          tickInterval: 2
+          gridLineDashStyle: 'longdash'
+        title:
+          text: null
+      trendChart.series = [
+        {
+          data: [1..selectedMonth.clone().add(1,'months').set('date', 1).add(-1, 'days').get('date')].map (date, index)->
+            activeTime = (active_times.filter (x) ->
+              (new Date(x.date).getDate()) is date
+            )?[0]?.activeTime || 0
+            name: selectedMonth.get('month')+'月'+date+'日'
+            y: activeTime
+          pointStart: 1
+        }
+      ]
+      $scope.loginActivitiesChart = trendChart
+
+  $scope.getActiveTimes(moment().format(format))
 
   $scope.$watch 'selectedClasse._id', resetSelectedClasse
 

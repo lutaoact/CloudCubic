@@ -29,26 +29,28 @@
           </div>
         </div>
       </div>
-      <div class="row border-top">
-        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+    </div>
+    <div class="col-md-6 border-top">
+      <div class="row">
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical" style="height: 120px;">
           <h3 class="text-primary">
             {{classes.length|number}}
           </h3>
           <small class="text-muted">购买课程（个）</small>
         </div>
-        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical" style="height: 120px;">
           <h3 class="text-primary">
             {{(classes|filter:{$finished:true}).length|number}}
           </h3>
           <small class="text-muted">学习中（个）</small>
         </div>
-        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical" style="height: 120px;">
           <h3 class="text-primary">
            {{(classes|filter:{$finished:false}).length|number}}
           </h3>
           <small class="text-muted">已学完（个）</small>
         </div>
-        <div class="col-sm-3 col-xs-6 border-left padding-vertical">
+        <div class="col-sm-3 col-xs-6 border-left padding-vertical" style="height: 120px;">
           <h3 class="text-primary">
             {{totalPay||0|number}}
           </h3>
@@ -56,8 +58,24 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 border-left padding-vertical" style="height: 206px;">
-      <small class="text-muted">登录时长</small>
+
+    <div class="col-md-12 border-left padding-vertical border-top">
+      <h5>
+        <small class="text-muted">登录时长</small>
+        <small class="month-picker pull-right" dropdown style="position: relative">
+          <div dropdown-toggle class="month-display">
+            {{viewState.selectedMonth}} <i class="text-primary fa fa-chevron-down pull-right"></i>
+          </div>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="month in months" ng-class="{'active':month==viewState.selectedMonth}" ng-click="getActiveTimes(month)">
+              <a href="">
+                {{month}}
+              </a>
+            </li>
+          </ul>
+        </small>
+      </h5>
+      <highchart config="loginActivitiesChart" class="bud-chart"></highchart>
     </div>
   </div>
 
