@@ -131,7 +131,7 @@ angular.module('budweiserApp')
               (new Date(x.date).getDate()) is date
             )?[0]?.activeTime || 0
             name: selectedMonth.get('month')+'月'+date+'日'
-            y: activeTime
+            y: activeTime / 60
           pointStart: 1
         }
       ]
