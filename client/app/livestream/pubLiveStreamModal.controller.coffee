@@ -77,7 +77,6 @@ angular.module('budweiserApp')
           $scope.camArray = transform api.getCam()
           $scope.selectedMic = $scope.micArray[0]
           $scope.selectedCam = $scope.camArray[0]
-          console.log $scope.micArray, $scope.camArray
 
     resize: (size) ->
       #$scope.size = size

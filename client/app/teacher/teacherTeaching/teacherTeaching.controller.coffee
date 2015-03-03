@@ -47,7 +47,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       $scope.showLiveStream = true
       $modal.open
         templateUrl: 'app/livestream/pubLiveStreamModal.html'
-        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowTemplateUrl: 'app/livestream/liveStreamWindow.html'
         windowClass: 'live-stream-modal'
         controller: 'PubLiveStreamCtrl'
         backdrop: false

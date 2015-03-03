@@ -111,7 +111,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       $scope.viewState.showLiveStream = true
       $modal.open
         templateUrl: 'app/livestream/playLiveStreamModal.html'
-        windowTemplateUrl: 'app/livestream/livestreamWindow.html'
+        windowTemplateUrl: 'app/livestream/liveStreamWindow.html'
         windowClass: 'live-stream-modal'
         controller: 'PlayLiveStreamCtrl'
         backdrop: false
