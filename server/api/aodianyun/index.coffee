@@ -9,7 +9,7 @@ AodianyunUtils = _u.getUtils 'aodianyun'
 
 router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
   appid   = 'orgId_' + req.org._id
-  appname = req.org.name
+  appname = req.org.uniqueName
   # appname 长度在20字符以内
   AodianyunUtils.openThenStart appid, appname.substr 0, 20
   .then () ->
