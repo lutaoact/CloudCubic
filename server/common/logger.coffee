@@ -21,8 +21,10 @@ log4js.configure
       tokens    :
         filename: getCallerFile
   ,
-    type        : 'file'
-    filename    : config.logger.path
+    type        : 'dateFile'
+    filename    :  "/data/log/#{config.appName}.log"
+    pattern     : "-yyyy-MM"
+    alwaysIncludePattern: true
     layout      :
       type      : 'pattern'
       pattern   : "%d{ISO8601} %x{filename} %-5p - %c %m"
