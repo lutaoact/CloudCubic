@@ -115,8 +115,8 @@
           <label class="control-label" style="font-weight: normal">
             <span ng-if="user.weixin.id" class="text-success">{{user.weixin.name}}</span>
             <span ng-if="!user.weixin.id && Auth.getCurrentUser()._id != user._id">未绑定</span>
-            <span class="dropdown" ng-if="!user.weixin.id && Auth.getCurrentUser()._id == user._id">
-              <a href class="dropdown-toggle" dropdown-toggle>
+            <span dropdown ng-if="!user.weixin.id && Auth.getCurrentUser()._id == user._id">
+              <a href dropdown-toggle>
                 点击绑定微信登录
               </a>
               <div class="dropdown-menu">
