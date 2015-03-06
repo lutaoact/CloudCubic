@@ -20,7 +20,7 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
 
     confirm: (question) ->
       if $scope.submitted
-        $scope.close()
+        $scope.cancel()
       else
         selectedOptions = _.reduce question.choices, (result, option, index) ->
           result.push(index) if option.$selected
