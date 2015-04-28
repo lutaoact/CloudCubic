@@ -8,7 +8,7 @@
     <div class="pull-right">
       <button type="submit"
               ng-disabled="viewState.saved || viewState.saving"
-              class="btn btn-danger btn-sm rounded" >
+              class="btn btn-danger btn-sm" >
         <span ng-if="!viewState.saving">
           <span ng-if="!viewState.saved">保存</span>
           <span ng-if="viewState.saved">已保存</span>
@@ -21,7 +21,7 @@
       <button type="button"
               ng-diabled="deleting"
               ng-click="removeUser(user)"
-              class="btn btn-default btn-sm rounded">
+              class="btn btn-default btn-sm">
         <span ng-if="!viewState.deleting">
           删除
         </span>
@@ -43,7 +43,7 @@
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image">
         </div>
-        <uploader class="btn btn-danger btn-sm rounded"
+        <uploader class="btn btn-danger btn-sm"
                   limit="{{imageSizeLimitation}}"
                   on-complete="onAvatarUploaded($data)"
                   crop="true"
@@ -63,7 +63,7 @@
             <span class="text-danger">等待激活</span>
             <a class="btn-link"
                ng-click="sendActiveCode()">
-              <span ng-if="!viewState.sending">重发激活邮件</span>
+              <span ng-if="!viewState.sending" style="cursor: pointer">重发激活邮件</span>
               <span ng-if="viewState.sending"><i class="fa fa-spinner fa-spin"></i> 发送中</span>
             </a>
           </small>

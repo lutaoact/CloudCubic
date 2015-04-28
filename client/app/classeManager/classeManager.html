@@ -1,0 +1,56 @@
+<div class="classe-manager-view" class="fadeIn">
+
+  <div class="header-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="title" href ui-sref="{course:'', category:'', keyword:''}">开班管理</a>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{classes.$count}}</span> 个
+          </span>
+          <search-input keyword="search.keyword"
+                        on-submit="setKeyword($keyword)"
+                        placeholder="班级关键字搜索">
+          </search-input>
+          <button class="btn btn-sm btn-danger pull-right"
+                  ng-click="createNewClasse()">
+            <i class="fa fa-plus-circle"></i>
+            开班
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ui-view>
+    <div class="row">
+      <div class="col-md-4 classe-list-item"
+           ng-repeat="classe in classes">
+        <classe-tile classe="classe"
+                     courses="courses"
+                     on-classe-deleted="classDeleteCallback">
+        </classe-tile>
+      </div>
+      <div ng-if="!classes||!classes.length">
+        <div class="col-md-12 text-muted">
+          暂无班级
+        </div>
+      </div>
+    </div>
+
+    <div class="row pagination-row text-center"
+         ng-if="classes.$count"
+         ng-show="classes.$count > pageConf.itemsPerPage">
+      <pagination total-items="classes.$count"
+                  ng-model="pageConf.currentPage"
+                  items-per-page="pageConf.itemsPerPage"
+                  class="pagination-sm bud"
+                  ng-change="reload()"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="pageConf.maxSize">
+      </pagination>
+    </div>
+  </div>
+
+</div>

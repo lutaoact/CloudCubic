@@ -1,0 +1,69 @@
+<div class="bud topic-detail">
+  <div ng-show="topic">
+    <div class="bud article">
+      <div class="article-header media">
+        <div class="avatar-lg pull-left"
+          source-attr="background-image"
+          src-key="topic.postBy.avatar"
+          suffix="?imageView2/1/w/64/h/64">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            {{topic.title}}
+          </h4>
+          <div class="spans">
+            <span>
+              <span class="poster-name">
+                {{topic.postBy.name}}
+              </span>
+              <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+            </span>
+            <span class="status">
+              <i class="fa fa-eye"></i>
+              {{topic.viewers.length||0}}
+              <i class="fa fa-comments"></i>
+              {{topic.commentsNum||0}}
+              <i class="fa fa-heart"></i>
+              {{topic.likeUsers.length||0}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <span dropdown class="pull-right menu-bar" ng-if="me()._id==topic.postBy._id" is-open="viewState.popupOpen">
+        <a href="" class="btn btn-xs" dropdown-toggle ng-click="stopPropagation($event)">
+          <i class="budon budon-bars"></i>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="" ng-click="editTopic(topic);viewState.popupOpen=false">编辑</a>
+          </li>
+          <li>
+            <a href="" ng-click="deleteTopic(topic);viewState.popupOpen=false">删除</a>
+          </li>
+        </ul>
+      </span>
+
+      <div class="article-body">
+        <div class="clearfix title-row tags-bar" ng-if="topic.tags.length">
+          <div class="title-row-header">标签<hr></div>
+          <div class="view-section all-tags clearfix">
+            <a href class="tag pull-left" ng-repeat="tag in topic.tags" tooltip="{{tag.name}}">{{tag}}</a>
+          </div>
+          <hr>
+        </div>
+        <div class="blog" compile-html="topic.content" >
+        </div>
+        <div class="article-voteup text-center"
+          ng-class="{'active':topic.likeUsers.indexOf(me()._id)>=0}"
+          ng-click="toggleLike(topic)">
+          <i class="fa fa-heart"></i>
+          <hr>
+          {{topic.likeUsers.length||0}}
+        </div>
+      </div>
+    </div>
+
+    <comments belong-to="topic._id" active-comment="dataId" type="1"></comments>
+
+  </div>
+</div>

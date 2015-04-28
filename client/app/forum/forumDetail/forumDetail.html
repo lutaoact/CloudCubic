@@ -1,0 +1,46 @@
+<div class="navbar sub-nav forum-detail">
+  <div class="container">
+    <div class="row">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="" ui-sref="forum.list">
+            <i class="fa fa-chevron-left"></i>&nbsp;讨论组
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="forum-detail">
+  <div class="container">
+    <div class="row forum-board">
+      <div class="clearfix">
+        <img class="pull-right forum-thumbnail" src-key="forum.logo">
+        <h6 class="text-primary">
+          {{forum.courseId?'来自课程':forum.tags?forum.tags.length:'小组'}}
+        </h6>
+        <h3 class="forum-title" >
+          {{forum.name}}
+        </h3>
+        <p class="forum-info">
+          {{forum.info}}
+        </p>
+        <h5 class="forum-stats">
+          <span class="text-primary">{{forum.postsCount||0}}</span>
+          <span class="small">个帖子</span>
+        </h5>
+      </div>
+    </div>
+
+    <div class="row forum-topics">
+      <topic-list topics="topics">
+      </topic-list>
+    </div>
+  </div>
+</div>
+
+<a href="#forum-header" du-smooth-scroll class="back-to-top" du-scrollspy offset="120">
+  <i class="fa fa-chevron-up"></i>
+</a>
+

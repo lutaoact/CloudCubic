@@ -14,5 +14,4 @@ angular.module('budweiserApp').controller 'CategoryManagerCourseDetailCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
-    console.debug course
-    chartUtils.genStatsOnScope($scope, course._id, course.owners[0]._id)
+    chartUtils.genStatsOnScope($scope, course._id)

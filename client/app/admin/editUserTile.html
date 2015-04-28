@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="form-group">
-        <uploader class="btn btn-danger btn-sm rounded"
+        <uploader class="btn btn-danger btn-sm"
                   limit="{{imageSizeLimitation}}"
                   on-complete="onAvatarUploaded($data)"
                   crop="true"
@@ -29,7 +29,7 @@
           role="form"
           name="profileForm"
           ng-submit="saveProfile(profileForm)">
-      <div class="form-group">
+      <div class="form-group" ng-if="user.email.length > 0">
         <label class="col-xs-4 control-label">邮箱</label>
         <div class="col-xs-8">
           <label class="control-label">{{user.email}}</label>
@@ -38,11 +38,96 @@
               <span class="text-danger">等待激活</span>
               <a class="btn-link"
                  ng-click="sendActiveCode()">
-                <span ng-if="!viewState.sending">重发激活邮件</span>
+                <span ng-if="!viewState.sending" style="cursor: pointer">重发激活邮件</span>
                 <span ng-if="viewState.sending"><i class="fa fa-spinner fa-spin"></i> 发送中</span>
               </a>
             </small>
           </div>
+        </div>
+      </div>
+
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.email.$valid && submitted,
+                                            'has-error': profileForm.email.$invalid && submitted }">
+        <label for="email" class="col-xs-4 control-label">邮箱</label>
+        <div class="col-xs-8">
+          <input type="email" name="email" id="email" class="form-control input-sm" ng-model="editingInfo.email"
+                 ng-model-options="{ debounce: 250 }"
+                 ng-change="checkEmail(profileForm.email)"
+                 required
+                 focus-me
+                 mongoose-error/>
+          <p class="help-block" ng-show="profileForm.email.$error.email">
+            邮箱格式不对
+          </p>
+          <p class="help-block" ng-show="profileForm.email.$error.remote && submitted">
+            <i class="fa fa-exclamation-triangle text-danger"></i>该邮箱已被注册，请尝试<a href="" ui-sref="main">登录</a>或者<a
+            ui-sref="forgot">密码找回</a>
+          </p>
+          <p class="help-block" ng-show="profileForm.email.$remoteChecked == 'pending'">
+            <i class="fa fa-spin fa-spinner"></i>检查中
+          </p>
+          <p class="help-block" ng-show="!profileForm.email.$error.remote && profileForm.email.$remoteChecked === true">
+            <i class="fa fa-check text-success"></i>该邮箱可用
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.password.$valid && submitted,
+                                            'has-error': profileForm.password.$invalid && submitted }">
+        <label for="password" class="col-xs-4 control-label">密码</label>
+        <div class="col-xs-8">
+          <input type="password" id="password" name="password" class="form-control input-sm" ng-model="editingInfo.password"
+                 ng-minlength="6"
+                 ng-change="checkPasswordAgain(profileForm.password, profileForm.passwordAgain)"
+                 required
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="(profileForm.password.$error.minlength || profileForm.password.$error.required) && submitted">
+            密码最少为6位字符
+          </p>
+          <p class="help-block" ng-show="profileForm.password.$error.mongoose">
+            {{ errors.password }}
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="!user.email" ng-class="{ 'has-success': profileForm.passwordAgain.$valid && submitted,
+                                            'has-error': profileForm.passwordAgain.$invalid && submitted}">
+        <label for="passwordAgain" class="col-xs-4 control-label">确认密码</label>
+        <div class="col-xs-8">
+          <input type="password" id="passwordAgain" name="passwordAgain" class="form-control input-sm"
+                 ng-model="editingInfo.passwordAgain"
+                 same-with="user.password"
+                 ng-minlength="6"
+                 ng-change="checkPasswordAgain(profileForm.password, profileForm.passwordAgain)"
+                 mongoose-error/>
+          <p class="help-block"
+             ng-show="profileForm.passwordAgain.$error.sameWith">
+            两次输入密码不一致
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" >
+        <label class="col-xs-4 control-label">微信</label>
+        <div class="col-xs-8">
+          <label class="control-label" style="font-weight: normal">
+            <span ng-if="user.weixin.id" class="text-success">{{user.weixin.name}}</span>
+            <span ng-if="!user.weixin.id && Auth.getCurrentUser()._id != user._id">未绑定</span>
+            <span dropdown ng-if="!user.weixin.id && Auth.getCurrentUser()._id == user._id">
+              <a href dropdown-toggle>
+                点击绑定微信登录
+              </a>
+              <div class="dropdown-menu">
+                <div style="text-align: center; padding-top: 10px;">
+                  请使用微信扫描二维码完成绑定
+                  <hr/>
+                </div>
+                <weixin-login/>
+              </div>
+            </span>
+          </label>
         </div>
       </div>
       <div class="form-group">
@@ -53,14 +138,22 @@
                  id="inputName"
                  placeholder="请输入您的姓名"
                  required
-                 focus-me="nameInputFocus"
-                 ng-init="nameInputFocus=true"
+                 focus-me
                  ng-model="editingInfo.name">
         </div>
       </div>
-      <div class="form-group"
-           ng-if="canRemark">
-        <label for="inputInfo" class="col-xs-4 control-label">备注</label>
+      <div class="form-group">
+        <label for="inputTitle" class="col-xs-4 control-label">头衔</label>
+        <div class="col-xs-8">
+          <input type="text"
+                 class="form-control"
+                 id="inputTitle"
+                 placeholder="请输入您的头衔"
+                 ng-model="editingInfo.title">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputInfo" class="col-xs-4 control-label">简介</label>
         <div class="col-xs-8">
           <textarea type="text"
                     class="form-control"
@@ -74,7 +167,7 @@
         <div class="col-xs-8 col-xs-offset-4 text-left">
           <button type="submit"
                   ng-disabled="viewState.saved || viewState.saving"
-                  class="btn btn-danger btn-sm rounded" >
+                  class="btn btn-danger btn-sm" >
             <span ng-if="!viewState.saving">
               <span ng-if="!viewState.saved">保存</span>
               <span ng-if="viewState.saved">已保存</span>

@@ -21,6 +21,7 @@ angular.module('budweiserApp')
   $timeout
   $document
   Restangular
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -40,10 +41,11 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
         controller: 'NewQuestionCtrl'
+        windowClass: 'new-question-modal'
         backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints
-          categoryId: -> $scope.categoryId
+          categoryId: -> $scope.categoryId._id||$scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
@@ -58,16 +60,13 @@ angular.module('budweiserApp')
       angular.forEach $scope.getQuestions(), (q) -> q.$selected = selected
 
     removeQuestion: (question = null) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除问题'
-          message: ->
-            if question?
-              """确认要删除这个问题？"""
-            else
-              """确认要删除这#{$scope.getSelectedNum()}个问题？"""
+      messageModal.open
+        title: -> '删除问题'
+        message: ->
+          if question?
+            """确认要删除这个问题？"""
+          else
+            """确认要删除这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->
         questions = $scope.getQuestions()
         deleteQuestions =
@@ -109,4 +108,3 @@ angular.module('budweiserApp')
       finish()
       targetElement = angular.element(document.getElementById 'lecture-question')
       $document.scrollToElement(targetElement, 60, 500)
-

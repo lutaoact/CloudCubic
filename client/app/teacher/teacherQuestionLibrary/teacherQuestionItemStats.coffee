@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
   replace: true
   scope:
     question: '='
+    type: '@'
 
   controller: ($scope, chartUtils, Restangular, $state, $filter)->
 
@@ -135,8 +136,8 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
           courseId: $state.params.courseId
           lectureId: $state.params.lectureId
           questionId: value._id
+          type: $scope.type
         .then (data)->
-          console.log data
           # right answers
           $scope.responseRateConfig.series[0].data[0].y = data.right.length
           $scope.responseRateConfig.series[0].data[0].tooltipHtml = genTooltip(data.right)

@@ -3,8 +3,12 @@
 angular.module('budweiserApp').directive 'budEditor', ()->
   restrict: 'E'
   scope:
-    metadata: '='
+    row: '='
     content: '='
+    editorName: '@'
+    editorId: '@'
+    onChange: '&'
+    onInit: '&'
   replace: true
   templateUrl: 'app/editor/bud-editor.html'
 
@@ -29,4 +33,23 @@ angular.module('budweiserApp').directive 'budEditor', ()->
       $scope.content = $scope.metadata.raw.replace /\r?\n/g, '<br/>'
       $scope.metadata.images?.forEach (image)->
         $scope.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
+      $scope.onChange?($text: $scope.content)
     , true
+
+    $scope.$watch 'content', (value)->
+      if !value
+        $scope.metadata = {}
+
+    api =
+      setContent: (content)->
+        metadata = {}
+        metadata.raw = (content.replace /<img(.*)>/g,'').replace /<br(|\/)>/g, '\n'
+        metadata.images = []
+
+        reg = /<img.+?src="?([^\s]+?)"?\s*>/g
+        while m = reg.exec(content)
+          metadata.images.push
+            url: m[1]
+        $scope.metadata = metadata
+
+    $scope.onInit()? api

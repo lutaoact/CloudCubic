@@ -6,9 +6,10 @@ auth = require '../../auth/auth.service'
 
 router = express.Router()
 
-router.get '/', auth.hasRole('admin'), controller.index #?standalone=true
+router.get '/', auth.hasRole('teacher'), controller.index #?standalone=true
 router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
+router.get '/match', auth.hasRole('admin'), controller.match #?email=xxxxx
 router.post '/sendActivationMail', controller.sendActivationMail
 router.get '/completeActivation', controller.completeActivation
 router.post '/bulk', auth.hasRole('admin'), controller.bulkImport

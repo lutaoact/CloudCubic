@@ -1,0 +1,45 @@
+<li dropdown class="shop-cart">
+  <a class="dropdown-toggle" dropdown-toggle>
+    <i class="fa fa-shopping-cart shop-cart-icon"></i><span class="caret"></span>
+  </a>
+  <span class="badge item-count"
+          ng-show="cartItems.length">
+  {{cartItems.length||'0'}}
+  </span>
+  <ul class="dropdown-menu shop-cart-menu" role="menu">
+
+    <div class="shop-cart-header">
+      共<span class="item-total">{{cartItems.length}}个</span>课程在购物车中
+      <a class="pull-right text-muted small"
+         href
+         ng-click="clearCart()">
+         清空
+      </a>
+    </div>
+
+    <li ng-repeat="classe in cartItems"
+        class="shop-cart-item">
+      <img class="item-image" ng-src="{{classe.courseId.thumbnail}}">
+      <div class="item-body">
+        <h5 class="course-name"
+            ui-sref="course.detail({courseId: classe.courseId._id, classeId:classe._id})">
+            {{classe.courseId.name}}
+        </h5>
+        <span class="class-price">￥{{classe.price}}</span>
+        <a class="close pull-right"
+           href
+           ng-click="removeCartItem(classe)">&times;</a>
+      </div>
+    </li>
+
+    <div class="shop-cart-footer">
+      <span class="total-price">￥{{totalPrice()}}</span>
+      <button type="button"
+              ng-disabled="cartItems.length==0"
+              class="pull-right btn btn-xs btn-danger btn-buy"
+              ng-click="makeCartOrder()">
+              购买
+      </button>
+    </div>
+  </ul>
+</li>

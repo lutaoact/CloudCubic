@@ -4,7 +4,9 @@ Broadcast = _u.getModel 'broadcast'
 
 exports.index = (req, res, next) ->
   user = req.user
-  Broadcast.findQ org: user.orgId
+  Broadcast.find org: user.orgId
+    .sort created: -1
+    .execQ()
   .then (result) ->
     res.send result
   .catch next

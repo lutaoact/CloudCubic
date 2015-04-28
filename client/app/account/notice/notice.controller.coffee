@@ -3,21 +3,20 @@
 angular.module('budweiserApp').controller 'NoticeCtrl',(
   Auth
   $scope
+  $state
   notify
   Restangular
+  $rootScope
   Msg
 ) ->
 
   angular.extend $scope,
-    itemsPerPage: 5
-    currentBroadcastPage: 1
-    currentMessagePage: 1
-    maxSize: 4
-    broadcasts: undefined
+    pageConf:
+      itemsPerPage: 5
+      currentPage : $state.params.page ? 1
+      maxSize: 5
 
     messages: []
-
-    viewState: {}
 
     markAsRead: (message, $event)->
       $event?.stopPropagation()
@@ -27,13 +26,20 @@ angular.module('budweiserApp').controller 'NoticeCtrl',(
       Restangular.all('notices/read').post ids:[noticeId]
       .then ()->
         message.raw.status = 1
+        Msg.readMsg()
 
-  Restangular.all('notices').getList({all: true})
+    changePage: ()->
+      $state.go('settings.notice',
+        page     :$scope.pageConf.currentPage
+      )
+
+  Restangular.all('notices').getList(
+    all: true
+    from   : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+    limit  : $scope.pageConf.itemsPerPage
+  )
   .then (notices)->
+    $scope.messages = []
     notices.forEach (notice)->
-      Msg.genMessage(notice).then (msg)->
-        $scope.messages.splice 0, 0, msg
-
-  Restangular.all('broadcasts').getList()
-  .then (broadcasts)->
-    $scope.broadcasts = broadcasts
+      $scope.messages.push Msg.genMessage(notice)
+    $scope.messages.$count = notices.$count

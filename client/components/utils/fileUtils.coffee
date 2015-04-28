@@ -7,6 +7,7 @@ angular.module 'budweiserApp'
   configs
   Restangular
   $timeout
+  org
 ) ->
 
   rexDict =
@@ -43,8 +44,11 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
+        console.remote 'upload', 'file', {key: strategy.formData.key, size: file.size}
         opts.success?(strategy.prefix+strategy.formData.key)
-      .error opts.fail
+      .error (ex) ->
+        console.remote 'error', 'onFileUploadError', ex
+        opts.fail(ex)
     , opts.fail
 
   doUploadVideo = (opts, file)->
@@ -76,7 +80,7 @@ angular.module 'budweiserApp'
             success: (data, status) ->
               deferred.resolve data
             error: (xhr, desc, err) ->
-              console.log(err)
+              throw err
           deferred.promise
 
 
@@ -117,6 +121,7 @@ angular.module 'budweiserApp'
                   genJob(defer)
                 error: (err)->
                   # retry
+                  console.remote 'error', 'onVideoUploadError', err
                   segments.push seg
                   genJob(defer)
           else
@@ -144,6 +149,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request, 3)
       .then (data)->
+        console.remote 'upload', 'video', {key: strategy.key, size: file.size}
         opts.success?(strategy.prefix + strategy.key)
       , (err)->
         opts.fail?(err)
@@ -166,10 +172,12 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
+        console.remote 'upload', 'slide', {key: strategy.formData.key, size: file.size}
         key = strategy.formData.key
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
+          console.remote 'convert', 'slide', {key: strategy.formData.key, size: file.size}
           result =
             fileWidth: content.width
             fileHeight: content.height
@@ -178,15 +186,18 @@ angular.module 'budweiserApp'
               raw: strategy.prefix + pic
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
-        .error (error) ->
-          console.debug 'error', error
-      .error opts.fail
+        .error (ex) ->
+          console.remote 'error', 'onConvertError', ex
+          opts.fail(ex)
+      .error (ex) ->
+        console.remote 'error', 'onFileUploadError', ex
+        opts.fail(ex)
     , opts.fail
 
   uploadFile: (opts) ->
     error = validate(opts.validation, opts.files)
     if error?
-      console.error error
+      console.remote 'error', 'onFileUploadError', error
       return opts.fail?(error)
     # 根据后缀名匹配调用的上传方法
     file = opts.files[0]
@@ -234,6 +245,7 @@ angular.module 'budweiserApp'
             evt.$fileName = file.name
             opts.progress?(speed, percentage, evt)
           .success (data) ->
+            console.remote 'upload', 'file', {key: strategy.formData.key, size: file.size}
             deferred.resolve
               url: strategy.prefix+strategy.formData.key
               name: file.name
@@ -241,7 +253,6 @@ angular.module 'budweiserApp'
           .error (response)->
             deferred.reject()
         , (error)->
-          console.log error
           deferred.reject()
 
     $q.all(promises).then (result)->

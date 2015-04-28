@@ -1,0 +1,53 @@
+<div ng-class="{'margin-top': !webview}" class="order-list-view">
+
+  <div class="head-row">
+    <div class="container head-row-container">
+      <div class="user-info">
+        <div class="avatar-md pull-left" src-key="getMe().avatar" source-attr="background-image">
+        </div>
+        <div class="pull-left">
+          <h4>
+            {{getMe().name}}
+          </h4>
+          <!--<span class="text-muted" style="font-size: 12px;" ng-if="org.location.name">-->
+            <!--<i class="fa fa-map-marker"></i>{{org.location.name}}-->
+          <!--</span>-->
+        </div>
+      </div>
+      <div class="pull-right order-count">
+        <div class="item-order-count" ng-class="{active: status==null}" ng-click="changeStatus()">
+          <div class="text-muted">所有订单</div>
+          <h3>{{count.totalCount||0}}</h3>
+        </div>
+        <div class="item-order-count" ng-class="{active: status=='unpaid'}" ng-click="changeStatus('unpaid')">
+          <div class="text-muted">等待付款</div>
+          <h3>{{count.unpaidCount||0}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div ng-repeat="order in orders">
+      <order-detail order="order" on-order-deleted="orderDeleted"></order-detail>
+    </div>
+    <div class="row pagination-row text-center"
+         ng-hide="orders.$count <= itemsPerPage">
+      <pagination
+        total-items="orders.$count"
+        ng-model="currentPage"
+        items-per-page="itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        max-size="maxSize"
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;"
+        first-text="&laquo;"
+        last-text="&raquo;"
+        num-pages="numPages">
+      </pagination>
+    </div>
+
+  </div>
+</div>

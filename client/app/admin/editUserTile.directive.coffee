@@ -14,27 +14,35 @@ angular.module('budweiserApp')
     onUpdateUser: '&'
 
 .controller 'EditUserTileCtrl', (
+  Auth
+  $log
   $state
   $scope
   $modal
+  $timeout
   notify
-  Restangular
   configs
-  $log
+  Restangular
 ) ->
 
   # 能被编辑的字段
   editableFields = [
+    'email'
+    'password'
+    'passwordAgain'
     'name'
+    'title'
     'avatar'
     'info'
   ]
 
   angular.extend $scope,
+    Auth: Auth
     imageSizeLimitation: configs.imageSizeLimitation
     $state: $state
     errors: null
     editingInfo: null
+    submitted : false
     viewState:
       saved: true
       saving: false
@@ -63,6 +71,7 @@ angular.module('budweiserApp')
         $scope.viewState.sending = false
 
     saveProfile: (form) ->
+      $scope.submitted = true
       if !form.$valid then return
       $scope.viewState.saving = true
       $scope.errors = null
@@ -79,7 +88,33 @@ angular.module('budweiserApp')
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
 
-  $scope.$watch 'user', (user) ->
+
+    checkEmail: (email)->
+      if !email.$modelValue? || email.$modelValue is ''
+        email.$remoteChecked = false
+        email.$setValidity 'remote', false
+        return
+
+      $timeout.cancel($scope.checkEmailPromise)
+      if email.$modelValue
+        email.$remoteChecked = 'pending'
+        email.$setValidity 'remote', true
+        $scope.checkEmailPromise = $timeout ->
+          Restangular.one('users','check').get(email: email.$modelValue)
+          .then (data)->
+            email.$setValidity 'remote', true
+            email.$remoteChecked = true
+          , (err, status)->
+            email.$setValidity 'remote', false
+            email.$remoteChecked = false
+        , 800
+
+    checkPasswordAgain: (password, passwordAgain) ->
+      passwordVal = password.$modelValue
+      passwordAgainVal = passwordAgain.$modelValue
+      passwordAgain.$setValidity 'sameWith', !passwordAgainVal || passwordAgainVal == passwordVal
+
+   $scope.$watch 'user', (user) ->
     if !user? then return
     $scope.user = user
     $scope.editingInfo = _.pick user, editableFields

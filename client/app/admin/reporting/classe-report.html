@@ -1,0 +1,58 @@
+<div class="classe-report report clearfix">
+
+  <div ng-if="!loading">
+    <div class="head">
+      {{display}}班级购买量
+    </div>
+    <div class="reporting-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="name">班级</th>
+            <th class="days">购买人数</th>
+            <th class="price">价格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="classeAnalysis in classeAnalyses|paging:itemsPerPage:currentPage">
+            <td>
+              {{classeAnalysis.classe.name}}
+            </td>
+            <td>
+              {{classeAnalysis.amount|number}}
+            </td>
+            <td class="text-warning">
+              ￥{{classeAnalysis.price|number}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div ng-if="!classeAnalyses.length">
+        <h3 class="text-muted">暂无数据</h3>
+      </div>
+    </div>
+    <div class="row pagination-row text-center">
+      <pagination ng-hide="classeAnalyses.length <= itemsPerPage"
+                  total-items="classeAnalyses.length"
+                  ng-model="currentPage"
+                  items-per-page="itemsPerPage"
+                  class="pagination-sm bud"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="maxSize"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;"
+                  >
+      </pagination>
+    </div>
+  </div>
+
+  <div ng-if="loading">
+    <div class="head text-muted">
+      <i class="fa fa-spinner fa-spin"></i>加载中...
+    </div>
+  </div>
+
+</div>

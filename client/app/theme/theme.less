@@ -36,11 +36,6 @@
 
 @input-border-focus:    @base-color-dark;
 
-@border-radius-base:          0;
-@border-radius-large:         0;
-@border-radius-small:         0;
-
-
 //== Media queries breakpoints
 //
 //## Define the breakpoints at which your layout will change, adapting to different screen sizes.
@@ -58,3 +53,16 @@
 
 // Large modal width
 @modal-lg: 950px;
+
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial,"Hiragino Sans GB", STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+
+::selection {
+  color: #eee;
+  background: @base-color;
+}
+body {
+  overflow-y: scroll !important;
+}

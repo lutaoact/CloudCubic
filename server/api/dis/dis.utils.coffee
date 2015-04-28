@@ -2,6 +2,7 @@ BaseUtils = require('../../common/BaseUtils')
 
 SocketUtils = _u.getUtils 'socket'
 NoticeUtils = _u.getUtils 'notice'
+DeviceUtils = _u.getUtils 'device'
 
 class DisUtils extends BaseUtils
   classname: 'DisUtils'
@@ -12,10 +13,10 @@ class DisUtils extends BaseUtils
     DisModel.findByIdQ disId
     .then (dis) ->
       tmpResult.dis = dis
-      if dis.voteUpUsers.indexOf(userId) > -1
-        dis.voteUpUsers.pull userId
+      if dis.likeUsers.indexOf(userId) > -1
+        dis.likeUsers.pull userId
       else
-        dis.voteUpUsers.addToSet userId
+        dis.likeUsers.addToSet userId
         if dis.postBy.toString() isnt userId.toString()
           NoticeUtils["add#{type}VoteUpNotice"](
             dis.postBy
@@ -23,6 +24,7 @@ class DisUtils extends BaseUtils
             dis._id
           ).then (notice) ->
             SocketUtils.sendNotices notice
+            DeviceUtils.pushToUser user._id, notice
 
       do dis.saveQ
     .then (result) ->

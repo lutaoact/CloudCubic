@@ -2,9 +2,12 @@
   <textarea
     msd-elastic
     class="form-control bud-editor-input"
-    row="1"
+    row="row"
+    id="{{editorId}}"
+    name="{{editorName}}"
     placeholder="请输入内容..."
     ng-model="metadata.raw"
+    login-window
     >
   </textarea>
   <div class="bud-editor-tools">

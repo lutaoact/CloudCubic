@@ -10,8 +10,38 @@
   -moz-filter: blur(@value);
 }
 
-i, h1, h2, h3, h4, h5, span, label{
+.filter(@filter){
+  filter: @filter;
+  -webkit-filter: @filter;
+  -moz-filter: @filter;
+  -o-filter: @filter;
+}
+.mask-image(@mask){
+  mask-image: @mask;
+  -webkit-mask-image: @mask;
+}
+i, h1, h2, h3, h4, h5, span, label, div{
   &.base-color{
     color: @base-color;
   }
+}
+
+.center-wrap{
+  display: table;
+  .center-content{
+    display:table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+.hint{
+  color: @brand-warning;
+  cursor: pointer;
+}
+
+//make parent element relative
+.my-vertical-align() {
+  position: absolute;
+  top: 50%;
+  transform: translate(0,-50%);
 }

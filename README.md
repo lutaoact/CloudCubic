@@ -40,6 +40,40 @@ start redis server at localhost:6379, then
 
 `grunt serve`
 
+
+###安装beat_me_log的处理环境
+需要依赖perl，安装一些模块，日志存放路径/data/log
+```
+sudo cpan JSON
+sudo cpan Date::Calc
+```
+
+执行方法：
+```
+cd PROJ_DIR/scripts
+sh process_beat_me_log_to_db.sh 2015-01-23#可以提供需要处理的日期格式，默认处理前一天的
+sh process_beat_me_log_to_db.sh
+```
+
+
+###Qiniu CDN
+to sync bower files
+#### Pre-request: install qiniu-devtool
+run `path/to/qrsync qiniu_conf.json`
+
+### 百度统计
+trackEvents cate, event, label, value  
+```
+cate
+  event
+```
+
+### remote log
+在非localhost下。log会发送到服务器端。  
+localhost下 console.remote 会打印在console中  
+console.remote `category`, `label`, `value1`[, `value2`, `value3`...]  
+category: 'view', 'error', 'upload', 'convert'  
+
 ###Troubleshooting
 + After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)  
 Fixed: add `ulimit -S -n 2048` to your `~/.bash_profile`
@@ -55,4 +89,42 @@ Install Coffee/Less
 HTML/CSS Coding Style: follow [Github Coding Sytle](https://github.com/styleguide/css)  
 JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)
 
+## Roadmap
+### 用户自己的域mapping orgId
+
+### 用户二级域名mapping orgId
+
+### 用户主页
+
+#### 主页显示课程，价格，支付
+
+#### 管理员界面要有支付信息
+
+#### 课程页面显示的老师信息
+
+#### 课程主页显示富文本
+#####设计
+
+#### 免费课时预览：把router权限控制放入到controller中
+
+#### 创建小组讨论
+
+#### 3rd login/register
+
+#### 讨论区放到主入口，按课程默认划分板块，同时也可以自己创建板块（与课程无关），老师创建课程的时候自动创建讨论版
+
+##### 富文本中引入音频，tooltip。
+
+#### 课程开课
+创建班级，关联课程，from， to，价格。
+线下报名的话，管理员手动添加到班级
+
+#### 错题本，错题统计
+
+#### 付费虚拟货币。学生用户在机构下面有余额，用余额购买课程。
+
+## Changelog
+### create new branch online_school
+### create migration script: migration_20141231.js (when deploy, should run this script)
+### add qiniu sync
 

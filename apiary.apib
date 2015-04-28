@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://www.cloud3edu.com
+HOST: //www.cloud3edu.cn
 
 # Budweiser API
 Cloud3's cloud based education system API
@@ -20,7 +20,7 @@ Cloud3's cloud based education system API
 ## User Collection [/api/users]
 ### Create [POST]
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
@@ -35,7 +35,7 @@ Cloud3's cloud based education system API
 
 ### Get List [GET]
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
@@ -49,7 +49,7 @@ Cloud3's cloud based education system API
 ## User Password [/api/users/{id}/password]
 ### Change Password [PUT]
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
@@ -61,12 +61,12 @@ Cloud3's cloud based education system API
 + Response 200 (application/json)
 
         OK
-        
+
 ## Update and delete User, show user profile [/api/users/{id}]
 ### Change User orgId, avatar [PUT]
-Only admin can change its orgId from empty to valid value.  
+Only admin can change its orgId from empty to valid value.
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
@@ -89,15 +89,15 @@ Only admin can change its orgId from empty to valid value.
         "role":"admin"}
 
 ### Delete user [DELETE]
-Only admin can delete user.  
+Only admin can delete user.
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
 
 + Response 200 (application/json)
-        
+
         {"_id":"53c6078d01e0ea3b79515d9c",
         "provider":"local",
         "name":"Admin",
@@ -111,13 +111,13 @@ Only admin can delete user.
 ### Show user profile [GET]
 Show user profile info, including name, role, avatar
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
 
 + Response 200 (application/json)
-        
+
         {
         "name":"Admin",
         "avatar","xewqr",
@@ -145,7 +145,7 @@ Show user profile info, including name, role, avatar
 Import multiple users from a uploaded excel sheet
 ### Import [POST]
 + Request (application/json)
-    
+
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
@@ -155,14 +155,14 @@ Import multiple users from a uploaded excel sheet
             {
             "type":"admin|teacher|student",
             "key" : "wWxs9emwnf/1.xlsx",   # resource key of uploaded excel file from qiniu
-            "orgId" : "organization_id",   # organization ID to which users belong to. 
+            "orgId" : "organization_id",   # organization ID to which users belong to.
             "classeId" : "classe_id"       # Classe ID to which the students belong to. Only needed for student type
             }
 
 + Response 200 (application/json)
 
     + Body
-    
+
             {
             "total" : 100,  # Total number of users in excel table
             "success" : ["Black Jack", "Emily Brown", ...],  # Array of imported users name
@@ -178,7 +178,7 @@ Qiniu related apis
 + Response 200 (application/json)
 
     + Body
-    
+
             { "random": "l2o5rem8", "uptoken": "asdfzxverqwerdadsfadsf" }
 
 ## Private Download token [/qiniu/signedUrl/{key}]
@@ -186,7 +186,7 @@ Qiniu related apis
 + Parameters
 
     + key (required, string, ``)
-    
+
 ### Get a signed url [GET]
 + Response 200 (application/json)
 
@@ -204,7 +204,7 @@ Qiniu related apis
 + Parameters
 
     + sub (optional, string, ``)
-    
+
 + Response 200 (application/json)
 
         [Organization,Organization,Organization]
@@ -214,20 +214,20 @@ Qiniu related apis
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
+
             {"name":"清华",
             "subDomain":"tsinghua",
             "background":"url",
             "logo":"url",
             "type":"大学"
             }
-            
+
 + Response 200 (application/json)
-        
+
         Organization
 
 ## Organization Detail [/api/organization/{id}]
@@ -245,7 +245,7 @@ Qiniu related apis
         "background":"url",
         "logo":"url",
         "type":"大学"
-        } 
+        }
 
 
 
@@ -255,7 +255,7 @@ Qiniu related apis
 ## Classe Collection [/api/classes]
 
 ### Get all Classes [GET]
-    
+
 + Response 200 (application/json)
 
         [Classe,Classe,Classe]
@@ -265,22 +265,20 @@ Qiniu related apis
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
+
             {"name":"14届物化班",
-            "yearGrade":"2014届",
             "students":['afdaf','qwer','dasf']
             }
-            
+
 + Response 200 (application/json)
-        
+
         {"_id":"xqwerav",
         "orgId":"aceqwr",
         "name":"14届物化班",
-        "yearGrade":"2014届",
         "students":[{"_id":"aeqwraf","name":"张三"},
             {"_id":"aeqwraf","name":"李四"},
             {"_id":"aeqwraf","name":"阿毛"}]
@@ -321,57 +319,56 @@ Qiniu related apis
         {"counter":100,
         "failure":[]
         }
-        
+
 ### Get Students in specified Classe [GET]
 
 + Request (application/json)
-    
+
     + Header
-    
+
             Auth:xxx
 
 
 + Response 200 (application/json)
 
-        [ { "_id": "53ce27e2fc3f58ce93a864dd", 
-            "name": "t1", 
-            "email": "t1@cloud3edu.com", 
-            "orgId": "53ccb203606200e88b712bf9" }, 
-          { "_id": "53ce27e2fc3f58ce93a864de", 
-            "name": "t2", 
-            "email": "t2@cloud3edu.com", 
-            "orgId": "53ccb203606200e88b712bf9" }, 
-          { "_id": "53ce27e2fc3f58ce93a864df", 
-            "name": "t3", 
-            "email": "t3@cloud3edu.com", 
+        [ { "_id": "53ce27e2fc3f58ce93a864dd",
+            "name": "t1",
+            "email": "t1@cloud3edu.com",
+            "orgId": "53ccb203606200e88b712bf9" },
+          { "_id": "53ce27e2fc3f58ce93a864de",
+            "name": "t2",
+            "email": "t2@cloud3edu.com",
+            "orgId": "53ccb203606200e88b712bf9" },
+          { "_id": "53ce27e2fc3f58ce93a864df",
+            "name": "t3",
+            "email": "t3@cloud3edu.com",
             "orgId": "53ccb203606200e88b712bf9" } ]
-        
-        
+
+
 # Group Course
 
 ## Course Collection [/api/courses]
 
 ### Get all Courses that user has permission to read[GET]
-    
+
 + Response 200 (application/json)
 
-        [ 
-          { "_id": "53f758fe7c375e1ca59592dc", 
-            "name": "Music 101", 
-            "categoryId": "53f758fe7c375e1ca59592d9", 
-            "thumbnail": "http://test.com/thumb.jpg", 
-            "info": "This is course music 101", 
-            "__v": 0, 
-            "modified": "2014-08-22T14:51:42.719Z", 
-            "created": "2014-08-22T14:51:42.720Z", 
-            "classes": [ 
-                 { "_id": "53f758fe7c375e1ca59592db", 
-                   "name": "Class one", 
-                   "orgId": "53f758fe7c375e1ca59592da", 
-                   "yearGrade": "2014" } ], 
-            "owners": [ "53d085b46850008f9b91a9fe" ], 
-            "lectureAssembly": [] 
-          } 
+        [
+          { "_id": "53f758fe7c375e1ca59592dc",
+            "name": "Music 101",
+            "categoryId": "53f758fe7c375e1ca59592d9",
+            "thumbnail": "http://test.com/thumb.jpg",
+            "info": "This is course music 101",
+            "__v": 0,
+            "modified": "2014-08-22T14:51:42.719Z",
+            "created": "2014-08-22T14:51:42.720Z",
+            "classes": [
+                 { "_id": "53f758fe7c375e1ca59592db",
+                   "name": "Class one",
+                   "orgId": "53f758fe7c375e1ca59592da" ],
+            "owners": [ "53d085b46850008f9b91a9fe" ],
+            "lectureAssembly": []
+          }
         ]
 
 ### Create Course [POST]
@@ -379,34 +376,34 @@ Only teacher can create course
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
-            { 
-              "name": "Art 101", 
-              "categoryId": "53f758fe7c375e1ca59592d9", 
-              "thumbnail": "http://test.com/thumb.jpg", 
-              "info": "This is course art 101",  
-              "classes": [ "53f758fe7c375e1ca59592db" ], 
+
+            {
+              "name": "Art 101",
+              "categoryId": "53f758fe7c375e1ca59592d9",
+              "thumbnail": "http://test.com/thumb.jpg",
+              "info": "This is course art 101",
+              "classes": [ "53f758fe7c375e1ca59592db" ],
               "lectureAssembly": []
             }
-            
+
 + Response 200 (application/json)
-        
-            { 
-              "__v": 0, 
-              "name": "Art 101", 
-              "categoryId": "53f758fe7c375e1ca59592d9", 
-              "thumbnail": "http://test.com/thumb.jpg", 
-              "info": "This is course art 101", 
-              "modified": "2014-08-26T03:21:56.524Z", 
-              "created": "2014-08-26T03:21:56.524Z", 
-              "_id": "53fbfd54e36b38dc0b5da6ec", 
-              "classes": [ "53f758fe7c375e1ca59592db" ], 
-              "owners": [ "53d085b46850008f9b91a9fe" ], 
-              "lectureAssembly": [] 
+
+            {
+              "__v": 0,
+              "name": "Art 101",
+              "categoryId": "53f758fe7c375e1ca59592d9",
+              "thumbnail": "http://test.com/thumb.jpg",
+              "info": "This is course art 101",
+              "modified": "2014-08-26T03:21:56.524Z",
+              "created": "2014-08-26T03:21:56.524Z",
+              "_id": "53fbfd54e36b38dc0b5da6ec",
+              "classes": [ "53f758fe7c375e1ca59592db" ],
+              "owners": [ "53d085b46850008f9b91a9fe" ],
+              "lectureAssembly": []
             }
 
 
@@ -421,28 +418,28 @@ Read course detail if user has permission to it
 
 + Response 200 (application/json)
 
-            { 
-              "__v": 0, 
-              "name": "Art 101", 
-              "categoryId": "53f758fe7c375e1ca59592d9", 
-              "thumbnail": "http://test.com/thumb.jpg", 
-              "info": "This is course art 101", 
-              "modified": "2014-08-26T03:21:56.524Z", 
-              "created": "2014-08-26T03:21:56.524Z", 
-              "_id": "53fbfd54e36b38dc0b5da6ec", 
-              "classes": [ "53f758fe7c375e1ca59592db" ], 
-              "owners": [ "53d085b46850008f9b91a9fe" ], 
-              "lectureAssembly": [] 
+            {
+              "__v": 0,
+              "name": "Art 101",
+              "categoryId": "53f758fe7c375e1ca59592d9",
+              "thumbnail": "http://test.com/thumb.jpg",
+              "info": "This is course art 101",
+              "modified": "2014-08-26T03:21:56.524Z",
+              "created": "2014-08-26T03:21:56.524Z",
+              "_id": "53fbfd54e36b38dc0b5da6ec",
+              "classes": [ "53f758fe7c375e1ca59592db" ],
+              "owners": [ "53d085b46850008f9b91a9fe" ],
+              "lectureAssembly": []
             }
-            
+
 ### Delete Course [DELETE]
 Only teacher can delete course
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-            
+
 + Response 204 (application/json)
 
 
@@ -455,7 +452,7 @@ Only teacher can delete course
     + courseId (required, string)
 
 ### Get all Lectures [GET]
-    
+
 + Response 200 (application/json)
 
         [Lecture,Lecture,Lecture]
@@ -465,19 +462,19 @@ Only teacher can delete course
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
+
             {"name":"第一课",
             "courseId":"xzqwersd",
             "thumbnail":"xxadf",
             "info":"aswqersac",
             }
-            
+
 + Response 200 (application/json)
-        
+
         {"_id":"caeqwsdga",
         "name":"第一课",
         "courseId":"xzqwersd",
@@ -509,20 +506,20 @@ Only teacher can delete course
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
+
             {"name":"第一课",
             "courseId":"xzqwersd",
             "thumbnail":"xxadf",
             "info":"aswqersac",
             "slides":[{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"}]
             }
-            
+
 + Response 200 (application/json)
-        
+
         {"_id":"caeqwsdga",
         "name":"第一课",
         "courseId":"xzqwersd",
@@ -537,11 +534,11 @@ This should delete all the slides image and thumbnail in storage.
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-            
+
 + Response 200 (application/json)
-        
+
         OK
 
 # Group ClassProgress
@@ -549,7 +546,7 @@ This should delete all the slides image and thumbnail in storage.
 ## ClassProgress Collection [/api/ClassProgresses]
 
 ### Get all ClassProgresses [GET]
-    
+
 + Response 200 (application/json)
 
         [ClassProgress,ClassProgress,ClassProgress]
@@ -559,19 +556,19 @@ This should delete all the slides image and thumbnail in storage.
 + Request (application/json)
 
     + Header
-    
+
             Auth:xxx
-    
+
     + Body
-    
+
             {"courseId":"qwerasdferqw",
             "classeId":"zxcvqwsf",
             "thumbnail":"xxadf",
             "info":"aswqersac"
             }
-            
+
 + Response 200 (application/json)
-        
+
         {"_id":"ewqaxvr",
         "courseId":"qwerasdferqw",
         "classeId":"zxcvqwsf",

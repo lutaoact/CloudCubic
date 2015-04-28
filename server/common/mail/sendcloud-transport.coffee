@@ -29,7 +29,7 @@ class SendCloudTransport
         _data += chunk
 
       res.on "end", ->
-        console.log 'wtf'+_data
+        console.log _data
         callback undefined, _data
 
     req.on "error", (e) ->

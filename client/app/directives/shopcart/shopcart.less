@@ -1,0 +1,115 @@
+.shop-cart {
+  .dropdown-toggle {
+    &:hover,
+    &:focus{
+      .box-shadow(none) !important;
+      cursor: pointer;
+    }
+  }
+  .shop-cart-icon{
+    font-size: 18px;
+    padding: 0px 5px;
+  }
+  .item-count{
+    background-color: #367E6E !important;
+    position: absolute;
+    top: 10px;
+    left: 16px;
+  }
+  .shop-cart-menu {
+    margin: 0px;
+    padding: 0px;
+    width: 275px;
+    color: black;
+    border-radius: 4px !important;
+    &:before {
+      content: '';
+      height: 0;
+      width: 0;
+      right: 22px;
+      top: -10px;
+      position: absolute;
+      border-bottom: 10px solid #FFFFFF;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+
+    .shop-cart-header {
+      @header-line-height: 40px;
+      border-bottom: 1px dashed @gray-lighter;
+      padding: 0 10px;
+      line-height: @header-line-height;
+      .item-total {
+        color: #EF505E;
+        font-size: 15px;
+      }
+      .text-muted {
+        width: 35px;
+        text-decoration: none;
+        &:before {
+          content: '';
+          position: relative;
+          border-left: 1px solid #EDEDED;
+          padding-right: 3px;
+          padding-left: 3px;
+        }
+      }
+    }
+
+    .shop-cart-item + .shop-cart-item {
+      border-top: 1px dashed @gray-lighter;
+    }
+    .shop-cart-item {
+      height: 60px;
+      padding: 6px 0px;
+      margin: 0px 12px;
+
+      .item-image {
+        width: 70px;
+        height: 48px;
+        margin-right: 2px;
+        vertical-align: top;
+      }
+
+      .item-body {
+        display: inline-block;
+        width: calc(~'100% - 76px');
+        .course-name {
+          margin: 0;
+          height: 30px;
+          width: 145px;
+          cursor: pointer;
+          overflow: hidden;
+          font-weight: normal;
+          &:hover {
+            color: @base-color;
+          }
+        }
+        .class-price {
+          color: #F4845B;
+          font-size: 12px;
+        }
+        .close {
+          border-left: 1px solid #c7c7c7;
+          padding-left: 8px;
+          margin-top: -15px;
+        }
+      }
+    }
+
+    .shop-cart-footer {
+      padding: 10px;
+      background-color: #ebebeb;
+      .total-price {
+        color:#F4845B;
+        font-size:16px;
+        line-height:22px;
+      }
+      .btn-buy {
+        padding: 0px 12px;
+        font-size: 12px;
+        line-height: 20px;
+      }
+    }
+  }
+}

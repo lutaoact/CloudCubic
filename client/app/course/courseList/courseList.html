@@ -1,0 +1,55 @@
+<div class="course-list-view">
+
+  <div class="header-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="title" href ui-sref="{page:'', category:'', keyword:''}">机构课程</a>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{allClasses.$count}}</span> 个
+          </span>
+          <search-input keyword="search.keyword"
+                        on-submit="reload(true)"
+                        placeholder="班级关键字搜索">
+          </search-input>
+          <select class="form-control pull-right"
+                  ng-change="reload(true)"
+                  ng-model="search.category"
+                  ng-options="category._id as category.name for category in categories">
+            <option value="">全部专业</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row courses-row">
+      <div ng-if="!allClasses.length"
+           class="text-center text-muted empty-classes">
+        <i class="budon budon-course-classe"></i>
+        暂无课程，敬请期待
+      </div>
+      <div class="col-md-3 col-sm-4"
+           ng-repeat="classe in allClasses">
+        <a ui-sref="course.detail({courseId:classe.courseId._id, classeId:classe._id})">
+          <public-course-tile course="classe.courseId" classe="classe"></public-course-tile>
+        </a>
+      </div>
+    </div>
+    <div class="row pagination-row text-center"
+         ng-if="allClasses.$count"
+         ng-show="allClasses.$count > pageConf.itemsPerPage">
+      <pagination
+        total-items="allClasses.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        ng-change="reload()"
+        rotate="false"
+        max-size="pageConf.maxSize">
+      </pagination>
+    </div>
+  </div>
+</div>

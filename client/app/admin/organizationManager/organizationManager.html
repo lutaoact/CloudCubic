@@ -1,9 +1,11 @@
 <tabset class="col-md-12 tabset-non-border">
+
+  <!--机构基本信息-->
   <tab heading="机构基本信息">
     <div class="row admin-ui-view">
-      <form id="org-form"
-            class="form-horizontal col-md-10 col-md-offset-1"
+      <form class="org-form form-horizontal col-md-10 col-md-offset-1"
             role="form"
+            novalidate
             name="orgForm">
 
         <div class="form-group text-center">
@@ -12,7 +14,7 @@
                source-attr="background-image"
                suffix="?imageView2/1/w/130/h/130">
           </div>
-          <uploader class="btn btn-danger btn-sm rounded"
+          <uploader class="btn btn-danger btn-sm"
                     limit="{{imageSizeLimitation}}"
                     on-complete="onLogoUpload($data)"
                     accept-type="image"
@@ -27,27 +29,121 @@
 
         <div class="form-group">
           <label for="organization-name"
-                 class="col-sm-3 control-label">机构全称</label>
+                 class="col-sm-3 control-label">机构名称</label>
           <div class="col-sm-7">
             <input class="form-control"
                    id="organization-name"
                    name="name"
                    ng-model="editingInfo.name"
                    placeholder="机构全称"
+                   mongoose-error
+                   ng-maxlength="20"
                    required>
+            <small class="text-danger" ng-if="orgForm.name.$error.mongoose">{{ errors.name }}</small>
+            <small class="text-danger" ng-if="orgForm.name.$error.required && orgForm.$submitted">必填项</small>
+            <small class="text-danger" ng-if="orgForm.name.$error.maxlength && orgForm.$submitted">不得超过20字</small>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="organization-name"
+          <label for="organization-uniquename"
+                 class="col-sm-3 control-label">机构标识</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-uniquename"
+                   name="uniqueName"
+                   ng-model="organization.uniqueName"
+                   placeholder="机构唯一标识"
+                   mongoose-error
+                   ng-disabled="'true'"
+                   style="text-transform: lowercase;"
+                   required>
+            <i class="fa fa-question-circle hint" tooltip="如需修改，请联系info@cloud3edu.com" tooltip-append-to-body="true"></i>
+            <small class="text-danger" ng-if="orgForm.uniqueName.$error.mongoose">{{ errors.uniqueName }}</small>
+            <small class="text-danger" ng-if="orgForm.uniqueName.$error.required && orgForm.$submitted">必填项</small>
+            <span class="text-muted">您的二级登录域名为：http://{{organization.uniqueName}}.cloud3edu.cn</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-copyright"
+                 class="col-sm-3 control-label">版权信息</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-copyright"
+                   name="copyright"
+                   ng-model="editingInfo.copyright"
+                   placeholder="请输入您的版权信息以保护您的合法权益">
+            <div class="text-danger" ng-if="errors.copyright">{{ errors.copyright.message }}</div>
+            <span class="text-muted">Copyright &copy; {{editingInfo.copyright}}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-custom-domain"
+                 class="col-sm-3 control-label">
+            绑定域名
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-custom-domain"
+                   name="customDomain"
+                   ng-model="editingInfo.customDomain"
+                   placeholder="school.sample.com"
+                   mongoose-error
+                   >
+            <span dropdown is-open="viewState.domainHint" ng-mouseenter="viewState.domainHint=true">
+              <i class="fa fa-question-circle hint" dropdown-toggle></i>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <div style="padding: 5px 10px;">
+                    1. 必须先申请好您的域名，并且完成备案<br>
+                    2. 在域名提供商将域名指向cloud3edu，如需支持请<a target="_blank" style="display:inline; padding:0;color:#5abda6;" href="mailto:info@cloud3edu.com?subject=绑定域名">联系我们</a><br>
+                    3. 配置生效后，您就可以通过您的自定义域名访问您的网校啦
+                  </div>
+                </li>
+              </ul>
+            </span>
+            <small class="text-danger" ng-if="orgForm.customDomain.$error.mongoose">{{ errors.customDomain }}</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-icp"
+                 class="col-sm-3 control-label">备案</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-icp"
+                   name="icp"
+                   ng-model="editingInfo.icp"
+                   placeholder="如果使用自定义域名，请务必填写您的网站备案号">
+            <div class="text-danger" ng-if="errors.icp">{{ errors.icp.message }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-desc"
                  class="col-sm-3 control-label">机构简介</label>
           <div class="col-sm-7">
             <textarea class="form-control"
                       id="organization-desc"
                       name="desc"
-                      rows="2"
+                      rows="3"
+                      msd-elastic
                       ng-model="editingInfo.description"
                       placeholder="机构简介"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-telephone"
+                 class="col-sm-3 control-label">客服电话</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                      id="organization-telephone"
+                      name="telephone"
+                      ng-model="editingInfo.telephone"
+                      placeholder="客服电话"></textarea>
           </div>
         </div>
 
@@ -63,19 +159,21 @@
           </div>
         </div>
 
+        <!--
         <div class="form-group">
           <label class="col-sm-3 control-label">账户级别</label>
           <div class="col-sm-7">
-            <label ng-if="organization.isPaid" class="form-control text-primary">高级账户</label>
-            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm rounded btn-primary">升级为高级用户</a>
+            <label ng-if="organization.paid" class="form-control text-primary">高级账户</label>
+            <a ng-if="!organization.isPaid" href="mailto:info@cloud3edu.com" target="blank" class="btn btn-sm btn-primary">升级为高级用户</a>
           </div>
         </div>
+        -->
 
         <hr/>
 
         <div class="form-group text-center">
           <button type="submit"
-                  class="btn btn-danger rounded save-btn"
+                  class="btn btn-danger save-btn"
                   ng-disabled="saved || saving"
                   ng-click="saveOrg(orgForm)">
             <span ng-if="!saving">
@@ -93,99 +191,200 @@
     </div>
   </tab>
 
-  <tab heading="机构公告区">
+  <!--支付宝信息-->
+  <tab heading="支付宝信息">
     <div class="row admin-ui-view">
-      <div class="col-md-6">
-        <form name="form" class="broadcast-form" ng-submit="postBroadcast(form)" novalidate>
-          <div class="form-title">
-            最新公告&nbsp;<i class="fa fa-send"></i>
-          </div>
-          <div class="form-group">
-            <label for="titleInput">标题</label>
-            <input
-              id="titleInput"
-              name="title"
-              placeholder="请输入标题"
-              class="form-control"
-              ng-model="newBroadcast.title"
-              required
-              >
-          </div>
-          <div class="form-group">
-            <label for="contentInput">内容</label>
-            <textarea
-              id="contentInput"
-              name="content"
-              cols="30"
-              placeholder="请输入内容"
-              rows="10"
-              style="height: 140px;"
-              class="form-control"
-              ng-model="newBroadcast.content"
-              required
-              msd-elastic>
-            </textarea>
-          </div>
-          <div class="pull-right">
-            <button class="btn btn-danger rounded" type="submit" ng-disabled="form.content.$invalid">
-              发送
-            </button>
-            <button class="btn btn-default rounded" type="reset">
-              重置
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="col-md-6 broadcast-browser">
-        <div class="title">已发公告<i class="fa fa-envelope envelope"></i></div>
-        <div class="seach-bar col-xs-12">
-          <div class="search col-xs-6">
-            <i class="fa fa-search pull-right"></i>
-            <input type="text" ng-model="viewState.broadcastQuery">
+      <form id="org-alipay-form"
+            class="form-horizontal col-md-10 col-md-offset-1"
+            role="form"
+            name="orgPaymentForm">
+        <hr/>
+
+        <div class="form-group">
+          <label for="organization-alipayEmail"
+                 class="col-sm-3 control-label">支付宝Email</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayEmail"
+                   name="name"
+                   ng-model="orgAlipay.email"
+                   placeholder="支付宝Email"
+                   required>
           </div>
         </div>
-        <ul class="list-group col-xs-12">
-          <li
-            class="list-group-item broadcast"
-            id="{{broadcast._id}}"
-            ng-click="viewState.selectedBroadcast=broadcast"
-            ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
-            ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
-            <div class="clearfix">
-              <h5 class="base-color pull-left">
-                {{broadcast.title}}
-                <br>
-                <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
-              </h5>
-              <div class="pull-right">
-                <div class="well">
-                  <i class="btn btn-xs fa fa-send text-muted" ng-click="resend(broadcast)"></i>
-                  <i class="btn btn-xs fa fa-times text-muted" ng-click="removeBroadcast(broadcast)"></i>
-                </div>
-              </div>
-            </div>
-            <div class="broadcast-content" compile-html="broadcast.content">
-            </div>
-          </li>
-        </ul>
-        <pagination
-          ng-hide="broadcasts.length <= itemsPerPage"
-          total-items="broadcasts.length"
-          ng-model="currentBroadcastPage"
-          items-per-page="itemsPerPage"
-          class="pagination-sm"
-          boundary-links="true"
-          rotate="false"
-          max-size="maxSize"
-          previous-text="&lsaquo;"
-          next-text="&rsaquo;"
-          first-text="&laquo;"
-          last-text="&raquo;"
-          num-pages="numPages">
-        </pagination>
+
+        <div class="form-group">
+          <label for="organization-alipayPID"
+                 class="col-sm-3 control-label">支付宝(PID)</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayPID"
+                   name="name"
+                   ng-model="orgAlipay.PID"
+                   placeholder="支付宝(PID)"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-alipayKey"
+                 class="col-sm-3 control-label">支付宝(Key)</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-alipayKey"
+                   name="name"
+                   ng-model="orgAlipay.key"
+                   placeholder="支付宝(Key)"
+                   required>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group text-center">
+          <button type="submit"
+                  class="btn btn-danger save-btn"
+                  ng-disabled="alipaySaved || alipaySaving"
+                  ng-click="saveOrgAlipay(orgPaymentForm)">
+            <span ng-if="!alipaySaving">
+              <span ng-if="!alipaySaved">保存</span>
+              <span ng-if="alipaySaved">已保存</span>
+            </span>
+            <span ng-if="alipaySaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </tab>
+
+  <!--微信登录和公众号-->
+  <tab heading="微信登录和公众号">
+    <div class="row admin-ui-view">
+      <form id="org-wechat-form"
+            class="form-horizontal col-md-10 col-md-offset-1"
+            role="form"
+            name="orgWechatForm">
+
+        <hr/>
+
+        <div class="form-group">
+          <label for="organization-wechatDomain"
+                 class="col-sm-3 control-label">绑定域名</label>
+          <div class="col-sm-7">
+            <select class="form-control"
+                    id="classe-course"
+                    ng-model="orgWechat.domain"
+                    ng-options="domainName for domainName in [editingInfo.customDomain, organization.uniqueName+'.cloud3edu.cn']"
+                    required>
+              <option value="" class="text-muted">请选择你要绑定的域名</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatAppId"
+                 class="col-sm-3 control-label">开放平台AppId</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppId"
+                   name="name"
+                   ng-model="orgWechat.appid"
+                   placeholder="请输入微信开发平台的AppId"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization-wechatAppSecret"
+                 class="col-sm-3 control-label">开放平台AppSecret</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   id="organization-wechatAppSecret"
+                   name="name"
+                   ng-model="orgWechat.secret"
+                   placeholder="请输入微信开放平台的AppSecret"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">公众号AppId</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   name="name"
+                   ng-model="orgWechat.gongappid"
+                   placeholder="请输入微信公众号的AppId"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">公众号AppSecret</label>
+          <div class="col-sm-7">
+            <input class="form-control"
+                   name="name"
+                   ng-model="orgWechat.gongsecret"
+                   placeholder="请输入微信公众号的AppSecret"
+                   required>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="form-group text-center">
+          <button type="submit"
+                  class="btn btn-danger save-btn"
+                  ng-disabled="wechatSaved || wechatSaving"
+                  ng-click="saveOrgWechat(orgWechatForm)">
+            <span ng-if="!wechatSaving">
+              <span ng-if="!wechatSaved">保存</span>
+              <span ng-if="wechatSaved">已保存</span>
+            </span>
+            <span ng-if="wechatSaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </tab>
+
+  <!--机构定制化-->
+  <tab heading="定制化">
+    <div class="row admin-ui-view">
+      <div custom-org-banners-tile organization="organization"></div>
+      <div class="col-md-12 custom-about-us admin-ui-view">
+        <h4>关于我们</h4>
+        <text-angular class="bud" ng-model="organization.about" ></text-angular>
+        <div class="form-group text-center">
+          <button class="btn btn-danger save-btn"
+                  ng-disabled="aboutSaved || aboutSaving"
+                  ng-click="saveOrgAbout()">
+            <span ng-if="!aboutSaving">
+              <span ng-if="!aboutSaved">保存</span>
+              <span ng-if="aboutSaved">已保存</span>
+            </span>
+            <span ng-if="aboutSaving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+        </div>
+        <h4>预览</h4>
+        <div compile-html="organization.about"></div>
       </div>
     </div>
   </tab>
+
+  <!--机构公告区-->
+  <tab heading="机构公告区">
+    <div org-broadcast-tile organization="organization"></div>
+  </tab>
+
 </tabset>
-
-

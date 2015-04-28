@@ -1,7 +1,9 @@
-<div class="modal-header modal-header-black">
-  <h4 class="modal-title">推送随堂练习
-    <a class="close" ng-click="close()">&times;</a>
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-question-push"></i>
+    推送随堂练习
   </h4>
+  <a class="close" ng-click="cancel()">&times;</a>
 </div>
 <div class="modal-body push-question-body">
   <h4 ng-if="!questionStats">Q: {{question.body | questionTitle}}</h4>
@@ -30,23 +32,30 @@
       <i style="color:black; font-weight: bold; position: absolute">学生提交数: {{getAnswersNum()}} / {{publishedAnswers.length}}</i>
     </progressbar>
   </div>
-</div>
-<div class="modal-footer">
-  <span ng-if="!questionStats">
-    <button type="button"
-            class="btn btn-danger"
-            ng-disabled="publishing"
-            ng-click="publish()">
-      <span ng-if="!publishing">开始提问</span>
-      <span ng-if="publishing">
-        <i class="fa fa-spinner fa-spin"></i>
-        推送中
-      </span>
-    </button>
-  </span>
-  <span ng-if="questionStats">
-    <button type="button"
-            class="btn btn-danger"
-            ng-click="close()">结束提问</button>
-  </span>
+
+  <div class="modal-footer">
+    <span ng-if="!questionStats">
+      <button type="button"
+              class="btn btn-default btn-sm"
+              ng-disabled="publishing"
+              ng-click="cancel()">
+        取消
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm"
+              ng-disabled="publishing"
+              ng-click="publish()">
+        <span ng-if="!publishing">开始提问</span>
+        <span ng-if="publishing">
+          <i class="fa fa-spinner fa-spin"></i>
+          推送中
+        </span>
+      </button>
+    </span>
+    <span ng-if="questionStats">
+      <button type="button"
+              class="btn btn-danger btn-sm"
+              ng-click="cancel()">结束提问</button>
+    </span>
+  </div>
 </div>

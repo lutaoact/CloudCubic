@@ -1,4 +1,4 @@
-require('./init');
+//require('./init');
 var Class = require('./Class').Class;
 var mongoose;
 var models = {};

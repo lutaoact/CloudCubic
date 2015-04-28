@@ -12,27 +12,62 @@
 "use strict"
 
 Classe = _u.getModel "classe"
+Course = _u.getModel "course"
+WrapRequest = new (require '../../utils/WrapRequest')(Classe)
 
 exports.index = (req, res, next) ->
   user = req.user
-  Classe.findQ
-    orgId: user.orgId
-  .then (classes) ->
-    res.send classes
-  , next
+  conditions = orgId: req.org?._id
+  conditions.$and = []
+  
+  conditions.students = req.query.studentId if req.query.studentId
+  #conditions.teachers = req.query.teacherId if req.query.teacherId
+  if req.query.keyword
+    keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$and.push
+      $or : [
+        name: keyword
+      ,
+        address: keyword
+      ]
+
+  Q(
+    if req.query.categoryId
+      Course.findQ categoryId: req.query.categoryId
+      .then (courses) ->
+        courseIds = _.pluck courses, '_id'
+        conditions.courseId = {$in: courseIds}
+    else
+      conditions.courseId = req.query.courseId if req.query.courseId
+  ).then ->
+    Q(
+      if req.query.teacherId?
+        teacherId = req.query.teacherId
+        Course.findQ
+          owners : teacherId
+        .then (myCourses) ->
+          myCourseIds = _.pluck myCourses, '_id'
+          conditions.$and.push
+            $or : [
+              teachers : teacherId
+            ,
+              courseId : {$in : myCourseIds}
+            ]
+    )
+  .then () ->
+    # if no and contions, then delete it
+    if conditions.$and.length is 0
+      delete conditions.$and
+      
+    WrapRequest.wrapPageIndex req, res, next, conditions
+  .catch next
+  .done()
+
 
 exports.show = (req, res, next) ->
-  user = req.user
-  classeId = req.params.id
-  Classe.findOneQ
-    _id: classeId
-    orgId: user.orgId
-  .then (classe) ->
-    logger.info classe
-    res.send classe
-  , (err) ->
-    console.log err
-    next err
+  conditions = _id: req.params.id, orgId: req.org?._id
+  WrapRequest.wrapShow req, res, next, conditions
+
 
 exports.showStudents = (req, res, next) ->
   user = req.user
@@ -41,44 +76,26 @@ exports.showStudents = (req, res, next) ->
   Classe.findOne
     _id: classeId
     orgId: user.orgId
-  .populate 'students'
+  .populate 'students', '-hashedPassword -salt'
   .execQ()
   .then (classe) ->
     res.send classe.students
   , next
 
+pickedKeys = ["name", "courseId", "enrollment", "duration", "price", "teachers", "schedules", "address"]
 exports.create = (req, res, next) ->
-  body = req.body
-  body.orgId = req.user.orgId
+  data = _.pick req.body, pickedKeys
+  data.orgId = req.user.orgId
+  WrapRequest.wrapCreateAndUpdate req, res, next, data
 
-  Classe.createQ body
-  .then (classe) ->
-    logger.info classe
-    res.json 201, classe
-  , next
-
+pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
-  classeId = req.params.id
-  body = req.body
-  delete body._id if body._id
-
-  Classe.findByIdQ classeId
-  .then (classe) ->
-    updated = _.extend classe, body
-    do updated.saveQ
-  .then (result) ->
-    newClasse = result[0]
-    logger.info newClasse
-    res.send newClasse
-  , next
+  conditions = {_id: req.params.id, orgId: req.user.orgId}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 exports.destroy = (req, res, next) ->
-  classeId = req.params.id
-  Classe.removeQ
-    _id: classeId
-  .then () ->
-    res.send 204
-  , next
+  conditions = _id: req.params.id, orgId: req.user.orgId
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
@@ -88,3 +105,63 @@ exports.multiDelete = (req, res, next) ->
   .then () ->
     res.send 204
   , next
+
+exports.enroll = (req, res, next) ->
+  classeId = req.params.id
+  user = req.user
+
+  Classe.findOneQ _id: classeId, orgId: user.orgId
+  .then (classe) ->
+    unless classe
+      return Q.reject
+        status: 403
+        errCode: ErrCode.NoClasse
+        errMsg: '班级不存在或者不属于当前登录用户的机构'
+
+    console.log classe.price
+    if classe.price != 0
+      return Q.reject
+        status: 403
+        errCode: ErrCode.NotFreeClasse
+        errMsg: '该课程收费'
+
+    classe.students.addToSet user._id
+    do classe.saveQ
+  .then (classe) ->
+    res.send classe
+  .catch next
+  .done()
+
+buildConditionsByUser = (user) ->
+  conditions = {orgId: user.orgId}
+  switch user.role
+    when 'student' then conditions.students = user._id
+    when 'teacher' then conditions.teachers = user._id
+
+  return conditions
+
+buildSchedules = (classes) ->
+  schedules = []
+  for classe in classes
+    for schedule in (classe.schedules ? [])
+      schedule.classe = _id: classe._id, name: classe.name
+      schedule.course = _id: classe.courseId._id, name: classe.courseId.name
+      schedules.push schedule
+
+  return schedules
+
+
+exports.schedules = (req, res, next) ->
+  conditions = buildConditionsByUser req.user
+  #使用{lean: true}选项获取纯对象，方便后续构建schedules时使用
+  #如果是mongoose对象，则由于schedule.classe和schedule.course没有相应的setter方法
+  #会导致响应的属性设置失败
+  mongoQuery = Classe.find conditions, null, {lean: true}
+  mongoQuery = WrapRequest.populateQuery mongoQuery, Classe.populates.schedules
+
+  mongoQuery.execQ()
+  .then (classes) ->
+    schedules = buildSchedules classes
+    res.send schedules
+  .catch next
+  .done()

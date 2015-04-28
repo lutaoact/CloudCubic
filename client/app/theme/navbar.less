@@ -1,7 +1,7 @@
 .bud-navbar(@bg, @fg){
 
   @navbar-margin-bottom:  0;
-  @navbar-height: 60px;
+  @navbar-height: 50px;
   @line-height: 30px;
   @navbar-padding-vertical: ((@navbar-height - @line-height) / 2);
   @font-size: 14px;
@@ -29,10 +29,14 @@
   }
   .navbar-brand{
     z-index: 2;
-    color: @base-color;
-    padding: @navbar-padding-vertical @navbar-padding-horizontal;
+    padding: @navbar-padding-vertical 0;
     height: @navbar-height;
     line-height: @line-height;
+    img {
+      height: 100%;
+      max-width: 150px;
+      display: inline-block;
+    }
   }
 
   .navbar-nav{
@@ -41,12 +45,14 @@
       line-height: @line-height;
       font-size: @font-size;
       color: @fg;
-      &:hover,
-      &:focus{
+      &:hover{
         color: @fg;
         .box-shadow(inset 0 -2px 0 @brand-danger);
         background-color: @bg;
       }
+    }
+    > li:nth-last-child(1){
+      margin-right: -15px;
     }
     > li.active {
       background-color: @bg;
@@ -59,13 +65,28 @@
         background-color: @bg;
       }
     }
-    > li >a.navbar-avatar{
-      cursor: pointer;
-      .avatar(36px);
-      margin-top: ((@navbar-height - 36px) / 2) !important;
-      margin-bottom: ((@navbar-height - 36px) / 2) !important;
-      &:hover{
-        border:none;
+    > li {
+      .avatar-name{
+        cursor: pointer;
+        a.navbar-avatar {
+          .avatar(36px);
+          margin-top: ((@navbar-height - 30px) / 2) !important;
+          margin-bottom: ((@navbar-height - 30px) / 2) !important;
+          &:hover {
+            border: none;
+          }
+          display: inline-block;
+          float: left;
+          width: 30px;
+          height: 30px;
+          margin-right: 7px;
+        }
+        .user-name {
+          font-size: 14px;
+          float: left;
+          margin-top: 14px;
+          margin-left: 5px;
+        }
       }
     }
 
@@ -212,27 +233,18 @@
 }
 
 .bud.navbar{
-  &.auth {
+  &.org-nav {
     .navbar-fixed-top;
     .bud-navbar(@base-color, #FFFFFF);
-    .navbar-brand {
-      color: #FFF;
-    }
   }
-  &.home {
-    .bud-navbar(#FFFFFF,@gray);
+  .navbar-brand {
+    color: #FFF;
   }
   &.hide {
     display: none;
   }
 }
 
-.main-nav{
-  height: @navbar-height;
-  .avatar-md{
-    margin:12.5px;
-  }
-}
 .nav-loading{
   position: relative;
   overflow: hidden;
@@ -258,9 +270,53 @@
 }
 
 .margin-top{
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 .padding-top-20{
   padding-top: 20px;
+}
+
+.dropdown-menu.profile-menu {
+  left: -8px;
+  min-width: 115px;
+  &:before {
+    content: '';
+    height: 0;
+    width: 0;
+    left: 16px;
+    top: -10px;
+    position: absolute;
+    border-bottom: 10px solid #FFFFFF;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+  }
+  hr {
+    margin: 0;
+  }
+  li {
+    padding: 1px;
+    a{
+      padding: 3px 4px 3px 15px;
+      width: 100%;
+      font-weight: bold;
+      &:hover{
+        background: none;
+        color: @base-color;
+      }
+    }
+  }
+  padding: 6px 0;
+  border-radius: 4px !important;
+}
+
+.sub-nav{
+  margin-bottom: 0;
+  .nav{
+    li {
+      a {
+        color: #231815;
+      }
+    }
+  }
 }

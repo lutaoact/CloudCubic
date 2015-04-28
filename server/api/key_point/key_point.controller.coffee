@@ -2,10 +2,9 @@
 
 KeyPoint = _u.getModel "key_point"
 Category = _u.getModel 'category'
-Lecture = _u.getModel "lecture"
 
 exports.index = (req, res, next) ->
-  conditions = orgId: req.user.orgId
+  conditions = orgId: req.org._id
   conditions._id = req.query.categoryId if req.query.categoryId
 
   Category.findQ conditions
@@ -17,7 +16,9 @@ exports.index = (req, res, next) ->
   , next
 
 exports.show = (req, res, next) ->
-  KeyPoint.findByIdQ req.params.id
+  KeyPoint.findQ
+    _id   : req.params.id
+    orgId : req.org._id
   .then (keyPoint) ->
     res.send keyPoint
   , next
@@ -31,9 +32,7 @@ exports.create = (req, res, next) ->
 
 exports.searchByKeyword = (req, res, next) ->
   name = req.params.name
-  escape = name.replace /[{}()^$|.\[\]*?+]/g, '\\$&'
-  regex = new RegExp(escape)
-  logger.info regex
+  regex = new RegExp(_u.escapeRegex(name), 'i')
 
   KeyPoint.findQ
     name: regex

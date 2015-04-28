@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始</title>
+  <meta name="Description" content="云立方学院提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验">
+  <meta name="Keywords" content="教育云服务,互联网教育,SaaS,个性化教育,实时互动,多维统计,学习分享,知识积累,在线教育,网校平台">
+  <meta name="Resource-type" content="Document" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width,minimal-ui">
+  <link rel="stylesheet" type="text/css" href="http://public-cloud3edu-com.qiniudn.com/cdn/jquery.fullPage.css" />
+  <style>
+
+  /* Style for our header texts
+  * --------------------------------------- */
+  body{
+    font-family: "Helvetica Neue", Helvetica, Arial,"Hiragino Sans GB", STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", sans-serif;
+  }
+
+  .intro p{
+    padding: 15px;
+  }
+  .intro{
+    -webkit-transition: all 1.5s ease-in-out;
+    -moz-transition: all 1.5s ease-in-out;
+    -o-transition: all 1.5s ease-in-out;
+    transition: all 1.5s ease-in-out;
+    -webkit-transform: translate(-100px,0px);
+    transform: translate(-100px,0px);
+    opacity: 0;
+  }
+
+  /* Centered texts in each section
+  * --------------------------------------- */
+  .section{
+    text-align:center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .section.active .intro{
+    -webkit-transform: translate(0px,0px);
+    transform: translate(0px,0px);
+    opacity: 1;
+  }
+
+  .btn{
+    text-decoration: none;
+    padding: 10px 15px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-top: -4px;
+    margin-left: 5px;
+    text-shadow: none;
+    color: #Fff;
+    background-image: linear-gradient(0deg,rgba(255,255,255,0.4),rgba(255,255,255,0.2));
+    -webkit-box-shadow: 0 0 8px 2px rgba(100,100,100,0.2);
+    -moz-box-shadow: 0 0 8px 2px rgba(100,100,100,0.2);
+    box-shadow: 0 0 8px 2px rgba(100,100,100,0.2);
+  }
+  .btn:hover,.btn:focus{
+    text-decoration: none;
+  }
+
+  img{
+    width: 100%;
+    max-width: 640px;
+    -webkit-transition: all 1.5s ease-in-out;
+    -moz-transition: all 1.5s ease-in-out;
+    -o-transition: all 1.5s ease-in-out;
+    transition: all 1.5s ease-in-out;
+    -webkit-transform: translate(100px,0px);
+    transform: translate(100px,0px);
+    opacity: 0;
+  }
+  #section-last ul li{
+    text-align: left;
+  }
+
+  .section.active img{
+    -webkit-transform: translate(0px,0px);
+    transform: translate(0px,0px);
+    opacity: 1;
+  }
+
+  #section-last{
+    background-repeat: repeat;
+    background-size: 100%;
+    color: #FFF;
+  }
+
+  #section-last:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(0deg,#5cbca4,#59beb9);
+  }
+
+  .section.active .down{
+    opacity: 1;
+  }
+
+  .down{
+    -webkit-transition: all 1.5s ease-in-out;
+    -moz-transition: all 1.5s ease-in-out;
+    -o-transition: all 1.5s ease-in-out;
+    transition: all 1.5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    bottom: 10px;
+    width: 20px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgba(128,128,128,0.1);
+    left: 50%;
+    -webkit-transform: translate(-10px,0px);
+    transform: translate(-10px,0px);
+    -webkit-animation: breathing 1.5s linear 1s infinite alternate;
+    animation: breathing 1.5s linear 1s infinite alternate;
+  }
+  /* Chrome, Safari, Opera */
+  @-webkit-keyframes breathing {
+    0%   {background-color: rgba(128,128,128,0.1);}
+    100% {background-color: rgba(128,128,128,0.6);}
+  }
+
+  /* Standard syntax */
+  @keyframes breathing {
+    0%   {background-color: rgba(128,128,128,0.1);}
+    100% {background-color: rgba(128,128,128,0.6);}
+  }
+
+</style>
+
+  <!--[if IE]>
+    <script type="text/javascript">
+       var console = { log: function() {} };
+    </script>
+    <![endif]-->
+
+    <script src="http://public-cloud3edu-com.qiniudn.com/cdn/jquery.min.js"></script>
+
+    <script type="text/javascript" src="http://public-cloud3edu-com.qiniudn.com/cdn/jquery.slimscroll.min.js"></script>
+
+    <script type="text/javascript" src="http://public-cloud3edu-com.qiniudn.com/cdn/jquery.fullPage.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#fullpage').fullpage({
+        });
+      });
+      var appid = 'wx6c0c7d8c77eb802e',
+      imgUrl = 'http://public-cloud3edu-com.qiniudn.com/cdn/images/wechat-cover.jpg',
+      lineLink = 'http://www.cloud3edu.cn/articles/wechat.html',
+      descContent = '云立方学院提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验',
+      shareTitle = '云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始';
+      function shareFriend() {
+        WeixinJSBridge.invoke('sendAppMessage',{
+          "appid": appid,
+          "img_url": imgUrl,
+          "img_width": "200",
+          "img_height": "200",
+          "link": lineLink,
+          "desc": descContent,
+          "title": shareTitle
+        }, function(res) {
+        })
+      }
+      function shareTimeline() {
+        WeixinJSBridge.invoke('shareTimeline',{
+          "img_url": imgUrl,
+          "img_width": "200",
+          "img_height": "200",
+          "link": lineLink,
+          "desc": descContent,
+          "title": shareTitle
+        }, function(res) {
+        });
+      }
+      function shareWeibo() {
+        WeixinJSBridge.invoke('shareWeibo',{
+          "content": descContent,
+          "url": lineLink,
+        }, function(res) {
+        });
+      }
+      // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    // 发送给好友
+    WeixinJSBridge.on('menu:share:appmessage', function(argv){
+      shareFriend();
+    });
+    // 分享到朋友圈
+    WeixinJSBridge.on('menu:share:timeline', function(argv){
+      shareTimeline();
+    });
+    // 分享到微博
+    WeixinJSBridge.on('menu:share:weibo', function(argv){
+      shareWeibo();
+    });
+  }, false);
+    </script>
+
+  </head>
+  <body>
+
+    <div id="fullpage">
+      <div class="section" id="section0" style="background-image:url(http://public-cloud3edu-com.qiniudn.com/cdn/images/wechat-cover.jpg)">
+        <a class="down"></a>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/wechat-cover.jpg" style="width:0px; height:0px; overflow:hidden" alt="">
+      </div>
+
+      <div class="section" id="section1">
+        <div class="intro">
+          <p>教学云端管理，课程时时伴随</p>
+        </div>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/feat-cloud.gif" alt="">
+        <a class="down"></a>
+      </div>
+
+      <div class="section" id="section2">
+        <div class="intro">
+          <p>问题测试实时互动，统计分析精准多维</p>
+        </div>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/feat-realtime.gif" alt="">
+        <a class="down"></a>
+      </div>
+
+      <div class="section" id="section3">
+        <div class="intro">
+          <p>精准的个性化统计和量化分析，大数据应用为你实时服务</p>
+        </div>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/feat-bigdata.gif" alt="">
+        <a class="down"></a>
+      </div>
+
+      <div class="section" id="section4">
+        <div class="intro">
+          <p>师生学习社区，增强互动和参与感，实现知识的积累</p>
+        </div>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/feat-social.gif" alt="">
+        <a class="down"></a>
+      </div>
+
+      <div class="section" id="section-last" style="background-image:url(http://public-cloud3edu-com.qiniudn.com/cdn/images/wechat-back.png)">
+        <div class="intro">
+          <p>如果您的教育机构需要</p>
+          <ul>
+            <li>快速部署在线教育服务，追踪教学过程</li>
+            <li>增强教学和学习体验，机构竞争优势</li>
+            <li>利用课堂实时互动，增强学习效率</li>
+            <li>使用云服务，统计分析大量教学数据</li>
+            <li>充分融合线上和线下的教学</li>
+          </ul>
+        </div>
+        <a class="btn" href="http://www.cloud3edu.cn">立即注册</a>
+        <a class="down"></a>
+      </div>
+
+      <div class="section" id="section-footer">
+
+        <div class="intro">
+          请关注我们的微信公众号
+        </div>
+        <img src="http://public-cloud3edu-com.qiniudn.com/cdn/images/wechatQR.jpg" style="width: 200px;" alt="">
+        <div class="intro">
+          <a href="http://www.cloud3edu.cn">www.cloud3edu.cn</a>
+          <p>&copy;2014 上海学之方教育科技有限公司</p>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+  </html>

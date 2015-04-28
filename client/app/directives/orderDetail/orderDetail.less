@@ -1,0 +1,67 @@
+.order-detail {
+  margin-top: 5px;
+  background: white;
+  padding-top: 8px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  border: 1px solid #E1E1E1;
+  .box-shadow(0px 0px 2px rgba(0, 0, 0, 0.15));
+  .col-img
+  {
+    padding-left: 8px;
+    .item-image{
+      height: 118px;
+      vertical-align: top;
+    }
+  }
+  .order-detail-header {
+    border-bottom: 1px solid #EBEBEB;
+    height: 28px;
+    padding: 0 25px;
+    cursor: pointer;
+  }
+  .order-detail-footer {
+    border-top: 1px solid #EBEBEB;
+    padding: 0 25px;
+    margin-top: -1px;
+    height: 45px;
+    line-height: 45px;
+  }
+  .order-classe {
+    border-bottom: 1px solid #EBEBEB;
+    margin: 0px 30px;
+    padding: 12px 0px;
+    .classe-info{
+      border: 2px solid @gray-light;
+      padding: 0 15px;
+      font-size: 12px;
+      .schedule-row{
+        .schedules{
+          border-left: 1px dashed @gray-light;
+          .schedules-summary{
+            .text-overflow();
+          }
+        }
+      }
+      .row{
+        padding: 8px 0;
+      }
+      .row + .row{
+        border-top: 1px dashed @gray-light;
+      }
+    }
+
+
+  }
+  .class-name {
+    padding-bottom: 10px;
+    cursor: pointer;
+  }
+  .class-price {
+    color: #F1582A;
+    padding-right: 0;
+  }
+  .class-summary{
+    .text-overflow();
+  }
+}

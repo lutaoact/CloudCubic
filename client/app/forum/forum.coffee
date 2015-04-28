@@ -15,13 +15,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
       CurrentUser: (Auth)->
         Auth.getCurrentUser()
 
-      AllKeypoints: (Restangular)->
-        Restangular.all('key_points').getList()
-        .then (data)->
-          data
-        , (err)->
-          # handle
-          console.log err
-          []
-
     abstract: true

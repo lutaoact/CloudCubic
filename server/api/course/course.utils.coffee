@@ -12,9 +12,18 @@ class CourseUtils extends BaseUtils
       when 'admin'   then return @checkAdmin   user, courseId
 
   checkTeacher: (user, courseId) ->
-    Course.findOneQ
-      _id: courseId
-      owners: user._id
+    Classe.findQ teachers: user._id
+    .then (classes) ->
+      courseIds = _.pluck classes, 'courseId'
+      conditions = _id: courseId
+
+      # 如果不是某个班级的老师，则必须是相应课程的owner才有权限
+      unless ~_u.findIndex(courseIds, courseId)
+        conditions.owners = user._id
+
+      Course.findOne conditions
+            .populate 'categoryId', 'orgId'
+            .execQ()
     .then (course) ->
       if course?
         return course
@@ -25,21 +34,26 @@ class CourseUtils extends BaseUtils
           errMsg : 'No course found or no permission to read it'
 
   checkStudent: (user, courseId) ->
-    Classe.findQ
-      students: user._id
+    Classe.findQ students: user._id
     .then (classes) ->
-      classeIds = _.pluck classes, '_id'
-      Course.findOneQ
-        _id: courseId
-        classes: $in: classeIds
+      courseIds = _.pluck classes, 'courseId'
+      unless _u.contains(courseIds, courseId)
+        return Q.reject
+          status : 403
+          errCode: ErrCode.CannotReadThisCourse
+          errMsg : '学生没有学习该课程'
+
+      Course.findById courseId
+            .populate 'categoryId', 'orgId'
+            .execQ()
     .then (course) ->
       if course?
         return course
       else
         Q.reject
           status : 403
-          errCode: ErrCode.CannotReadThisCourse
-          errMsg : 'No course found or no permission to read it'
+          errCode: ErrCode.NoCourse
+          errMsg : '未找到相关课程'
 
   checkAdmin : (user, courseId) ->
     Course.findById courseId
@@ -54,40 +68,74 @@ class CourseUtils extends BaseUtils
 
       return course
 
-
-  getTeacherCourses : (teacherId) ->
-    Course.find
-      owners : teacherId
-    .populate 'classes', '_id name orgId yearGrade'
+  # 管理员可以查看该机构的所有课程
+  getAdminCourses : (orgId) ->
+    Course.find orgId: orgId
     .populate 'owners', '_id name avatar'
     .execQ()
-    .then (courses) ->
-      return courses
-    , (err) ->
-      Q.reject err
 
+  getTeacherCourses : (teacherId) ->
+    Course.find owners : teacherId
+    .populate 'owners', '_id name avatar'
+    .execQ()
+
+  # 找出学生所在的所有班级，然后取出courseId字段（会有重复），进而获取课程列表
   getStudentCourses : (studentId) ->
-    Classe = _u.getModel 'classe'
-    Classe.findOneQ
-      students: studentId
-    .then (classe) ->
-      Course.find
-        classes : classe._id
+    Classe.findQ students: studentId
+    .then (classes) ->
+      courseIds = _.pluck classes, 'courseId'
+
+      Course.find _id: $in: courseIds
       .populate 'owners', '_id name avatar'
       .execQ()
-    .then (courses) ->
-      return courses
-    , (err) ->
-      Q.reject err
 
-  getStudentsNum: (user, courseId) ->
+  getStudentsNum: (user, courseId, classeId) ->
+    @getStudentIds.apply @, arguments
+    .then (studentIds) ->
+      unless studentIds.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoStudentsHere
+          errMsg: '所选的班级没有学生'
+
+      return studentIds.length
+
+
+  #获取参与指定课程的所有学生的id列表，若指定了班级，则只需要计算该班级即可
+  getStudentIds: (user, courseId, classeId) ->
     if user.role is 'student'
-      return Q(1)
+      return Q([user._id])
 
-    @getAuthedCourseById user, courseId
-    .then (course) ->
-      Classe.findQ _id: $in: course.classes
+    conditions = courseId: courseId
+    conditions._id = classeId if classeId #如果提供了classeId，则只查找指定班级
+
+    Classe.findQ conditions
     .then (classes) ->
-      return (_u.union.apply _u, (_.pluck classes, 'students')).length
+      unless classes?.length
+        return Q.reject
+          status: 400
+          errCode: ErrCode.NoClassesHere
+          errMsg: "没有找到相应班级 classeId: #{classeId}, courseId: #{courseId}"
+
+      return _u.union.apply _u, (_.pluck classes, 'students')
+
+
+  # For update operations, such as update/destroy/publish, user has to be
+  # either course owner or course's associated classes teacher
+  buildWriteConditions : (req) ->
+    courseId = req.params.id
+    orgId = req.user.orgId
+    userId = req.user.id
+    conditions = {_id: courseId, orgId: orgId}
+
+    Classe.findQ
+      courseId : courseId
+      teachers : userId
+    .then (classes) ->
+      unless classes? and classes.length > 0
+        conditions.owners = req.user._id if req.user.role is 'teacher'
+      return conditions
+    .catch (err) ->
+      logger.error 'Failed to find class', err
 
 exports.CourseUtils = CourseUtils

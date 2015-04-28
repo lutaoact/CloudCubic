@@ -6,7 +6,8 @@ auth = require '../../auth/auth.service'
 
 router = express.Router()
 
-router.get '/', auth.isAuthenticated(), controller.show #?courseId=xxxx[&studentId=xxxx]
+#?courseId=xxxx[&studentId=xxxx&classeId=xxxx] studentId用来查看指定学生 classeId用来查看指定班级
+router.get '/', auth.isAuthenticated(), controller.show
 router.get '/real_time', auth.hasRole('teacher'), controller.realTimeView
 
 module.exports = router

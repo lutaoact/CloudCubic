@@ -6,6 +6,7 @@ AssetUtils = _u.getUtils 'asset'
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
+randomstring = require 'randomstring'
 qiniu = require 'qiniu'
 path = require 'path'
 _ = require 'lodash'
@@ -21,11 +22,14 @@ crypto = require 'crypto'
 sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
+auth = require('../../auth/auth.service')
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 uploadImageType       = config.assetHost.uploadImageType
+
+WrapRequest = new (require '../../utils/WrapRequest')(User)
 
 ###
   Get list of users
@@ -50,14 +54,14 @@ exports.index = (req, res, next) ->
       _.forEach classes, (classe) ->
         _.forEach classe.students, (studentId) ->
           classStudents[studentId] = studentId
-        
+
       results = _.filter allStudents, (as) ->
-        not classStudents[as._id]? 
-      
+        not classStudents[as._id]?
+
       res.send results
     .catch next
     .done()
-      
+
   else
     User.findQ condition, '-salt -hashedPassword'
     .then (users) ->
@@ -69,24 +73,18 @@ exports.index = (req, res, next) ->
   Creates a new user
 ###
 exports.create = (req, res, next) ->
+  randomStr = randomstring.generate 6
   body = req.body
   body.provider = 'local'
-
+  body.password = randomStr
   delete body._id
   body.orgId = req.user.orgId
 
   User.createQ body
   .then (user) ->
-    if req.user.role is 'admin'
-      res.json user
-    else
-      token = jwt.sign
-        _id: user._id,
-        config.secrets.session,
-        expiresInMinutes: 60*5
-      res.json
-        _id: user._id
-        token: token
+    host = req.protocol+'://'+req.headers.host
+    sendActivationMail user.email, user.activationCode, host, req.org?.name, randomStr
+    res.json user
   , next
 
 ###
@@ -102,9 +100,25 @@ exports.show = (req, res, next) ->
 
 
 exports.check = (req, res, next) ->
-  UserUtils.check email: req.query.email
+  UserUtils.check
+    orgId: req.org?.id
+    email: req.query.email
   .then () ->
     res.send 200
+  .catch next
+  .done()
+
+exports.match = (req, res, next) ->
+  conditions = orgId: req.user.orgId
+  conditions.$or = [
+    email: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ,
+    name: new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+  ]
+  conditions.role = req.query.role
+  User.findQ conditions, 'name email avatar'
+  .then (users) ->
+    res.send users
   .catch next
   .done()
 
@@ -131,14 +145,14 @@ exports.destroy = (req, res, next) ->
     _id: userId
   .then (user) ->
     userObj = user
-    Classe.findOneQ
+    Classe.findQ
       students : userId
-  .then (classe) ->
-    if classe?
-      classe.updateQ
-        $pull :
-          students : userId
-  .then (classe) ->
+  .then (classes) ->
+    if classes?
+      promiseAll = for classe in classes
+        classe.updateQ $pull: students: userId
+      Q.all promiseAll
+  .then () ->
     res.send userObj
   , next
 
@@ -175,13 +189,14 @@ exports.changePassword = (req, res, next) ->
 ###
 exports.me = (req, res, next) ->
   userId = req.user.id
-  User.findOne
-    _id: userId
-    '-salt -hashedPassword'
+  User.findOneAndUpdate {_id: userId}, {lastLoginAt: new Date()}
   .populate 'orgId'
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
+    loggerD.write 'me', user.orgId?._id, user._id
+    user.salt = null
+    user.hashedPassword = null
     res.send user
   , next
 
@@ -192,15 +207,29 @@ exports.update = (req, res, next) ->
   body = req.body
   body = _.omit body, ['_id', 'password', 'orgId']
 
+  sendMail = false
+  activationCode = ''
+  
   User.findByIdQ req.params.id
   .then (user) ->
     return res.send 404 if not user?
 
-    updated = _.merge user , req.body
+    # binding email after using wechat login scenario
+    if !user.email? && req.body.email?
+      sendMail = true
+      activationCode = UserUtils.generateActivationCode req.body.email
+      req.body.activationCode = activationCode
+      
+    updated = _.merge user, req.body
     updated.saveQ()
   .then (result) ->
-    res.send result[0]
-  , next
+    user = result[0]
+    res.send user
+    if sendMail
+      host = req.protocol+'://'+req.headers.host
+      sendActivationMail user.email, activationCode, host, req.org?.name
+  .catch next
+  .done()
 
 
 updateClasseStudents = (classeId, studentList) ->
@@ -243,7 +272,7 @@ exports.bulkImport = (req, res, next) ->
   importedUsers = []
 
   userList = []
-  
+
   AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
   .then (downloadUrl) ->
     request.get(downloadUrl).pipe stream
@@ -280,19 +309,20 @@ exports.bulkImport = (req, res, next) ->
     # just add it to importedUsers list
     existingStudentPromises = _.map userList, (userItem) ->
       User.findQ
-        "email" : userItem.email
-          
+        orgId : orgId
+        email : userItem.email
+
     Q.allSettled(existingStudentPromises)
   .then (results) ->
-    
+
     # filter out existing users from userList
     _.forEach results, (result) ->
       if (result.state is 'fulfilled') && (result.value.length > 0) && (type is 'student')
-        
+
         foundUser = result.value[0]
         importReport.success.push foundUser.name
         importedUsers.push foundUser.id
-        
+
         # remove this user from UserList
         # fix： 这里不能取 result 的 index，因为 result 的 length 不一定是 userList 的 length
         removeIndex = _.findIndex userList, email:foundUser.email
@@ -313,6 +343,8 @@ exports.bulkImport = (req, res, next) ->
     _.forEach results, (result) ->
       if result.state is 'fulfilled'
         user = result.value[0]
+        host = req.protocol+'://'+req.headers.host
+        sendActivationMail user.email, user.activationCode, host, req.org?.name
         console.log 'Imported user ' + user.name
         importReport.success.push user.name
         importedUsers.push user.id
@@ -341,6 +373,7 @@ exports.forgotPassword = (req, res, next) ->
   .then (buf) ->
     token = buf.toString 'hex'
     conditions =
+      orgId: req.org?.id
       email: req.body.email.toLowerCase()
     fieldsToSet =
       resetPasswordToken: token,
@@ -348,8 +381,8 @@ exports.forgotPassword = (req, res, next) ->
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
     return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if !user?
-    resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
-    sendPwdResetMail user.name, user.email, resetLink
+    host = req.protocol+'://'+req.headers.host
+    sendPwdResetMail user.name, user.email, host, token, req.org?.name
   .done () ->
     res.send 200
   , next
@@ -373,29 +406,49 @@ exports.resetPassword = (req, res, next) ->
 
 
 exports.sendActivationMail = (req, res, next) ->
-  User.findOneQ
+  conditions =
     email: req.body.email
+
+  if req.org?.id
+    conditions.orgId = req.org?.id
+  else if req.body.orgId
+    conditions.orgId = req.body.orgId
+
+  User.findOneQ conditions
   .then (user) ->
-    sendActivationMail user.email, user.activationCode
+    host = req.protocol+'://'+req.headers.host
+    sendActivationMail user.email, user.activationCode, host, req.org?.name
     res.send 200
   .catch next
   .done()
 
 
 exports.completeActivation = (req, res, next) ->
-  User.findOneQ
+  baseUrl = null
+  User.findOne
     email: req.query.email?.toLowerCase?()
     activationCode: req.query.activation_code
+  .populate 'orgId'
+  .execQ()
   .then (user) ->
     if not user?
-      return res.redirect "/index?message='activation-none'"
+      return res.redirect "/index?message=activation-none"
     req.user = user
+
+    if req.org?
+      baseUrl = ''
+    else #only for organization admin's first time registration
+      host = user.orgId.uniqueName + '.' + req.headers.host
+      baseUrl = req.protocol + '://' + host
+
     if user.status == 1
-      return res.redirect "/index?message='activation-used'"
+      return res.redirect(baseUrl+"/index?message=activation-used")
     user.status = 1
     user.saveQ()
   .then ()->
-    setTokenCookie req, res, "/index?message='activation-success'"
+    token = auth.signToken(req.user._id, req.user.role)
+    targetUrl = baseUrl + '/index?access_token=' + token
+    res.redirect targetUrl
   .catch next
   .done()
 

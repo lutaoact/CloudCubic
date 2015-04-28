@@ -1,0 +1,70 @@
+.course-list-tile {
+  background: white;
+  .header {
+    .col-md-12 {
+      padding-left: 1px;
+      padding-right: 1px;
+      height: 40px;
+      border-bottom: 1px solid #B2B3B4;
+      &:before {
+        content: '';
+        border-bottom: 1px solid #676767;
+        width: 75px;
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+      }
+    }
+    .title {
+      display: inline-block;
+      line-height: 28px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      a {
+        color: #0F1116;
+        text-decoration: none;
+      }
+    }
+    .btn-group {
+      vertical-align: top;
+      margin-left: 18px;
+      overflow: hidden;
+      max-width: calc(~'100% - 160px');
+      height: 30px;
+      .btn + .btn {
+        margin-left: 10px;
+      }
+    }
+    .pull-right {
+      line-height: 28px;
+      font-size: .9em;
+    }
+    .btn-toggle {
+      color: #8D8F92;
+      border-radius: 4px !important;
+      padding: 3px 12px;
+      box-shadow: none;
+      &:hover {
+        color: white;
+        background: @base-color + 15;
+      }
+      &:active ,
+      &.active {
+        color: white;
+        background: @base-color;
+      }
+    }
+    padding: 20px;
+  }
+  .body {
+    .empty-classes {
+      margin-top: 30px;
+      margin-bottom: 40px;
+      font-size: 20px;
+      i {
+        font-size: 25px;
+        vertical-align: top;
+      }
+    }
+  }
+}

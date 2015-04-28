@@ -1,0 +1,115 @@
+
+<section
+  class="home-section"
+  id="main">
+
+  <carousel interval="myInterval" disable-animation>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner01.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-6 col-md-6 col-md-offset-1">
+            <h1 class="title">
+              “独立的机构，独立的品牌”
+            </h1>
+            <p class="text">
+              每个教育机构使用自己独立的域名，独立的网校入口，充分的定制化设计；帮助您在众多教育机构中脱颖而出，让全世界都知道您的品牌。
+            </p>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner01_mac.png'" alt="">
+          </div>
+        </div>
+      </div>
+    </slide>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner02.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-6 col-md-6 col-md-offset-1">
+            <h1 class="title">
+              “快速创建机构，快速展开教学”
+            </h1>
+            <p class="text">
+              5秒钟创建班级，1分钟课程上线 ; 实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！
+            </p>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner02_ipad.png'" alt="">
+          </div>
+        </div>
+      </div>
+    </slide>
+    <slide full-page>
+      <div class="banner center-wrap" src-key="'/assets/images/home_banner03.jpg'" source-attr="background-image">
+        <div class="center-content">
+          <div class="col-lg-6 col-md-6 col-md-offset-1">
+            <h1 class="title">
+              “微信快速登录，公众号深度集成”
+            </h1>
+            <p class="text">
+              支持机构专属微信扫码登录，降低学员使用门槛；学员关注机构专属微信公众号即可开始移动学习和分享，便于机构充分利用微信进行推广营销。
+            </p>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div class="widget col-lg-5 col-md-6 col-md-offset-1">
+            <img src-key="'/assets/images/home_banner03_iphone.png'" alt="">
+          </div>
+        </div>
+      </div>
+    </slide>
+  </carousel>
+
+  <div class="register-form-container">
+    <register-form></register-form>
+  </div>
+
+  <a href="{{org?'#courses-section':'#features-header'}}" class="btn know-more" du-smooth-scroll>
+    了解更多
+    <br>
+    <i class="fa fa-chevron-down"></i>
+  </a>
+
+</section>
+
+<feature-list title="云立方学院可以为您带来什么？" distance="{{distance}}"></feature-list>
+
+<section full-page
+  class="home-section text-center center-wrap"
+  id="contacts"
+  ng-if="!org"
+  src-key="'/assets/images/timetable_back.png'"
+  source-attr="background-image">
+  <div class="center-content">
+    <div class="section_header">
+      <h1>
+        <i class="budon budon-diamond"></i><i class="budon budon-diamond"></i><i class="budon budon-diamond"></i>
+        如果您的教育机构需要
+        <i class="budon budon-diamond"></i><i class="budon budon-diamond"></i><i class="budon budon-diamond"></i>
+      </h1>
+    </div>
+    <div class="container">
+      <div class="col-sm-6 col-sm-offset-3">
+        <ul class="advantages">
+          <li><i class="fa fa-check"></i>快速部署在线教育服务，追踪教学过程</li>
+          <li><i class="fa fa-check"></i>增强教学和学习体验，机构竞争优势</li>
+          <li><i class="fa fa-check"></i>利用课堂实时互动，增强学习效率</li>
+          <li><i class="fa fa-check"></i>使用云服务，统计分析大量教学数据</li>
+          <li><i class="fa fa-check"></i>充分融合线上和线下的教学</li>
+        </ul>
+      </div>
+      <div class="col-sm-8 col-sm-offset-2">
+        <a href="mailto:info@cloud3edu.com" target="blank" class="btn btn-warning btn-lg mail-to">
+          请联系我们进入云立方学院
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="#main" du-smooth-scroll class="back-to-top" du-scrollspy offset="120">
+  <i class="fa fa-chevron-up"></i>
+</a>

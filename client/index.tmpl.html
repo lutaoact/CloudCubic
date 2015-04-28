@@ -9,12 +9,13 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta property="wb:webmaster" content="7a80deb95b2d0328" />
-  <meta property="qc:admins" content="06216002475435456375" />
+  <meta property="qc:admins" content="06216006776347543545636" />
   <base href="/">
-  <title>云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始</title>
-  <meta name="Description" content="云立方学院提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验">
-  <meta name="Keywords" content="教育云服务,互联网教育,SaaS,个性化教育,实时互动,多维统计,学习分享,知识积累,在线教育,网校平台">
+  <title><%- title %></title>
+  <meta name="Description" content="<%- title %>提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验">
+  <meta name="Keywords" content="<%- title %>,教育云服务,互联网教育,SaaS,个性化教育,实时互动,多维统计,学习分享,知识积累,在线教育,网校平台">
   <meta name="viewport" content="width=device-width,minimal-ui">
+  <meta name="fragment" content="!">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(client) app/vendor.css -->
   <!-- bower:css -->
@@ -27,6 +28,17 @@
   <!-- endbuild -->
   <!-- TODO: remove these two libs -->
   <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.min.css"/>
+  <link rel="shortcut icon" href="<%- icon %>">
+  <!-- baidu analysis -->
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?4297b8f3faa51bc78caa262c9800ffe9";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
 
 </head>
 <body ng-app="budweiserAppDev">
@@ -37,7 +49,7 @@
   <!-- Add your site or application content here -->
   <div ng-if="!webview"
        ng-include="'components/navbar/navbar.html'"></div>
-  <div ui-view class="fadeIn"></div>
+  <div ui-view class="fadeIn" ng-class="{'margin-top': !webview}"></div>
   <div ng-if="!webview"
        ng-include="'components/footer/footer.html'"></div>
 
@@ -47,7 +59,7 @@
   <![endif]-->
 
   <!-- common js -->
-  <script src="/common/Const.js"></script>
+  <script src="http://cloud3edu.cn/common/Const.js"></script>
 
   <!-- build:js(client) app/vendor.js -->
   <!-- bower:js -->
@@ -68,6 +80,7 @@
       .constant('webview', <%- webview %>)
       .constant('initUser', <%- initUser %>)
       .constant('initNotify', <%- initNotify %>)
+      .constant('org', <%- org %>)
   </script>
 </body>
 </html>

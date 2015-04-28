@@ -1,0 +1,135 @@
+<div class="course-detail">
+  <div class="container">
+    <div class="course-info row">
+      <h4 class="course-title">
+        {{classe.name}}
+      </h4>
+      <div class="row">
+        <div class="col-md-7 course-info-left">
+          <div class="course-thumbnail"
+            src-key="course.thumbnail"
+            source-attr="background-image">
+          </div>
+        </div>
+        <div class="col-md-5 course-info-right">
+          <div class="classe-info">
+            <div class="row schedule-row">
+              <div class="col-xs-6">
+                <div class="text-muted">
+                  开课日期
+                </div>
+                <div>
+                  {{(classe.duration.from | date: 'yyyy.MM.dd') || '待定'}}
+                  -
+                  {{(classe.duration.to | date: 'yyyy.MM.dd') || '待定'}}
+                </div>
+              </div>
+              <div class="col-xs-6 schedules">
+                <div class="text-muted">
+                  上课时间
+                </div>
+                <div class="schedules-summary"
+                     title="{{classe.schedules|scheduleSummary}}">
+                  {{classe.schedules|scheduleSummary}}
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-if="classe.address">
+              <div class="col-xs-12">{{classe.address}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6" ng-repeat="teacher in classe.teachers">
+                <div class="teacher clearfix">
+                  <div class="avatar-md pull-left"
+                       source-attr="background-image"
+                       src-key="teacher.avatar"
+                       suffix="?imageView2/1/w/64/h/64">
+                  </div>
+                  <div>
+                    {{teacher.name||'某老师'}}
+                  </div>
+                  <div class="text-muted">
+                    {{teacher.title}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="buy-buttons"
+               ng-if="classe.students.indexOf(Auth.getCurrentUser()._id) == -1">
+            <span class="yuan" ng-if="classe.price > 0">
+              ¥ {{classe.price.toFixed(2)}}
+            </span>
+            <span class="yuan" ng-if="classe.price == 0">
+              免费课程
+            </span>
+            <span class="pull-right"
+                  ng-show="classe.price > 0 && !Auth.hasRole('teacher')">
+              <button class="btn btn-md btn-warning"
+                      login-window
+                      login-success="makeOrder(classe)">
+                直接购买
+              </button>
+              <button class="btn btn-md btn-danger"
+                      login-window
+                      login-success="addToCart(classe)">
+                <i class="fa fa-shopping-cart"></i>加入购物车
+              </button>
+            </span>
+            <span class="pull-right"
+                  ng-show="classe.price == 0 && !Auth.hasRole('teacher')">
+              <button class="btn btn-md btn-danger"
+                      login-window
+                      login-success="enrollFreeClass(classe)">
+                参加课程
+              </button>
+            </span>
+
+          </div>
+          <div class="learn-progress"
+               ng-if="progress != null">
+            <div class="progress">
+              <div class="learn-progress-inner-bar"
+                  ng-style="{'width':progress.length / course.lectureAssembly.length * 100 + '%'}">
+              </div>
+              <div class="tip">
+                {{progress.length + '/' + course.lectureAssembly.length}}课时
+              </div>
+            </div>
+            <div class="learn-btn">
+              <a class="btn btn-danger btn-lg"
+                 ng-click="gotoLecture()">
+                <span ng-if="Auth.hasRole('teacher')">开始上课</span>
+                <span ng-if="!Auth.hasRole('teacher')">{{progress.length?'继续学习':'开始学习'}}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bud list-group lecture-list">
+      <div class="list-group-header">
+        <div class="btn-group">
+          <label class="btn btn-toggle"
+                 ui-sref="course.detail.desc"
+                 ng-class="{active: $state.includes('course.detail.desc')}">
+            <a href class="none-decoration" ui-sref="course.detail.desc">课程简介</a>
+          </label>
+          <label class="btn btn-toggle"
+                 ui-sref="course.detail.lectures"
+                 ng-class="{active: $state.includes('course.detail.lectures')}">
+            <a href class="none-decoration" ui-sref="course.detail.lectures">课时({{course.lectureAssembly.length||0}})</a>
+          </label>
+          <label class="btn btn-toggle"
+                 ui-sref="course.detail.comments"
+                 ng-class="{active: $state.includes('course.detail.comments')}">
+            <a href class="none-decoration" ui-sref="course.detail.comments">评论({{course.commentsNum||0}})</a>
+          </label>
+        </div>
+      </div>
+      <div ui-view class="fadeIn"></div>
+    </div>
+  </div>
+</div>

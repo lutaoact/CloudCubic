@@ -1,0 +1,115 @@
+.edit-classe-modal {
+  .bud-modal;
+  .modal-dialog {
+    width: 520px;
+  }
+  .edit-classe-form {
+    &.form-horizontal .control-label {
+      text-align: left;
+    }
+    input {
+      border-radius: 4px;
+    }
+    .input-group-addon {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+
+  .nav-tabs {
+    margin-left: -@bud-modal-padding;
+    margin-right: -@bud-modal-padding;
+    &> li:nth-child(1) {
+      margin-left: 30px;
+    }
+    &> li > a {
+      font-size: 13px;
+      color: #989798;
+    }
+    &> li.active > a,
+    &> li.active > a:hover,
+    &> li.active > a:focus {
+      color: #221714;
+      background: #F2F2F2;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+  }
+
+  .classe-times  {
+    padding: 20px 0 10px 0;
+    margin-left: -@bud-modal-padding;
+    margin-right: -@bud-modal-padding;
+    margin-bottom: 10px;
+    background: #F2F2F2;
+    table {
+      font-size: 13px;
+      th {
+        font-weight: normal;
+      }
+      .td-title {
+        width: 98px;
+        height: 35px;
+        padding-left: 2px;
+      }
+      .td-label {
+        color: #989896; 
+        width: 35px;
+        text-align: center;
+      }
+      .td-date {
+        width: 130px;
+        .dropdown-toggle {
+          width: 100%;
+        } 
+      }
+      .form-control {
+        width: calc(~'100% - 5px');
+      }
+      .shift-rule {
+        color: #989896;
+        width: 98px;
+        padding-left: 2px;
+      }
+      .shift-start {
+        color: #989896;
+        width: 107px;
+        .form-control {
+          width: calc(~'50% - 8px');
+          display: inline-block;
+        }
+      }
+      .shift-duration {
+        color: #989896;
+        width: 90px;
+      }
+      .shift-row {
+        height: 40px;
+      }
+      .td-close {
+        .close {
+          margin-top: -5px;
+          margin-right: -22px;
+        }
+      }
+    }
+  }
+
+  .classe-teachers {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    .label-default {
+      font-weight: normal;
+      font-size: 12px !important;
+      border-radius: 2px;
+      background-color: #f2f2f2;
+      color: black;
+      padding: 4px;
+    }
+    .close {
+      font-size: 18px;
+      font-weight: normal;
+      float: none;
+    }
+  }
+}

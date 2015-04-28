@@ -1,0 +1,97 @@
+<div class="order-detail">
+  <div class="order-detail-header row" ng-click="isCollapsed = !isCollapsed">
+      <div class="col-md-3">
+        {{order.created | date: 'yyyy-MM-dd H:mm:ss'}}
+      </div>
+      <div class="col-md-5">
+        <span class="text-muted">订单号：</span>{{order._id}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <div class="col-md-4">
+        <span ng-if="Auth.getCurrentUser().role == 'admin'"><span class="text-muted">用户名：</span>{{order.userId.name}}</span>
+        <a class="close pull-right"
+           ng-hide="order.status=='succeed' || onOrderDeleted()==undefined || Auth.getCurrentUser().role == 'admin'"
+           href
+           ng-click="deleteOrder(order)">&times;
+        </a>
+      </div>
+  </div>
+  <div collapse="isCollapsed" class="row">
+    <div ng-repeat="classe in order.classes"
+         class="order-classe row">
+
+      <div class="col-md-3 col-img">
+        <img class="item-image" ng-src="{{classe.courseId.thumbnail}}">
+      </div>
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="class-name">
+              <a ui-sref="course.detail({courseId: classe.courseId._id,classeId: classe._id})">{{classe.name}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="classe-info">
+          <div class="row schedule-row">
+            <div class="col-xs-6">
+              <div class="text-muted">
+                开课日期
+              </div>
+              <div>
+                {{(classe.duration.from | date: 'yyyy.MM.dd') || '待定'}}-{{(classe.duration.to | date: 'yyyy.MM.dd') || '待定'}}
+              </div>
+            </div>
+            <div class="col-xs-6 schedules">
+              <div class="text-muted">
+                上课时间
+              </div>
+              <div class="schedules-summary" title="{{classe.schedules|scheduleSummary}}">
+                {{classe.schedules|scheduleSummary}}
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="classe.address">
+            <div class="col-xs-12">{{classe.address}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <span class="text-muted">价格：</span><span class="class-price">￥{{classe.$orderPrice}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-detail-footer row">
+    <div class="col-md-8">
+      <div class="class-summary fade-show-hide" ng-show="isCollapsed">
+        <span class="text-muted">课程：</span>
+        <a ng-repeat="classe in order.classes" ui-sref="course.detail({courseId: classe.courseId._id,classeId: classe._id})" class="class-name">
+          {{classe.name}}
+        </a>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <span class="text-muted">共计：</span><span class="class-price">￥{{order.totalFee}}</span>
+    </div>
+    <div class="col-md-1">
+      <div ng-switch="order.status" class="pull-right">
+        <div ng-switch-when='succeed'>
+          已支付
+        </div>
+        <div ng-switch-when="unpaid">
+          <button ng-click="pay()"
+                  ng-hide="Auth.getCurrentUser().role == 'admin'"
+                  class="btn btn-danger btn-sm pay-btn">
+            支付宝结算
+          </button>
+          <div ng-show="Auth.getCurrentUser().role == 'admin'">
+            未支付
+          </div>
+        </div>
+        <div ng-switch-default style="width: 56px;" tooltip="该订单包含已参加课程或支付出现问题">
+            无效订单
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

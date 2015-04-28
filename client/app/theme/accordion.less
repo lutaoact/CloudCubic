@@ -1,3 +1,30 @@
 .accordion-toggle{
   cursor: pointer;
 }
+accordion.bud{
+  .panel-heading{
+    border: none;
+    background-color: #FFF;
+    .accordion-toggle{
+      i{
+        color: @base-color;
+      }
+    }
+  }
+  .panel-default > .panel-heading + .panel-collapse .panel-body{
+    border-top: none;
+  }
+  .panel-collapse.collapse.in{
+    .panel-body{
+      &:before{
+        content: ' ';
+        margin-top: -10px;
+        margin-bottom: 9px;
+        width: 0px;
+        height: 1px;
+        border-left: 40px solid @gray-light;
+        border-right: 80px solid @gray-lighter;
+      }
+    }
+  }
+}

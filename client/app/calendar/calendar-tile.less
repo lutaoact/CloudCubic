@@ -1,0 +1,93 @@
+.calendar-block{
+  .dot{
+    width: 4px;
+    height: 4px;
+    border-radius: 4px;
+    background: @gray-light;
+  }
+  width: 100%;
+  background: #FFF;
+  font-size: 12px;
+  &-up{
+    background: @gray-lighter;
+    .calendar-header{
+      height: 40px;
+      width: 100%;
+      margin: 0;
+      padding: 10px 8px;
+    }
+    .calendar{
+      display: table;
+      width: 100%;
+      margin: 0;
+      .calendar-row{
+        display: table-row;
+        width: 100%;
+      }
+      .calendar-column{
+        display: table-column;
+      }
+      .calendar-cell{
+        display: table-cell;
+        text-align: center;
+        width: 1/7*100%;
+        .content{
+          margin: 0 auto;
+          width: 27px;
+          height: 27px;
+          overflow: hidden;
+          border-radius: 2px;
+          cursor: pointer;
+          .transition(all .13s ease-in-out);
+          .box-shadow(inset 0 0px 2px 1px transparent);
+          &:hover{
+            background: @gray-lighter;
+            .box-shadow(inset 0 0px 2px 1px @gray-light);
+          }
+          .dot{
+            float: left;
+            margin: 2px;
+          }
+        }
+        &.is-selected{
+          .content{
+            .box-shadow(inset 0 0px 2px 1px @base-color);
+          }
+        }
+        &.today{
+          .content{
+            background: @gray-lighter;
+            .box-shadow(inset 0 0px 2px 1px @brand-danger);
+          }
+        }
+        &.in-other-month{
+          .content{
+            color: @gray-light;
+          }
+        }
+      }
+    }
+  }
+
+  &-down{
+    .schedule{
+      cursor: pointer;
+      border-bottom: 1px solid @gray-lighter;
+      &:nth-last-child(1){
+        border-bottom: none;
+        margin: 5px 0 0 0;
+      }
+      padding: 0px 5px;
+      margin: 5px 0px;
+      .dot{
+        margin: 15px 7px 0 0;
+      }
+      h5{
+        width: 185px;
+      }
+      &:hover{
+        .box-shadow(inset 0 0px 1px @gray-light);
+      }
+    }
+  }
+}

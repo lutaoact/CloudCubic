@@ -16,7 +16,7 @@
                 class="course-img btn-danger"
                 on-complete="onThumbUploaded($data)"
                 crop="true"
-                crop-ratio="1.75"
+                crop-ratio="1.5"
                 max-width="1000"
                 accept-type="image">
         <span class="glyphicon glyphicon-picture"></span>
@@ -33,8 +33,7 @@
                name="name"
                maxlength="50"
                type="text"
-               focus-me="courseNameFocus"
-               ng-init="courseNameFocus=true"
+               focus-me
                ng-model="editingInfo.name"
                placeholder="课程名称"
                required>

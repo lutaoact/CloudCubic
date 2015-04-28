@@ -1,0 +1,105 @@
+.admin {
+  .student-manager-detail {
+    .border-left{
+      border-left: 1px solid #ddd;
+      margin-left: -1px;
+    }
+    .border-top{
+      border-top: 1px solid #ddd;
+      margin-top: -1px;
+    }
+    .padding-vertical{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      h3{
+        margin-top: 10px;
+      }
+    }
+    hr {
+      border-color: #ccc;
+    }
+    .student-info-group {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      margin-left: 0;
+      margin-right: 0;
+      label {
+        font-weight: normal;
+      }
+      .form-control {
+        border-color: white;
+        border-radius: 4px;
+        box-shadow: none;
+        &:hover,
+        &:focus {
+          background-color: #f8f8f8;
+        }
+      }
+      .student-avatar-col {
+        .student-avatar {
+          margin: 0;
+          padding: 40px 20px;
+          .btn {
+            margin-top: 50px;
+          }
+        }
+      }
+      .student-name-col {
+        border-left: 1px solid #ddd;
+        margin-left: -1px;
+        padding: 0px;
+        label {
+          padding-left: 12px;
+        }
+        .form-group {
+          margin: -1px 0px 0px;
+          padding: 5px;
+          border-top: 1px solid #ddd;
+        }
+      }
+    }
+    .student-classes-detail {
+      margin-top: 20px;
+      .btn-group {
+        margin-top: 15px;
+        .btn + .btn {
+          margin-left: 5px;
+        }
+        .btn {
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-color: #ddd;
+          box-shadow: none;
+          background-color: #EAEBEC;
+          &.active {
+            background-color: white;
+            border-bottom-color: white;
+          }
+        }
+      }
+      .empty-classes {
+        color: #616265;
+        .budon {
+          margin-bottom: 10px;
+        }
+      }
+      .classe-detail {
+        padding: 10px;
+        margin-top: -1px;
+        border: 1px solid #ddd;
+        background: white;
+        min-height: 200px;
+        .overall {
+          margin-bottom: 0;
+          box-shadow: none;
+        }
+        &.empty-classes {
+          margin-top: 10px;
+          padding: 80px 0;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}

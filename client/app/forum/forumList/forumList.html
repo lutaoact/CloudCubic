@@ -1,0 +1,66 @@
+<section class="forum-list">
+
+  <div class="header-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="title" href ui-sref="{page:'', keyword:''}">所有讨论组</a>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{forums.$count}}</span> 个
+          </span>
+          <search-input keyword="viewState.keyword"
+                        on-submit="reload(true)"
+                        placeholder="讨论组关键字搜索">
+          </search-input>
+          <span ng-if="Auth.hasRole('student')">
+            <button class="btn btn-sm btn-danger pull-right"
+                    ng-click="createForum()">
+              <i class="fa fa-plus-circle"></i>
+              新讨论组
+            </button>
+          </span>
+          <ul class="nav nav-group">
+            <li ng-class="{'active':pageConf.sort=='postsCount'}">
+              <a href ng-click="pageConf.sort='postsCount';reload()">
+                最热
+                <i class="fa fa-heart"></i>
+              </a>
+            </li>
+            <li ng-class="{'active':pageConf.sort=='created'}">
+              <a href ng-click="pageConf.sort='created';reload()">
+                最新
+                <i class="fa fa-clock-o"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row all-forums">
+      <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="forum in forums">
+        <forum-tile forum="forum"></forum-tile>
+      </div>
+      <div ng-if="!forums||!forums.length">
+        <div class="col-md-12 text-muted">
+          暂无讨论小组，赶快来创建一个吧，聊聊课程或者八卦一下;-)
+        </div>
+      </div>
+    </div>
+    <div class="row pagination-row text-center"
+       ng-if="forums.$count > pageConf.itemsPerPage">
+      <pagination
+        total-items="forums.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        ng-change="reload()"
+        max-size="pageConf.maxSize">
+      </pagination>
+    </div>
+  </div>
+</section>

@@ -4,8 +4,9 @@ CourseUtils = _u.getUtils 'course'
 HomeworkAnswer = _u.getModel 'homework_answer'
 StatsUtils = _u.getUtils 'stats'
 User = _u.getModel 'user'
+Classe = _u.getModel 'classe'
 
-calLectureStats = (lecture, summary, studentsNum, userId) ->
+calLectureStats = (lecture, summary, studentsNum, studentsList) ->
   tmpResult = {}
   questionIds = lecture.homeworks
 
@@ -18,7 +19,7 @@ calLectureStats = (lecture, summary, studentsNum, userId) ->
 
   condition =
     lectureId : lecture._id
-  if userId? then condition.userId = userId
+  condition.userId = $in : studentsList
 
   HomeworkAnswer.findQ condition
   .then (answers) ->
@@ -30,71 +31,65 @@ calLectureStats = (lecture, summary, studentsNum, userId) ->
 
     summary.questionsLength += lectureStat.questionsLength
     summary.correctNum += lectureStat.correctNum
-    lectureStat.percent =
-      lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
+
+    if lectureStat.correctNum is 0
+      lectureStat.percent = 0
+    else
+      lectureStat.percent =
+        lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
 
     return lectureStat
   , (err) ->
     Q.reject err
 
-calStats = (user, courseId, studentsNum, userId) ->
+calStats = (user, courseId, studentsList) ->
   finalStats = {}
   summary =
     questionsLength: 0
     correctNum: 0
     percent: 0
 
+  studentsNum = studentsList?.length
+  if studentsNum is 0
+    return Q.reject
+      status : 400
+      errCode : ErrCode.NoStudentsHere
+      errMsg : '指定的班级或课程中不包含学生，无法进行统计'
+
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
     course.populateQ 'lectureAssembly', 'name homeworks'
   .then (course) ->
     lectures = course.lectureAssembly
+
     Q.all _.map lectures, (lecture) ->
-      calLectureStats lecture, summary, studentsNum, userId
+      calLectureStats lecture, summary, studentsNum, studentsList
   .then (statsData) ->
     finalStats = _.indexBy statsData, 'lectureId'
 
-    summary.percent =
-      summary.correctNum * 100 // (summary.questionsLength * studentsNum)
+    if summary.correctNum is 0
+      summary.percent = 0
+    else
+      summary.percent = summary.correctNum * 100 // (summary.questionsLength * studentsNum)
 
     finalStats.summary = summary
     return finalStats
 
 exports.show = (req, res, next) ->
   me = req.user
-  role = me.role
 
   courseId = req.query.courseId
+  classeId = req.query.classeId
   queryUserId = req.query.studentId ? req.query.userId
 
-  (switch role
-    when 'student'
-      calStats me, courseId, 1, me.id
-    when 'teacher'
-      if queryUserId?
-        calStats me, courseId, 1, queryUserId
-      else
-        CourseUtils.getStudentsNum me, courseId
-        .then (num) ->
-          calStats me, courseId, num
-    when 'admin'
-      tmpResult = {}
-      queryUserId ?= me.id
-      User.findByIdQ queryUserId
-      .then (queryUser) ->
-        if me.orgId.toString() isnt queryUser.orgId.toString()
-          return Q.reject
-            status : 403
-            errCode : ErrCode.NotSameOrg
-            errMsg : 'not the same org'
-
-        tmpResult.queryUser = queryUser
-      .then () ->
-        CourseUtils.getAuthedCourseById me, courseId
-      .then () ->
-        CourseUtils.getStudentsNum tmpResult.queryUser, courseId
-      .then (num) ->
-        calStats tmpResult.queryUser, courseId, num
-  ).then (statsResult) ->
+  Q(if queryUserId?
+      [queryUserId]
+    else
+      CourseUtils.getStudentIds(me, courseId, classeId)
+  )
+  .then (studentsList) ->
+    calStats me, courseId, studentsList
+  .then (statsResult) ->
     res.json 200, statsResult
-  , next
+  .catch next
+  .done()

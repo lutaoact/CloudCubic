@@ -1,0 +1,23 @@
+<div ng-class="{'margin-top': !webview}" class="help-view">
+  <div class="container">
+    <div class="help-header">
+      <div class="help-header-content">
+        <div class="title"><span class="q-icon"><i class="fa fa-question-circle"></i></span>帮助</div>
+        <div class="text-muted">支付失败</div>
+      </div>
+    </div>
+    <div class="help-detail">
+      <div class="question">
+      支付失败的原因可能有以下几种：<br>
+      1. 未开通网上银行。解决办法：请开通网银。<br>
+      2. 长时间未操作导致网页超时。解决办法：请刷新后重新充值。<br>
+      3. 网银消费达到当日消费上限 。解决办法：请您次日再尝试充值。<br>
+      4. 支付宝正在维护期间。<br>
+      </div>
+      <div class="help-footer">
+        <span class="text-muted">您可以<a href ui-sref="orderList">返回订单列表页面重新支付。</a></span><br>
+        联系客服：{{org.telephone}}
+      </div>
+    </div>
+  </div>
+</div>

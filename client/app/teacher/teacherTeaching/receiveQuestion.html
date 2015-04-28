@@ -1,8 +1,9 @@
-<div class="modal-header modal-header-black">
+<div class="modal-header">
   <h4 class="modal-title">
+    <i class="budon budon-question-push"></i>
     回答随堂问题
-    <a class="close" ng-click="close()">&times;</a>
   </h4>
+  <a class="close" ng-click="cancel()">&times;</a>
 </div>
 <div class="modal-body push-question-body">
   <h4>Q: {{question.body | questionTitle}}</h4>
@@ -26,12 +27,17 @@
   <question-answer question="question"
                    class="question-answer"
                    ng-if="submitted"></question-answer>
-</div>
-<div class="modal-footer">
-  <button type="button"
-          class="btn btn-danger"
-          ng-click="confirm(question)">
-    <span ng-if="!submitted">提交</span>
-    <span ng-if="submitted">关闭</span>
-  </button>
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-default btn-sm"
+            ng-click="cancel()">
+      取消
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm"
+            ng-click="confirm(question)">
+      <span ng-if="!submitted">提交</span>
+      <span ng-if="submitted">关闭</span>
+    </button>
+  </div>
 </div>

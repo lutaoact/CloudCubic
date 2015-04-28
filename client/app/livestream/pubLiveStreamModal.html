@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="fa fa-video-camera"></i>
+    发布视频直播
+    <small class="text-muted">- {{streamName}}</small>
+  </h4>
+  <a class="close" ng-click="stopPub()">&times;</a>
+</div>
+<div class="modal-body text-center"
+     on-resize="resize($size)"
+     min-width="500"
+     min-height="380"
+     resizable="modal-resizer">
+  <div pub-live-stream
+       on-ready="ready($liveStreamAPI)"
+       stream-id="streamId"
+       height="300"
+       width="400">
+  </div>
+  <div class="modal-resizer text-muted">
+    <i class="budon budon-resize"></i>
+  </div>
+</div>
+<div class="modal-footer">
+  <span class="mic-cam">
+    <span>麦克风：
+      <select ng-options="mic as mic.name for mic in micArray"
+              ng-model="selectedMic">
+        <option value="">-- 请选择麦克风 --</option>
+      </select>
+    </span>
+    <span>摄像头：
+      <select ng-options="cam as cam.name for cam in camArray"
+              ng-model="selectedCam">
+        <option value="">-- 请选择摄像头 --</option>
+      </select>
+    </span>
+  </span>
+  <button class="btn btn-sm btn-default"
+          ng-click="stopPub()">
+    关闭
+  </button>
+  <button type="button"
+          class="btn btn-sm btn-primary"
+          ng-click="startPub()"
+          focus-me>
+    <span ng-if="stateInfo == 'none'">
+      <i class="fa fa-spin fa-spinner"></i>
+      正在初始化
+    </span>
+    <span ng-if="stateInfo == 'init'" tooltip="点击开始直播">
+      开始直播
+    </span>
+    <span ng-if="stateInfo == 'pause'" tooltip="点击继续直播">
+      <i class="fa fa-circle text-info"></i>
+      已暂停
+    </span>
+    <span ng-if="stateInfo == 'start'" tooltip="点击暂停直播">
+      <i class="fa fa-circle fa-spin text-danger"></i>
+      正在直播
+    </span>
+  </button>
+</div>

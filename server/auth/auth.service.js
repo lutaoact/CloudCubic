@@ -7,13 +7,13 @@ var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var User = _u.getModel("user");
-var validateJwt = expressJwt({ secret: config.secrets.session });
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
-function isAuthenticated() {
+function isAuthenticated(credentialsRequired) {
+  var validateJwt = expressJwt({ secret: config.secrets.session, credentialsRequired: credentialsRequired })
   return compose()
     // Validate jwt
     .use(function(req, res, next) {
@@ -25,6 +25,7 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
+      if (!req.user) return next();
       User.findById(req.user._id, function (err, user) {
         if (err) return next(err);
         if (!user) return res.send(401);
@@ -57,7 +58,7 @@ function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 function signToken(id, role) {
-  return jwt.sign({ _id: id, role: role}, config.secrets.session, { expiresInMinutes: 60*24*7 });
+  return jwt.sign({ _id: id, role: role}, config.secrets.session, { expiresInMinutes: config.tokenExpireTime });
 }
 
 /**
@@ -70,7 +71,37 @@ function setTokenCookie(req, res, redirect) {
   res.redirect(redirect || '/');
 }
 
+function verifyTokenCookie() {
+  return compose()
+    .use(function(req, res, next) {
+      if (req.cookies.token) {
+        var token = req.cookies.token.replace(/"/g, '');
+        jwt.verify(token, config.secrets.session, null, function(err, user) {
+          if (err) return next(err);
+          if (user) req.user = user;
+
+          next();
+        });
+      } else {
+        next();
+      }
+    })
+    .use(function(req, res, next) {
+        if (req.user) {
+          User.findById(req.user._id, function (err, user) {
+            if (err) return next(err);
+            if (user) req.user = user;
+
+            next();
+          });
+        } else {
+          next();
+        }
+    });
+}
+
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
+exports.verifyTokenCookie = verifyTokenCookie;

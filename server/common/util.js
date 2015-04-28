@@ -1,5 +1,8 @@
 var async = require('async');
-require('./initGlobal');
+var _  = require('lodash');
+var _s = require('underscore.string');
+var random = new (require('./mt').MersenneTwister)()
+var assert = require('assert');
 
 /*
  * @param  [String] key textMap中指定的key
@@ -81,50 +84,6 @@ function convertToSnakeCase(key) {
 }
 exports.convertToSnakeCase = convertToSnakeCase;
 
-function saveData(modelMap, database, cb) {
-    async.eachSeries(_.keys(database), function(table, next) {
-        logger.info(">>>>> processing table " + table + " <<<<<");
-        var modelName = convertToCamelCase(table);
-        var Model = modelMap[modelName];
-        if (!Model) {
-            logger.error('can not find model: ' + modelName);
-            next();
-            return;
-        }
-        saveSpecifiedModelData(database[table], Model, next);
-    }, cb);
-}
-exports.saveData = saveData;
-
-//存储指定model的数据，只存储schema中指定的字段
-function saveSpecifiedModelData(datas, modelObj, cb) {
-    var schema = modelObj.schema;
-    async.series([
-        function(next) {
-            modelObj.remove({}, next);
-        },
-        function(next) {
-            var timeReg = /^\s*\d{4}-\d{2}-\d{2} \d{2}:\d{2}\s*$/;
-            async.eachSeries(datas, function(d, _next) {
-                var data = {};
-                LOOP:
-                for (var field in schema) {
-                    if (_.isUndefined(d[field])) {
-                        logger.error('no field: ' + field);
-                        continue LOOP;
-                    }
-                    if (timeReg.test(d[field])){
-                        d[field] = time(d[field]);
-                    }
-                    data[field] = d[field];
-                }
-                modelObj.save(data, _next);
-            }, next);
-        },
-    ], cb);
-}
-exports.saveSpecifiedModelData = saveSpecifiedModelData;
-
 function getModel(key) {
   return new (require('../api/' + key + '/' + key + '.model')[_u.convertToCamelCase(key)]);
 }
@@ -136,8 +95,9 @@ function getUtils(key) {
 exports.getUtils = getUtils;
 
 function findIndex(array, key) {
+  var target = key.toString();
   return _.findIndex(array, function(ele) {
-    return ele.toString() === key;
+    return ele.toString() === target;
   });
 }
 exports.findIndex = findIndex;
@@ -149,6 +109,25 @@ function union() {
 }
 exports.union = union;
 
+function isEqual(aId, bId) {
+  return aId.toString() === bId.toString();
+}
+exports.isEqual = isEqual;
+
+function contains(ids, target) {
+  var targetStr = target.toString();
+  for (var i = 0, l = ids.length; i < l; i++) {
+    if (ids[i].toString() === targetStr) return true;
+  }
+  return false;
+}
+exports.contains = contains;
+
+function escapeRegex(string) {
+  return string.replace(/[{}()^$|.\[\]*?+]/g, '\\$&');
+}
+exports.escapeRegex = escapeRegex;
+
 var ejs = require('ejs');
 var fs = require('fs');
 function render(path, locals) {
@@ -156,3 +135,16 @@ function render(path, locals) {
   return ejs.render(fileString, locals);
 }
 exports.render = render;
+
+function buildTradeNo(userId) {
+  userIdStr = userId.toString();
+  var regexp = /[0-9a-f]{24}/;
+  if (!regexp.test(userIdStr)) {
+    throw new Error('not allowed format of userId');
+  }
+
+  var tradeNo = userIdStr + time().toString(16) + random.nextInt(10000);
+  assert.equal(tradeNo.length, 36);
+  return tradeNo;
+}
+exports.buildTradeNo = buildTradeNo;

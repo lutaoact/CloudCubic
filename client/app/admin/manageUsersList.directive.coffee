@@ -27,6 +27,7 @@ angular.module('budweiserApp')
   $filter
   fileUtils
   Restangular
+  messageModal
   $rootScope
 ) ->
 
@@ -34,7 +35,7 @@ angular.module('budweiserApp')
     $scope.selectedUsers =  _.filter($scope.users, '$selected':true)
 
   angular.extend $scope,
-
+    Auth: Auth
     currentPage: 1
     pageSize: 10
     selectedUsers: []
@@ -57,8 +58,10 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/admin/newUserModal.html'
         controller: 'NewUserModalCtrl'
+        windowClass: 'new-user-modal'
         resolve:
           userRole: -> $scope.userRole
+          existingUsers : -> $scope.users
       .result.then (newUser) ->
         addNewUserSuccess = (newUser) ->
           notify
@@ -84,25 +87,33 @@ angular.module('budweiserApp')
       updateSelected()
 
     removeUsers: (users) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'AdvanceMessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> "删除#{$scope.roleTitle}"
-          message: -> """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
-          buttons: ->
-            if _.isEmpty($scope.classe?._id)
-              ['确认']
-            else
-              ['系统中删除', '该组中删除']
-      .result.then (index) ->
+      messageModal.open
+        title: -> "删除#{$scope.roleTitle}"
+        message: -> """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
+        buttons: ->
+          if _.isEmpty($scope.classe?._id)
+            [
+              label: '取消', code: 'cancel', class: 'btn-default'
+            ,
+              label: '确认', code: 'ok',     class: 'btn-danger'
+            ]
+          else
+            [
+              label: '取消'       , code: 'cancel' , class: 'btn-default'
+            ,
+              label: '系统中删除' , code: 'ok'     , class: 'btn-danger'
+            ,
+              label: '该组中删除' , code: 'classe' , class: 'btn-danger'
+            ]
+      .result.then (code) ->
         $scope.toggledSelectAllUsers = false if $scope.toggledSelectAllUsers
         $scope.viewState.deleting = true
         (
-          if index == 0
+          if code == 'ok'
             # 从系统中删除
-            Restangular.all('users').customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
+            Restangular
+            .all('users')
+            .customPOST(ids: _.pluck(users, '_id'), 'multiDelete')
             .then (result) ->
               $rootScope.$broadcast "removeUsersFromSystem", result
           else
@@ -111,7 +122,7 @@ angular.module('budweiserApp')
             $scope.classe.patch(students: _.pluck newUsers, '_id')
         )
         .finally ->
-          $scope.onRemoveUser?($data:users, $remove:index)
+          $scope.onRemoveUser?($data:users)
           $scope.viewState.deleting = false
 
 
@@ -157,7 +168,6 @@ angular.module('budweiserApp')
           classes: 'alert-danger'
 
       success = (report) ->
-        console.debug report
         $scope.viewState.importing = false
         notify
           message: "新#{$scope.roleTitle}添加成功, 初始密码为登录邮箱。"
@@ -179,7 +189,5 @@ angular.module('budweiserApp')
           .then success
           .catch fail
         fail: fail
-        progress: ->
-          console.debug 'uploading...'
 
   $scope.$watch 'users.length', updateSelected

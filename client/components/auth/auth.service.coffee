@@ -6,11 +6,11 @@ angular.module('budweiserApp').factory 'Auth', (
   $http
   $rootScope
   Restangular
-  $cookieStore
+  ipCookie
 ) ->
 
   currentUser =
-    if $cookieStore.get('token') then User.get() else {}
+    if ipCookie('token') then User.get() else {}
 
   ###
   Authenticate user and save token
@@ -23,7 +23,10 @@ angular.module('budweiserApp').factory 'Auth', (
     cb = callback or angular.noop
     deferred = $q.defer()
     $http.post('/auth/local', user).success ((data) ->
-      @setToken(data.token)
+      if data.targetUrl
+        window.location.href = data.targetUrl
+        return
+      currentUser = User.get() # reset User cookie is set by server in response header
       deferred.resolve currentUser
       cb()
     ).bind(@)
@@ -35,22 +38,15 @@ angular.module('budweiserApp').factory 'Auth', (
     deferred.promise
 
   ###
-  Save token and reset User
-
-  @param {String} token
-  ###
-  setToken: (token) ->
-    $cookieStore.put 'token', token
-    currentUser = User.get()
-
-  ###
   Delete access token and user info
 
   @param  {Function}
   ###
   logout: ->
-    $cookieStore.remove 'token'
+    ipCookie.remove 'token', path: "/"
     currentUser = {}
+    Tinycon.reset()
+    $rootScope.$emit 'logoutSuccess'
     return
 
   ###
@@ -75,7 +71,7 @@ angular.module('budweiserApp').factory 'Auth', (
 
   @return {Boolean}
   ###
-  hasRole: (roleRequired) ->
+  hasRole: (roleRequired, role) ->
     userRoles = [
       'user'      # 允许登录后的用户 abstract
       'student'   # 允许学生或以上
@@ -83,11 +79,13 @@ angular.module('budweiserApp').factory 'Auth', (
       'admin'     # 允许管理员或以上
       'superuser' # 允许超级用户
     ]
-    userRoles.indexOf(currentUser.role) >= userRoles.indexOf(roleRequired)
+    userRoles.indexOf(currentUser.role ? role) >= userRoles.indexOf(roleRequired)
 
+  userRole : ->
+    currentUser.role
 
   ###
   Get auth token
   ###
   getToken: ->
-    $cookieStore.get 'token'
+    ipCookie 'token'

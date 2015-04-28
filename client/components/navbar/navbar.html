@@ -1,9 +1,9 @@
 <div class="bud navbar navbar-default main-nav"
-     ng-class="[$state.current.navClasses, ($state.current.roleRequired?'auth':'login')]"
+     ng-class="[$state.current.navClasses, org?'org-nav':'home-nav']"
      ng-controller="NavbarCtrl">
 
   <div class="container"
-       ng-if="!$state.current.roleRequired">
+       ng-if="!org">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
               ng-click="switchMenu(!viewState.isCollapsed)"
@@ -12,20 +12,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">
-        <i class="logo budon budon-logo-with-title"></i>
+      <a href="/" class="navbar-brand" style="padding: 10px 15px;">
+        <img src="assets/images/vectors/logo-with-title.svg" alt="">
       </a>
     </div>
 
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         >
+         collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="//www.cloud3edu.com/blog" target="blank">博客</a>
+        <li dropdown class="know-us">
+          <a class="dropdown-toggle" dropdown-toggle> 了解我们 <i class="fa fa-chevron-down"></i></a>
+          <div class="dropdown-menu" role="menu">
+            <img src="assets/images/wechatQR.jpg" alt="学之方教育科技微信公众号">
+          </div>
         </li>
         <li>
-          <a href="/assets/html/docs/help.html" target="blank">帮助文档</a>
+          <a href="http://cloud3edu.cn/blog" target="blank">博客</a>
+        </li>
+        <li>
+          <a href="/{{'assets'}}/html/docs/help.html" target="blank">帮助文档</a>
         </li>
       </ul>
     </div>
@@ -34,7 +39,7 @@
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed"
-       ng-if="$state.current.roleRequired">
+       ng-if="org">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
@@ -44,101 +49,99 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ng-click="goHome()" href
+      <a ui-sref="main" href
          class="navbar-brand">
-        <i ng-hide="getCurrentUser().orgId"
-           class="budon budon-logo"
-           style="font-size: 36px;"></i>
-        <span ng-if="getCurrentUser().orgId">
-          {{getCurrentUser().orgId.name}}
+        <img ng-src="{{org.logo}}" alt="">
+        <span ng-if="org">
+          {{org.name}}
         </span>
       </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         >
-
+         collapse="viewState.isCollapsed">
       <ul class="bud nav navbar-nav navbar-right">
-        <li ng-if="getTitle()"
-            class="nav-title"
-            ng-class="{active: isActive(getTitle().link)}">
-          <a ui-sref="{{getTitle().link}}"
-             tooltip-placement="bottom"
-             tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
+        <li ng-if="Auth.isLoggedIn() && !Auth.hasRole('teacher')" ng-class="{active: isActive('home')}">
+          <a href ui-sref='home'>个人主页</a>
         </li>
-        <li ng-repeat="item in additionalMenu"
-            ng-class="{active: isActive(item.link)}">
-          <a class="text-center"
-             ui-sref="{{item.link}}"
-             ng-bind-html="item.title"></a>
+        <li ng-if="Auth.hasRole('admin')" ng-class="{active: isActive('admin')}">
+          <a class="text-center" href ui-sref="admin.orgManager">机构管理</a>
         </li>
-        <li ng-if="getCurrentUser().role == 'admin'">
-          <a style="font-size: 1.1em" class="text-center" ng-show="$state.includes('admin')" ui-sref="teacher.home">切换到教师</a>
-          <a style="font-size: 1.1em" class="text-center" ng-show="!$state.includes('admin')" ui-sref="admin.home">切换到管理</a>
+        <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('home|teacher.course$|teacher.lecture$')}">
+          <a href ui-sref='home'>课程制作</a>
         </li>
-        <li ng-if="isLoggedIn()"
+        <li ng-if="Auth.hasRole('teacher')" ng-class="{active: isActive('classeManager|course.detail|course.lecture')}">
+          <a href ui-sref='classeManager'>开班管理</a>
+        </li>
+        <li ng-class="{active: isActive('courseList|course.detail|course.lecture')}" ng-if="!Auth.hasRole('teacher')">
+          <a href ui-sref='courseList'>机构课程</a>
+        </li>
+        <li ng-class="{active: isActive('forum')}">
+          <a href ui-sref="forum.list">讨论区</a>
+        </li>
+        <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
+          <a href ui-sref="teacher.questionLibrary({courseId:$state.params.courseId})">题库</a>
+        </li>
+        <li ng-if="displayCourseMenu() && Auth.hasRole('teacher')">
+          <a href ng-if="!$state.params.classeId" ui-sref="teacher.courseStats.all({courseId:$state.params.courseId})">统计</a>
+          <a href ng-if="$state.params.classeId" ui-sref="teacher.courseStats.classe({courseId:$state.params.courseId,classeId:$state.params.classeId})">统计</a>
+        </li>
+        <li ng-if="displayCourseMenu() && !Auth.hasRole('teacher') && Auth.hasRole('student')">
+          <a href ui-sref="course.stats()">统计</a>
+        </li>
+
+        <li ng-if="Auth.getCurrentUser().role == 'student'" shopcart></li>
+        <li ng-if="!Auth.isLoggedIn()">
+          <a href login-window>登录</a>
+        </li>
+        <li ng-if="Auth.isLoggedIn()"
             dropdown>
-          <a style="margin-right:20px;"
-             class="navbar-avatar dropdown-toggle"
-             src-key="getCurrentUser().avatar"
-             suffix="?imageView2/1/w/64/h/64"
-             source-attr="background-image"
-             >
-          </a>
-          <ul class="dropdown-menu message-dropdown" role="menu">
-            <div class="message-filters clearfix"
-                 ng-init="viewState.messageType = 'message'">
-              <span>{{viewState.messageType == 'message'?'消息':'通知'}}</span><span class="text-muted">|</span>
-              <a href class="btn btn-nav text-muted"
-                 ng-class="{'active':viewState.messageType == 'message'}"
-                 ng-click="viewState.messageType = 'message'">
-                <i class="fa fa-envelope"></i>
+          <div class="dropdown-toggle avatar-name" dropdown-toggle>
+            <a class="navbar-avatar"
+               src-key="Auth.getCurrentUser().avatar"
+               suffix="?imageView2/1/w/64/h/64"
+               source-attr="background-image">
+            </a>
+            <span class="user-name">{{Auth.getCurrentUser().name}}<span class="caret"></span></span>
+          </div>
+          <ul class="dropdown-menu profile-menu" role="menu">
+            <li ng-if="Auth.getCurrentUser().role == 'student'">
+              <a ui-sref="orderList"
+                 ui-sref-opts="{reload: true}"
+                 rel="nofollow">
+              我的订单</a></li>
+            <hr ng-if="Auth.getCurrentUser().role == 'student'">
+            <li><a ui-sref="settings.broadcast"
+                   rel="nofollow">
+              公告信息</a></li>
+            <li>
+              <a ui-sref="settings.notice"
+                 ui-sref-opts="{reload: true}"
+                 rel="nofollow">
+                我的消息<span class="badge pull-right"
+                          ng-show="getMsgCount()">
+                {{getMsgCount()||'0'}}
+                </span>
               </a>
-              <a href class="btn btn-nav text-muted"
-                 ng-class="{'active':viewState.messageType == 'notification'}"
-                 ng-click="viewState.messageType = 'notification'">
-                <i class="fa fa-bell"></i>
+            </li>
+            <hr>
+            <li><a ui-sref="settings.profile"
+                   ui-sref-opts="{reload: true}"
+                   rel="nofollow">
+              个人设置</a></li>
+            <li>
+              <a href ng-click="logout()"
+                 data-method="delete"
+                 rel="nofollow">
+                退出登录
               </a>
-              <a class="btn btn-xs btn-clearall pull-right text-muted"
-                 ng-click="clearAll()"
-                 ng-if="messages.length>0">
-                清空消息
-              </a>
-            </div>
-            <ul class="media-list message-list"
-                ng-if="messages.length > 0">
-              <li ng-repeat="message in messages | filter: {'type': viewState.messageType}"
-                  class="message media"
-                  ng-click="removeMsg(message)"
-                  ui-sref="{{message.link}}">
-                <div class="avatar-xs pull-left"
-                     src-key="message.raw.fromWhom.avatar"
-                     source-attr="background-image"></div>
-                <div class="media-body">
-                  <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
-                  <h6 class="media-heading">
-                    {{message.raw.fromWhom.name}}
-                    <small>{{message.raw.created|timeToTimeAgo}}</small>
-                  </h6>
-                  <div class="text-muted">{{message.title}}</div>
-                </div>
-              </li>
-            </ul>
-            <div class="bottom-btns clearfix">
-              <a class="col-xs-6 text-center btn btn-setting" href="/settings">
-                <i class="glyphicon glyphicon-cog"></i>个人设置
-              </a>
-              <a class="col-xs-6 text-center btn btn-logout" href ng-click="logout()">
-                <i class="glyphicon glyphicon-off"></i>退出登录
-              </a>
-            </div>
+            </li>
           </ul>
           <span class="badge"
-                style="position: absolute;top: 10px;left: 25px;"
-                ng-show="messages.length">
-            {{messages.length||'0'}}
+                style="position: absolute;top: 9px;left: 18px;"
+                ng-show="getMsgCount()">
+            {{getMsgCount()||'0'}}
           </span>
         </li>
       </ul>

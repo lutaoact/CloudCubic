@@ -11,6 +11,11 @@ requiredProcessEnv = (name) ->
 # All configurations will extend these options
 # ============================================
 all =
+  appName: 'budweiser'
+
+  morgan:
+    accessLog: '/data/log/budweiser.access.log'
+
   env: process.env.NODE_ENV
 
   # Root path of server

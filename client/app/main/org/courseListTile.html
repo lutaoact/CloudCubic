@@ -1,0 +1,30 @@
+<div class="container course-list-tile">
+  <div class="row header">
+    <div class="col-md-12">
+      <h4 class="title">
+        <a href ng-click="search.categoryId = null">精品课程</a>
+      </h4>
+      <div class="btn-group">
+        <label class="btn btn-toggle"
+               ng-repeat="category in categories"
+               ng-model="search.categoryId"
+               uncheckable
+               btn-radio="category._id">{{category.name}}</label>
+      </div>
+      <a href class="pull-right text-muted" ui-sref="courseList">更多课程 ></a>
+    </div>
+  </div>
+  <div class="row body">
+    <div ng-if="!allClasses.length"
+         class="text-center text-muted empty-classes">
+      <i class="budon budon-course-classe"></i>
+      暂无课程，敬请期待
+    </div>
+    <div class="col-md-3 col-sm-4"
+         ng-repeat="classe in allClasses">
+      <a ui-sref="course.detail({courseId:classe.courseId._id, classeId:classe._id})">
+        <public-course-tile course="classe.courseId" classe="classe"></public-course-tile>
+      </a>
+    </div>
+  </div>
+</div>

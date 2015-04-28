@@ -1,5 +1,45 @@
 .admin {
-  #org-form {
+  .custom-banners{
+    padding-bottom: 40px;
+    .banner-edit{
+      padding: 0px 20px 30px 20px;
+      .hint{
+        color: @brand-warning;
+      }
+    }
+    .banner-content {
+      background: white;
+      border: 1px solid #EBEAEA;
+    }
+    .index {
+      cursor: move;
+      padding: 5px 10px 0 10px;
+    }
+    .banner-thumb{
+      height: 98px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: @gray-lighter;
+      margin: 5px 10px 5px 10px;
+    }
+    .banner-text {
+      padding: 5px 10px 5px 10px;
+      background: #EBEAEA;
+      input {
+        height: 30px;
+      }
+    }
+    .banner{
+      width: 100%;
+      height: 220px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: @gray-lighter;
+    }
+  }
+  .org-form {
     .org-logo {
       .avatar(130px);
       border-radius: 0;
@@ -26,8 +66,7 @@
   }
   .broadcast-form{
     .form-title{
-      color: #FFF;
-      background: @brand-danger;
+      background: #ddd;
       padding: 12px 18px;
       margin-bottom: 20px;
       .transition(all 0.2s ease-in-out);
@@ -36,6 +75,7 @@
     &.blink{
       .form-title{
         background: @base-color;
+        color: white;
       }
     }
   }
@@ -43,9 +83,6 @@
     .title{
       background: #ddd;
       padding: 12px 18px;
-      .envelope{
-        color: @brand-danger;
-      }
     }
     .seach-bar{
       background: #eee;
@@ -71,11 +108,22 @@
       padding-right: 0;
     }
   }
+  .custom{
+    background-color: #FFF;
+  }
+  .custom-about-us{
+  }
+  .report-row{
+    background-color: #FFF;
+  }
 }
 .broadcast{
   border: none;
   border-bottom: 1px solid @gray-lighter;
   margin-bottom: 1px;
+  &:hover{
+    cursor: pointer;
+  }
   &.collapsed{
     .broadcast-content{
       .text-overflow();
@@ -96,13 +144,13 @@
     }
   }
   .outer{
-    border: 4px solid @brand-danger;
+    border: 4px solid @base-color;
     position: absolute;
     width: 100%;
     top: 0;
     left: 0;
     height: 100%;
-    background: rgba(red(@brand-danger),green(@brand-danger),blue(@brand-danger),0.3);
+    background: rgba(red(@base-color),green(@base-color),blue(@base-color),0.3);
     .transition(all .2s ease-in-out);
     &.moved{
       left: -400px;

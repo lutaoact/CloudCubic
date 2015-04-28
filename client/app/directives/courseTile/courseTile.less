@@ -3,10 +3,11 @@
   position: relative;
   height: @height;
   width: @width;
-  margin:30px auto;
+  margin:0 auto 20px auto;
   border:none;
   border-radius: @book-radius;
   overflow: hidden;
+  background: @gray-lighter;
   .back{
     border-radius: @book-radius;
     position: absolute;
@@ -42,6 +43,36 @@
       margin-top: 7px;
       margin-right: 5px;
     }
+    .owner {
+      @avatar-size: 36px;
+      margin-top: -28px;
+      margin-left: 15px;
+      margin-bottom: 0;
+      .avatar-xs {
+        &:before {
+          display: none;
+        }
+        width: @avatar-size;
+        height: @avatar-size;
+        border-radius: @avatar-size;
+        box-shadow: none;
+        margin-top: 0
+      }
+      .name {
+        display: inline-block;
+        margin-top: 22px;
+      }
+    }
+    .lecture-info {
+      padding-bottom: 2px;
+      padding-top: 2px;
+      margin-bottom: 6px;
+      .category{
+        max-width: 140px;
+        overflow: hidden;
+        height: 18px;
+      }
+    }
   }
   .course-info{
     max-height: 70px;
@@ -52,7 +83,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 4;
-    .transition(all .2s ease-in-out);
   }
   &:hover{
     .caption{
@@ -68,4 +98,45 @@
 
 .course-tile{
   .book(205px, 200px);
+  border: 1px solid rgba(118, 120, 122, 0.25);
+  hr{
+    margin-top: 0;
+    margin-bottom: 3px;
+  }
+  .caption{
+    height: 100px;
+    bottom: 0px;
+    .course-name{
+      height: 30px;
+      overflow: hidden;
+    }
+    .btn.btn-xs.continue-btn{
+      padding: 0px 10px;
+    }
+    .thermometer{
+      width: 80px;
+      border-radius: 2px;
+      height: 4px;
+      background: @gray-lighter;
+      display: inline-block;
+      position: relative;
+      font-size: 0;
+      .thermometer-inner{
+        display: inline-block;
+        border-radius: 2px;
+        height: 4px;
+        background: @base-color;
+      }
+    }
+  }
+  &:hover{
+    .caption{
+      bottom: 0px;
+    }
+    .back{
+      &:after{
+        background: rgba(0,0,0,0.6);
+      }
+    }
+  }
 }

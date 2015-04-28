@@ -1,75 +1,53 @@
 <div class="notice-view">
-  <tabset>
-    <tab heading="公告信息">
-      <ul class="list-group">
-        <li class="list-group-item broadcast"
-          id="{{broadcast._id}}"
-          ng-click="viewState.selectedBroadcast=broadcast"
-          ng-class="{expanded:broadcast==viewState.selectedBroadcast,collapsed:broadcast!=viewState.selectedBroadcast}"
-          ng-repeat="broadcast in broadcasts|orderBy: '-created'|filter:viewState.broadcastQuery|paging:itemsPerPage:currentBroadcastPage">
-          <div class="clearfix">
-            <h5 class="base-color pull-left">
-              {{broadcast.title}}
-              <br>
-              <small class="text-muted">{{broadcast.created|date:'yyyy/MM/dd'}}</small>
-            </h5>
-          </div>
-          <div class="broadcast-content" compile-html="broadcast.content">
-          </div>
-        </li>
-      </ul>
-      <pagination
-        ng-hide="broadcasts.length <= itemsPerPage"
-        total-items="broadcasts.length"
-        ng-model="currentBroadcastPage"
-        items-per-page="itemsPerPage"
-        class="pagination-sm"
-        boundary-links="true"
-        rotate="false"
-        max-size="maxSize"
-        previous-text="&lsaquo;"
-        next-text="&rsaquo;"
-        first-text="&laquo;"
-        last-text="&raquo;"
-        num-pages="numPages">
-      </pagination>
-    </tab>
-    <tab heading="回复信息">
-      <ul class="media-list message-list"
-          ng-if="messages.length > 0">
-        <li ng-repeat="message in messages|orderBy:'raw.status'|paging:itemsPerPage:currentMessagePage"
-            class="message media broadcast"
-            ng-class="{'unread':!message.raw.status}"
-            ng-click="markAsRead(message)"
-            ui-sref="{{message.link}}">
-          <div class="avatar-xs pull-left"
-               src-key="message.raw.fromWhom.avatar"
-               source-attr="background-image"></div>
-          <div class="media-body">
-            <a class="pull-right btn fa" ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" ng-click="markAsRead(message, $event)" title="标记为{{message.raw.status?'未读':'已读'}}"></a>
-            <h6 class="media-heading">
-              {{message.raw.fromWhom.name}}
-              <small>|&nbsp;{{message.raw.created|timeToTimeAgo}}</small>
-            </h6>
-            <div class="text-muted">{{message.title}}</div>
-          </div>
-        </li>
-      </ul>
-      <pagination
-        ng-hide="messages.length <= itemsPerPage"
-        total-items="messages.length"
-        ng-model="currentMessagePage"
-        items-per-page="itemsPerPage"
-        class="pagination-sm"
-        boundary-links="true"
-        rotate="false"
-        max-size="maxSize"
-        previous-text="&lsaquo;"
-        next-text="&rsaquo;"
-        first-text="&laquo;"
-        last-text="&raquo;"
-        num-pages="numPages">
-      </pagination>
-    </tab>
-  </tabset>
+
+  <div class="text-muted text-center empty-notice" 
+       ng-if="!messages.length">
+    暂无消息
+  </div>
+
+  <ul class="media-list message-list"
+      ng-if="messages.length > 0">
+    <li ng-repeat="message in messages|orderBy:'raw.status'"
+        class="message media broadcast"
+        ng-class="{'unread':!message.raw.status}"
+        ng-click="markAsRead(message)"
+        ui-sref="{{message.link}}">
+      <a class="pull-left">
+        <div class="avatar-xs"
+             src-key="message.raw.fromWhom.avatar"
+             source-attr="background-image"></div>
+      </a>
+      <a class="pull-right btn fa" 
+         ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" 
+         ng-click="markAsRead(message, $event)" 
+         title="标记为{{message.raw.status?'未读':'已读'}}">
+      </a>
+      <div class="media-body">
+        <h6 class="media-heading">
+          {{message.raw.fromWhom.name}}
+          <small>|&nbsp;{{message.raw.created|timeToTimeAgo}}</small>
+        </h6>
+        <div class="text-muted">{{message.title}}</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="row pagination-row text-center"
+       ng-if="messages.$count"
+       ng-show="messages.$count > pageConf.itemsPerPage">
+    <pagination total-items="messages.$count"
+                ng-model="pageConf.currentPage"
+                ng-change="changePage()"
+                items-per-page="pageConf.itemsPerPage"
+                class="pagination-sm bud"
+                boundary-links="true"
+                rotate="false"
+                max-size="pageConf.maxSize"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;"
+                num-pages="numPages">
+    </pagination>
+  </div>
 </div>

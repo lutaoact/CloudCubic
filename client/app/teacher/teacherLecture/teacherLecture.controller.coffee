@@ -1,32 +1,39 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
-  Auth
+angular.module('budweiserApp')
+
+.controller 'TeacherLectureCtrl', (
+  $sce
   $http
   $scope
   $state
-  $modal
   notify
-  Navbar
   $filter
-  Courses
+  configs
   KeyPoints
+  $rootScope
   Restangular
-  $sce
+  messageModal
 ) ->
 
-  course = _.find Courses, _id :$state.params.courseId
+  Restangular
+  .one('courses', $state.params.courseId)
+  .get()
+  .then (course) ->
+    $scope.course = course
 
-  Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
-  $scope.$on '$destroy', Navbar.resetTitle
+  Restangular
+  .all('classes')
+  .getList courseId: $state.params.courseId
+  .then (classes) ->
+    $scope.classes = classes
 
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->
     # clear video
     angular.element('video').attr 'src', ''
   angular.extend $scope,
-    videoLimitation: if Auth.getCurrentUser().orgId.isPaid then 2000 * 1024 * 1024 else 30 * 1024 * 1024
-    course: course
+    videoLimitation: if $rootScope.org.paid then configs.proVideoSizeLimitation else configs.videoSizeLimitation
     keyPoints: KeyPoints
     mediaApi: null
     saving: false
@@ -53,14 +60,20 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         else
           null
 
+    switchFreeTry: ->
+      lecture = $scope.lecture
+      lecture.patch(isFreeTry: !lecture.isFreeTry)
+      .then (newLecture) ->
+        lecture.isFreeTry = newLecture.isFreeTry
+        notify
+          message: if lecture.isFreeTry then '已设置免费试用' else '已取消免费试用'
+          classes:'alert-success'
+
     deleteLecture: ->
       lecture = $scope.lecture
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课时'
-          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
+      messageModal.open
+        title: -> '删除课时'
+        message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
       .result.then ->
         $scope.deleting = true
         $scope.lecture.remove(courseId:$scope.course._id)
@@ -96,12 +109,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           classes:'alert-success'
 
     removeMedia: ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课时视频'
-          message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
+      messageModal.open
+        title: -> '删除课时视频'
+        message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
         $scope.lecture.externalMedia = null
@@ -115,12 +125,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       notify
         message: '上传失败：' + error
         classes: 'alert-danger'
+        duration: '0'
     onMediaUploadStart: ->
-      console.debug 'media upload start'
-    onMediaUploading: (speed, progress, event) ->
-      console.debug 'media uploading', speed, progress
-    onMediaConverting: ->
-      console.debug 'media converting'
+      notify.closeAll()
+
     onMediaUploaded: (data) ->
       $scope.lecture.$externalMedia = undefined
       $scope.lecture.patch?(media: data, externalMedia: null)
@@ -199,7 +207,3 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     $scope.viewState.videoActive = lecture.media? || lecture.files.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
-
-  # 删除未保存过的课时
-  $scope.$on '$destroy', ->
-    $scope.lecture.remove(courseId:$scope.course._id) if $scope.lecture?.__v == 0

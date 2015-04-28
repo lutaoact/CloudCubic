@@ -18,58 +18,62 @@ SocketUtils = _u.getUtils 'socket'
 request = require 'request'
 getMediaService = require('../../common/azureMS').getMediaService
 
+WrapRequest = new (require '../../utils/WrapRequest')(Lecture)
 
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
-  CourseUtils.getAuthedCourseById req.user, courseId
+
+  Course.getById courseId
   .then (course) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      course.populateQ 'lectureAssembly', '-media'
-#    else
-      course.populateQ 'lectureAssembly'
-  .then (course) ->
-    return res.send course.lectureAssembly
-  , next
+    conditions = {_id: {$in: course.lectureAssembly}}
+    options =
+      limit: req.query.limit
+      from: req.query.from
+      sort: req.query.sort
+    WrapRequest.wrapPageIndex req, res, next, conditions, options
+
 
 exports.show = (req, res, next) ->
-  lectureId = req.params.id
-  LectureUtils.getAuthedLectureById req.user, lectureId
+  conditions = {_id: req.params.id}
+  lecture = undefined
+  Lecture.findOneQ conditions
+  .then (data) ->
+    lecture = data
+    LectureUtils.isFree lecture
+  .then (isFree)->
+    if isFree
+      return lecture
+
+    unless req.user
+      return Q.reject
+        status: 403
+        errCode: ErrCode.NotFreeLecture
+        errMsg: '未登录用户无法查看收费课时'
+
+    LectureUtils.checkAuthForLecture req.user, lecture
   .then (lecture) ->
-    options = [
-      path: 'keyPoints.kp'
-    ,
-      path: 'homeworks'
-    ,
-      path: 'quizzes'
-    ]
-    lecture.populateQ options
+    WrapRequest.populateDoc lecture, Lecture.populates?.show
   .then (lecture) ->
-    #TODO: uncomment this after FE implement video encoding process
-#    if req.user.role == 'student'
-#      lecture.select '-media'
     res.send lecture
-  , next
+  .catch next
+  .done()
 
 
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
 exports.create = (req, res, next) ->
   courseId = req.query.courseId
   tmpResult = {}
+  data = req.body
+  delete data._id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
     tmpResult.course = course
-    Lecture.createQ req.body
+    data.courseId = course._id
+    Lecture.createQ data
   .then (lecture) ->
     tmpResult.lecture = lecture
     tmpResult.course.lectureAssembly.push lecture._id
     do tmpResult.course.saveQ #TODO: should rollback creating lecture part
-  .then () ->
-    Classe.getAllStudents tmpResult.course.classes
-  .then (studentIds) ->
-    NoticeUtils.addLectureNotices studentIds, tmpResult.lecture._id
-#  .then (notices) ->
-#    SocketUtils.sendNotices notices if notices?
   .then () ->
     res.send tmpResult.lecture
   , next

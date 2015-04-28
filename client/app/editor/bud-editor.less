@@ -1,5 +1,11 @@
 .bud-editor{
+  .bud-editor-input{
+    border-radius: @border-radius-small @border-radius-small 0 0;
+  }
   .bud-editor-tools{
+    border-radius: 0 0 @border-radius-small @border-radius-small;
+    border: 1px solid #ddd;
+    border-top: none;
     width: 100%;
     background: @gray-lighter;
     padding: 6px;
@@ -39,9 +45,7 @@
     }
   }
 }
-.bud-editor-input{
-  border-radius: 4px;
-}
+
 
 // text angular
 .bud{

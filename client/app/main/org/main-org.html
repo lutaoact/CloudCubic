@@ -1,0 +1,18 @@
+<section style="min-height: 100px;"
+         class="text-center banner-section">
+
+    <carousel interval="myInterval" disable-animation>
+      <slide ng-repeat="slide in org.banners.length?org.banners:banners" active="slide.active">
+        <div class="banner" src-key="slide.image" source-attr="background-image">
+          <div class="carousel-caption">
+            <h4>{{slide.text}}</h4>
+          </div>
+        </div>
+      </slide>
+    </carousel>
+
+</section>
+
+<section>
+  <course-list-tile></course-list-tile>
+</section>

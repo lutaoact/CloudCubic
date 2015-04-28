@@ -8,11 +8,11 @@
   </div>
 
   <hr>
-  
-  <div class="row">
+
+  <div class="row" ng-if="me.email.length > 0">
     <form class="form-horizontal col-sm-8 col-sm-offset-2"
-          name="form"
-          ng-submit="changePassword(form)">
+          name="pwdForm"
+          ng-submit="changePassword(pwdForm)">
 
       <div class="form-group">
         <label for="inputOldPassword" class="col-xs-4 control-label">原密码</label>
@@ -30,7 +30,7 @@
       <div class="form-group">
         <label for="inputNewPassword" class="col-xs-4 control-label">新密码</label>
         <div class="col-xs-8">
-          <input id="inputNewPassword" 
+          <input id="inputNewPassword"
                  type="password"
                  name="newPassword"
                  class="form-control"
@@ -52,7 +52,7 @@
       </div>
       <div class="form-group">
         <div class="col-xs-offset-4 col-xs-8">
-          <button class="btn btn-danger btn-sm rounded" type="submit">修改密码</button>
+          <button class="btn btn-danger btn-sm" type="submit">修改密码</button>
         </div>
       </div>
     </form>

@@ -4,6 +4,7 @@ Main application file
 
 'use strict'
 require './common/init' #init global object
+require './common/initGlobalWeixinAuth'
 
 # Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'

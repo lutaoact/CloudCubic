@@ -5,23 +5,54 @@
        suffix="-tile">
   </div>
   <div class="caption">
-    <h5 class="course-name">
-      {{course.name}}<br>
-    </h5>
-    <div class="clearfix">
+    <div class="clearfix owner">
       <div class="avatar-xs pull-left"
+           ng-if="classe"
+           source-attr="background-image"
+           src-key="classe.teachers[0].avatar"
+           suffix="?imageView2/1/w/64/h/64">
+      </div>
+      <div class="avatar-xs pull-left"
+           ng-if="!classe"
            source-attr="background-image"
            src-key="course.owners[0].avatar"
            suffix="?imageView2/1/w/64/h/64">
       </div>
-      <h5 class="pull-left">
-        <small>
-          {{course.owners[0].name}}
-        </small>
-      </h5>
+      <span class="name text-muted small">{{classe.teachers[0].name || course.owners[0].name}}</span>
     </div>
-    <div class="course-info">
-      {{course.info}}
+    <h5 class="course-name">
+      {{classe.name || course.name}}<br>
+    </h5>
+    <hr>
+
+    <!--Student View-->
+    <div class="lecture-info text-muted small"
+         ng-if="!Auth.hasRole('teacher')">
+      <span ng-if="!percentageCalculated">进度计算中...</span>
+      <span class="thermometer" ng-if="percentageCalculated">
+        <span class="thermometer-inner" ng-style="{'width':percentage+'%'}"></span>
+      </span>
+      <span ng-if="percentageCalculated">
+        {{percentage}}%
+      </span>
+      <span ng-if="percentageCalculated" class="pull-right">
+        <a href
+           ng-if="course.lectureAssembly.length"
+           class="btn btn-danger btn-xs continue-btn"
+           ng-click="continueStudying($event)">
+          {{percentage==0?'开始':'继续'}}
+        </a>
+        <span class="text-muted" ng-if="!course.lectureAssembly.length">
+          未开始
+        </span>
+      </span>
+    </div>
+
+    <!--Teacher View-->
+    <div class="lecture-info text-muted small"
+         ng-if="Auth.hasRole('teacher')">
+      <span class="category pull-left" title="{{course.categoryId.name}}">{{course.categoryId.name}}</span>
+      <span class="pull-right">{{course.lectureAssembly.length}} 课时</span>
     </div>
   </div>
 </div>

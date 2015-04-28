@@ -1,18 +1,12 @@
 'use strict'
 
 mongoose = require 'mongoose'
+crypto = require 'crypto'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
-crypto = require 'crypto'
 authTypes = ['google']
 BaseModel = (require '../../common/BaseModel').BaseModel
 sendActivationMail = require('../../common/mail').sendActivationMail
-
-sha1 = (msg) ->
-  crypto.createHash('sha1').update(msg).digest('hex')
-
-generateActivationCode = (email) ->
-  sha1(email + new Date().toString().split("").sort(()-> Math.round(Math.random())-0.5)).substr(0,8)
 
 exports.User = BaseModel.subclass
   classname: 'User'
@@ -23,15 +17,16 @@ exports.User = BaseModel.subclass
       email :
         type : String
         lowercase : true
-        unique: true
+      orgId :
+        type : ObjectId
+        ref : 'organization'
         required: true
       info :
         type : String
       name :
         type : String
-      orgId :
-        type : ObjectId
-        ref : 'organization'
+      title:
+        type : String
       hashedPassword :
         type : String
       provider :
@@ -39,6 +34,19 @@ exports.User = BaseModel.subclass
       role :
         type : String
         default : 'student'#TODO change role to Number
+      weibo:
+        id: String
+        name: String
+        token: String
+      qq:
+        id: String
+        name: String
+        token: String
+      weixin:
+        id: String
+        name: String
+        token: String
+        other: {}
       salt :
         type : String
       status :
@@ -50,6 +58,11 @@ exports.User = BaseModel.subclass
         type: String
       resetPasswordExpires :
         type: Date
+      lastLoginAt:
+        type: Date
+
+# 这里必须删掉索引，否则微信授权登录的时候，因为相应email字段都为空，会导致索引失败
+#    @schema.index {email: 1, orgId: 1}, {unique: true}
 
       #migrate from nodeBB
       username: String
@@ -76,7 +89,8 @@ exports.User = BaseModel.subclass
 
   findBy: (userInfo) ->
     conditions = {$or: []}
-    conditions.$or.push(email   : userInfo.email)    if userInfo.email?
+    conditions.orgId = userInfo.orgId if userInfo.orgId
+    conditions.$or.push(email: userInfo.email) if userInfo.email?
 
     if _.isEmpty conditions.$or
       return Q.reject
@@ -89,11 +103,22 @@ exports.User = BaseModel.subclass
   getIdAndRold: (conditions) ->
     @findQ conditions, "_id role"
 
+  getStudentById: (studentId) ->
+    return @findOneQ _id: studentId, role: 'student'
+    .then (student) ->
+      unless student
+        return Q.reject
+          status: 404
+          errCode: ErrCode.InvalidStudent
+          errMsg: '不存在相应学生'
+
+      return student
+
 ###
 Virtuals
 ###
 setupUserSchema = (UserSchema) ->
-#  UserSchema.plugin createdModifiedPlugin
+  # login passord
   UserSchema
   .virtual 'password'
   .set (password) ->
@@ -112,6 +137,7 @@ setupUserSchema = (UserSchema) ->
     'role': this.role
     'info': this.info
     'email': this.email
+    'weixin': {id:this.weixin?.id, name:this.weixin?.name}
     'avatar': this.avatar
     'status': this.status
 
@@ -126,14 +152,14 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .path 'email'
   .validate (email) ->
-    email.length
+    return @weixin.id or email.length
   , '邮箱地址不能为空'
 
   # Validate empty password
   UserSchema
   .path 'hashedPassword'
   .validate (hashedPassword) ->
-    hashedPassword.length
+    return @weixin.id or hashedPassword.length
   , '登录密码不能为空'
 
   # Validate email is not taken
@@ -143,6 +169,7 @@ setupUserSchema = (UserSchema) ->
     self = this
     this.constructor.findOne
       email: value
+      orgId: self.orgId
     , (err, user) ->
       throw err if err
       notTaken = !user or user.id == self.id
@@ -155,21 +182,16 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .pre 'save', (next) ->
     if this.isNew
-      this.activationCode = generateActivationCode this.email
-      this.needSendActivationMail = true
-    else
-      next()
+      UserUtils = _u.getUtils 'user'
+      this.activationCode = UserUtils.generateActivationCode this.email
 
-    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
-      next new Error '密码错误'
-    else
-      next()
+    next()
 
-  UserSchema
-  .post 'save', (doc) ->
-    if this.needSendActivationMail
-      sendActivationMail this.email, this.activationCode
-      this.needSendActivationMail = false
+# 密码的相关验证器已经存在，这里不需要重复验证
+#    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
+#      next new Error '用户名或者密码错误'
+#    else
+#      next()
 
   UserSchema.methods =
     ###
@@ -192,7 +214,7 @@ setupUserSchema = (UserSchema) ->
 
     ###
       Encrypt password
-  
+
       @param {String} password
       @return {String}
       @api public

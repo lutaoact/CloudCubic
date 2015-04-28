@@ -7,10 +7,13 @@ dist
 server/**/*.map
 server/app.js.map
 client/index.html
+client/mobile
 .idea
 /server/test.coffee
 /server/test.js
 /server/api/**/*.js
+/server/auth/*.js
+/server/auth/local/*.js
 /server/config/*seed*.js
 /server/app.js
 /server/routes.js
@@ -20,3 +23,6 @@ client/index.html
 dump.rdb
 npm-debug.log
 /server/test/**/*.js
+/server/utils/*.js
+!/server/common/alipay/*.js
+!/server/common/alipay/**/*.js

@@ -14,7 +14,7 @@
         <button type="button"
                 ng-disabled="timeout > 0"
                 ng-click="sendVerifyEmail(form)"
-                class="btn btn-danger rounded">
+                class="btn btn-danger">
             <span ng-if="viewState.sending">
               <i class="fa fa-spin fa-spinner"></i>
               正在发送
@@ -49,7 +49,7 @@
         <div class="form-group">
           <label>邮箱地址</label>
           <p class="text-muted">
-            要找回登录密码，请输入您注册/登录<span class="text-success">云立方</span>时的邮箱地址
+            要找回登录密码，请输入您注册/登录<span class="text-success">{{org.name || '云立方'}}</span>时的邮箱地址
           </p>
           <input type="email"
                  id="email-input"
@@ -61,7 +61,7 @@
         </div>
         <div class="form-group content-footer">
           <a ui-sref="main">返回</a>
-          <button type="submit" class="btn btn-danger rounded pull-right">
+          <button type="submit" class="btn btn-danger pull-right">
             <span ng-if="viewState.sending">
               <i class="fa fa-spin fa-spinner"></i>
               正在发送

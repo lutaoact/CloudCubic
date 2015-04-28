@@ -1,0 +1,60 @@
+<div class="user-report report clearfix">
+
+  <div ng-if="!loading">
+    <div class="head">
+      {{display}}用户活跃度
+    </div>
+    <div class="reporting-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="name">活跃用户</th>
+            <th class="days">活跃天数</th>
+            <th class="duration">在线时长(小时)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="studentAnalysis in studentAnalyses|paging:itemsPerPage:currentPage">
+            <td>
+              <div class="avatar-xs pull-left" src-key="studentAnalysis.user.avatar" source-attr="background-image">
+              </div>
+              {{studentAnalysis.user.name}}
+            </td>
+            <td>
+              {{studentAnalysis.days}}
+            </td>
+            <td>
+              {{studentAnalysis.duration/60|number:1}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div ng-if="!studentAnalyses.length">
+        <h3 class="text-muted">暂无数据</h3>
+      </div>
+    </div>
+    <div class="row pagination-row text-center">
+      <pagination ng-hide="studentAnalyses.length <= itemsPerPage"
+                  total-items="studentAnalyses.length"
+                  ng-model="currentPage"
+                  items-per-page="itemsPerPage"
+                  class="pagination-sm bud"
+                  boundary-links="true"
+                  rotate="false"
+                  max-size="maxSize"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;"
+                  >
+      </pagination>
+    </div>
+  </div>
+
+  <div ng-if="loading">
+    <div class="head text-muted">
+      <i class="fa fa-spinner fa-spin"></i>加载中...
+    </div>
+  </div>
+
+</div>

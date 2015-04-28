@@ -14,9 +14,8 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
   notify
-  Navbar
-  $modal
   configs
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -38,12 +37,9 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
 
     deleteCourse: ->
       course = $scope.course
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '删除课程'
-          message: -> "确认要删除《#{course.name}》？"
+      messageModal.open
+        title: -> '删除课程'
+        message: -> "确认要删除《#{course.name}》？"
       .result.then ->
         course.remove().then ->
           $scope.deleteCallback?($course:course)
@@ -53,13 +49,13 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
       $scope.saving = true
       course = $scope.course
       editingInfo = $scope.editingInfo
+      editingInfo.categoryId = editingInfo.categoryId._id
       course.patch(editingInfo)
       .then (newCourse) ->
         course.__v = newCourse.__v
         $scope.editingInfo = null
         $scope.saving = false
-        angular.extend course, editingInfo
-        Navbar.setTitle course.name, "teacher.course({courseId:'#{course._id}'})"
+        angular.extend course, newCourse
         notify
           message:'课程信息已保存'
           classes:'alert-success'

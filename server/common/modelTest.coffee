@@ -9,7 +9,6 @@ require './init'
 # populate Notice 的多个字段
 User = _u.getModel 'User'
 Notice = _u.getModel 'notice'
-DisReply = _u.getModel 'dis_reply'
 Notice.findOne _id: '54238bb07a8e230000585ca7'
       .populate 'data.disReply'
       .populate 'userId', '-hashedPassword -salt'

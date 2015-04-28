@@ -1,0 +1,134 @@
+<div class="home">
+  <section class="course-list"
+           id="course-list">
+    <div class="head-row">
+      <div class="container head-row-container">
+        <div class="user-info">
+          <div class="avatar-md pull-left"
+               src-key="getMe().avatar"
+               source-attr="background-image">
+          </div>
+          <div class="pull-left">
+            <h4>
+              {{getMe().name}}
+            </h4>
+          </div>
+        </div>
+        <div class="pull-right my-course-count">
+          <div class="text-muted">我的课程</div>
+          <h3>{{viewState.total||0}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="row">
+            <accordion class="bud" close-others="false">
+              <accordion-group is-open="viewState.categoryOpen"
+                               ng-if="!Auth.hasRole('teacher')"
+                               ng-init="viewState.categoryOpen=true">
+                <accordion-heading>
+                  分类
+                  <i class="pull-right fa"
+                     ng-class="{
+                     'fa-chevron-down': viewState.categoryOpen,
+                     'fa-chevron-right': !viewState.categoryOpen
+                     }"></i>
+                </accordion-heading>
+                <div class="form-horizontal">
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">科目</label>
+                    <div class="col-xs-9">
+                      <select class="form-control"
+                              ng-change="reload()"
+                              ng-model="viewState.filterCategory"
+                              ng-options="category.name for category in categories">
+                        <option value="">全部</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </accordion-group>
+              <accordion-group is-open="viewState.calendarOpen"
+                               ng-init="viewState.calendarOpen=true">
+                <accordion-heading>
+                  课程表 <i class="fa fa-calendar"></i>
+                  <i class="pull-right fa"
+                     ng-class="{
+                     'fa-chevron-down': viewState.calendarOpen,
+                     'fa-chevron-right': !viewState.calendarOpen
+                     }"></i>
+                </accordion-heading>
+                <calendar-tile></calendar-tile>
+              </accordion-group>
+            </accordion>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="row my-courses" style="margin-left: 0;">
+            <div class="col-md-12 text-center">
+              <h4>{{viewState.filterCategory.name || '我的课程'}}</h4>
+            </div>
+            <div class="col-md-4 col-sm-6 text-center"
+                 ng-if="Auth.hasRole('teacher') && getListData().length">
+              <button type="button"
+                      class="btn btn-default new-course-btn"
+                      ng-click="createNewCourse()">
+                <i class="budon budon-add-course fa-3x"></i>
+                <label>添加新课程</label>
+                <i class="plus">+</i>
+              </button>
+            </div>
+            <div class="col-md-12 col-sm-12 text-center empty-course text-muted"
+                 ng-if="!getListData().length">
+              <span ng-if="Auth.hasRole('teacher')">
+                <i class="budon budon-course-classe"></i>
+                您还没有添加课程，请点击
+                <a href ng-click="createNewCourse()">添加新课程</a>
+                添加。
+              </span>
+              <span ng-if="!Auth.hasRole('teacher')">
+                <i class="budon budon-course-classe"></i>
+                您还没有加入课程
+              </span>
+            </div>
+            <div class="col-md-4 col-sm-6"
+                 ng-repeat="data in getListData()|filter:viewState.filterCategory._id">
+              <a ng-if="Auth.hasRole('teacher')"
+                 ui-sref="teacher.course({courseId:getCourse(data)._id})">
+                <course-tile course="getCourse(data)"></course-tile>
+              </a>
+              <a ng-if="!Auth.hasRole('teacher')"
+                 ui-sref="course.detail({courseId:getCourse(data)._id, classeId:getClasse(data)._id})">
+                <course-tile course="getCourse(data)" classe="getClasse(data)"></course-tile>
+              </a>
+            </div>
+          </div>
+          <div class="row pagination-row text-center"
+               style="margin-left: 0;"
+               ng-hide="getListData().$count <= itemsPerPage">
+            <pagination total-items="getListData().$count"
+                        ng-model="currentPage"
+                        items-per-page="itemsPerPage"
+                        class="pagination-sm bud"
+                        boundary-links="true"
+                        rotate="false"
+                        max-size="maxSize"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;"
+                        ng-change="reload()"
+                        last-text="&raquo;"
+                        num-pages="numPages">
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section ng-if="!Auth.hasRole('teacher')">
+    <course-list-tile limit="4"></course-list-tile>
+  </section>
+</div>

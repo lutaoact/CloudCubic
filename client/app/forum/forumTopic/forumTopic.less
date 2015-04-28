@@ -15,8 +15,25 @@
         text-decoration: none;
       }
       .media-summary{
-        .text-overflow();
         color: @gray-light;
+        height: 60px;
+        margin-bottom: 0;
+        overflow: hidden;
+        .mask-image(-webkit-gradient(linear, left top, left bottom, color-stop(80%, rgba(0, 0, 0, 1)), color-stop(100%, rgba(0, 0, 0, 0.0))));
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+      }
+      .media-left{
+        display: inline-block;
+        width: 70px;
+        overflow: hidden;
+        h6{
+          width: 100%;
+        }
+      }
+      .media-body{
+        display: inline-block;
+        width: ~"calc(100% - 80px)";
       }
     }
     .status{

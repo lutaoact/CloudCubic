@@ -1,5 +1,25 @@
 <div class="overall clearfix">
-  <div class="col-md-12 pies clearfix">
+  <div class="col-md-3 course-info">
+    <h5 class="text-primary">
+      课程统计
+    </h5>
+    <p>{{course.name}}</p>
+    <div class="clearfix status-bar">
+      <div class="pull-left status">
+        <div class="text-primary">
+          {{classes.length}}
+        </div>
+        <div>班级</div>
+      </div>
+      <div class="pull-left status">
+        <div class="text-primary">
+          {{calculateStudentsCount()}}
+        </div>
+        学生
+      </div>
+    </div>
+  </div>
+  <div ng-if="!err" class="col-md-9 pies clearfix">
     <div class="col-md-4">
       <highchart config="quizStats" class="bud-chart"></highchart>
       <div class="percentage quiz-percentage">
@@ -19,9 +39,12 @@
       </div>
     </div>
   </div>
+  <div ng-if="err" class="col-md-9 clearfix">
+    <h3 class="text-muted">该课程暂无统计信息</h3>
+  </div>
 </div>
 
-<div class="col-md-9 clearfix detail-container">
+<div ng-if="!err" class="col-md-12 clearfix detail-container">
   <div class="detail">
     <tabset class="trend">
       <tab heading="随堂问题" select="triggerResize()">
@@ -32,7 +55,6 @@
         <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
       </tab>
     </tabset>
-
     <div class="keypoints">
       <highchart config="keypointBarChart" class="bud-chart"></highchart>
     </div>

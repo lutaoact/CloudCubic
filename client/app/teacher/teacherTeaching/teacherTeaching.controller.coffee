@@ -5,8 +5,6 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $scope
   $state
   $modal
-  Classes
-  Courses
   $timeout
   Restangular
 ) ->
@@ -23,10 +21,9 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     currentNum: 1
     showAllSlide: false
     showVideo: false
+    showLive : false
     lecture: null
     selectedFile: null
-    classe: _.find Classes, _id:$state.params.classeId
-    course: _.find Courses, _id:$state.params.courseId
 
     changeCurrentIndex: (index) ->
       $scope.currentIndex = index
@@ -45,11 +42,27 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       $scope.showAllSlide = false
       $scope.showVideo = !$scope.showVideo
 
+    toggleLive: ->
+      if $scope.showLiveStream then return
+      $scope.showLiveStream = true
+      $modal.open
+        templateUrl: 'app/livestream/pubLiveStreamModal.html'
+        windowTemplateUrl: 'app/livestream/liveStreamWindow.html'
+        windowClass: 'live-stream-modal'
+        controller: 'PubLiveStreamCtrl'
+        backdrop: false
+        resolve:
+          streamId: -> $state.params.classeId
+          streamName: -> $scope.classe.name
+      .result.then ->
+        $scope.showLiveStream = false
+
     pushQuestion: (quizze) ->
       $modal.open
         templateUrl: 'app/teacher/teacherTeaching/pubQuestion.html'
         controller: 'PubQuestionCtrl'
         backdrop: 'static'
+        windowClass: 'pub-question-modal'
         resolve:
           classe: -> $scope.classe
           lecture: -> $scope.lecture
@@ -79,12 +92,17 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       courseId: $state.params.courseId
       classeId: $state.params.classeId
 
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    $scope.course = course
+  Restangular.one('classes', $state.params.classeId).get()
+  .then (classe) ->
+    $scope.classe = classe
   Restangular.one('lectures', $state.params.lectureId).get()
-  .then (lecture)->
+  .then (lecture) ->
     $scope.lecture = lecture
     $scope.switchFile(lecture.files[0])
     $scope.lecture.$mediaSource = [
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'
     ]
-

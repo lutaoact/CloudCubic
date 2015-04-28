@@ -1,29 +1,29 @@
-<div class="modal-header modal-header-black">
+<div class="modal-header">
   <h4 class="modal-title">
+    <i class="budon budon-question"></i>
     创建习题
-    <a class="close" ng-click="close()">&times;</a>
   </h4>
+  <a class="close" ng-click="cancel()">&times;</a>
 </div>
-<form class="media-body form new-question-form"
+<form class="modal-body new-question-form"
       name="form"
       role="form">
-  <div class="form-group">
-    <label for="question-title" class="control-label">问题</label>
+  <div class="form-group form-group-sm">
+    <label for="question-title" class="control-label">题干</label>
     <input class="form-control"
            id="question-title"
            type="text"
            rows="2"
-           focus-me="titleInputFocus"
-           ng-init="titleInputFocus=true"
+           focus-me
            ng-model="question.body"
-           placeholder="问题描述"
+           placeholder="请输入问题描述"
            required/>
     <div class="question-image" ng-repeat="imageKey in images">
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
     </div>
     <div class="image-uploader">
       <uploader limit="{{imageSizeLimitation}}"
-                class="course-img btn-danger"
+                class="btn-margin btn-danger btn-sm"
                 on-complete="onImageUploaded($data)"
                 accept-type="image">
         <span class="glyphicon glyphicon-picture"></span>
@@ -32,11 +32,11 @@
     </div>
 
   </div>
-  <div class="form-group">
+  <div class="form-group form-group-sm">
     <label class="control-label">选项</label>
     <span class="pull-right text-muted"><small>(请在下框标记至少一个正确答案)</small></span>
     <div ng-repeat="option in question.choices"
-         class="input-group">
+         class="input-group form-group-sm">
       <span class="input-group-addon">
         {{$index | indexToABC}}
       </span>
@@ -58,15 +58,16 @@
         <span class="glyphicon glyphicon-remove"/>
       </a>
     </div>
-    <a class="btn btn-default new-option-btn"
-       ng-click="addOption();isAddOption=true">
+    <button type="button" 
+            class="btn btn-default btn-margin btn-sm"
+            ng-click="addOption();isAddOption=true">
       <i class="fa fa-plus"></i>
       添加新选项
-    </a>
+    </button>
   </div>
-  <div class="form-group">
+  <div class="form-group form-group-sm">
     <label class="control-label">知识点</label>
-    <div class="input-group">
+    <div class="input-group form-group-sm">
       <ui-select ng-model="selectedKeyPoint"
                  on-select="addKeyPoint($item, $select.search)">
         <ui-select-match placeholder="请输入要添加的知识点，然后按回车">
@@ -92,7 +93,7 @@
       </span>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group form-group-sm">
     <label for="question-solution" class="control-label">注解</label>
     <textarea class="form-control"
               id="question-solution"
@@ -101,9 +102,12 @@
               placeholder="请输入答案注解">
     </textarea>
   </div>
-  <div class="text-center">
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-default btn-sm"
+            ng-click="cancel()">取消</button>
     <button type="submit"
-            class="btn btn-danger ok-btn"
-            ng-click="save(question, form)">确认创建新习题</button>
+            class="btn btn-danger btn-sm"
+            ng-click="save(question, form)">保存</button>
   </div>
 </form>

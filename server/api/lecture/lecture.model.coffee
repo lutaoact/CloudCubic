@@ -2,11 +2,20 @@
 
 mongoose = require("mongoose")
 Schema = mongoose.Schema
+ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.Lecture = BaseModel.subclass
   classname: 'Lecture'
+  populates:
+    show: [
+      path: 'keyPoints.kp'
+    ,
+      path: 'homeworks'
+    ,
+      path: 'quizzes'
+    ]
   initialize: ($super) ->
     @schema = new Schema
       name:
@@ -23,11 +32,6 @@ exports.Lecture = BaseModel.subclass
         ]
         fileWidth: Number
         fileHeight: Number
-      ]
-      # todo: remove
-      slides: [
-        thumb: String
-        raw: String
       ]
       media: String
       encodedMedia: String
@@ -46,5 +50,14 @@ exports.Lecture = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "question"
       ]
+      courseId:
+        type: ObjectId
+        ref: 'course'
+      isFreeTry:
+        type: Boolean
+        default: false
+      commentsNum:
+        type: Number
+        default: 0
 
     $super()

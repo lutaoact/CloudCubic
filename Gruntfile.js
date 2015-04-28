@@ -1,5 +1,6 @@
 'use strict';
-
+var randomstring = require('randomstring');
+var version = require('./package.json').version;
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically, when needed
@@ -7,13 +8,22 @@ module.exports = function (grunt) {
     express: 'grunt-express-server',
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
+    cdnify: 'grunt-cdnify',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
     replace: 'grunt-replace',
     processhtml: 'grunt-processhtml',
-    webfont: 'grunt-webfont'
+    webfont: 'grunt-webfont',
+    qiniu: 'grunt-qiniu-deploy'
   });
+
+  var config = {
+    cdn: 'http://7u2mnb.com1.z0.glb.clouddn.com/',
+    qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
+    qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
+    qiniu_cdn_bucket: 'cloud3cdn',
+    randomCdnPath: version.split('.').join('_') + '/'
+  };
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -235,14 +245,14 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-        '<%= yeoman.dist %>/public/{,*/}*.js',
-      '<%= yeoman.dist %>/public/{,*/}*.css',
-    '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-  '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
-  ]
-}
-}
-},
+            '<%= yeoman.dist %>/public/{,*/}*.js',
+            '<%= yeoman.dist %>/public/{,*/}*.css',
+            '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/public/assets/fonts/{,*/}*.*'
+          ]
+        }
+      }
+    },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -340,8 +350,70 @@ options: {
 
     // Replace Google CDN references
     cdnify: {
+      dev:{
+        options: {
+          base: 'http://localhost:9000/'
+        },
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: 'index.html',
+          dest:'client'
+        }]
+      },
+      mobile: {
+        options: {
+          base: config.cdn+config.randomCdnPath
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist/public/mobile',
+          src: ['index.html'],
+          dest:'dist/public/mobile'
+        }]
+      },
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        options: {
+          base: config.cdn
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist/public',
+          src: ['index.html','app/**/*.css'],
+          dest:'dist/public'
+        }]
+      }
+    },
+
+    qiniu: {
+      dist: {
+        options: {
+          ignoreDup: true,
+          accessKey: config.qiniu_ak,
+          secretKey: config.qiniu_sk,
+          bucket: config.qiniu_cdn_bucket,
+          domain: 'http://' + config.qiniu_cdn_bucket + '.qiniudn.com',
+          resources: [{
+            cwd: 'dist/public',
+            pattern: ['app/**/*.*','assets/**/*.*']
+          }]
+        }
+      },
+      mobile: {
+        options: {
+          ignoreDup: true,
+          accessKey: config.qiniu_ak,
+          secretKey: config.qiniu_sk,
+          bucket: config.qiniu_cdn_bucket,
+          domain: 'http://' + config.qiniu_cdn_bucket + '.qiniudn.com',
+          keyGen: function(cwd, file){
+            return config.randomCdnPath+file;
+          },
+          resources: [{
+            cwd: 'dist/public/mobile',
+            pattern: ['**/*.*']
+          }]
+        }
       }
     },
 
@@ -354,12 +426,13 @@ options: {
           cwd: '<%= yeoman.client %>',
           dest: '<%= yeoman.dist %>/public',
           src: [
-          '*.{ico,png,txt}',
-          '.htaccess',
-          'bower_components/**/*',
-        'assets/**/*',
-        'index.html'
-        ]
+            '*.{ico,png,txt}',
+            '.htaccess',
+            'bower_components/**/*',
+            'assets/**/*',
+            'mobile/**/*',
+            'index.html'
+          ]
       }, {
         expand: true,
         cwd: '.tmp/images',
@@ -603,6 +676,32 @@ options: {
         files: [
         {expand: true, flatten: true, src: ['client/index.html'],dest:'client/'}
         ]
+      },
+      template:{
+        options: {
+          patterns: [
+          {
+            match: /(|\/)assets\//g,
+            replacement: config.cdn + 'assets/'
+          }
+          ]
+        },
+        files: [
+        {expand: true, flatten: true, src: ['.tmp/templates.js'],dest:'.tmp/'}
+        ]
+      },
+      mobile:{
+        options: {
+          patterns: [
+          {
+            match: /..\/lib\//g,
+            replacement: config.cdn+config.randomCdnPath+'lib/'
+          }
+          ]
+        },
+        files: [
+        {expand: true, flatten: true, src: ['dist/public/mobile/css/app.css'],dest:'dist/public/mobile/css/'}
+        ]
       }
     },
     processhtml: {
@@ -627,6 +726,7 @@ options: {
         options: {
           font: 'bud-font',
           hashes: false,
+          relativeFontPath: '/assets/fonts/bud-font/',
           templateOptions:{
             classPrefix: 'budon-',
             baseClass: "budon"
@@ -695,7 +795,7 @@ options: {
       'injector:less',
       'concurrent:server',
       'injector',
-      'replace',
+      'replace:dist',
       'processhtml',
       'bowerInstall',
       'autoprefixer',
@@ -761,21 +861,26 @@ grunt.registerTask('build', [
   'injector:less',
   'concurrent:dist',
   'injector',
-  'replace',
+  'replace:dist',
   'processhtml',
   'bowerInstall',
   'useminPrepare',
   'autoprefixer',
   'ngtemplates',
+  'replace:template',
   'concat',
-    // 'ngmin',
-    'copy:dist',
-    'cdnify',
-    'cssmin',
-    // 'uglify',
-    'rev',
-    'usemin'
-    ]);
+  // 'ngmin',
+  'copy:dist',
+  'cssmin',
+  // 'uglify',
+  'rev',
+  'usemin',
+  'replace:mobile',
+  'cdnify:dist',
+  'cdnify:mobile',
+  'qiniu:dist',
+  'qiniu:mobile'
+  ]);
 
 
 grunt.registerTask('default', [

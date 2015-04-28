@@ -5,6 +5,10 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
   $timeout
   Restangular
   mailAddressService
+  notify
+  $state
+  org
+  $localStorage
 ) ->
 
   Restangular.all('areas').getList().then (areas) ->
@@ -18,13 +22,15 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
     emailAddress: null
     organization: {}
     checkEmailPromise: null
+    isCloud3edu: !org
+    file: $localStorage[$state.params.file] if $state.params.file
 
     registerOrg: (form) ->
       $scope.submitted = true
       if form.$valid
         # Account created, redirect to home
         Restangular.all('register/org').post
-          name: $scope.organization.name + '的管理员'
+          name: $scope.user.email.replace(/@.*/,'')
           email: $scope.user.email
           password: $scope.user.password
           orgName: $scope.organization.name
@@ -54,7 +60,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           .then (data)->
             email.$setValidity 'remote', true
             email.$remoteChecked = true
-          , (err)->
+          , (err, status)->
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
@@ -68,6 +74,8 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
     checkOrgUniqueName: (orgUniqueName)->
       $timeout.cancel($scope.checkOrgUniqueNamePromise)
+      orgUniqueName.$remoteChecked = false
+      orgUniqueName.$setValidity 'remote', true
       if orgUniqueName.$modelValue
         orgUniqueName.$remoteChecked = 'pending'
         orgUniqueName.$setValidity 'remote', true
@@ -76,7 +84,7 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
           .then (data)->
             orgUniqueName.$setValidity 'remote', true
             orgUniqueName.$remoteChecked = true
-          , (err)->
+          , (err, status)->
             orgUniqueName.$setValidity 'remote', false
             orgUniqueName.$remoteChecked = false
         , 800
@@ -86,7 +94,29 @@ angular.module('budweiserApp').controller 'SignupCtrl', (
 
     cities: undefined
 
+    register: (form) ->
+      $scope.submitted = true
+      if form.$valid
+        # Account created, redirect to home
+        Restangular.all('register/user').post
+          name: $scope.user.email.split('@')[0]
+          email: $scope.user.email
+          password: $scope.user.password
+        .then ->
+          $scope.signupFinish = true
+        , (err) ->
+          err = err.data
+          $scope.errors = {}
+          notify
+            message: '创建失败'
+            classes: 'alert-danger'
 
+          # Update validity of form fields that match the mongoose errors
+          angular.forEach err.errors, (error, field) ->
+            form[field].$setValidity 'mongoose', false
+            $scope.errors[field] = error.message
 
-
+  if $scope.file
+    $scope.user.email = $scope.file.email
+    $scope.user.password = $scope.file.password
 

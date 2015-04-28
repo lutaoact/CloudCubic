@@ -1,0 +1,36 @@
+<div class="forum-tile" ui-sref="forum.detail({forumId:forum._id})">
+  <span dropdown class="pull-right menu-bar" ng-if="getMe()._id==forum.postBy._id||getMe().role=='admin'" is-open="viewState.popupOpen">
+    <a href="" class="btn btn-xs" dropdown-toggle ng-click="stopPropagation($event)">
+      <i class="budon budon-bars"></i>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="" ng-click="stopPropagation($event);editForum(forum);viewState.popupOpen=false">编辑</a>
+      </li>
+      <li>
+        <a href="" ng-click="stopPropagation($event);deleteForum(forum);viewState.popupOpen=false">删除</a>
+      </li>
+    </ul>
+  </span>
+  <div class="forum-logo" src-key="forum.logo" source-attr="background-image">
+  </div>
+  <div class="forum-body">
+    <h6 class="forum-tag text-primary">
+      {{forum.courseId?'来自课程':forum.tags?forum.tags.length:'小组'}}
+    </h6>
+    <h5 class="forum-title" >
+      <a class="none-decoration" href ui-sref="forum.detail({forumId:forum._id})">{{forum.name}}</a>
+    </h5>
+    <h6 class="forum-info text-muted text-overflow">
+      {{forum.info}}
+    </h6>
+  </div>
+  <div class="forum-tool-bar clearfix">
+    <span class="text-primary">
+      {{forum.postsCount||0}}
+    </span>
+    <span>
+      帖子
+    </span>
+  </div>
+</div>

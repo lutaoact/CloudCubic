@@ -1,0 +1,63 @@
+.public-course-tile{
+  .book(218px, 240px);
+  border: 1px solid rgba(118, 120, 122, 0.25);
+  hr{
+    margin-top: 0;
+    margin-bottom: 3px;
+  }
+  .back {
+    bottom: 130px;
+  }
+  .caption {
+    height: 190px;
+    bottom: -54px;
+    .owner {
+      margin-top: -28px;
+      margin-left: 15px;
+      margin-bottom: 0;
+      .avatar-md {
+        box-shadow: none;
+      }
+      .name {
+        display: inline-block;
+        margin-top: 22px;
+      }
+    }
+    .classe-price {
+      height: 18px;
+      .yuan {
+        color: #F5855B;
+        font-size: 16px;
+      }
+    }
+    .classe-name{
+      height: 38px;
+      overflow: hidden;
+    }
+    .classe-info {
+      padding-bottom: 4px;
+      padding-top: 5px;
+      .text-overflow();
+      +.classe-info {
+        border-top: 1px dashed #C7C7C7;
+      }
+    }
+    .lecture-num {
+      display: inline-block;
+      position: relative;
+      margin-right: 10px;
+      &:after {
+        content: '';
+        position: absolute;
+        border-right: 1px solid #C7C7C7;
+        width: 1px;
+        height: 10px;
+        top: 3px;
+        right: -7px;
+      }
+    }
+    .btn {
+      padding: 2px 8px !important;
+    }
+  }
+}

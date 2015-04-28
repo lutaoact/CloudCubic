@@ -3,11 +3,13 @@
 # Development specific configuration
 # ==================================
 module.exports =
-  host: "http://119.254.108.180"
+  host: 'http://localhost:9000'
+
+  wechatToken: 'woaixuezhifang'
 
   # MongoDB connection options
   mongo:
-    uri: 'mongodb://localhost/budweiser'
+    uri: 'mongodb://localhost/budweiser-dev'
 
   logger:
     path: '/data/log/budweiser.log'
@@ -17,6 +19,18 @@ module.exports =
     tempDir : '/temp_node_dir'
 
   nodejsServer : '115.29.244.232'
+
+  weixinAuthCallbackURL: '/auth/weixin/callback'
+
+  weiboAuth:
+    appkey: '1324448620'
+    secret: '3bb9527da4c087f942c7e785ddc5332a'
+    oauth_callback_url: 'http://www.cloud3edu.cn/auth/weibo/callback'
+
+  qqAuth:
+    appkey: '101170221'
+    secret: 'd847467b7087385fc73afa150cd82911'
+    oauth_callback_url: 'http://www.cloud3edu.cn/auth/qq/callback'
 
   redis :
     port : 6379
@@ -36,7 +50,7 @@ module.exports =
 
   azure:
     acsBaseAddress: "https://wamsprodglobal001acs.accesscontrol.chinacloudapi.cn/v2/OAuth2-13"
-#    bjbAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
+#    shaAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
 #    bjbAPIServerAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
     serverAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
     signed_url_expires : 24 * 60 # in minutes
@@ -51,7 +65,7 @@ module.exports =
   assetHost :
     uploadImageType : '0'
     uploadSlideType : '1'
-    uploadVideoType : '2'
+    uploadVideoType : '3'
     uploadFileType : '0'
 
   assetsConfig:
@@ -67,8 +81,20 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+    3:
+      serviceName: 'azure'
+      accountName: 'cloud3educnmedia'
+      accountKey: '4N+9pgfuQnlo2qYj3OpwvS0TopFStMpx139zsORMc3k='
 
   emailConfig:
     auth:
       api_user: 'cloud3edu'
       api_key: 'gXI2WTs8w4D6BF09'
+
+  baiduPushService:
+    ak: "d3ylollIsSvgrAKss9iD9pGt"           # API Key
+    sk: "XTxRVe6SvXnx0N3CdOSu5j1swXcEoHi2"   # Secret Key
+
+  videoViewTimeLimit: 50
+
+  tokenExpireTime: 60*24*7 # in minute

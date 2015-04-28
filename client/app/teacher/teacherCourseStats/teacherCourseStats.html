@@ -1,13 +1,48 @@
 <div class="teacher-stats">
+  <div class="head-row">
+    <div class="container">
+      <a href="" class="back" ui-sref="teacher.course({courseId: course._id})">
+        <i class="fa fa-chevron-left"></i>{{course.name}}
+      </a>
+    </div>
+  </div>
   <div class="container">
+    <div class="row">
+      <div class="col-md-3 left-side">
+        <div class="left-side-top">
+          <h4>
+            <a href="" ui-sref="teacher.courseStats.all({courseid: course._id})">
+              {{course.name}}
+            </a>
+            <i class="fa fa-question-circle hint" tooltip-placement="right" tooltip="点击课程名查看课程的统计，点击班级或学生查看班级或学生的统计。"></i>
+          </h4>
+          <div class="clearfix status-bar">
+            <div class="pull-left status">
+              <div class="text-primary">
+                {{classes.length}}
+              </div>
+              <div>班级</div>
+            </div>
+            <div class="pull-left status">
+              <div class="text-primary">
+                {{calculateStudentsCount()}}
+              </div>
+              学生
+            </div>
 
-    <div ui-view class="fadeIn stats-view teacher-stats-subview"></div>
+          </div>
+        </div>
+        <student-list classes="classes"
+                      selected-classe="viewState.classe"
+                      selected-student="viewState.student"
+                      on-student-select="viewStudentStats($student)"
+                      on-classe-select="viewClasseStats($classe)"
+                      >
+        </student-list>
+      </div>
 
-    <student-list class="col-md-3"
-                  classes="classes"
-                  selected-student="viewState.student"
-                  on-student-select="viewStudentStats">
-    </student-list>
-
+      <div ui-view class="col-md-9 fadeIn stats-view teacher-stats-subview">
+      </div>
+    </div>
   </div>
 </div>

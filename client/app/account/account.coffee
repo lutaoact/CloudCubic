@@ -12,22 +12,19 @@ angular.module('budweiserApp')
   $stateProvider
 
   .state 'signup',
-    url: '/signup'
+    url: '/signup?file'
     templateUrl: 'app/account/signup/signup.html'
     controller: 'SignupCtrl'
-    navClasses: 'home-nav'
 
   .state 'forgot',
     url: '/forgot'
     templateUrl: 'app/account/forgot/forgot.html'
     controller: 'ForgotCtrl'
-    navClasses: 'home-nav'
 
   .state 'reset',
     url: '/reset?email&token'
     templateUrl: 'app/account/reset/reset.html'
     controller: 'ResetCtrl'
-    navClasses: 'home-nav'
 
   .state 'settings',
     abstract: true
@@ -42,8 +39,13 @@ angular.module('budweiserApp')
     roleRequired: 'user'
 
   .state 'settings.notice',
-    url: '/notice'
+    url: '/notice?page'
     templateUrl: 'app/account/notice/notice.html'
     controller: 'NoticeCtrl'
     roleRequired: 'user'
 
+  .state 'settings.broadcast',
+    url: '/broadcast'
+    templateUrl: 'app/account/broadcast/broadcast.html'
+    controller: 'BroadcastCtrl'
+    roleRequired: 'user'

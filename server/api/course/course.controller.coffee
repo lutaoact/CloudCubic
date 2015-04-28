@@ -5,83 +5,95 @@
 # * GET     /courses/:id          ->  show
 # * PUT     /courses/:id          ->  update
 # * DELETE  /courses/:id          ->  destroy
-# 
+#
 
 "use strict"
 
-_ = require("lodash")
 Course = _u.getModel "course"
-Lecture = _u.getModel "lecture"
-KeyPoint = _u.getModel "key_point"
-ObjectId = require("mongoose").Types.ObjectId
+Classe = _u.getModel "classe"
+Forum = _u.getModel 'forum'
 CourseUtils = _u.getUtils 'course'
-LearnProgress = _u.getModel 'learn_progress'
+
+WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
 
-  userId = req.user.id
-  role = req.user.role
-  (switch role
-    when 'teacher'
-      logger.info 'teacher'
-      CourseUtils.getTeacherCourses userId
-    when 'student'
-      logger.info 'student'
-      if req.query.public?
-        Course.findQ public:true
-      else
-        CourseUtils.getStudentCourses userId
+  conditions = orgId : req.org?._id
+  conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
+  options = limit: req.query.limit, from: req.query.from
+
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+
+exports.myCourses = (req, res, next) ->
+  conditions = orgId: req.org?._id
+  conditions.categoryId = {$in: _.flatten([req.query.categoryIds])} if req.query.categoryIds
+  conditions.deleteFlag = {$ne: true}
+
+  user = req.user
+  userId = user.id
+  options = limit: req.query.limit, from: req.query.from
+
+  switch user.role
     when 'admin'
-      logger.info 'admin'
-      teacherId = req.query.teacherId ? userId
-      CourseUtils.getTeacherCourses teacherId
-  ).then (courses) ->
-    res.send courses
-  # use Q's fail to make sure error from last then is also caught and passed to next
-  # need to change our code all over the place to adapt to this pattern
-  .fail next
+      WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+    when 'student'
+      Classe.findQ students: userId
+      .then (classes) ->
+        courseIds = _.pluck classes, 'courseId'
+        conditions._id = $in : courseIds
+        WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+    when 'teacher'
+      Classe.findQ teachers : userId
+      .then (classes) ->
+        courseIds = _.pluck classes, 'courseId'
+        conditions.$or = [
+          _id: $in: courseIds
+        ,
+          owners: userId
+        ]
+        WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+    else
+      logger.error "Unknown user role: #{user.role}"
+      res.send 404
 
 
+# TODO @lutao
+# orderBy 有：开班时间, 开班的价格, 赞的数目(low优先级)
 exports.show = (req, res, next) ->
-  courseId = req.params.id
-  CourseUtils.getAuthedCourseById req.user, courseId
-  .then (course) ->
-    course.populateQ 'owners classes'
-  .then (course) ->
-    res.send course
-  .fail next
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
+
 
 exports.create = (req, res, next) ->
-  req.body.owners = [req.user.id]
-  Course.createQ req.body
-  .then (course) ->
-    res.json 201, course
-  .fail next
+  data = req.body
 
+  delete data._id
+  data.owners  = [req.user._id]
+  data.orgId   = req.user.orgId
+  WrapRequest.wrapCreate req, res, next, data
+
+
+pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
 exports.update = (req, res, next) ->
 
-  # keep old id
-  delete req.body._id  if req.body._id
-
-  CourseUtils.getAuthedCourseById req.user, req.params.id
-  .then (course) ->
-    updated = _.extend course, req.body
-    updated.markModified 'lectureAssembly'
-    updated.markModified 'classes'
-    updated.save (err) ->
-      next err if err
-    course.populateQ 'owners classes'
-    .then (course) ->
-      res.send course
-  .fail next
+  CourseUtils.buildWriteConditions req
+  .then (conditions) ->
+    WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 
 exports.destroy = (req, res, next) ->
-  CourseUtils.getAuthedCourseById req.user, req.params.id
-  .then (course) ->
-    console.log 'Found course to delete'
-    Course.removeQ
-      _id : course._id
-  .then () ->
-    res.send 204
-  .fail next
+  courseId = req.params.id
+  Classe.findQ
+    courseId : courseId
+    deleteFlag: {$ne : true}
+  .then (classes) ->
+    if classes?.length > 0
+      res.send 403, '不能删除有关联班次的课程'
+    else
+      CourseUtils.buildWriteConditions req
+      .then (conditions) ->
+        WrapRequest.wrapDestroy req, res, next, conditions

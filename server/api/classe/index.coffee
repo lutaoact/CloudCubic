@@ -5,13 +5,17 @@ controller = require("./classe.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 
-router.get "/", auth.hasRole('teacher'), controller.index
-router.get "/:id", auth.hasRole('teacher'), controller.show
+router.get "/", controller.index
+router.get '/schedules', auth.isAuthenticated(), controller.schedules
+
+router.get "/:id", controller.show
 router.get "/:id/students", auth.hasRole("teacher"), controller.showStudents
-router.post "/", auth.hasRole("admin"), controller.create
-router.put "/:id", auth.hasRole("admin"), controller.update
-router.patch "/:id", auth.hasRole("admin"), controller.update
-router.delete '/:id', auth.hasRole('admin'), controller.destroy
-router.post "/multiDelete", auth.hasRole("admin"), controller.multiDelete
+router.post "/", auth.hasRole("teacher"), controller.create
+router.put "/:id", auth.hasRole("teacher"), controller.update
+router.patch "/:id", auth.hasRole("teacher"), controller.update
+router.delete '/:id', auth.hasRole('teacher'), controller.destroy
+router.post "/multiDelete", auth.hasRole("teacher"), controller.multiDelete
+
+router.post "/:id/enroll", auth.isAuthenticated(), controller.enroll
 
 module.exports = router

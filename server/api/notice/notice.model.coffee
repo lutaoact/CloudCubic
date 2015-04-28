@@ -5,8 +5,29 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = require('../../common/BaseModel').BaseModel
 
+populateCommon = [
+  path: 'fromWhom', select: 'avatar name'
+,
+  path: 'data.lectureId', select: 'name'
+,
+  path: 'data.topicId', select: 'title'
+,
+  path: 'data.courseId', select: 'name'
+,
+  path: 'data.classeId', select: 'name'
+,
+  path: 'data.forumId', select: 'name'
+,
+  path: 'data.commentId', select: 'content'
+]
+
 exports.Notice = BaseModel.subclass
   classname: 'Notice'
+
+  populates:
+    create: populateCommon
+    index: populateCommon
+    
   initialize: ($super) ->
     @schema = new Schema
       userId:
@@ -16,17 +37,26 @@ exports.Notice = BaseModel.subclass
       fromWhom:
         type: ObjectId
         ref: 'user'
-      type: Number
+      type: Number #参考Const.NoticeType中的定义
       data:
-        lecture:
+        lectureId:
            type: ObjectId
            ref: 'lecture'
-        disTopic:
+        topicId:
            type: ObjectId
-           ref: 'dis_topic'
-        disReply:
-           type: ObjectId
-           ref: 'dis_reply'
+           ref: 'topic'
+        classeId:
+          type : ObjectId
+          ref : 'classe'
+        courseId :
+           type : ObjectId
+           ref : 'course'
+        forumId:
+           type : ObjectId
+           ref : 'forum'
+        commentId:
+           type : ObjectId
+           ref : 'comment'
       status: Number
 
     $super()

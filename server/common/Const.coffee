@@ -1,10 +1,46 @@
 
 Const =
+  BeatTimeSpan: 5 #分钟
+  MeTimeSpan: 1 #分钟，这两个数值是为了利用日志统计用户活跃时长而设置的
+
   NoticeType:
-    TopicVoteUp: 1
-    ReplyVoteUp: 2
-    Comment: 3
-    Lecture: 4
+    # Like related notices
+    LikeTopic: 1
+    LikeTopicComment: 2
+    LikeCourseComment: 3
+    LikeLectureComment: 4
+
+    # comment related notices
+    TopicComment: 5
+    CourseComment: 6
+    LectureComment: 7
+    
+    # lecture related notices
+    Lecture : 8
+
+  CommentType:
+    Topic: 1
+    Course: 2
+    Lecture: 3
+    Teacher: 4
+
+  CommentRef:
+    1: 'topic'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+
+  CommentModelRef:
+    1: 'topic'
+    2: 'course'
+    3: 'lecture'
+    4: 'user'
+
+  Notification:
+    1: '有人赞了你的话题'
+    2: '有人赞了你的回复'
+    3: '有人给你评论啦^_^'
+    4: '新的课时发布啦'
 
   OrgType:
     Primary     : 1  # 小学
@@ -23,18 +59,18 @@ Const =
     QuizAnswer: 'quiz_answer'
     Error: 'error'
 
-  NoticeRef:
-    1: 'disTopic'
-    2: 'disReply'
-    3: 'disReply'
-    4: 'lecture'
+  MaxPageSize: 1000
+  MinSkipNum: 0
 
   PageSize:
-    DisTopic: 10
+    Default: 10
+    Topic: 10
     DisReply: 36
-    Lecture: 10
+    Lecture: 30
     Course: 10
     Question: 300
+    Order: 10
+    Notice: 5
 
   QuestionType:
     Choice: 1

@@ -1,0 +1,75 @@
+<div class="classe-tile">
+  <span dropdown class="pull-right setting-btn">
+    <a href class="btn btn-sm pull-left" dropdown-toggle>
+      <i class="budon budon-bars"></i>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href ng-click="editClasse(classe)">编辑</a></li>
+      <li ng-if="Auth.hasRole('admin')">
+        <a href ng-click="switchSetTop(classe)">
+          <span ng-if="classe.setTop">取消</span>置顶
+        </a>
+      </li>
+      <li><a href ng-click="deleteClasse(classe)">删除</a></li>
+    </ul>
+  </span>
+  <div class="set-top"
+       ng-if="classe.setTop">已置顶</div>
+  <a class="classe-title"
+     href
+     ui-sref="course.detail({courseId:classe.courseId._id, classeId: classe._id})">
+     {{classe.name}}
+  </a>
+  <div class="divider"></div>
+  <div class="classe-info text-muted" ng-if="!classe.courseId">未开设课程</div>
+  <div class="classe-info">{{classe.address || '未设置上课地址'}}</div>
+  <div class="text-muted teachers">
+    <span ng-if="!classe.teachers.length">未设置授课教师</span>
+    <span class="classe-teacher"
+          ng-repeat="teacher in classe.teachers">
+      {{teacher.name}}
+    </span>
+  </div>
+  <div class="classe-times">
+    <table>
+      <tr class="tr-border">
+        <td class="tr-title text-muted">报名日期 </td>
+        <td>
+          {{(classe.enrollment.from | date:'yyyy.MM.dd') || '待定'}}
+          -
+          {{(classe.enrollment.to | date:'yyyy.MM.dd') || '待定'}}
+        </td>
+      </tr>
+      <tr class="tr-border">
+        <td class="tr-title text-muted">开班日期 </td>
+        <td>
+          {{(classe.duration.from | date:'yyyy.MM.dd') || '待定'}}
+          -
+          {{(classe.duration.to | date:'yyyy.MM.dd') || '待定'}}
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-title text-muted">上课时间 </td>
+        <td class="classe-schedule"
+            title="{{classe.schedules|scheduleSummary}}">
+          {{classe.schedules|scheduleSummary}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="classe-footer">
+    <span class="yuan" ng-if="classe.price > 0">¥ {{classe.price.toFixed(2)}}</span>
+    <span class="yuan" ng-if="!(classe.price > 0)">免费</span>
+    <a href
+       ui-sref="classeManager.detail({classeId:classe._id})"
+       class="pull-right">
+       {{classe.students.length}} 个学生
+    </a>
+  </div>
+  <a class="classe-info"
+     href
+     tooltip="点击查看课程：{{classe.courseId.name}}"
+     ui-sref="teacher.course({courseId:classe.courseId._id})">
+     所授课程：{{classe.courseId.name}}
+  </a>
+</div>

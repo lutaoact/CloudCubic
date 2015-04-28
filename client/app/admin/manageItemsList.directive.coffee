@@ -13,6 +13,7 @@ angular.module('budweiserApp')
     children: '@'
     itemType: '@'
     activeItem: '='
+    onAddBtnClicked: '&'
     onCreateItem: '&'
     onDeleteItems: '&'
     onViewItem: '&'
@@ -23,6 +24,7 @@ angular.module('budweiserApp')
   $scope
   notify
   Restangular
+  messageModal
 ) ->
 
   updateSelected = ->
@@ -35,19 +37,15 @@ angular.module('budweiserApp')
     selectedItems: []
     itemTitle:
       switch $scope.itemType
-        when 'classes'    then '班级'
+        when 'classes'    then '开课班级'
         when 'categories' then '专业'
-        else throw 'unknown itemType ' + $scope.itemType
+        else throw Error('unknown itemType ' + $scope.itemType)
 
     deleteItems: (selectedItems) ->
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> "删除#{$scope.itemTitle}"
-          message: ->
-            """确认要删除这#{selectedItems.length}个#{$scope.itemTitle}？"""
+      messageModal.open
+        title: -> "删除#{$scope.itemTitle}"
+        message: ->
+          """确认要删除这#{selectedItems.length}个#{$scope.itemTitle}？"""
       .result.then ->
         $scope.deleting = true
         Restangular.all($scope.itemType).customPOST(ids: _.pluck(selectedItems, '_id'), 'multiDelete')
@@ -56,9 +54,10 @@ angular.module('budweiserApp')
           $scope.onDeleteItems?($items:selectedItems)
 
     createNewItem: ->
-      $modal.open
+      $scope.onAddBtnClicked?() or $modal.open
         templateUrl: 'app/admin/newItemModal.html'
         controller: 'NewItemModalCtrl'
+        windowClass: 'new-item-modal'
         size: 'sm'
         resolve:
           itemType: -> $scope.itemType

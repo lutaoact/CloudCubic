@@ -1,5 +1,7 @@
-<form class="login-form" name="form" ng-submit="login(form)">
-  <div class="form-group">
+<form class="login-form"
+      name="form"
+      ng-submit="login(form)">
+  <div class="form-group" ng-hide="loginUsers">
     <div class="input-group">
       <input class="form-control input-lg"
              type="text"
@@ -12,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group" ng-hide="loginUsers">
     <div class="input-group">
       <input class="form-control input-lg"
              type="password"
@@ -25,8 +27,16 @@
       </div>
     </div>
   </div>
-  <div class="form-group">
-    <button class="btn btn-danger btn-lg rounded"
+  <div class="form-group" ng-hide="loginUsers">
+    <a href ui-sref='signup' class="pull-left">
+      <span ng-if="org">注册新用户</span>
+      <span ng-if="!org">注册新机构</span>
+    </a>
+    <a href class="pull-right" ui-sref="forgot">忘记密码&nbsp;<i class="fa fa-question-circle"></i></a>
+    <br>
+  </div>
+  <div class="form-group" ng-hide="loginUsers">
+    <button class="btn btn-danger login-btn btn-lg"
             ng-disabled="loggingIn"
             type="submit">
       <span ng-if="!loggingIn">
@@ -38,5 +48,24 @@
       </span>
     </button>
   </div>
-  <a ui-sref="signup" href="">注册</a><span class="text-muted">&nbsp;|&nbsp;</span><a ui-sref="forgot" href="">忘记密码</a>
+  <div class="form-group" ng-hide="loginUsers">
+    <div class="col-xs-12">
+      <div class="left-line"></div>
+    </div>
+  </div>
+  <div ng-if="loginUsers">
+    <div class="form-group" >
+      <label>该邮箱注册了多个账户，请选择您要登录的账户</label>
+    </div>
+    <div class="form-group" ng-repeat="user in loginUsers">
+      <div class="avatar-xs"
+           src-key="user.avatar"
+           source-attr="background-image"></div>&nbsp;
+      <a href ng-click="login(form, user.orgId._id)">{{user.name}} - {{user.orgId.name}}</a>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-link" ng-click="loginAgain()">返回</button>
+    </div>
+  </div>
+
 </form>

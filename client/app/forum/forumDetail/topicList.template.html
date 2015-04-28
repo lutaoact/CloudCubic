@@ -1,0 +1,134 @@
+<div class="bud topic-list clearfix">
+  <div class="clearfix title-row search-bar"
+       id="forum-header">
+    <div class="pull-left actions-bar"
+         style="margin-right: 20px">
+      <div class="pull-left">
+        <div class="btn-group"
+             dropdown
+             is-open="status.isopen"
+             ng-if="me()._id">
+          <a type="button"
+             class="btn btn-sm dropdown-toggle text-muted" dropdown-toggle>
+            {{pageConf.createdBy==me()._id?'只看我的':'全部'}}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href ng-click="pageConf.createdBy=null;reload(true)">全部</a></li>
+            <li><a href ng-click="pageConf.createdBy=me()._id;reload(true)">只看我的</a></li>
+          </ul>
+        </div>
+      </div>
+      <span class="pull-left text-muted"
+            style="line-height: 30px;">
+        &nbsp;|&nbsp;
+      </span>
+      <div class="pull-left">
+        <ul class="nav nav-group">
+          <li ng-class="{'active':pageConf.sort=='heat'}">
+            <a href
+               ng-click="pageConf.sort='heat';reload()">
+              最热&nbsp;
+              <i class="fa fa-heart"></i>
+            </a>
+          </li>
+          <li ng-class="{'active':pageConf.sort=='created'}">
+            <a href
+               ng-click="pageConf.sort='created';reload()">
+              最新&nbsp;
+              <i class="fa fa-clock-o"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="pull-left  col-md-6">
+      <search-input keyword="pageConf.keyword"
+                    on-submit="reload(true)"
+                    placeholder="话题搜索">
+      </search-input>
+    </div>
+    <button class="bud btn btn-sm btn-danger pull-right"
+            login-window
+            login-success="createTopic()">
+      <i class="fa fa-plus"></i>&nbsp;新讨论
+    </button>
+  </div>
+
+  <div class="clearfix title-row tags-bar" ng-if="queryTags.length">
+    <div class="title-row-header">标签<hr></div>
+    <div class="view-section all-tags clearfix">
+      <a href class="tag pull-left"
+         ng-class="{'active':tag.$active}"
+         ng-repeat="tag in queryTags|orderBy:'-freq'"
+         ng-click="searchByTag(tag)" title="{{tag.text}}">
+        {{tag.text}}&nbsp;<small>({{tag.freq||0}})</small>
+      </a>
+    </div>
+  </div>
+
+  <ul class="list-group clearfix">
+
+    <li class="bud col-md-12 topic media fade-repeat"
+        ng-repeat="topic in topics">
+      <a href ui-sref="forum.topic({forumId:params.forumId,topicId:topic._id})" class="none-decoration">
+        <div class="avatar pull-left"
+             source-attr="background-image"
+             src-key="topic.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{topic.title}}</h4>
+          <div class="topic-summary">{{topic.content|htmlToPlaintext}}</div>
+          <div class="spans">
+            <span>
+              <span class="poster-name">
+                {{topic.postBy.name}}
+              </span>
+              <span class="text-muted created-time">
+                发表于{{topic.created|timeToTimeAgo}}
+              </span>
+            </span>
+            <span class="status">
+              <i class="fa fa-eye"></i>
+              {{topic.viewers.length||0}}
+              <i class="fa fa-comments"></i>
+              {{topic.commentsNum||0}}
+              <i class="fa fa-heart"></i>
+              {{topic.likeUsers.length||0}}
+            </span>
+            <div class="tag" ng-show="topic.tags.length">
+              标签
+            </div>
+            <span class="comma-split" ng-repeat="tag in topic.tags">
+              {{tag}}
+            </span>
+          </div>
+        </div>
+        <a href
+           class="btn remove-topic"
+           ng-click="deleteTopic(topic, $event)"
+           ng-show="topic.postBy._id==me()._id">
+          <i class="fa fa-times"></i>
+        </a>
+      </a>
+    </li>
+    <li class="bud col-md-12 topic media" ng-if="!topics.length">
+      <h4 class="text-muted">暂无主题，赶快来发表文章吧~</h4>
+    </li>
+  </ul>
+
+  <div class="pagination-row text-center"
+     ng-if="topics.$count > pageConf.itemsPerPage">
+    <pagination total-items="topics.$count"
+                ng-model="pageConf.currentPage"
+                items-per-page="pageConf.itemsPerPage"
+                class="pagination-sm bud"
+                boundary-links="true"
+                rotate="false"
+                ng-change="reload()"
+                max-size="pageConf.maxSize">
+    </pagination>
+  </div>
+
+</div>

@@ -5,6 +5,8 @@ Classe = _u.getModel 'classe'
 QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
+WrapRequest = new (require '../../utils/WrapRequest')(Question)
+
 ################################################################
 ## 题库检索条件：
 ## 1. user.orgId && deleteFlag非true
@@ -19,60 +21,36 @@ exports.index = (req, res, next) ->
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?
-    keyPointIds = JSON.parse req.query.keyPointIds
-    conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
-  if req.query.keyword?
+    try
+      keyPointIds = JSON.parse req.query.keyPointIds
+      conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
+    catch err
+      logger.error err
+
+  if req.query.keyword
     keyword = req.query.keyword
     #对可能出现的正则元字符进行转义
-    regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
+    regex = new RegExp(_u.escapeRegex(keyword), 'i')
     conditions.$or = [
       'body': regex
     ,
       'choices.text': regex
     ]
 
-  logger.info conditions
+  options = limit: req.query.limit, from: req.query.from
 
-  from = ~~req.query.from #from参数转为整数
-  limit = ~~(req.query.limit ? Const.PageSize.Question)
-
-  countPromise = Question.countQ conditions
-  queryPromise = Question.find conditions
-                .sort 'created'
-                .skip from
-                .limit limit
-                .populate 'keyPoints', 'name'
-                .execQ()
-
-  Q.all [countPromise, queryPromise]
-  .then (data)->
-    res.send
-      totalNum: data[0]
-      questions: data[1]
-  , next
+  WrapRequest.wrapPageIndex req, res, next, conditions, options
 
 
 exports.show = (req, res, next) ->
-  user = req.user
-  questionId = req.params.id
-  Question.findOneQ
-    _id: questionId
-    orgId: user.orgId
-  .then (question) ->
-    res.send question
-  , (err) ->
-    console.log err
-    next err
+  conditions = {_id: req.params.id, orgId: user.orgId}
+  WrapRequest.wrapShow req, res, next, conditions
 
 exports.create = (req, res, next) ->
-  body = req.body
-  body.orgId = req.user.orgId
-  delete body._id
-
-  Question.createQ body
-  .then (question) ->
-    res.json 201, question
-  , next
+  data = req.body
+  data.orgId = req.user.orgId
+  delete data._id
+  WrapRequest.wrapCreate req, res, next, data
 
 exports.update = (req, res, next) ->
   questionId = req.params.id

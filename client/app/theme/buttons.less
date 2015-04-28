@@ -48,16 +48,6 @@
     }
   }
 
-  &.rounded{
-    border-radius: 2px;
-    padding: 4px 11px;
-    &.btn-xs{
-      padding: 3px 15px;
-    }
-    &.btn-lg{
-      padding: 10px 16px;
-    }
-  }
   // &-sm{
   //   margin: 10px;
   //   height: 25px;
@@ -75,9 +65,23 @@
     &.active{
       background: rgba(255,255,255,0.3);
     }
-    &.rounded{
-      border-radius: 4px;
-    }
+  }
+}
+
+.circle-btn(@size, @padding){
+  border: none;
+  font-size: @size - @padding * 2;
+  line-height: @size - @padding * 2;
+  text-align: center;
+  width: @size;
+  height: @size;
+  border-radius: @size;
+  cursor: pointer;
+  color: #FFF;
+  background: @gray;
+  padding: @padding;
+  &:hover{
+    background: @base-color;
   }
 }
 

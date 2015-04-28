@@ -8,7 +8,6 @@ angular.module('budweiserApp').controller 'TestCtrl', (
   $filter
   $upload
   Restangular
-  $cookieStore
   $localStorage
 ) ->
 
@@ -50,8 +49,6 @@ angular.module('budweiserApp').controller 'TestCtrl', (
       $scope.$storage.request.method = method if method
       request = $scope.$storage.request
 
-      console.debug 'Send Request:', request
-
       $scope.$storage.requests = {} if !$scope.$storage.requests
       $scope.$storage.requests[request.url] = angular.copy request
 
@@ -59,7 +56,6 @@ angular.module('budweiserApp').controller 'TestCtrl', (
       $http(request)
       .success (data)->
         $scope.response = data if !_.isString(data)
-        console.debug 'Response:', data
       .error (err)->
         $scope.response = err
 

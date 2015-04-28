@@ -1,4 +1,19 @@
 .teacher {
+  .head-row{
+    height: 40px;
+    line-height: 40px;
+    .container{
+      position: relative;
+    }
+    .back{
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .row-title{
+      text-transform: uppercase;
+    }
+  }
   .quick-link {
     .editing-progress {
       text-align: center;
@@ -117,12 +132,6 @@
       border-radius: 4px;
       margin: 0px 5px 5px 5px;
     }
-    .rounded {
-      display: inline-block;
-      padding: 0 15px;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
     .link-item {
       line-height: 60px;
       padding: 0px;
@@ -135,6 +144,9 @@
     #edit-lecture-btn-group {
       position: absolute;
       right: 10px;
+      .budon-bars{
+        font-size: 20px;
+      }
     }
     #start-teaching-btn {
       .btn {
@@ -182,6 +194,9 @@
     #lecture-info-input {
       display: inline;
       max-width: 600px;
+    }
+    #freetry-checkbox {
+      margin-left: -100px;
     }
     .btn {
       border-radius: 4px;
@@ -252,6 +267,10 @@
         margin-top: 40px;
         font-size: 1.3em;
         text-align: center;
+      }
+      .hint{
+        color: @brand-warning;
+        cursor: pointer;
       }
       .lecture-video-btn {
         margin-top: 30px;

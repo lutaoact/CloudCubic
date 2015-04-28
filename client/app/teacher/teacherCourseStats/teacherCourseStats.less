@@ -9,10 +9,6 @@
       padding-right: 0;
     }
     .student-info{
-      .rounded {
-        margin-top: 15px;
-        margin-right: 10px;
-      }
       margin: 30px 0;
       border-right: 1px solid @gray-lighter;
       .avatar-lg{
@@ -21,7 +17,13 @@
       h4{
         display: inline-block;
         vertical-align: top;
-        margin-left: 46px;
+      }
+    }
+    .course-info{
+      height: 190px;
+      .status-bar{
+        position: absolute;
+        bottom: 10px;
       }
     }
     .pies{
@@ -62,10 +64,12 @@
   }
   .detail-container{
     padding-left: 0;
+    padding-right: 0;
   }
   .detail{
     background: #FFF;
     padding: 50px;
+    .box-shadow(0 0 2px @gray-light);
     .bud-chart{
     }
   }
@@ -110,14 +114,47 @@
     padding-top: 10px;
   }
 }
+.status-bar{
+  .status{
+    font-size: 12px;
+    .text-primary{
+      font-size: 16px;
+    }
+    padding: 0 15px;
+    border-right: 1px dashed @gray-light;
+    &:nth-child(1){
+      padding-left: 0;
+    }
+  }
+  .btn-danger{
+    margin-top: 5px;
+  }
+}
 .teacher-stats{
+
   background: @gray-lighter;
   padding-bottom: 50px;
+  .left-side{
+    .box-shadow(0 0 2px @gray-light);
+    margin-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .left-side-top{
+      background: #FFF;
+      padding: 8px 18px;
+      .hint{
+        color: @brand-warning;
+      }
+    }
+    .student-search-bar{
+      background: @gray-lighter;
+    }
+  }
 }
 .teacher-stats .teacher-stats-subview{
-  padding-left: 0;
   padding-right: 0;
-  padding-top: 38px;
+  padding-top: 10px;
 }
 
 .teacher-stats .student-list{
